@@ -1,0 +1,52 @@
+@import "@fortawesome/fontawesome-free/scss/fontawesome";
+
+@font-face {
+  font-family: AvenirNextLTPro-Regular;
+  src: url(/resources/fonts/AvenirNextLTPro-Regular.otf);
+}
+
+@font-face {
+  font-family: AvenirNextLTPro-MediumCN;
+  src: url(/resources/fonts/AvenirNextLTPro-MediumCn.otf);
+}
+
+@font-face {
+  font-family: AvenirNextLTPro-Bold;
+  src: url(/resources/fonts/AvenirNextLTPro-Bold.otf);
+  font-weight: bold;
+}
+
+$font-primary: 'AvenirNextLTPro-Regular';
+$font-primary-medium: 'AvenirNextLTPro-MediumCN';
+$font-primary-bold: 'AvenirNextLTPro-Bold';
+
+/**-----------------------------------------------------**/
+.avenir {
+    font-family: $font-primary;
+
+    &-medium {
+        font-family: $font-primary-medium;
+    }
+
+    &-bold {
+        font-family: $font-primary-bold;
+    }
+}
+
+.text-size {
+    &-xs {
+        font-size: 10px;
+    }
+
+    &-sm {
+        font-size: 12px;
+    }
+
+    &-md {
+        font-size: 18px;
+    }
+
+    &-lg {
+        font-size: 21px;
+    }
+}

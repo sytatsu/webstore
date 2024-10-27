@@ -1,0 +1,21 @@
+// Normalize
+@import "imports/normalize";
+
+// Variables
+@import 'imports/variables';
+
+// Fonts
+@import "imports/fonts";
+
+// Import mixins
+@import "web/mixins";
+
+// Import all the sections
+@import "web/sections/all";
+
+// Some basic styling
+html, body {
+  scroll-behavior: smooth;
+  font-family: $font-primary;
+  overflow-x: hidden;
+}

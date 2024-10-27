@@ -1,0 +1,84 @@
+.contact {
+  @include container($color-secondary-dark, 25px) {
+    color: $color-base-light;
+    display: flex;
+    flex-flow: column;
+  };
+
+  &__heading {
+    @include text($font-primary-bold, 16pt, normal, 1.5, $color-base-light, center);
+
+    margin: 0 0 15px 0;
+  }
+
+  &__content {
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  &__social {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  &-social {
+    &__item {
+      margin: 10px;
+      cursor: pointer;
+      transform: scale(1);
+      transition: transform 0.1s ease-in-out;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+
+    &__icon {
+      height: 90px;
+      width: 90px;
+      pointer-events: none;
+    }
+  }
+
+  &__information {
+    @include text($font-primary, 16pt, normal, 1.5, $color-base-light, center);
+
+    display: none;
+    margin: auto;
+    padding: 10px 20px 10px 20px;
+    background-color: $color-primary-light;
+    color: $color-base-light;
+    border-radius: 1000px;
+
+    &--active {
+      display: block;
+    }
+  }
+
+  &__copy {
+    cursor: pointer;
+    transform: scale(1);
+    transition: transform 0.1s ease-in-out;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &-input {
+      position: absolute;
+      right: 100vw;
+      opacity: 1;
+    }
+  }
+
+  &__footer {
+    @include text($font-primary, 16pt, normal, 1.5, $color-base-light, center);
+
+    margin: 25px 0 0;
+  }
+}
