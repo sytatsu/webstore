@@ -3,6 +3,7 @@
 namespace Database\Factories\Warehouse\Products;
 
 use App\Enums\AvailabilityEnum;
+use App\Enums\ProductVariantType;
 use App\Models\Types\Variant;
 use App\Models\Warehouse\Products\Product;
 use App\Models\Warehouse\Products\ProductVariant;
@@ -26,7 +27,9 @@ class ProductVariantFactory extends Factory
         return [
             'warehouse_product_uuid' => Product::factory()->create(),
             'type_variant_uuid' => Variant::factory()->create(),
-            'availability_type' => $this->faker->randomElement(AvailabilityEnum::cases())->value,
+            'product_variant_type' => $this->faker->randomElement(ProductVariantType::cases())->name,
+            'price' => ($this->faker->randomNumber(2) * 100),
+            'availability_type' => $this->faker->randomElement(AvailabilityEnum::cases())->name,
             'availability_quantity' => $this->faker->randomNumber(1),
         ];
     }

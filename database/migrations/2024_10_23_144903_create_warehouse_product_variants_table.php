@@ -26,8 +26,8 @@ return new class extends Migration
 
             /**--- Product information ---*/
             $table->enum('product_variant_type', [
-                ProductVariantType::UNIQUE,
-                ProductVariantType::GENERIC,
+                ProductVariantType::UNIQUE->name,
+                ProductVariantType::GENERIC->name,
             ]);
 
             $table->integer('price');

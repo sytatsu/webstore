@@ -27,7 +27,7 @@ class ProductFactory extends Factory
             'description' => $this->faker->sentence,
             'type_brand_uuid' => Brand::factory()->create(),
             'type_category_uuid' => Category::factory()->create(),
-            'type' => $this->faker->randomElement(ProductTypeEnum::cases())->value,
+            'type' => $this->faker->randomElement(ProductTypeEnum::cases())->name,
             'discontinued_at' => null,
         ];
     }
