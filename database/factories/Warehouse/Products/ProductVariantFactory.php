@@ -27,9 +27,10 @@ class ProductVariantFactory extends Factory
         return [
             'warehouse_product_uuid' => Product::factory()->create(),
             'type_variant_uuid' => Variant::factory()->create(),
-            'product_variant_type' => $this->faker->randomElement(ProductVariantType::cases())->name,
+
             'price' => ($this->faker->randomNumber(2) * 100),
-            'availability_type' => $this->faker->randomElement(AvailabilityEnum::cases())->name,
+
+            'availability_type' => $this->faker->randomElement(AvailabilityEnum::cases()),
             'availability_quantity' => $this->faker->randomNumber(1),
         ];
     }

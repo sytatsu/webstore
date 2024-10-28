@@ -2,9 +2,18 @@
 
 namespace App\Enums;
 
-enum AvailabilityEnum: string
+enum AvailabilityEnum
 {
-    case STOCK = 'Stock';
-    case DOWNLOAD = 'Download';
-    case ON_REQUEST = 'Request';
+    case STOCK;
+    case DOWNLOAD;
+    case ON_REQUEST;
+
+    public function translation(): string
+    {
+        return match ($this) {
+            self::STOCK => __('Stock'),
+            self::DOWNLOAD => __('Download'),
+            self::ON_REQUEST => __('On Request'),
+        };
+    }
 }

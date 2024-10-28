@@ -9,17 +9,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * -- Fields
  * @property string $uuid
  * @property string $name
  * @property string $description
- *
- * -- Relations
  * @property array<ProductVariant> $productVariants
  */
 class Variant extends Model
 {
-    use SoftDeletes, HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $primaryKey = 'uuid';
 
@@ -30,6 +27,9 @@ class Variant extends Model
         'description',
     ];
 
+    /**
+     * @return BelongsToMany<ProductVariant>
+     */
     public function productVariants(): BelongsToMany
     {
         return $this->belongsToMany(ProductVariant::class);

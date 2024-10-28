@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\ProductTypeEnum;
+use App\Enums\ProductVariantType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,6 +16,22 @@ return new class extends Migration
         Schema::create('warehouse_products', function (Blueprint $table) {
             $table->uuid()->primary();
 
+            /**--- Product base information ---*/
+            $table->string('name', 100);
+            $table->text('description');
+
+            $table->enum('product_type', [
+                ProductTypeEnum::DIGITAL,
+                ProductTypeEnum::PRINTED,
+                ProductTypeEnum::THIRD_PARTY,
+                ProductTypeEnum::CUSTOM_REQUEST,
+            ]);
+
+            $table->enum('product_variant_type', [
+                ProductVariantType::UNIQUE,
+                ProductVariantType::GENERIC,
+            ]);
+
             $table->foreignUuid('type_brand_uuid')
                 ->constrained('type_brands', 'uuid')
                 ->cascadeOnDelete();
@@ -22,17 +39,6 @@ return new class extends Migration
             $table->foreignUuid('type_category_uuid')
                 ->constrained('type_categories', 'uuid')
                 ->cascadeOnDelete();
-
-            /**--- Product information ---*/
-            $table->string('name', 100);
-            $table->text('description');
-
-            $table->enum('type', [
-                ProductTypeEnum::DIGITAL->name,
-                ProductTypeEnum::PRINTED->name,
-                ProductTypeEnum::THIRD_PARTY->name,
-                ProductTypeEnum::CUSTOM_REQUEST->name,
-            ]);
 
             /**--- Timestamps ---*/
             $table->timestamp('discontinued_at')->nullable();

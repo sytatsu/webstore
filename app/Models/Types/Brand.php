@@ -9,17 +9,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * -- Fields
  * @property string $uuid
  * @property string $name
  * @property string $description
- *
- * -- Relations
  * @property array<Product> $products
  */
 class Brand extends Model
 {
-    use SoftDeletes, HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $primaryKey = 'uuid';
     protected $table = 'type_brands';
@@ -29,6 +26,9 @@ class Brand extends Model
         'description',
     ];
 
+    /**
+     * @return BelongsToMany<Product>
+     */
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class);

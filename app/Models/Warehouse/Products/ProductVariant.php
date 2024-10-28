@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * -- Fields
  * @property string $uuid
  *
- * -- Relations
+ * @property Product $product
+ * @property Variant $variant
  */
 class ProductVariant extends Model
 {
@@ -23,11 +23,17 @@ class ProductVariant extends Model
 
     protected $fillable = [];
 
+    /**
+     * @return HasOne<Product>
+     */
     public function product(): HasOne
     {
         return $this->hasOne(Product::class);
     }
 
+    /**
+     * @return HasOne<Variant>
+     */
     public function variant(): HasOne
     {
         return $this->hasOne(Variant::class);

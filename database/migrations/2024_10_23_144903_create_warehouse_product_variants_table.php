@@ -1,7 +1,6 @@
 <?php
 
 use App\Enums\AvailabilityEnum;
-use App\Enums\ProductVariantType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -25,18 +24,13 @@ return new class extends Migration
                 ->cascadeOnDelete();
 
             /**--- Product information ---*/
-            $table->enum('product_variant_type', [
-                ProductVariantType::UNIQUE->name,
-                ProductVariantType::GENERIC->name,
-            ]);
-
             $table->integer('price');
 
             /**--- Availability ---*/
             $table->enum('availability_type', [
-                AvailabilityEnum::STOCK->name,
-                AvailabilityEnum::DOWNLOAD->name,
-                AvailabilityEnum::ON_REQUEST->name,
+                AvailabilityEnum::STOCK,
+                AvailabilityEnum::DOWNLOAD,
+                AvailabilityEnum::ON_REQUEST,
             ]);
 
             $table->integer('availability_quantity')->default(0);

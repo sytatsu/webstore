@@ -10,19 +10,16 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * -- Fields
  * @property string $uuid
  * @property string $name
  * @property string $description
  * @property string $parent_type_category_uuid
- *
- * -- Relations
  * @property array<Product> $products
  * @property ?self $parentCategory
  */
 class Category extends Model
 {
-    use SoftDeletes, HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $primaryKey = 'uuid';
     protected $table = 'type_categories';
@@ -33,11 +30,17 @@ class Category extends Model
         'parent_type_category_uuid',
     ];
 
+    /**
+     * @return BelongsToMany<Product>
+     */
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class);
     }
 
+    /**
+     * @return null|HasOne<self>
+     */
     public function parentCategory(): ?HasOne
     {
         return $this->parent_type_category_uuid

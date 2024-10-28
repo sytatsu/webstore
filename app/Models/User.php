@@ -51,6 +51,7 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
+        'disabled_at' => 'datetime',
         'email_verified_at' => 'datetime',
         'password_updated_at' => 'datetime',
     ];

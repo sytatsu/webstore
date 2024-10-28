@@ -2,10 +2,20 @@
 
 namespace App\Enums;
 
-enum ProductTypeEnum: string
+enum ProductTypeEnum
 {
-    case DIGITAL = 'Digital';
-    case PRINTED = '3D Printed';
-    case THIRD_PARTY = 'Third Party';
-    case CUSTOM_REQUEST = 'Custom Request';
+    case DIGITAL;
+    case PRINTED;
+    case THIRD_PARTY;
+    case CUSTOM_REQUEST;
+
+    public function translation(): string
+    {
+        return match ($this) {
+            self::DIGITAL => __('Digital'),
+            self::PRINTED => __('Printed'),
+            self::THIRD_PARTY => __('3rd-Party'),
+            self::CUSTOM_REQUEST => __('Custom Request'),
+        };
+    }
 }

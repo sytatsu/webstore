@@ -2,8 +2,16 @@
 
 namespace App\Enums;
 
-enum ProductVariantType: string
+enum ProductVariantType
 {
-    case UNIQUE = 'Unique';
-    case GENERIC = 'Generic';
+    case UNIQUE;
+    case GENERIC;
+
+    public function translations(): array
+    {
+        return match ($this) {
+            self::UNIQUE => __('Unique'),
+            self::GENERIC => __('Generic'),
+        };
+    }
 }
