@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
     php-fpm:
-        container_name: php-fpm
+        container_name: sytatsu-php-fpm
         build:
             context: ./vendor/laravel/sail/runtimes/8.2
             dockerfile: Dockerfile
@@ -27,7 +27,7 @@ services:
             - mysql
 
     mysql:
-        container_name: database
+        container_name: sytatsu-mysql
         image: 'mysql/mysql-server:8.0'
         ports:
             - '${SAIL_DB_PORT:-3306}:3306'
@@ -49,6 +49,7 @@ services:
             timeout: 5s
 
     mailpit:
+        container_name: sytatsu-mailpit
         image: 'axllent/mailpit:latest'
         ports:
             - '${FORWARD_MAILPIT_PORT:-1025}:1025'
