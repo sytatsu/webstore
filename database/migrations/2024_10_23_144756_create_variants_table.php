@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('type_categories', function (Blueprint $table) {
+        Schema::create('variants', function (Blueprint $table) {
             $table->uuid()->primary();
 
             $table->string('name', 100);
             $table->text('description')->nullable();
 
-            $table->foreignUuid('parent_type_category_uuid')->nullable()
-                ->constrained('type_categories', 'uuid')
+            $table->foreignUuid('parent_variant_uuid')->nullable()
+                ->constrained('variants', 'uuid')
                 ->nullOnDelete();
 
             $table->timestamps();
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('type_categories');
+        Schema::dropIfExists('variants');
     }
 };

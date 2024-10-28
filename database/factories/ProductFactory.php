@@ -1,16 +1,17 @@
 <?php
 
-namespace Database\Factories\Warehouse\Products;
+namespace Database\Factories;
 
 use App\Enums\ProductTypeEnum;
 use App\Enums\ProductVariantType;
-use App\Models\Types\Brand;
-use App\Models\Types\Category;
-use App\Models\Warehouse\Products\Product;
+use App\Models\Brand;
+use App\Models\Category;
+use App\Models\Product;
+use App\Models\ProductVariant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Warehouse\Products\Product>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
  */
 class ProductFactory extends Factory
 {
@@ -30,8 +31,10 @@ class ProductFactory extends Factory
             'product_type' => $this->faker->randomElement(ProductTypeEnum::cases()),
             'product_variant_type' => $this->faker->randomElement(ProductVariantType::cases()),
 
-            'type_brand_uuid' => Brand::factory()->create(),
-            'type_category_uuid' => Category::factory()->create(),
+            'has_multiple_variants' => false,
+
+            'brand_uuid' => Brand::factory()->create(),
+            'category_uuid' => Category::factory()->create(),
 
             'discontinued_at' => null,
         ];

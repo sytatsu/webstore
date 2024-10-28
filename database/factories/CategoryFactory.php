@@ -1,12 +1,12 @@
 <?php
 
-namespace Database\Factories\Types;
+namespace Database\Factories;
 
-use App\Models\Types\Category;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Types\Category>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Category>
  */
 class CategoryFactory extends Factory
 {

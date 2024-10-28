@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Models\Types;
+namespace App\Models;
 
-use App\Models\Warehouse\Products\ProductVariant;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -14,13 +13,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $description
  * @property array<ProductVariant> $productVariants
  */
-class Variant extends Model
+class Variant extends BaseModel
 {
-    use HasFactory, SoftDeletes;
+    use HasUuids, HasFactory, SoftDeletes;
 
     protected $primaryKey = 'uuid';
-
-    protected $table = 'type_variants';
 
     protected $fillable = [
         'name',

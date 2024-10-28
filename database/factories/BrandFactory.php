@@ -1,12 +1,12 @@
 <?php
 
-namespace Database\Factories\Types;
+namespace Database\Factories;
 
-use App\Models\Types\Brand;
+use App\Models\Brand;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Types\Brand>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Brand>
  */
 class BrandFactory extends Factory
 {

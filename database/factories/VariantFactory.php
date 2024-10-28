@@ -1,12 +1,12 @@
 <?php
 
-namespace Database\Factories\Types;
+namespace Database\Factories;
 
-use App\Models\Types\Variant;
+use App\Models\Variant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Types\Variant>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Variant>
  */
 class VariantFactory extends Factory
 {
@@ -22,6 +22,14 @@ class VariantFactory extends Factory
         return [
             'name' => $this->faker->colorName,
             'description' => $this->faker->paragraph,
+            'parent_variant_uuid' => null,
         ];
+    }
+
+    public function withParent(): Factory|CategoryFactory
+    {
+        return $this->state(fn (array $attributes) => [
+            'parent_variant_uuid' => Variant::factory()->create(),
+        ]);
     }
 }

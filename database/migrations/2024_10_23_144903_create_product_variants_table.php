@@ -12,25 +12,28 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('warehouse_product_variants', function (Blueprint $table) {
+        Schema::create('product_variants', function (Blueprint $table) {
             $table->uuid()->primary();
 
-            $table->foreignUuid('warehouse_product_uuid')
-                ->constrained('warehouse_products', 'uuid')
-                ->cascadeOnDelete();
-
-            $table->foreignUuid('type_variant_uuid')
-                ->constrained('type_variants', 'uuid')
-                ->cascadeOnDelete();
-
             /**--- Product information ---*/
+            $table->string('name', 100);
+            $table->text('description')->nullable();
+            $table->string('sku');
             $table->integer('price');
+
+            $table->foreignUuid('product_uuid')
+                ->constrained('products', 'uuid')
+                ->cascadeOnDelete();
+
+            $table->foreignUuid('variant_uuid')->nullable()
+                ->constrained('variants', 'uuid')
+                ->nullOnDelete();
 
             /**--- Availability ---*/
             $table->enum('availability_type', [
-                AvailabilityEnum::STOCK,
-                AvailabilityEnum::DOWNLOAD,
-                AvailabilityEnum::ON_REQUEST,
+                AvailabilityEnum::STOCK->name,
+                AvailabilityEnum::DOWNLOAD->name,
+                AvailabilityEnum::ON_REQUEST->name,
             ]);
 
             $table->integer('availability_quantity')->default(0);
@@ -46,6 +49,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('warehouse_product_variants');
+        Schema::dropIfExists('product_variants');
     }
 };

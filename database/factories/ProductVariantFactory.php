@@ -1,16 +1,15 @@
 <?php
 
-namespace Database\Factories\Warehouse\Products;
+namespace Database\Factories;
 
 use App\Enums\AvailabilityEnum;
-use App\Enums\ProductVariantType;
-use App\Models\Types\Variant;
-use App\Models\Warehouse\Products\Product;
-use App\Models\Warehouse\Products\ProductVariant;
+use App\Models\Product;
+use App\Models\ProductVariant;
+use App\Models\Variant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Warehouse\Products\ProductVariant>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProductVariant>
  */
 class ProductVariantFactory extends Factory
 {
@@ -25,10 +24,13 @@ class ProductVariantFactory extends Factory
     public function definition(): array
     {
         return [
-            'warehouse_product_uuid' => Product::factory()->create(),
-            'type_variant_uuid' => Variant::factory()->create(),
+            'product_uuid' => Product::factory()->create(),
+            'variant_uuid' => Variant::factory()->create(),
 
+            'name' => $this->faker->word,
+            'description' => $this->faker->sentence,
             'price' => ($this->faker->randomNumber(2) * 100),
+            'sku' => $this->faker->uuid,
 
             'availability_type' => $this->faker->randomElement(AvailabilityEnum::cases()),
             'availability_quantity' => $this->faker->randomNumber(1),
