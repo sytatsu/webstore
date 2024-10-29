@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Casts\CurrencyCast;
 use App\Enums\AvailabilityEnum;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -30,6 +32,7 @@ class ProductVariant extends BaseModel
     ];
 
     protected $casts = [
+        'price' => CurrencyCast::class,
         'availability_type' => AvailabilityEnum::class,
     ];
 

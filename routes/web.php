@@ -6,6 +6,11 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Management\ProfileManagementController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestController;
+use App\Http\Controllers\Warehouse\BrandController;
+use App\Http\Controllers\Warehouse\CategoryController;
+use App\Http\Controllers\Warehouse\ProductController;
+use App\Http\Controllers\Warehouse\VariantController;
+use App\Http\Controllers\WarehouseController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +36,30 @@ Route::middleware('auth')->group(function () {
 
         Route::middleware(['verified', 'password.updated'])->group(function (){
             Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+            Route::prefix('warehouse')->group(function () {
+                Route::get('/' , [WarehouseController::class, 'index'])->name('warehouse.index');
+
+                Route::prefix('products')->group(function () {
+                    Route::get('/', [ProductController::class, 'list'])->name('warehouse.products.list');
+                    Route::get('/create', [ProductController::class, 'create'])->name('warehouse.products.create');
+                });
+
+                Route::prefix('brands')->group(function () {
+                    Route::get('/', [BrandController::class, 'list'])->name('warehouse.brands.list');
+                    Route::get('/create', [BrandController::class, 'create'])->name('warehouse.brands.create');
+                });
+
+                Route::prefix('variants')->group(function () {
+                    Route::get('/', [VariantController::class, 'list'])->name('warehouse.variants.list');
+                    Route::get('/create', [VariantController::class, 'create'])->name('warehouse.variants.create');
+                });
+
+                Route::prefix('categories')->group(function () {
+                    Route::get('/', [CategoryController::class, 'list'])->name('warehouse.categories.list');
+                    Route::get('/create', [CategoryController::class, 'create'])->name('warehouse.categories.create');
+                });
+            });
 
             Route::prefix('profile')->group(function () {
                 Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
