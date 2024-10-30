@@ -15,6 +15,5 @@
         @endif
 
         {{ $slot }}
-
     </x-section>
 </x-layouts.warehouse.warehouse-layout>

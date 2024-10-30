@@ -2,30 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Foundation\Application;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 class WarehouseController extends Controller
 {
-    public function index()
-    {
-        return redirect('warehouse/products');
-    }
+    const INDEX_REDIRECT = 'warehouse.products.list';
 
-    public function brands(): Factory|View|Application
+    public function index(): RedirectResponse
     {
-        return view("warehouse.brand.brand-list");
-    }
-
-    public function categories(): Factory|View|Application
-    {
-        return view("warehouse.category.category-list");
-    }
-
-    public function variants(): Factory|View|Application
-    {
-        return view("warehouse.variant.variant-list");
+        return redirect()->route(self::INDEX_REDIRECT);
     }
 }

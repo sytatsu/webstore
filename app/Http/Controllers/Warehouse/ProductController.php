@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Warehouse;
 
 use App\Http\Controllers\Controller;
+use App\Services\ProductService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -10,10 +11,16 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    public function __construct(
+        protected ProductService $productService,
+    ) {
+    }
 
     public function list(): Factory|View|Application
     {
-        return view("warehouse.product.product-list");
+        return view("warehouse.product.product-list", [
+            'products' => $this->productService->getProducts(),
+        ]);
     }
 
     public function create(): Factory|View|Application

@@ -1,8 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-layout-header title='Warehouse' :showheader='false'>
+        <x-layout-header title='Warehouse' :showheader='true'>
             <x-slot name="submenu">
-                <div class="hidden sm:flex justify-between gap-4 my-0">
+                <div class="hidden sm:flex justify-between gap-4 my-0 pl-4">
                     <x-nav-link :href="route('warehouse.products.list')" :active="request()->routeIs('warehouse.products.*')">
                         {{ __('Products') }}
                     </x-nav-link>
