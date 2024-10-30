@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\DataObject\Currency;
 use App\Enums\AvailabilityEnum;
 use App\Models\Product;
 use App\Models\ProductVariant;
@@ -24,12 +25,12 @@ class ProductVariantFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_uuid' => Product::factory()->create(),
-            'variant_uuid' => Variant::factory()->create(),
+            'product_uuid' => fn () => Product::factory()->create(),
+            'variant_uuid' => fn () => Variant::factory()->create(),
 
             'name' => $this->faker->word,
             'description' => $this->faker->sentence,
-            'price' => ($this->faker->randomNumber(2) * 100),
+            'price' => Currency::from(($this->faker->randomNumber(2) * 100)),
             'sku' => $this->faker->uuid,
 
             'availability_type' => $this->faker->randomElement(AvailabilityEnum::cases()),

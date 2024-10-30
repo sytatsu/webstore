@@ -29,7 +29,7 @@ class VariantFactory extends Factory
     public function withParent(): Factory|CategoryFactory
     {
         return $this->state(fn (array $attributes) => [
-            'parent_variant_uuid' => Variant::factory()->create(),
+            'parent_variant_uuid' => fn () => Variant::factory()->create(),
         ]);
     }
 }

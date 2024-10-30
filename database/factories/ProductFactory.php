@@ -33,8 +33,8 @@ class ProductFactory extends Factory
 
             'has_multiple_variants' => false,
 
-            'brand_uuid' => Brand::factory()->create(),
-            'category_uuid' => Category::factory()->create(),
+            'brand_uuid' => fn () => Brand::factory()->create(),
+            'category_uuid' => fn () => Category::factory()->create(),
 
             'discontinued_at' => null,
         ];

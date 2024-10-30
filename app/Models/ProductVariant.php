@@ -7,6 +7,7 @@ use App\Enums\AvailabilityEnum;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -37,18 +38,18 @@ class ProductVariant extends BaseModel
     ];
 
     /**
-     * @return HasOne<Product>
+     * @return BelongsTo<Product>
      */
-    public function product(): HasOne
+    public function product(): BelongsTo
     {
-        return $this->hasOne(Product::class);
+        return $this->belongsTo(Product::class);
     }
 
     /**
-     * @return HasOne<Variant>
+     * @return BelongsTo<Variant>
      */
-    public function variant(): HasOne
+    public function variant(): BelongsTo
     {
-        return $this->hasOne(Variant::class);
+        return $this->belongsTo(Variant::class);
     }
 }

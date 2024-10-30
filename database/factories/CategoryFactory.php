@@ -29,7 +29,7 @@ class CategoryFactory extends Factory
     public function withParent(): Factory|CategoryFactory
     {
         return $this->state(fn (array $attributes) => [
-            'parent_category_uuid' => Category::factory()->create(),
+            'parent_category_uuid' => fn () => Category::factory()->create(),
         ]);
     }
 }

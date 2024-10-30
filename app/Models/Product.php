@@ -6,7 +6,9 @@ use App\Enums\ProductTypeEnum;
 use App\Enums\ProductVariantType;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -41,26 +43,26 @@ class Product extends BaseModel
     ];
 
     /**
-     * @return HasOne<Brand>
+     * @return BelongsTo<Brand>
      */
-    public function brand(): HasOne
+    public function brand(): BelongsTo
     {
-        return $this->hasOne(Brand::class);
+        return $this->BelongsTo(Brand::class);
     }
 
     /**
-     * @return HasOne<Category>
+     * @return BelongsTo<Category>
      */
-    public function category(): HasOne
+    public function category(): BelongsTo
     {
-        return $this->hasOne(Category::class);
+        return $this->belongsTo(Category::class);
     }
 
     /**
-     * @return BelongsToMany<ProductVariant>
+     * @return HasMany<ProductVariant>
      */
-    public function productVariants(): BelongsToMany
+    public function productVariants(): HasMany
     {
-        return $this->belongsToMany(ProductVariant::class);
+        return $this->hasMany(ProductVariant::class);
     }
 }
