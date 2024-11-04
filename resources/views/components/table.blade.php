@@ -1,4 +1,4 @@
-<div class="w-full overflow-hidden rounded">
+<div class="w-full overflow-y-hidden overflow-x-scroll border rounded">
     <table class="w-full whitespace-nowrap">
         <thead>
             {{ $header }}
