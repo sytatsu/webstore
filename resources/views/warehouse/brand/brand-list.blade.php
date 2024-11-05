@@ -1,5 +1,4 @@
 <x-layouts.warehouse.brand-layout>
-
     <x-table>
         <x-slot name="header">
             <tr class="bg-gray-700 text-white h-12 text-left">
@@ -26,7 +25,7 @@
                     </td>
                     <td>
                         <ul class="list-disc pl-4">
-                            <li>{{ $brand->products->count() }} Product(s)</li>
+                            <li>{{ $brand->productCount() }} Product(s)</li>
                         </ul>
                     </td>
                     <td class="text-end pr-2">
@@ -43,7 +42,7 @@
                                     <i class="fa fa-eye w-6"></i>Show
                                 </x-dropdown-link>
 
-                                <x-dropdown-link :href="route('warehouse.brands.edit', $brand)">
+                                <x-dropdown-link :href="route('warehouse.brands.edit', ['brand' => $brand, 'action' => \App\Enums\Actions\SaveAndAction::TO_OVERVIEW->name])">
                                     <i class="fa fa-pen w-6"></i>Edit
                                 </x-dropdown-link>
 

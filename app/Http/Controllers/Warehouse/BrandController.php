@@ -35,9 +35,9 @@ class BrandController extends Controller
         $brand->save();
 
         return match ($request->get('action')) {
-            SaveAndAction::CREATE_AGAIN => Redirect::route('warehouse.brands.create'),
-            SaveAndAction::TO_OVERVIEW => Redirect::route('warehouse.brands.list'),
-            SaveAndAction::TO_CREATED => Redirect::route('warehouse.brands.show', $brand),
+            SaveAndAction::CREATE_AGAIN->name => Redirect::route('warehouse.brands.create'),
+            SaveAndAction::TO_OVERVIEW->name => Redirect::route('warehouse.brands.list'),
+            SaveAndAction::TO_MODEL->name => Redirect::route('warehouse.brands.show', $brand),
             default => null
         } ?? Redirect::route('warehouse.brands.show', $brand); // Redirect fallback
     }
@@ -45,14 +45,15 @@ class BrandController extends Controller
     public function show(Brand $brand): Factory|View|Application
     {
         return view('warehouse.brand.brand-show', [
-            'brand' => $brand
+            'brand' => $brand,
         ]);
     }
 
-    public function edit(Brand $brand): Factory|View|Application
+    public function edit(Request $request, Brand $brand): Factory|View|Application
     {
         return view('warehouse.brand.brand-edit', [
-            'brand' => $brand
+            'brand' => $brand,
+            'action' => $request->get('action'),
         ]);
     }
 
@@ -63,9 +64,9 @@ class BrandController extends Controller
         $brand->save();
 
         return match ($request->get('action')) {
-            SaveAndAction::CREATE_AGAIN => Redirect::route('warehouse.brands.create'),
-            SaveAndAction::TO_OVERVIEW => Redirect::route('warehouse.brands.list'),
-            SaveAndAction::TO_CREATED => Redirect::route('warehouse.brands.show', $brand),
+            SaveAndAction::CREATE_AGAIN->name => Redirect::route('warehouse.brands.create'),
+            SaveAndAction::TO_OVERVIEW->name => Redirect::route('warehouse.brands.list'),
+            SaveAndAction::TO_MODEL->name => Redirect::route('warehouse.brands.show', $brand),
             default => null
         } ?? Redirect::route('warehouse.brands.show', $brand); // Redirect fallback
     }
