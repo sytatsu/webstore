@@ -42,11 +42,22 @@ Route::domain(env('APP_SYTATSU_URL'))->group(function () {
                     Route::prefix('products')->group(function () {
                         Route::get('/', [ProductController::class, 'list'])->name('warehouse.products.list');
                         Route::get('/create', [ProductController::class, 'create'])->name('warehouse.products.create');
+
+                        // @TODO -- Not working routes
+                        Route::get('/{product}', [ProductController::class, 'show'])->name('warehouse.product.show');
+                        Route::get('/{product}/edit', [ProductController::class, 'edit'])->name('warehouse.product.edit');
                     });
 
                     Route::prefix('brands')->group(function () {
                         Route::get('/', [BrandController::class, 'list'])->name('warehouse.brands.list');
                         Route::get('/create', [BrandController::class, 'create'])->name('warehouse.brands.create');
+                        Route::put('/create', [BrandController::class, 'store'])->name('warehouse.brands.store');
+
+                        // @TODO -- Not working routes
+                        Route::get('/{brand}', [BrandController::class, 'show'])->name('warehouse.brands.show');
+                        Route::get('/{brand}/edit', [BrandController::class, 'edit'])->name('warehouse.brands.edit');
+                        Route::patch('/{brand}/update', [BrandController::class, 'update'])->name('warehouse.brands.update');
+                        Route::delete('/{brand}/delete', [BrandController::class, 'delete'])->name('warehouse.brands.delete');
                     });
 
                     Route::prefix('variants')->group(function () {
@@ -57,6 +68,8 @@ Route::domain(env('APP_SYTATSU_URL'))->group(function () {
                     Route::prefix('categories')->group(function () {
                         Route::get('/', [CategoryController::class, 'list'])->name('warehouse.categories.list');
                         Route::get('/create', [CategoryController::class, 'create'])->name('warehouse.categories.create');
+                        Route::get('/{category}', [CategoryController::class, 'show'])->name('warehouse.categories.show');
+
                     });
                 });
 

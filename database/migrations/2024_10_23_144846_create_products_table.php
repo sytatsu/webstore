@@ -24,7 +24,6 @@ return new class extends Migration
                 ProductTypeEnum::DIGITAL->name,
                 ProductTypeEnum::PRINTED->name,
                 ProductTypeEnum::THIRD_PARTY->name,
-                ProductTypeEnum::CUSTOM_REQUEST->name,
             ]);
 
             $table->foreignUuid('brand_uuid')->nullable()
