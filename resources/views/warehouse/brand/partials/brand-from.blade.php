@@ -3,7 +3,7 @@
     'action',
 ])
 
-<form method="post" action="{{ $action }}" class="m-6 space-y-6">
+<form method="post" action="{{ $action }}" class="p-6 space-y-6">
     @csrf
     @method($method)
 
