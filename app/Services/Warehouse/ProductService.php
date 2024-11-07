@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Warehouse;
 
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection;

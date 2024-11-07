@@ -7,6 +7,10 @@
     @csrf
     @method($method)
 
+    @if(isset($brand))
+        <input type="hidden" name="uuid" value="{{ $brand->uuid }}">
+    @endif
+
     <div>
         <x-input-label for="name" :value="__('Brand name')" />
         <x-text-input :value="$brand?->name ?? ''" id="name" name="name" type="text" class="mt-1 block w-full" />

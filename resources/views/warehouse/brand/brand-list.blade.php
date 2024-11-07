@@ -1,7 +1,7 @@
 <x-layouts.warehouse.brand-layout>
     <x-table>
         <x-slot name="header">
-            <tr class="bg-gray-700 text-white h-12 text-left">
+            <tr class="bg-gray-700 text-white h-12 text-left rounded-t-xl">
                 <th class="pl-5"></th>
                 <th>Name</th>
                 <th>Used by</th>
@@ -11,7 +11,7 @@
 
         <x-slot name="content">
             @foreach($brands as $brand)
-                <tr class="odd:bg-white even:bg-gray-50 border-b last:rounded-br-xl h-10">
+                <tr class="odd:bg-white even:bg-gray-50 border-b last:border-b-0 last:rounded-b-xl h-10">
                     <td class="px-2">
                         <div class="flex items-center">
                             <label for="checked-checkbox" class="hidden"></label>
@@ -44,10 +44,6 @@
 
                                 <x-dropdown-link :href="route('warehouse.brands.edit', ['brand' => $brand, 'action' => \App\Enums\Actions\SaveAndAction::TO_OVERVIEW->name])">
                                     <i class="fa fa-pen w-6"></i>Edit
-                                </x-dropdown-link>
-
-                                <x-dropdown-link :href="route('warehouse.brands.delete', $brand)">
-                                    <i class="fa fa-trash w-6"></i>Delete
                                 </x-dropdown-link>
                             </x-slot>
                         </x-dropdown>

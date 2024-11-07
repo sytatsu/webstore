@@ -52,11 +52,9 @@ Route::domain(env('APP_SYTATSU_URL'))->group(function () {
                         Route::get('/', [BrandController::class, 'list'])->name('warehouse.brands.list');
                         Route::get('/create', [BrandController::class, 'create'])->name('warehouse.brands.create');
                         Route::put('/create', [BrandController::class, 'store'])->name('warehouse.brands.store');
-
-                        // @TODO -- Not working routes
                         Route::get('/{brand}', [BrandController::class, 'show'])->name('warehouse.brands.show');
                         Route::get('/{brand}/edit', [BrandController::class, 'edit'])->name('warehouse.brands.edit');
-                        Route::patch('/{brand}/update', [BrandController::class, 'update'])->name('warehouse.brands.update');
+                        Route::patch('/update', [BrandController::class, 'update'])->name('warehouse.brands.update');
                         Route::delete('/{brand}/delete', [BrandController::class, 'delete'])->name('warehouse.brands.delete');
                     });
 
