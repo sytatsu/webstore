@@ -55,7 +55,7 @@ Route::domain(env('APP_SYTATSU_URL'))->group(function () {
                         Route::get('/{brand}', [BrandController::class, 'show'])->name('warehouse.brands.show');
                         Route::get('/{brand}/edit', [BrandController::class, 'edit'])->name('warehouse.brands.edit');
                         Route::patch('/update', [BrandController::class, 'update'])->name('warehouse.brands.update');
-                        Route::delete('/{brand}/delete', [BrandController::class, 'delete'])->name('warehouse.brands.delete');
+                        Route::delete('/delete', [BrandController::class, 'delete'])->name('warehouse.brands.delete');
                     });
 
                     Route::prefix('variants')->group(function () {

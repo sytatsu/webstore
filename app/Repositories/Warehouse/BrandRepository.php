@@ -31,4 +31,9 @@ class BrandRepository
         $brand->save();
         return $brand;
     }
+
+    public function delete(Brand $brand): void
+    {
+        $brand->delete();
+    }
 }

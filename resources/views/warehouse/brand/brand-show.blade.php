@@ -8,7 +8,7 @@
             </div>
 
            <div class="text-end p-4">
-               <x-secondary-button-link :href="route('warehouse.brands.edit', ['brand' => $brand, 'action' => \App\Enums\Actions\SaveAndAction::TO_MODEL])">
+               <x-secondary-button-link :href="route('warehouse.brands.edit', ['brand' => $brand, 'action' => \App\Enums\Actions\SaveAndAction::TO_MODEL->toString()])">
                    <i class="fa fa-pencil pr-1"></i>{{ __('Edit') }}
                </x-secondary-button-link>
 

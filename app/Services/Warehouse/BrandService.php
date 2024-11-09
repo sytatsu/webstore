@@ -40,4 +40,10 @@ class BrandService
 
         return $brand;
     }
+
+    public function delete(string $uuid): void
+    {
+        $brand = $this->brandRepository->find($uuid);
+        $this->brandRepository->delete($brand);
+    }
 }

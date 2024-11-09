@@ -1,5 +1,8 @@
 <x-modal name="confirm-brand-deletion">
-    <div class="flex flex-col p-8">
+    <form class="flex flex-col p-8" action="{{ route('warehouse.brands.delete') }}" method="post">
+        @csrf @method('delete')
+        <input type="hidden" name="uuid" value="{{ $brand->uuid }}">
+
         <div class="flex flex-col gap-6 pb-6">
             <h2 class="text-lg bg-red-500 rounded-lg text-white py-4 px-8 avenir">Are you sure you want to delete the brand <b>"{{ $brand->name }}"</b>?</h2>
             <ul class="list-disc pl-6">
@@ -13,9 +16,9 @@
                 {{ __('Cancel') }}
             </x-secondary-button>
 
-            <x-danger-button :href="route('warehouse.brands.delete', $brand)">
+            <x-danger-button type="submit" >
                 <i class="fa fa-trash pr-1"></i>{{ __('Confirm delete') }}
             </x-danger-button>
         </div>
-    </div>
+    </form>
 </x-modal>

@@ -75,6 +75,13 @@ class BrandController extends Controller
         );
     }
 
+    public function delete(Request $request): RedirectResponse
+    {
+        $this->brandService->delete($request->get('uuid'));
+
+        return Redirect::route('warehouse.brands.list');
+    }
+
     private function saveAndAction(?string $action, Brand $brand): RedirectResponse
     {
         $action = SaveAndAction::tryFromName($action);
