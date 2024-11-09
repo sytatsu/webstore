@@ -1,4 +1,4 @@
-<x-modal name="confirm-brand-deletion">
+<x-modal name="confirm-category-deletion">
     <form class="flex flex-col p-8" action="{{ route('warehouse.categories.delete') }}" method="post">
         @csrf @method('delete')
         <input type="hidden" name="uuid" value="{{ $category->uuid }}">
