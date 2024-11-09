@@ -38,6 +38,11 @@ class Category extends BaseModel
         return $this->hasMany(Product::class);
     }
 
+    public function productCount(): int
+    {
+        return $this->products->count();
+    }
+
     /**
      * @return null|BelongsTo<self>
      */

@@ -58,16 +58,19 @@ Route::domain(env('APP_SYTATSU_URL'))->group(function () {
                         Route::delete('/delete', [BrandController::class, 'delete'])->name('warehouse.brands.delete');
                     });
 
-                    Route::prefix('variants')->group(function () {
-                        Route::get('/', [VariantController::class, 'list'])->name('warehouse.variants.list');
-                        Route::get('/create', [VariantController::class, 'create'])->name('warehouse.variants.create');
-                    });
-
                     Route::prefix('categories')->group(function () {
                         Route::get('/', [CategoryController::class, 'list'])->name('warehouse.categories.list');
                         Route::get('/create', [CategoryController::class, 'create'])->name('warehouse.categories.create');
+                        Route::put('/create', [CategoryController::class, 'store'])->name('warehouse.categories.store');
                         Route::get('/{category}', [CategoryController::class, 'show'])->name('warehouse.categories.show');
+                        Route::get('/{category}/edit', [CategoryController::class, 'edit'])->name('warehouse.categories.edit');
+                        Route::patch('/update', [CategoryController::class, 'update'])->name('warehouse.categories.update');
+                        Route::delete('/delete', [CategoryController::class, 'delete'])->name('warehouse.categories.delete');
+                    });
 
+                    Route::prefix('variants')->group(function () {
+                        Route::get('/', [VariantController::class, 'list'])->name('warehouse.variants.list');
+                        Route::get('/create', [VariantController::class, 'create'])->name('warehouse.variants.create');
                     });
                 });
 

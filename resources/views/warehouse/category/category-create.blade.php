@@ -1,3 +1,6 @@
 <x-layouts.warehouse.category-layout>
-    // create category
+    @include('warehouse.category.partials.category-form', [
+       'method' => 'put',
+       'action' => route('warehouse.categories.store'),
+   ])
 </x-layouts.warehouse.category-layout>
