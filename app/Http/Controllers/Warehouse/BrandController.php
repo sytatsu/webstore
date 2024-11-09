@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Warehouse;
 
 use App\Enums\Actions\SaveAndAction;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Warehouse\BrandStoreRequest;
-use App\Http\Requests\Warehouse\BrandUpdateRequest;
+use App\Http\Requests\Warehouse\Brand\BrandDeleteRequest;
+use App\Http\Requests\Warehouse\Brand\BrandStoreRequest;
+use App\Http\Requests\Warehouse\Brand\BrandUpdateRequest;
 use App\Models\Brand;
 use App\Services\Warehouse\BrandService;
 use Illuminate\Contracts\View\Factory;
@@ -75,7 +76,7 @@ class BrandController extends Controller
         );
     }
 
-    public function delete(Request $request): RedirectResponse
+    public function delete(BrandDeleteRequest $request): RedirectResponse
     {
         $this->brandService->delete($request->get('uuid'));
 

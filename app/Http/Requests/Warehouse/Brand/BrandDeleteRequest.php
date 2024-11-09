@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Warehouse;
+namespace App\Http\Requests\Warehouse\Brand;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BrandStoreRequest extends FormRequest
+class BrandDeleteRequest extends FormRequest
 {
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -14,8 +15,7 @@ class BrandStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:100'],
-            'description' => ['required', 'string'],
+            'uuid' => ['required', 'string', 'exists:brands,uuid'],
         ];
     }
 }

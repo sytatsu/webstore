@@ -21,7 +21,7 @@ class BrandService
 
     public function findByUuid(string $uuid): ?Brand
     {
-        return $this->brandRepository->find($uuid);
+        return $this->brandRepository->find(uuid: $uuid);
     }
 
     public function new(): Brand
@@ -35,8 +35,8 @@ class BrandService
             $brand = $this->new();
         }
 
-        $this->brandRepository->fill($brand, $data['name'], $data['description'],);
-        $this->brandRepository->save($brand);
+        $this->brandRepository->fill(brand: $brand, name: $data['name'], description: $data['description'],);
+        $this->brandRepository->save(brand: $brand);
 
         return $brand;
     }

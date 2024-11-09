@@ -13,9 +13,9 @@ class BrandRepository
         return Brand::with(relations: $withRelations ?? [])->get();
     }
 
-    public function find(string $uuid): Brand
+    public function find(string $uuid): ?Brand
     {
-        return Brand::findOrFail($uuid);
+        return Brand::find($uuid) ?? null;
     }
 
     public function fill(Brand $brand, string $name, string $description): Brand
