@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Redirect;
 class BrandController extends Controller
 {
     public function __construct(
-        private BrandService $brandService,
+        private readonly BrandService $brandService,
     ) {
         //
     }
@@ -26,7 +26,7 @@ class BrandController extends Controller
     public function list(): Factory|View|Application
     {
         return view(view: "warehouse.brand.brand-list", data: [
-            'brands' => Brand::with(relations: 'products')->get()
+            'brands' => $this->brandService->allList(),
         ]);
     }
 
@@ -39,24 +39,22 @@ class BrandController extends Controller
     {
         $brand = $this->brandService->store(data: $request->validated());
 
-        return match ($request->get('action')) {
-            SaveAndAction::CREATE_AGAIN->name => Redirect::route(route: 'warehouse.brands.create'),
-            SaveAndAction::TO_OVERVIEW->name => Redirect::route(route: 'warehouse.brands.list'),
-            SaveAndAction::TO_MODEL->name => Redirect::route(route: 'warehouse.brands.show', parameters: $brand),
-            default => null
-        } ?? Redirect::route('warehouse.brands.show', $brand); // Redirect fallback
+        return $this->saveAndAction(
+            action: $request->get('action'),
+            brand: $brand,
+        );
     }
 
     public function show(Brand $brand): Factory|View|Application
     {
-        return view('warehouse.brand.brand-show', [
+        return view(view: 'warehouse.brand.brand-show', data: [
             'brand' => $brand,
         ]);
     }
 
     public function edit(Request $request, Brand $brand): Factory|View|Application
     {
-        return view('warehouse.brand.brand-edit', [
+        return view(view: 'warehouse.brand.brand-edit', data: [
             'brand' => $brand,
             'action' => $request->get('action'),
         ]);
@@ -71,10 +69,20 @@ class BrandController extends Controller
             brand: $brand,
         );
 
-        return match ($request->get('action')) {
-            SaveAndAction::CREATE_AGAIN->name => Redirect::route('warehouse.brands.create'),
-            SaveAndAction::TO_OVERVIEW->name => Redirect::route('warehouse.brands.list'),
-            SaveAndAction::TO_MODEL->name => Redirect::route('warehouse.brands.show', $brand),
+        return $this->saveAndAction(
+            action: $request->get('action'),
+            brand: $brand,
+        );
+    }
+
+    private function saveAndAction(?string $action, Brand $brand): RedirectResponse
+    {
+        $action = SaveAndAction::tryFromName($action);
+
+        return match ($action) {
+            SaveAndAction::CREATE_AGAIN => Redirect::route('warehouse.brands.create'),
+            SaveAndAction::TO_OVERVIEW => Redirect::route('warehouse.brands.list'),
+            SaveAndAction::TO_MODEL => Redirect::route('warehouse.brands.show', $brand),
             default => null
         } ?? Redirect::route('warehouse.brands.show', $brand); // Redirect fallback
     }

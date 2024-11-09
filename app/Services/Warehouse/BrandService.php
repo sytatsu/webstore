@@ -4,13 +4,19 @@ namespace App\Services\Warehouse;
 
 use App\Models\Brand;
 use App\Repositories\Warehouse\BrandRepository;
+use Illuminate\Database\Eloquent\Collection;
 
 class BrandService
 {
     public function __construct(
-        private BrandRepository $brandRepository,
+        private readonly BrandRepository $brandRepository,
     ) {
         //
+    }
+
+    public function allList(): Collection
+    {
+        return $this->brandRepository->all(withRelations: ['products']);
     }
 
     public function findByUuid(string $uuid): ?Brand

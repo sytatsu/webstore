@@ -3,9 +3,16 @@
 namespace App\Repositories\Warehouse;
 
 use App\Models\Brand;
+use Illuminate\Database\Eloquent\Collection;
+
 
 class BrandRepository
 {
+    public function all(?array $withRelations): Collection
+    {
+        return Brand::with(relations: $withRelations ?? [])->get();
+    }
+
     public function find(string $uuid): Brand
     {
         return Brand::findOrFail($uuid);
