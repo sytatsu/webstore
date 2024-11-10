@@ -36,6 +36,11 @@ class Variant extends BaseModel
         return $this->hasMany(ProductVariant::class);
     }
 
+    public function productVariantCount(): int
+    {
+        return $this->productVariants()->count();
+    }
+
     /**
      * @return null|BelongsTo<self>
      */

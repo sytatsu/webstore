@@ -71,6 +71,11 @@ Route::domain(env('APP_SYTATSU_URL'))->group(function () {
                     Route::prefix('variants')->group(function () {
                         Route::get('/', [VariantController::class, 'list'])->name('warehouse.variants.list');
                         Route::get('/create', [VariantController::class, 'create'])->name('warehouse.variants.create');
+                        Route::put('/create', [VariantController::class, 'store'])->name('warehouse.variants.store');
+                        Route::get('/{variant}', [VariantController::class, 'show'])->name('warehouse.variants.show');
+                        Route::get('/{variant}/edit', [VariantController::class, 'edit'])->name('warehouse.variants.edit');
+                        Route::patch('/update', [VariantController::class, 'update'])->name('warehouse.variants.update');
+                        Route::delete('/delete', [VariantController::class, 'delete'])->name('warehouse.variants.delete');
                     });
                 });
 
