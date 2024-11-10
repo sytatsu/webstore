@@ -17,7 +17,7 @@
             @foreach($products as $product)
                 <x-table.row checkbox="true">
                     <td>
-                        <a class="w-full h-full avenir-bold underline text-secondary hover:text-secondary-dark" href="{{ route('warehouse.product.show', $product) }}">{{ $product->name }}</a>
+                        <a class="w-full h-full avenir-bold underline text-secondary hover:text-secondary-dark" href="{{ route('warehouse.products.show', $product) }}">{{ $product->name }}</a>
                     </td>
                     <td>{{ $product->productType->translation() }}</td>
                     <td>
@@ -35,22 +35,18 @@
                         @endif
                     </td>
                     <td class="text-end pr-5">
-                        {{ $product->productVariantType  === \App\Enums\ProductVariantType::UNIQUE
-                            ? $product->productVariantType->translation()
-                            : $product->productVariants->count() }}
+                        {{ $productService->productVariantTypeCountToString($product) }}
                     </td>
                     <td>
-                        {{ $product->productVariantType  === \App\Enums\ProductVariantType::UNIQUE || $product->productVariants->count() <= 1
-                            ? $product->productVariants->first()?->price->formatted() ?? 'N/A'
-                            : $product->productVariants->sortBy('price')->first()?->price->formatted() . ' - ' . $product->productVariants->sortByDesc('price')->first()?->price->string() }}
+                        {{ $productService->productVariantTypePriceToString($product) }}
                     </td>
 
                     <x-slot name="actions">
-                        <x-table.partials.action :href="route('warehouse.product.show', $product)">
+                        <x-table.partials.action :href="route('warehouse.products.show', $product)">
                             <i class="fa fa-eye w-6"></i>Show
                         </x-table.partials.action>
 
-                        <x-table.partials.action :href="route('warehouse.product.edit', $product)">
+                        <x-table.partials.action :href="route('warehouse.products.edit', $product)">
                             <i class="fa fa-pen w-6"></i>Edit
                         </x-table.partials.action>
                     </x-slot>

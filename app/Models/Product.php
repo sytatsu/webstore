@@ -5,20 +5,20 @@ namespace App\Models;
 use App\Enums\ProductTypeEnum;
 use App\Enums\ProductVariantType;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property string                $uuid
  *
- * @property Brand                 $brand,
- * @property Category              $category
- * @property boolean               $hasMultipleVariants
- * @property array<ProductVariant> $productVariants
+ * @property Brand                      $brand,
+ * @property Category                   $category
+ * @property boolean                    $hasMultipleVariants
+ * @property Collection<ProductVariant> $productVariants
+ * @property ProductVariantType         $productVariantType
  */
 class Product extends BaseModel
 {
@@ -64,5 +64,10 @@ class Product extends BaseModel
     public function productVariants(): HasMany
     {
         return $this->hasMany(ProductVariant::class);
+    }
+
+    public function productVariantCount(): int
+    {
+        return $this->productVariants()->count();
     }
 }

@@ -11,4 +11,9 @@ class ProductRepository
     {
         return Product::with($withRelations ?? [])->get();
     }
+
+    public function find(string $uuid): ?Product
+    {
+        return Product::find($uuid);
+    }
 }
