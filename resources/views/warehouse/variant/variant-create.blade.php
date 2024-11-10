@@ -3,4 +3,4 @@
        'method' => 'put',
        'action' => route('warehouse.variants.store'),
    ])
-</x-layouts.warehouse.category-layout>
+</x-layouts.warehouse.variant-layout>
