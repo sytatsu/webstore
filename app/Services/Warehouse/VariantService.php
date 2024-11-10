@@ -14,7 +14,7 @@ class VariantService
         //
     }
 
-    public function allList(): Collection
+    public function getVariantList(): Collection
     {
         return $this->variantRepository->all(withRelations: ['productVariants']);
     }

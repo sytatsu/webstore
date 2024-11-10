@@ -14,7 +14,7 @@ class CategoryService
         //
     }
 
-    public function allList(): Collection
+    public function getCategoryList(): Collection
     {
         return $this->categoryRepository->all(withRelations: ['products']);
     }

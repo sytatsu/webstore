@@ -3,12 +3,24 @@
 namespace App\Services\Warehouse;
 
 use App\Models\Product;
+use App\Repositories\Warehouse\ProductRepository;
 use Illuminate\Database\Eloquent\Collection;
 
 class ProductService
 {
-    public function getProducts(): Collection
+    public function __construct(
+        private readonly ProductRepository $productRepository,
+    ) {
+        //
+    }
+
+    public function getProductList(): Collection
     {
-        return Product::with('productVariants')->get();
+        return $this->productRepository->all(withRelations: [
+            'brand',
+            'category',
+            'productVariants',
+            'productVariants.variant',
+        ]);
     }
 }

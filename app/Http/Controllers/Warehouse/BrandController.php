@@ -27,7 +27,7 @@ class BrandController extends Controller
     public function list(): Factory|View|Application
     {
         return view(view: "warehouse.brand.brand-list", data: [
-            'brands' => $this->brandService->allList(),
+            'brands' => $this->brandService->getBrandList(),
         ]);
     }
 

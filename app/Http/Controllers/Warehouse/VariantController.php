@@ -27,7 +27,7 @@ class VariantController extends Controller
     public function list(): Factory|View|Application
     {
         return view(view: "warehouse.variant.variant-list", data: [
-            'variants' => $this->variantService->allList(),
+            'variants' => $this->variantService->getVariantList(),
         ]);
     }
 

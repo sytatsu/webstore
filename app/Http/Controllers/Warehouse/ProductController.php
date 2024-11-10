@@ -18,7 +18,7 @@ class ProductController extends Controller
     public function list(): Factory|View|Application
     {
         return view("warehouse.product.product-list", [
-            'products' => $this->productService->getProducts(),
+            'products' => $this->productService->getProductList(),
         ]);
     }
 

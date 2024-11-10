@@ -27,7 +27,7 @@ class CategoryController extends Controller
     public function list(): Factory|View|Application
     {
         return view(view: "warehouse.category.category-list", data: [
-            'categories' => $this->categoryService->allList(),
+            'categories' => $this->categoryService->getCategoryList(),
         ]);
     }
 
