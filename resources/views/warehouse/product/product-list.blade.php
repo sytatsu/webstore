@@ -24,14 +24,14 @@
                         @if($product->brand)
                             <a class="hover:underline" href="{{ route('warehouse.brands.show', $product->brand) }}">{{ $product->brand->name }}</a>
                         @else
-                            <span class="text-red-500"><i class="fa fa-warning pr-1"></i>N/A</span>
+                            <span class="text-sm rounded-lg py-2 px-3 bg-red-500 text-white"><i class="fa fa-warning pr-1"></i>N/A</span>
                         @endif
                     </td>
                     <td>
                         @if($product->category)
                             <a class="hover:underline" href="{{ route('warehouse.categories.show', $product->category) }}">{{ $product->category->name }}</a>
                         @else
-                            <span class="text-red-500"><i class="fa fa-warning pr-1"></i>N/A</span>
+                            <span class="text-sm rounded-lg py-2 px-3 bg-red-500 text-white"><i class="fa fa-warning pr-1"></i>N/A</span>
                         @endif
                     </td>
                     <td class="text-end pr-5">
