@@ -79,9 +79,9 @@
 
         <div class="p-4 rounded-lg bg-slate-100 shadow">
             @if($product->productVariantType === \App\Enums\ProductVariantType::GENERIC)
-                @include('warehouse.product.partials.product-variants-table', $product)
+                @include('warehouse.product.partials.product-multiple-variants', $product)
             @else
-                // Not yet implemented
+                @include('warehouse.product.partials.product-unique-variant', $product)
             @endif
         </div>
     </div>
