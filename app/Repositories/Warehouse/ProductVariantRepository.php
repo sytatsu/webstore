@@ -5,7 +5,6 @@ namespace App\Repositories\Warehouse;
 use App\DataObject\Currency;
 use App\Models\Product;
 use App\Models\ProductVariant;
-use App\Models\Variant;
 use Illuminate\Database\Eloquent\Collection;
 
 class ProductVariantRepository
