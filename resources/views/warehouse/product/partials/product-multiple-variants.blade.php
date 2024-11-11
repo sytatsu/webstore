@@ -15,15 +15,11 @@
                 @foreach($product->productVariants as $productVariant)
                     <x-table.row>
                         <td class="pl-3">
-                            {{ $productVariant->name }}
+                            {{ $productVariant->variants->implode('name', '|') }}
                         </td>
                         <td>
                             {{ $productVariant->price->formatted() }}
                         </td>
-                        <td>
-                            {{ $productVariant->variant->name }}
-                        </td>
-
                         <td>
                             {{ $productVariant->availabilityType->translation() }}
                         </td>

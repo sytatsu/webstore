@@ -4,24 +4,26 @@ namespace App\Models;
 
 use App\Casts\CurrencyCast;
 use App\Enums\AvailabilityEnum;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * @property string       $uuid
- * @property string       $name
- * @property string       $description
- * @property int          $price
- * @property string       $sku
+ * @property string           $uuid
+ * @property string           $name
+ * @property string           $description
+ * @property int              $price
+ * @property string           $sku
  * @property AvailabilityEnum $availability_type
- * @property int $availability_quantity
+ * @property int              $availability_quantity
  *
- * @property Product      $product
- * @property Variant      $variant
+ * @property Product             $product
+ * @property Collection<Variant> $variant
  */
 class ProductVariant extends BaseModel
 {
@@ -52,10 +54,15 @@ class ProductVariant extends BaseModel
     }
 
     /**
-     * @return BelongsTo<Variant>
+     * @return BelongsToMany<Variant>
      */
-    public function variant(): BelongsTo
+    public function variants(): BelongsToMany
     {
-        return $this->belongsTo(Variant::class);
+        return $this->belongsToMany(
+            related: Variant::class,
+            table: 'product_variants_many_variants',
+            foreignPivotKey: 'product_variant_uuid',
+            relatedPivotKey: 'variant_uuid',
+        );
     }
 }

@@ -20,7 +20,7 @@ class ProductVariantRepository
         return ProductVariant::find($uuid);
     }
 
-    public function fill(ProductVariant $productVariant, Product $product, Variant $variant, array $data): ProductVariant
+    public function fill(ProductVariant $productVariant, Product $product, array $data): ProductVariant
     {
         $productVariant->name = $data['name'];
         $productVariant->description = $data['description'] ?? '';
@@ -30,7 +30,6 @@ class ProductVariantRepository
         $productVariant->availability_quantity = $data['availability_quantity'];
 
         $productVariant->product()->associate($product);
-        $productVariant->variant()->associate($variant);
 
         return $productVariant;
     }
@@ -38,6 +37,12 @@ class ProductVariantRepository
     public function save(ProductVariant $productVariant): ProductVariant
     {
         $productVariant->save();
+        return $productVariant;
+    }
+
+    public function syncVariants(ProductVariant $productVariant, array $variants): ProductVariant
+    {
+        $productVariant->variants()->sync(array_column($variants, 'uuid'));
         return $productVariant;
     }
 }

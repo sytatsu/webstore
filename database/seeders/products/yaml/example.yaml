@@ -12,7 +12,7 @@ product_variants:
     sku: "SYT-001-01" # Iterated, should be set carefully
     availability_type: STOCK|DOWNLOAD|ON_REQUEST
     availability_quantity: 3 # only really needed for stock
-    variant:
-      name: "Variant name" # Use existing brand new, else we will create a new one
-      parent_variant: # Will not be used if brand already exists
-        name: "Variant name" # Use existing brand new, else we will create a new one
+    variants:
+      - name: "Variant name" # Use existing brand new, else we will create a new one
+        parent_variant: # Will not be used if brand already exists
+          name: "Variant name" # Use existing brand new, else we will create a new one

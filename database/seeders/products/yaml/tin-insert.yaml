@@ -12,10 +12,10 @@ product_variants:
     sku: "SYT-001-01"
     availability_type: STOCK
     availability_quantity: 3
-    variant:
-      name: "Black"
-      parent_variant:
-        name: "Color"
+    variants:
+      - name: "Black"
+        parent_variant:
+          name: "Color"
 
   - name: "Tin insert | Rose"
     description: ""
@@ -23,7 +23,7 @@ product_variants:
     sku: "SYT-001-02"
     availability_type: STOCK
     availability_quantity: 1
-    variant:
-      name: "Rose"
-      parent_variant:
-        name: "Color"
+    variants:
+      - name: "Rose"
+        parent_variant:
+          name: "Color"

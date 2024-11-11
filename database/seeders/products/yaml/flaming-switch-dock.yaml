@@ -12,7 +12,7 @@ product_variants:
     sku: "SYT-002"
     availability_type: STOCK
     availability_quantity: 1
-    variant:
-      name: "Cotton candy (Multi-color)"
-      parent_variant:
-        name: "Color"
+    variants:
+      - name: "Cotton candy (Multi-color)"
+        parent_variant:
+          name: "Color"

@@ -25,10 +25,6 @@ return new class extends Migration
                 ->constrained('products', 'uuid')
                 ->cascadeOnDelete();
 
-            $table->foreignUuid('variant_uuid')->nullable()
-                ->constrained('variants', 'uuid')
-                ->nullOnDelete();
-
             /**--- Availability ---*/
             $table->enum('availability_type', [
                 AvailabilityEnum::STOCK->name,
@@ -41,6 +37,16 @@ return new class extends Migration
             /**--- Timestamps ---*/
             $table->timestamps();
             $table->softDeletes();
+        });
+
+        Schema::create('product_variants_many_variants', function (Blueprint $table) {
+            $table->foreignUuid('product_variant_uuid')
+                ->constrained('product_variants', 'uuid')
+                ->cascadeOnDelete();
+
+            $table->foreignUuid('variant_uuid')
+                ->constrained('variants', 'uuid')
+                ->cascadeOnDelete();
         });
     }
 

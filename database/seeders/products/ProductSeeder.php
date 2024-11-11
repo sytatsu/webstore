@@ -39,13 +39,15 @@ class ProductSeeder extends Seeder
              }
 
              $productArray = $this->readYamlFile($productFile);
-
-             $product = DB::transaction(function() use ($productArray) {
-                 return $this->productService->importProductFromArray($productArray);
-             });
+             try {
+                 $product = DB::transaction(function() use ($productArray) {
+                     return $this->productService->importProductFromArray($productArray);
+                 });
+             }  catch (\Exception $exception) {
+                 $this->command->alert("Something went wrong with `{$productArray['name']}`... Writing exception to log and skipping.");
+             }
 
              $this->command->info("Successfully created: `{$product->name}`");
-
          }
      }
 

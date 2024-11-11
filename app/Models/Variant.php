@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string                $name
  * @property string                $description
  * @property string                $parent_variant_uuid
- * @property array<ProductVariant> $productVariants
+ * @property Collection<ProductVariant> $productVariants
  */
 class Variant extends BaseModel
 {
@@ -29,11 +29,16 @@ class Variant extends BaseModel
     ];
 
     /**
-     * @return HasMany<ProductVariant>
+     * @return BelongsToMany<ProductVariant>
      */
-    public function productVariants(): HasMany
+    public function productVariants(): BelongsToMany
     {
-        return $this->hasMany(ProductVariant::class);
+        return $this->belongsToMany(
+            related: ProductVariant::class,
+            table: 'product_variants_many_variants',
+            foreignPivotKey: 'variant_uuid',
+            relatedPivotKey: 'product_variant_uuid',
+        );
     }
 
     public function productVariantCount(): int

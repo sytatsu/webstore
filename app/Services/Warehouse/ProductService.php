@@ -31,7 +31,7 @@ class ProductService
             'brand',
             'category',
             'productVariants',
-            'productVariants.variant',
+            'productVariants.variants',
         ]);
     }
 
@@ -46,7 +46,7 @@ class ProductService
             'brand',
             'category',
             'productVariants',
-            'productVariants.variant',
+            'productVariants.variants',
         ]);
 
         return $product;
@@ -102,7 +102,7 @@ class ProductService
         return $product;
     }
 
-    public function storeProductVariant(?ProductVariant $productVariant, Product $product, Variant $variant, array $data): ProductVariant
+    public function storeProductVariant(?ProductVariant $productVariant, Product $product, array $variants, array $data): ProductVariant
     {
         if (!isset($productVariant)) {
             $productVariant = $this->newProductVariant();
@@ -111,11 +111,11 @@ class ProductService
         $this->productVariantRepository->fill(
             productVariant: $productVariant,
             product: $product,
-            variant: $variant,
             data: $data,
         );
 
         $this->productVariantRepository->save($productVariant);
+        $this->productVariantRepository->syncVariants($productVariant, $variants);
         return $productVariant;
     }
 
@@ -129,12 +129,15 @@ class ProductService
 
         foreach ($productArray['product_variants'] as $productVariantArray) {
 
-            if (isset($productVariantArray['variant']['$parentVariant']['name'])) {
-                $parentVariant = $this->variantService->findByNameOrCreate(name: $productVariantArray['variant']['parent_variant']['name']);
-            }
-            $variant = $this->variantService->findByNameOrCreate(name: $productVariantArray['variant']['name'], parentVariant: $parentVariant ?? null);
+            $variants = array_map(function ($variantArray) {
+                if (isset($variantArray['parent_variant']['name'])) {
+                    $parentVariant = $this->variantService->findByNameOrCreate(name: $variantArray['parent_variant']['name']);
+                }
 
-            $this->storeProductVariant(productVariant: null, product: $product, variant: $variant, data: $productVariantArray);
+                return $this->variantService->findByNameOrCreate(name: $variantArray['name'], parentVariant: $parentVariant ?? null);
+            }, $productVariantArray['variants']);
+
+            $this->storeProductVariant(productVariant: null, product: $product, variants: $variants, data: $productVariantArray);
         }
 
         return $product;
