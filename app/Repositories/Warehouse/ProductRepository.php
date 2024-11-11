@@ -25,7 +25,6 @@ class ProductRepository
         $product->description = $data['description'] ?? '';
         $product->productType = $data['product_type'];
         $product->productVariantType = $data['product_variant_type'];
-        $product->hasMultipleVariants = $data['has_multiple_variants'] ?? $data['product_variant_type'] === 'GENERIC';
 
         $product->category()->associate($category);
         $product->brand()->associate($brand);

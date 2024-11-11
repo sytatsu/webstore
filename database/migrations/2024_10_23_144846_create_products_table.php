@@ -35,7 +35,6 @@ return new class extends Migration
                 ->nullOnDelete();
 
             /**--- Variant information ---*/
-            $table->boolean('has_multiple_variants')->default(false);
             $table->enum('product_variant_type', [
                 ProductVariantType::UNIQUE->name,
                 ProductVariantType::GENERIC->name,

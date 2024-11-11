@@ -2,7 +2,6 @@ name: "Tin insert"
 description: "An insert specially made to fit within a mini-tin"
 product_type: PRINTED
 product_variant_type: GENERIC
-has_multiple_variants: true
 brand: "Sytatsu"
 category: "TCG Accessories"
 product_variants:

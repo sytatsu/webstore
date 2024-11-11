@@ -2,10 +2,10 @@ name: "Flaming dock - Switch"
 description: ""
 product_type: PRINTED
 product_variant_type: UNIQUE
-has_multiple_variants: false
 brand: "Sytatsu"
 category: "Nintendo"
 product_variants:
+
   - name: "Flaming dock - Switch"
     description: ""
     price: 35.00

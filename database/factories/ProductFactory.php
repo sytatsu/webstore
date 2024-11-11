@@ -32,8 +32,6 @@ class ProductFactory extends Factory
             'product_type' => $this->faker->randomElement(ProductTypeEnum::cases()),
             'product_variant_type' => $this->faker->randomElement(ProductVariantType::cases()),
 
-            'has_multiple_variants' => false,
-
             'brand_uuid' => fn () => Brand::factory()->create(),
             'category_uuid' => fn () => Category::factory()->create(),
 

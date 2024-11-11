@@ -18,7 +18,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property Brand                      $brand,
  * @property Category                   $category
- * @property boolean                    $hasMultipleVariants
  * @property Collection<ProductVariant> $productVariants
  * @property ProductVariantType         $productVariantType
  * @property ProductTypeEnum            $productType
@@ -32,14 +31,12 @@ class Product extends BaseModel
     protected $fillable = [
         'name',
         'description',
-        'has_multiple_variants',
         'product_type',
         'product_variant_type',
         'discontinued_at'
     ];
 
     protected $casts = [
-        'has_multiple_variants' => 'boolean',
         'product_type' => ProductTypeEnum::class,
         'product_variant_type' => ProductVariantType::class,
         'discontinued_at' => 'timestamp'
