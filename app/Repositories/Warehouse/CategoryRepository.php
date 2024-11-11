@@ -17,6 +17,11 @@ class CategoryRepository
         return Category::find($uuid) ?? null;
     }
 
+    public function findByName(string $name): ?Category
+    {
+        return Category::where('name', $name)->first();
+    }
+
     public function fill(Category $category, string $name, string $description): Category
     {
         $category->name = $name;

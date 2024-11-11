@@ -24,6 +24,12 @@ class CategoryService
         return $this->categoryRepository->find(uuid: $uuid);
     }
 
+    public function findByNameOrCreate(string $name): Category
+    {
+        return $this->categoryRepository->findByName(name: $name)
+            ?? $this->store(data: ['name' => $name]);
+    }
+
     public function new(): Category
     {
         return new Category();
@@ -35,7 +41,7 @@ class CategoryService
             $category = $this->new();
         }
 
-        $this->categoryRepository->fill(category: $category, name: $data['name'], description: $data['description']);
+        $this->categoryRepository->fill(category: $category, name: $data['name'], description: $data['description'] ?? '');
         $this->categoryRepository->save(category: $category);
 
         return $category;

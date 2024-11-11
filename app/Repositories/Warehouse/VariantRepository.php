@@ -17,10 +17,19 @@ class VariantRepository
         return Variant::find($uuid) ?? null;
     }
 
-    public function fill(Variant $variant, string $name, string $description): Variant
+    public function findByName(string $name): ?Variant
+    {
+        return Variant::where('name', $name)->first();
+    }
+
+    public function fill(Variant $variant, string $name, string $description, ?Variant $parentVariant): Variant
     {
         $variant->name = $name;
         $variant->description = $description;
+
+        if ($parentVariant) {
+            $variant->parentVariant()->associate($parentVariant);
+        }
 
         return $variant;
     }

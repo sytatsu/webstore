@@ -1,0 +1,30 @@
+name: "Tin insert"
+description: "An insert specially made to fit within a mini-tin"
+product_type: PRINTED
+product_variant_type: GENERIC
+has_multiple_variants: true
+brand: "Sytatsu"
+category: "TCG Accessories"
+product_variants:
+
+  - name: "Tin insert | Black"
+    description: ""
+    price: 20.00
+    sku: "SYT-001-01"
+    availability_type: STOCK
+    availability_quantity: 3
+    variant:
+      name: "Black"
+      parent_variant:
+        name: "Color"
+
+  - name: "Tin insert | Rose"
+    description: ""
+    price: 20.00
+    sku: "SYT-001-02"
+    availability_type: STOCK
+    availability_quantity: 1
+    variant:
+      name: "Rose"
+      parent_variant:
+        name: "Color"

@@ -12,13 +12,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * @property string                $uuid
+ * @property string                     $uuid
+ * @property string                     $name
+ * @property string                     $description
  *
  * @property Brand                      $brand,
  * @property Category                   $category
  * @property boolean                    $hasMultipleVariants
  * @property Collection<ProductVariant> $productVariants
  * @property ProductVariantType         $productVariantType
+ * @property ProductTypeEnum            $productType
  */
 class Product extends BaseModel
 {

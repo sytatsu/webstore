@@ -24,6 +24,13 @@ class BrandService
         return $this->brandRepository->find(uuid: $uuid);
     }
 
+    public function findByNameOrCreate(string $name): Brand
+    {
+        return $this->brandRepository->findByName(name: $name)
+            ?? $this->store(data: ['name' => $name]);
+    }
+
+
     public function new(): Brand
     {
         return new Brand();
@@ -35,7 +42,7 @@ class BrandService
             $brand = $this->new();
         }
 
-        $this->brandRepository->fill(brand: $brand, name: $data['name'], description: $data['description'],);
+        $this->brandRepository->fill(brand: $brand, name: $data['name'], description: $data['description'] ?? '',);
         $this->brandRepository->save(brand: $brand);
 
         return $brand;

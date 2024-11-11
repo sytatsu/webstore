@@ -18,6 +18,11 @@ class BrandRepository
         return Brand::find($uuid) ?? null;
     }
 
+    public function findByName(string $name): ?Brand
+    {
+        return Brand::where('name', $name)->first();
+    }
+
     public function fill(Brand $brand, string $name, string $description): Brand
     {
         $brand->name = $name;

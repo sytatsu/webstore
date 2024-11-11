@@ -24,6 +24,12 @@ class VariantService
         return $this->variantRepository->find(uuid: $uuid);
     }
 
+    public function findByNameOrCreate(string $name, ?Variant $parentVariant = null): Variant
+    {
+        return $this->variantRepository->findByName(name: $name)
+            ?? $this->store(data: ['name' => $name, 'parent_variant' => $parentVariant]);
+    }
+
     public function new(): Variant
     {
         return new Variant();
@@ -35,7 +41,7 @@ class VariantService
             $variant = $this->new();
         }
 
-        $this->variantRepository->fill(variant: $variant, name: $data['name'], description: $data['description'],);
+        $this->variantRepository->fill(variant: $variant, name: $data['name'], description: $data['description'] ?? '', parentVariant: $data['parent_variant']);
         $this->variantRepository->save(variant: $variant);
 
         return $variant;

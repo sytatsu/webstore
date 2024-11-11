@@ -83,9 +83,6 @@
             @else
                 // Not yet implemented
             @endif
-
-
-
         </div>
     </div>
 

@@ -44,10 +44,8 @@ class Variant extends BaseModel
     /**
      * @return null|BelongsTo<self>
      */
-    public function parentCategory(): ?BelongsTo
+    public function parentVariant(): ?BelongsTo
     {
-        return $this->parent_variant_uuid
-            ? $this->belongsTo(related: Variant::class, foreignKey: 'parent_variant_uuid')
-            : null;
+        return $this->belongsTo(related: Variant::class, foreignKey: 'parent_variant_uuid');
     }
 }

@@ -12,10 +12,16 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * @property string $uuid
+ * @property string       $uuid
+ * @property string       $name
+ * @property string       $description
+ * @property int          $price
+ * @property string       $sku
+ * @property AvailabilityEnum $availability_type
+ * @property int $availability_quantity
  *
- * @property Product $product
- * @property Variant $variant
+ * @property Product      $product
+ * @property Variant      $variant
  */
 class ProductVariant extends BaseModel
 {

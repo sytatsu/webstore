@@ -1,0 +1,19 @@
+name: "Example"
+description: "Can be a description, can also be left empty"
+product_type: PRINTED|DIGITAL|THIRD_PARTY # Keep which one is relevant
+product_variant_type: GENERIC|UNIQUE # Keep which one is relevant
+has_multiple_variants: true|false # Keep which one is relevant
+brand: "Brand name" # Use existing brand new, else we will create a new one
+category: "Category name" # Use existing category new, else we will create a new one
+product_variants:
+
+  - name: "Name / title" # used for SEO
+    description: "Can be a description, can also be left empty"
+    price: 20.00 # price should represent euro's & using dots for cents (Whole price is required)
+    sku: "SYT-001-01" # Iterated, should be set carefully
+    availability_type: STOCK|DOWNLOAD|ON_REQUEST
+    availability_quantity: 3 # only really needed for stock
+    variant:
+      name: "Variant name" # Use existing brand new, else we will create a new one
+      parent_variant: # Will not be used if brand already exists
+        name: "Variant name" # Use existing brand new, else we will create a new one

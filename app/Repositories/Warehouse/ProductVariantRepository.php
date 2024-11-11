@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Repositories\Warehouse;
+
+use App\DataObject\Currency;
+use App\Models\Product;
+use App\Models\ProductVariant;
+use App\Models\Variant;
+use Illuminate\Database\Eloquent\Collection;
+
+class ProductVariantRepository
+{
+    public function all(?array $withRelations): Collection
+    {
+        return ProductVariant::with($withRelations ?? [])->get();
+    }
+
+    public function find(string $uuid): ?ProductVariant
+    {
+        return ProductVariant::find($uuid);
+    }
+
+    public function fill(ProductVariant $productVariant, Product $product, Variant $variant, array $data): ProductVariant
+    {
+        $productVariant->name = $data['name'];
+        $productVariant->description = $data['description'] ?? '';
+        $productVariant->price = Currency::from(price: $data['price']);
+        $productVariant->sku = $data['sku'];
+        $productVariant->availability_type = $data['availability_type'];
+        $productVariant->availability_quantity = $data['availability_quantity'];
+
+        $productVariant->product()->associate($product);
+        $productVariant->variant()->associate($variant);
+
+        return $productVariant;
+    }
+
+    public function save(ProductVariant $productVariant): ProductVariant
+    {
+        $productVariant->save();
+        return $productVariant;
+    }
+}
