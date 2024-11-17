@@ -1,6 +1,8 @@
 <x-layouts.warehouse.brand-layout>
-    @include('warehouse.brand.partials.brand-from', [
-        'method' => 'put',
-        'action' => route('warehouse.brands.store'),
-    ])
+    <x-section width="w-full" class="!p-2">
+        @include('warehouse.brand.partials.brand-from', [
+            'method' => 'put',
+            'action' => route('warehouse.brands.store'),
+        ])
+    </x-section>
 </x-layouts.warehouse.brand-layout>

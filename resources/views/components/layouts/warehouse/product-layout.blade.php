@@ -9,11 +9,5 @@
         </x-child-nav-link>
     </x-slot>
 
-    <x-section width="w-full" class="!p-2">
-        @if ($errors->any())
-            @dump($errors)
-        @endif
-
-        {{ $slot }}
-    </x-section>
+    {{ $slot }}
 </x-layouts.warehouse.warehouse-layout>

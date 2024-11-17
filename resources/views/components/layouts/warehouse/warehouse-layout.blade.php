@@ -30,6 +30,11 @@
     </x-slot>
 
     <x-container>
+        {{-- Debug purposes --}}
+        @if ($errors->any() && env('APP_DEBUG'))
+            @dump($errors)
+        @endif
+
         {{ $slot }}
     </x-container>
 </x-app-layout>
