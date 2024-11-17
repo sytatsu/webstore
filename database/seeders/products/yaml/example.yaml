@@ -17,8 +17,6 @@ product_variants:
         location:
           label: 'Home' # Where it is located, leave empty if now applicable
 
-    availability_type: STOCK|DOWNLOAD|ON_REQUEST
-    availability_quantity: 3 # only really needed for stock
     variants:
       - name: "Variant name" # Use existing brand new, else we will create a new one
         parent_variant: # Will not be used if brand already exists
