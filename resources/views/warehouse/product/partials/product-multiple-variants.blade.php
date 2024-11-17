@@ -1,6 +1,6 @@
 <div class="flex flex-col gap-4">
-    <div class="flex flex-row justify-between">
-        <span class='block avenir-bold text-lg text-gray-700 my-auto ml-2'>
+    <div class="flex flex-row justify-between bg-slate-700 text-white rounded-lg p-4">
+        <span class='block avenir-bold text-lg my-auto ml-2'>
             {{ __("Product variants") }}
         </span>
 
@@ -11,11 +11,26 @@
 
     <div class="flex flex-col">
         <x-table>
+            <x-slot name="header">
+                <x-table.row-head class="!bg-gray-200 !text-slate-900 border-b border-gray-400">
+                    <th class="pl-3">{{ __('Variant(s)') }}</th>
+                    <th>{{ __('SKU') }}</th>
+                    <th>{{ __('Price') }}</th>
+                    <th>
+                        <span>{{ __('Availability') }}</span>
+                        <span class="float-end">{{ __('Stock') }}</span>
+                    </th>
+                    <th class="text-end pr-3" >{{ __('Actions')  }}</th>
+                </x-table.row-head>
+            </x-slot>
             <x-slot name="content">
-                @foreach($product->productVariants as $productVariant)
+                @foreach($productVariants as $productVariant)
                     <x-table.row>
                         <td class="pl-3">
                             {{ $productVariant->variants->implode('name', ' | ') }}
+                        </td>
+                        <td>
+                            {{ $productVariant->sku }}
                         </td>
                         <td>
                             {{ $productVariant->price->formatted() }}

@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * @property string                $uuid
- * @property string                $name
- * @property string                $description
- * @property string                $parent_variant_uuid
+ * @property string                     $uuid
+ * @property string                     $name
+ * @property string                     $description
+ * @property string                     $parent_variant_uuid
  * @property Collection<ProductVariant> $productVariants
  */
 class Variant extends BaseModel
@@ -47,10 +48,15 @@ class Variant extends BaseModel
     }
 
     /**
-     * @return null|BelongsTo<self>
+     * @return BelongsTo
      */
-    public function parentVariant(): ?BelongsTo
+    public function parentVariant(): BelongsTo
     {
         return $this->belongsTo(related: Variant::class, foreignKey: 'parent_variant_uuid');
+    }
+
+    public function childVariants(): HasMany
+    {
+        return $this->hasMany(related: Variant::class, foreignKey: 'parent_variant_uuid');
     }
 }

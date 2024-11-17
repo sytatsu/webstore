@@ -3,9 +3,7 @@
         <div class="p-6 space-y-6 flex flex-col">
             <div class="flex flex-row justify-between p-1 bg-slate-700 text-white rounded-lg align-middle">
                 <div class="p-4 my-auto">
-                <span class='text-2xl avenir-bold'>
-                    {{ $product->name }}
-                </span>
+                    <span class='text-2xl avenir-bold'>{{ $product->name }}</span>
                 </div>
 
                 <div class="text-end p-4">
@@ -76,15 +74,22 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </x-section>
 
-
-            <div class="p-4 rounded-lg bg-slate-100 shadow">
-                @if($product->productVariantType === \App\Enums\ProductVariantType::GENERIC)
-                    @include('warehouse.product.partials.product-multiple-variants', $product)
-                @else
-                    @include('warehouse.product.partials.product-unique-variant', $product)
-                @endif
-            </div>
+    <x-section width="w-full" class="!p-2">
+        <div class="p-6">
+            @if($product->productVariantType === \App\Enums\ProductVariantType::GENERIC)
+                @include('warehouse.product.partials.product-multiple-variants', [
+                    'product' => $product,
+                    'productVariants' => $product->productVariants
+                ])
+            @else
+                @include('warehouse.product.partials.product-unique-variant', [
+                    'product' => $product,
+                    'productVariant' => $product->productVariants->first()
+                ])
+            @endif
         </div>
     </x-section>
 

@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -15,7 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $name
  * @property string $description
  * @property string $parent_category_uuid
- * @property array<Product> $products
+ * @property Collection<Product> $products
  * @property ?self $parentCategory
  */
 class Category extends BaseModel
@@ -28,6 +27,10 @@ class Category extends BaseModel
         'name',
         'description',
         'parent_category_uuid',
+    ];
+
+    protected $with = [
+        'childCategories',
     ];
 
     /**
@@ -44,12 +47,15 @@ class Category extends BaseModel
     }
 
     /**
-     * @return null|BelongsTo<self>
+     * @return BelongsTo
      */
-    public function parentCategory(): ?BelongsTo
+    public function parentCategory(): BelongsTo
     {
-        return $this->parent_category_uuid
-            ? $this->belongsTo(related: Category::class, foreignKey: 'parent_category_uuid')
-            : null;
+        return $this->belongsTo(related: Category::class, foreignKey: 'parent_category_uuid');
+    }
+
+    public function childCategories(): hasMany
+    {
+        return $this->hasMany(related: Category::class, foreignKey: 'parent_category_uuid');
     }
 }
