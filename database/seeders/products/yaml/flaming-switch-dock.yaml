@@ -10,8 +10,13 @@ product_variants:
     description: ""
     price: 35.00
     sku: "SYT-002"
-    availability_type: STOCK
-    availability_quantity: 1
+
+    availability:
+      - availability_type: STOCK
+        availability_quantity: 1
+        location:
+          label: 'Home'
+
     variants:
       - name: "Cotton candy (Multi-color)"
         parent_variant:

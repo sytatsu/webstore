@@ -45,6 +45,7 @@ class ProductSeeder extends Seeder
                  });
              }  catch (\Exception $exception) {
                  $this->command->alert("Something went wrong with `{$productArray['name']}`... Writing exception to log and skipping.");
+                 throw new \Exception($exception->getMessage(), $exception->getCode(), $exception->getPrevious());
              }
 
              $this->command->info("Successfully created: `{$product->name}`");

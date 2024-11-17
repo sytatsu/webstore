@@ -25,8 +25,6 @@ class ProductVariantRepository
         $productVariant->description = $data['description'] ?? '';
         $productVariant->price = Currency::from(price: $data['price']);
         $productVariant->sku = $data['sku'];
-        $productVariant->availability_type = $data['availability_type'];
-        $productVariant->availability_quantity = $data['availability_quantity'];
 
         $productVariant->product()->associate($product);
 
@@ -42,6 +40,12 @@ class ProductVariantRepository
     public function syncVariants(ProductVariant $productVariant, array $variants): ProductVariant
     {
         $productVariant->variants()->sync(array_column($variants, 'uuid'));
+        return $productVariant;
+    }
+
+    public function syncAvailability(ProductVariant $productVariant, array $availability): ProductVariant
+    {
+        $productVariant->availability()->sync(array_column($availability, 'uuid'));
         return $productVariant;
     }
 }

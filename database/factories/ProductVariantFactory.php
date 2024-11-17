@@ -32,9 +32,6 @@ class ProductVariantFactory extends Factory
             'description' => $this->faker->sentence,
             'price' => Currency::from(($this->faker->randomNumber(2) * 100)),
             'sku' => $this->faker->uuid,
-
-            'availability_type' => $this->faker->randomElement(AvailabilityEnum::cases()),
-            'availability_quantity' => $this->faker->randomNumber(1),
         ];
     }
 }

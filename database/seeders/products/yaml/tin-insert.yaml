@@ -10,8 +10,13 @@ product_variants:
     description: ""
     price: 20.00
     sku: "SYT-001-01"
-    availability_type: STOCK
-    availability_quantity: 3
+
+    availability:
+      - availability_type: STOCK
+        availability_quantity: 3
+        location:
+          label: 'Home'
+
     variants:
       - name: "Black"
         parent_variant:
@@ -21,9 +26,31 @@ product_variants:
     description: ""
     price: 20.00
     sku: "SYT-001-02"
-    availability_type: STOCK
-    availability_quantity: 1
+
+    availability:
+      - availability_type: STOCK
+        availability_quantity: 1
+        location:
+          label: 'Home'
+
     variants:
       - name: "Rose"
         parent_variant:
           name: "Color"
+
+  - name: "Tin insert | Black, Split"
+    description: ""
+    price: 25.00
+    sku: "SYT-001-01-R"
+
+    availability:
+      - availability_type: ON_REQUEST
+        availability_quantity: 0
+
+    variants:
+      - name: "Black"
+        parent_variant:
+          name: "Color"
+      - name: "Split"
+        parent_variant:
+          name: "Modeling"

@@ -21,6 +21,7 @@ class ProductService
         private readonly BrandService $brandService,
         private readonly CategoryService $categoryService,
         private readonly VariantService $variantService,
+        private readonly AvailabilityService $availabilityService,
     ) {
         //
     }
@@ -102,7 +103,7 @@ class ProductService
         return $product;
     }
 
-    public function storeProductVariant(?ProductVariant $productVariant, Product $product, array $variants, array $data): ProductVariant
+    public function storeProductVariant(?ProductVariant $productVariant, Product $product, array $variants, array $availability, array $data): ProductVariant
     {
         if (!isset($productVariant)) {
             $productVariant = $this->newProductVariant();
@@ -116,6 +117,8 @@ class ProductService
 
         $this->productVariantRepository->save($productVariant);
         $this->productVariantRepository->syncVariants($productVariant, $variants);
+        $this->productVariantRepository->syncAvailability($productVariant, $availability);
+
         return $productVariant;
     }
 
@@ -137,7 +140,13 @@ class ProductService
                 return $this->variantService->findByNameOrCreate(name: $variantArray['name'], parentVariant: $parentVariant ?? null);
             }, $productVariantArray['variants']);
 
-            $this->storeProductVariant(productVariant: null, product: $product, variants: $variants, data: $productVariantArray);
+
+
+            $availability = array_map(function ($availabilityArray) {
+                return $this->availabilityService->storeAvailability(availability: null, availabilityLocation: null, data: $availabilityArray);
+            }, $productVariantArray['availability']);
+
+            $this->storeProductVariant(productVariant: null, product: $product, variants: $variants, availability: $availability, data: $productVariantArray);
         }
 
         return $product;

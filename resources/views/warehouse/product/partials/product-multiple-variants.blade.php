@@ -15,16 +15,32 @@
                 @foreach($product->productVariants as $productVariant)
                     <x-table.row>
                         <td class="pl-3">
-                            {{ $productVariant->variants->implode('name', '|') }}
+                            {{ $productVariant->variants->implode('name', ' | ') }}
                         </td>
                         <td>
                             {{ $productVariant->price->formatted() }}
                         </td>
-                        <td>
-                            {{ $productVariant->availabilityType->translation() }}
-                        </td>
-                        <td>
-                            {{ $productVariant->availabilityType === \App\Enums\AvailabilityEnum::STOCK ? $productVariant->availabilityQuantity : '-' }}
+
+                        <td class="py-2">
+                            @foreach($productVariant->availability as $availability)
+                                <div class="py-1">
+                                    <div class="inline">
+                                        <span class="avenir-bold">{{ $availability->availabilityType->translation() }}</span>
+
+                                        @if($availability->availabilityType === \App\Enums\AvailabilityEnum::STOCK)
+                                            <span>@ {{ $availability->availabilityLocation->label }}</span>
+                                        @endif
+                                    </div>
+
+                                    @if($availability->availabilityType === \App\Enums\AvailabilityEnum::STOCK)
+                                        <span class="float-end">{{ $availability->availabilityQuantity }}</span>
+                                    @endif
+                                </div>
+
+                                @if (!$loop->last)
+                                    <hr/>
+                                @endif
+                          @endforeach
                         </td>
 
                         <x-slot name="actions">

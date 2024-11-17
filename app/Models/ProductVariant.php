@@ -34,13 +34,14 @@ class ProductVariant extends BaseModel
         'description',
         'sku',
         'price',
-        'availability_type',
-        'availability_quantity'
     ];
 
     protected $casts = [
         'price' => CurrencyCast::class,
-        'availability_type' => AvailabilityEnum::class,
+    ];
+
+    protected $with = [
+        'availability'
     ];
 
     /**
@@ -61,6 +62,19 @@ class ProductVariant extends BaseModel
             table: 'product_variants_many_variants',
             foreignPivotKey: 'product_variant_uuid',
             relatedPivotKey: 'variant_uuid',
+        );
+    }
+
+    /**
+     * @return BelongsToMany<Variant>
+     */
+    public function availability(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            related: Availability::class,
+            table: 'product_variants_many_availabilities',
+            foreignPivotKey: 'product_variant_uuid',
+            relatedPivotKey: 'availability_uuid',
         );
     }
 }
