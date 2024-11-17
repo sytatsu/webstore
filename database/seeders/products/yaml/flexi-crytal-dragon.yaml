@@ -1,0 +1,55 @@
+name: "Flexi Crystal Dragon"
+description: "Flexi dragon boi"
+product_type: PRINTED
+product_variant_type: GENERIC
+brand: "Sytatsu"
+category: "Dragons"
+product_variants:
+
+  - name: "Flexi Crystal Dragon | Galaxy, black"
+    description: ""
+    price: 19.95
+    sku: "SYT-004-01"
+    availability:
+      - availability_type: STOCK
+        availability_quantity: 1
+        location:
+          label: 'Jouw Plekje'
+    variants:
+      - name: "Galaxy"
+        parent_variant:
+          name: "Color"
+      - name: "Black"
+        parent_variant:
+          name: "Color"
+
+  - name: "Flexi Crystal Dragon | Cotton candy (Multi-color), black"
+    description: ""
+    price: 19.95
+    sku: "SYT-004-02"
+    availability:
+      - availability_type: STOCK
+        availability_quantity: 1
+        location:
+          label: 'Jouw Plekje'
+    variants:
+      - name: "Cotton candy (Multi-color)"
+        parent_variant:
+          name: "Color"
+      - name: "Black"
+        parent_variant:
+          name: "Color"
+
+  - name: "Flexi Crystal Dragon | Cotton Candy"
+    description: ""
+    price: 19.95
+    sku: "SYT-004-03"
+    availability:
+      - availability_type: STOCK
+        availability_quantity: 1
+        location:
+          label: 'Jouw Plekje'
+    variants:
+      - name: "Cotton candy (Multi-color)"
+        parent_variant:
+          name: "Color"

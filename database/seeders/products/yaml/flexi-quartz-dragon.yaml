@@ -1,0 +1,63 @@
+name: "Flexi Quartz Dragon"
+description: "Flexi dragon boi"
+product_type: PRINTED
+product_variant_type: GENERIC
+brand: "Sytatsu"
+category: "Dragons"
+product_variants:
+
+  - name: "Flexi Quartz Dragon | Green"
+    description: ""
+    price: 14.95
+    sku: "SYT-003-01"
+    availability:
+      - availability_type: STOCK
+        availability_quantity: 2
+        location:
+          label: 'Jouw Plekje'
+    variants:
+      - name: "Green"
+        parent_variant:
+          name: "Color"
+
+  - name: "Flexi Quartz Dragon | Blue"
+    description: ""
+    price: 14.95
+    sku: "SYT-003-02"
+    availability:
+      - availability_type: STOCK
+        availability_quantity: 2
+        location:
+          label: 'Jouw Plekje'
+    variants:
+      - name: "Blue"
+        parent_variant:
+          name: "Color"
+
+  - name: "Flexi Quartz Dragon | Rose"
+    description: ""
+    price: 14.95
+    sku: "SYT-003-03"
+    availability:
+      - availability_type: STOCK
+        availability_quantity: 2
+        location:
+          label: 'Jouw Plekje'
+    variants:
+      - name: "Rose"
+        parent_variant:
+          name: "Color"
+
+  - name: "Flexi Quartz Dragon | Orange"
+    description: ""
+    price: 14.95
+    sku: "SYT-003-04"
+    availability:
+      - availability_type: STOCK
+        availability_quantity: 1
+        location:
+          label: 'Jouw Plekje'
+    variants:
+      - name: "Orange"
+        parent_variant:
+          name: "Color"
