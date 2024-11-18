@@ -1,8 +1,9 @@
 @props([
-    'width' => 'max-w-xl'
+    'width' => 'max-w-xl',
+    'innerClass' => ''
 ])
-<section {{ $attributes->merge(['class' => 'p-4 sm:p-8 bg-white shadow sm:rounded-lg']) }}>
-    <div class="{{ $width }}">
+<section {{ $attributes->exceptProps(['innerClass', 'width'])->merge(['class' => 'p-4 sm:p-8 bg-white shadow sm:rounded-lg']) }}>
+    <div class="{{ $width }} {{ $innerClass }}">
         {{ $slot }}
     </div>
 </section>
