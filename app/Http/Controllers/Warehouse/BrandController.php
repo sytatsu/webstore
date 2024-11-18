@@ -27,7 +27,7 @@ class BrandController extends Controller
     public function list(): Factory|View|Application
     {
         return view(view: "warehouse.brand.brand-list", data: [
-            'brands' => $this->brandService->getBrandList(),
+            'brands' => $this->brandService->getBrands(),
         ]);
     }
 
@@ -85,7 +85,9 @@ class BrandController extends Controller
 
     private function saveAndAction(?string $action, Brand $brand): RedirectResponse
     {
-        $action = SaveAndAction::tryFromName($action);
+        if ($action) {
+            $action = SaveAndAction::tryFromName($action);
+        }
 
         return match ($action) {
             SaveAndAction::CREATE_AGAIN => Redirect::route('warehouse.brands.create'),

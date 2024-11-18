@@ -85,7 +85,9 @@ class VariantController extends Controller
 
     private function saveAndAction(?string $action, Variant $variant): RedirectResponse
     {
-        $action = SaveAndAction::tryFromName($action);
+        if ($action) {
+            $action = SaveAndAction::tryFromName($action);
+        }
 
         return match ($action) {
             SaveAndAction::CREATE_AGAIN => Redirect::route('warehouse.variants.create'),

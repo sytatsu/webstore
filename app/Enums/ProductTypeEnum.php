@@ -2,18 +2,27 @@
 
 namespace App\Enums;
 
-enum ProductTypeEnum
+use Nette\Utils\Arrays;
+
+enum ProductTypeEnum: string
 {
-    case DIGITAL;
-    case PRINTED;
-    case THIRD_PARTY;
+    case PRINTED = 'PRINTED';
+    case DIGITAL = 'DIGITAL';
+    case THIRD_PARTY = 'THIRD_PARTY';
 
     public function translation(): string
     {
         return match ($this) {
-            self::DIGITAL => __('Digital'),
             self::PRINTED => __('Printed'),
+            self::DIGITAL => __('Digital'),
             self::THIRD_PARTY => __('3rd-Party'),
         };
+    }
+
+    public static function list(): array
+    {
+        return Arrays::mapWithKeys(self::cases(), function ($value) {
+            return [$value->name, $value->translation()];
+        });
     }
 }

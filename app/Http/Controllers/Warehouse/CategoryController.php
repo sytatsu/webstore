@@ -27,7 +27,7 @@ class CategoryController extends Controller
     public function list(): Factory|View|Application
     {
         return view(view: "warehouse.category.category-list", data: [
-            'categories' => $this->categoryService->getCategoryList(),
+            'categories' => $this->categoryService->getCategories(),
         ]);
     }
 
@@ -83,10 +83,11 @@ class CategoryController extends Controller
         return Redirect::route('warehouse.categories.list');
     }
 
-
     private function saveAndAction(?string $action, Category $category): RedirectResponse
     {
-        $action = SaveAndAction::tryFromName($action);
+        if ($action) {
+            $action = SaveAndAction::tryFromName($action);
+        }
 
         return match ($action) {
             SaveAndAction::CREATE_AGAIN => Redirect::route('warehouse.categories.create'),

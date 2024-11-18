@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class BrandRepository
 {
-    public function all(?array $withRelations): Collection
+    public function all(?array $withRelations = []): Collection
     {
         return Brand::with(relations: $withRelations ?? [])->get();
     }

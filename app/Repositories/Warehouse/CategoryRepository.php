@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class CategoryRepository
 {
-    public function all(?array $withRelations): Collection
+    public function all(?array $withRelations = []): Collection
     {
         return Category::with(relations: $withRelations ?? [])->get();
     }

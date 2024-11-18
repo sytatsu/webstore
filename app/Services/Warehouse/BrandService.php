@@ -4,7 +4,8 @@ namespace App\Services\Warehouse;
 
 use App\Models\Brand;
 use App\Repositories\Warehouse\BrandRepository;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Support\Collection as SupportCollection;
 
 class BrandService
 {
@@ -14,9 +15,14 @@ class BrandService
         //
     }
 
-    public function getBrandList(): Collection
+    public function getBrands(): EloquentCollection
     {
         return $this->brandRepository->all(withRelations: ['products']);
+    }
+
+    public function getBrandList(): SupportCollection
+    {
+        return $this->brandRepository->all()->pluck('name', 'uuid');
     }
 
     public function findByUuid(string $uuid): ?Brand

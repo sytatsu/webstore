@@ -4,7 +4,8 @@ namespace App\Services\Warehouse;
 
 use App\Models\Category;
 use App\Repositories\Warehouse\CategoryRepository;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Support\Collection as SupportCollection;
 
 class CategoryService
 {
@@ -14,9 +15,14 @@ class CategoryService
         //
     }
 
-    public function getCategoryList(): Collection
+    public function getCategories(): EloquentCollection
     {
         return $this->categoryRepository->all(withRelations: ['products']);
+    }
+
+    public function getCategoryList(): SupportCollection
+    {
+        return $this->categoryRepository->all()->pluck('name', 'uuid');
     }
 
     public function findByUuid(string $uuid): ?Category

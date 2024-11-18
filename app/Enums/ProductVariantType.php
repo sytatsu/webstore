@@ -2,10 +2,12 @@
 
 namespace App\Enums;
 
-enum ProductVariantType
+use Nette\Utils\Arrays;
+
+enum ProductVariantType: string
 {
-    case UNIQUE;
-    case GENERIC;
+    case GENERIC = 'GENERIC';
+    case UNIQUE = 'UNIQUE';
 
     public function translation(): string
     {
@@ -13,5 +15,12 @@ enum ProductVariantType
             self::UNIQUE => __('Unique'),
             self::GENERIC => __('Generic'),
         };
+    }
+
+    public static function list(): array
+    {
+        return Arrays::mapWithKeys(self::cases(), function ($value) {
+            return [$value->name, $value->translation()];
+        });
     }
 }
