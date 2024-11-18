@@ -67,7 +67,7 @@ class ProductController extends Controller
 
         $availability = $this->availabilityService->storeAvailability(null, null, [
             'availability_type' => $request->validated()['product_variant_availability_type'],
-            'availability_quantity' => 0,
+            'availability_quantity' => $request->validated()['product_variant_availability_quantity'],
             'location' => ['label' => $request->validated()['product_variant_availability_location']]
         ]);
 
