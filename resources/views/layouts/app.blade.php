@@ -16,6 +16,7 @@
             'resources/scss/app.scss',
             'resources/js/app.js',
         ])
+
         @livewireStyles
     </head>
     <body class="font-sans antialiased">
@@ -37,6 +38,5 @@
             </main>
         </div>
     </body>
-
     @livewireScripts
 </html>

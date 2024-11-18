@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class VariantRepository
 {
-    public function all(?array $withRelations): Collection
+    public function all(?array $withRelations = []): Collection
     {
         return Variant::with(relations: $withRelations ?? [])->get();
     }

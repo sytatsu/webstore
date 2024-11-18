@@ -14,7 +14,8 @@ use App\Repositories\Warehouse\AvailabilityLocationRepository;
 use App\Repositories\Warehouse\AvailabilityRepository;
 use App\Repositories\Warehouse\ProductRepository;
 use App\Repositories\Warehouse\ProductVariantRepository;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Support\Collection as SupportCollection;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AvailabilityService
@@ -25,6 +26,11 @@ class AvailabilityService
         private readonly AvailabilityLocationRepository $availabilityLocationRepository,
     ) {
         //
+    }
+
+    public function getLocationList(): SupportCollection
+    {
+        return $this->availabilityLocationRepository->all()->pluck('label', 'label');
     }
 
     public function newAvailability(): Availability

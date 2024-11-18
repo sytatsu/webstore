@@ -6,9 +6,11 @@ use App\Enums\Actions\SaveAndAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Warehouse\Product\ProductStoreRequest;
 use App\Models\Product;
+use App\Services\Warehouse\AvailabilityService;
 use App\Services\Warehouse\BrandService;
 use App\Services\Warehouse\CategoryService;
 use App\Services\Warehouse\ProductService;
+use App\Services\Warehouse\VariantService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -21,6 +23,8 @@ class ProductController extends Controller
         protected ProductService $productService,
         protected BrandService $brandService,
         protected CategoryService $categoryService,
+        protected VariantService $variantService,
+        protected AvailabilityService $availabilityService,
     ) {
     }
 
@@ -55,6 +59,29 @@ class ProductController extends Controller
             category: $this->categoryService->findByUuid($request->get('category')),
             brand: $this->brandService->findByUuid($request->get('brand')),
             data: $request->validated()
+        );
+
+        $variants = array_map(function (string $uuid) {
+            return $this->variantService->findByUuid($uuid);
+        }, $request->validated()['product_variant_variants']) ?? [];
+
+        $availability = $this->availabilityService->storeAvailability(null, null, [
+            'availability_type' => $request->validated()['product_variant_availability_type'],
+            'availability_quantity' => 0,
+            'location' => ['label' => $request->validated()['product_variant_availability_location']]
+        ]);
+
+        $this->productService->storeProductVariant(
+            productVariant: null,
+            product: $product,
+            variants: $variants,
+            availability: [$availability],
+            data: [
+                'name'        => $request->validated()['product_variant_name'] ?? '',
+                'description' => $request->validated()['product_variant_description'] ?? '',
+                'price'       => $request->validated()['product_variant_price'],
+                'sku'         => $request->validated()['product_variant_sku'],
+            ],
         );
 
         return $this->saveAndAction(

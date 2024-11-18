@@ -2,11 +2,13 @@
 
 namespace App\Enums;
 
-enum AvailabilityEnum
+use Nette\Utils\Arrays;
+
+enum AvailabilityEnum: string
 {
-    case STOCK;
-    case DOWNLOAD;
-    case ON_REQUEST;
+    case STOCK = 'STOCK';
+    case DOWNLOAD = 'DOWNLOAD';
+    case ON_REQUEST = 'ON_REQUEST';
 
     public function translation(): string
     {
@@ -15,5 +17,12 @@ enum AvailabilityEnum
             self::DOWNLOAD => __('Download'),
             self::ON_REQUEST => __('On Request'),
         };
+    }
+
+    public static function list(): array
+    {
+        return Arrays::mapWithKeys(self::cases(), function ($value) {
+            return [$value->name, $value->translation()];
+        });
     }
 }

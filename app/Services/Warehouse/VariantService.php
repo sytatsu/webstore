@@ -4,7 +4,8 @@ namespace App\Services\Warehouse;
 
 use App\Models\Variant;
 use App\Repositories\Warehouse\VariantRepository;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Support\Collection as SupportCollection;
 
 class VariantService
 {
@@ -14,9 +15,14 @@ class VariantService
         //
     }
 
-    public function getVariantList(): Collection
+    public function getVariants(): EloquentCollection
     {
         return $this->variantRepository->all(withRelations: ['productVariants']);
+    }
+
+    public function getVariantList(): SupportCollection
+    {
+        return $this->variantRepository->all()->pluck('name', 'uuid');
     }
 
     public function findByUuid(string $uuid): ?Variant

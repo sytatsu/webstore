@@ -3,7 +3,7 @@
         @csrf
         @method('put')
 
-        @include('warehouse.product.partials.product-form', [
+        @include('warehouse.product.partials.product-fields', [
             'brands' => $brands,
             'categories' => $categories,
         ])

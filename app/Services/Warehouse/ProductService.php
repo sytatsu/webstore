@@ -139,9 +139,6 @@ class ProductService
 
                 return $this->variantService->findByNameOrCreate(name: $variantArray['name'], parentVariant: $parentVariant ?? null);
             }, $productVariantArray['variants']);
-
-
-
             $availability = array_map(function ($availabilityArray) {
                 return $this->availabilityService->storeAvailability(availability: null, availabilityLocation: null, data: $availabilityArray);
             }, $productVariantArray['availability']);
