@@ -52,7 +52,7 @@ class AvailabilityService
     public function storeAvailability(?Availability $availability, ?AvailabilityLocation $availabilityLocation, array $data): Availability
     {
         if ( ! isset($availabilityLocation)) {
-                $availabilityLocation = $this->availabilityLocationFirstByLabelOrCreate(label: $data['location']['label'] ?? 'N/A');
+            $availabilityLocation = $this->availabilityLocationFirstByLabelOrCreate(label: $data['location']['label'] ?? 'N/A');
         }
 
         if ( ! isset($availability)) {
