@@ -23,7 +23,7 @@ enum SaveAndAction
         throw new ValueError("$name is not a valid backing value for enum " . self::class );
     }
 
-    public static function tryFromName(string $name): SaveAndAction|null
+    public static function tryFromName(string $name): ?SaveAndAction
     {
         try {
             return self::fromName($name);

@@ -26,7 +26,7 @@ class ProductService
         //
     }
 
-    public function getProductList(): Collection
+    public function getProducts(): Collection
     {
         return $this->productRepository->all(withRelations: [
             'brand',
