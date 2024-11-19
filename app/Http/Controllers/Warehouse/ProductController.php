@@ -54,34 +54,27 @@ class ProductController extends Controller
 
     public function store(ProductStoreRequest $request): RedirectResponse
     {
+        $validatedData = $request->validated();
+
         $product = $this->productService->storeProduct(
             product: null,
             category: $this->categoryService->findByUuid($request->get('category')),
             brand: $this->brandService->findByUuid($request->get('brand')),
-            data: $request->validated()
+            data: $validatedData['product']
         );
 
         $variants = array_map(function (string $uuid) {
             return $this->variantService->findByUuid($uuid);
-        }, $request->validated()['product_variant_variants']) ?? [];
+        }, $validatedData['product_variant']['variants']) ?? [];
 
-        $availability = $this->availabilityService->storeAvailability(null, null, [
-            'availability_type' => $request->validated()['product_variant_availability_type'],
-            'availability_quantity' => $request->validated()['product_variant_availability_quantity'],
-            'location' => ['label' => $request->validated()['product_variant_availability_location']]
-        ]);
+        $availability = $this->availabilityService->storeAvailability(null, null, $validatedData['product_variant']['availability']);
 
         $this->productService->storeProductVariant(
             productVariant: null,
             product: $product,
             variants: $variants,
             availability: [$availability],
-            data: [
-                'name'        => $request->validated()['product_variant_name'] ?? '',
-                'description' => $request->validated()['product_variant_description'] ?? '',
-                'price'       => $request->validated()['product_variant_price'],
-                'sku'         => $request->validated()['product_variant_sku'],
-            ],
+            data: $validatedData['product_variant'],
         );
 
         return $this->saveAndAction(

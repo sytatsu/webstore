@@ -25,25 +25,22 @@
                 :multiple="true"
                 class="mt-1 block w-full"/>
 
-<hr />
-// Should be able to add more then one <br />
-// Loop over all existing if they are shown <br />
-// Add empty one on when none are present <br />
-// Add an add button
+<duv class="flex flex-row gap-6 justify-evenly">
+    <x-field.select name="product_variant_availability_type"
+                    :label="__('Availability Type')"
+                    :options="\App\Enums\AvailabilityEnum::list()"
+                    selected="huehuehue"
+                    class="mt-1 block w-full" outerClass="flex-grow"/>
 
-<x-field.select name="product_variant_availability_type"
-                :label="__('Availability Type')"
-                :options="\App\Enums\AvailabilityEnum::list()"
-                selected="huehuehue"
-                class="mt-1 block w-full"/>
+    <x-field.select name="product_variant_availability_location"
+                    :label="__('Availability Location')"
+                    :options="app(\App\Services\Warehouse\AvailabilityService::class)->getLocationList()"
+                    selected="huehuehue"
+                    class="mt-1 block w-full" outerClass="flex-grow"/>
 
-<x-field.select name="product_variant_availability_location"
-                :label="__('Availability Location')"
-                :options="app(\App\Services\Warehouse\AvailabilityService::class)->getLocationList()"
-                selected="huehuehue"
-                class="mt-1 block w-full"/>
-
-<x-field.number name="product_variant_availability_quantity"
+    <x-field.number name="product_variant_availability_quantity"
                 :label="__('Availability Quantity')"
                 value="0"
-                class="mt-1 block w-full"/>
+                class="mt-1 block w-full" outerClass="flex-grow"/>
+</duv>
+

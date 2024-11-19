@@ -1,4 +1,4 @@
-<div>
+<div class="{{ $attributes->get('outerClass') }}">
     <x-input-label :for="$attributes->get('name')" :value="$attributes->get('label')" />
 
     @if($attributes->get('multiple'))
