@@ -10,9 +10,9 @@
     </div>
 
     <div class="flex flex-col">
-        <x-table>
+        <x-table class="!p-0">
             <x-slot name="header">
-                <x-table.row-head class="!bg-gray-200 !text-slate-900 border-b border-gray-400">
+                <x-table.row-head>
                     <th class="pl-3">{{ __('Variant(s)') }}</th>
                     <th>{{ __('SKU') }}</th>
                     <th>{{ __('Price') }}</th>
@@ -20,7 +20,7 @@
                         <span>{{ __('Availability') }}</span>
                         <span class="float-end">{{ __('Stock') }}</span>
                     </th>
-                    <th class="text-end pr-3" >{{ __('Actions')  }}</th>
+                    <th></th>
                 </x-table.row-head>
             </x-slot>
             <x-slot name="content">

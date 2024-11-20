@@ -1,4 +1,4 @@
-<div class="w-full border rounded">
+<div {{ $attributes->onlyProps(['class'])->merge(['class' => 'w-full rounded']) }}>
     <table class="w-full whitespace-nowrap">
         @if(isset($header))
             <thead>

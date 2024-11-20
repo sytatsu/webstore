@@ -1,5 +1,5 @@
 @props(['checked' => false])
-<td class="px-2">
+<td class="px-4 w-0 whitespace-nowrap">
     <div class="flex items-center">
         <label for="checked-checkbox" class="hidden"></label>
         <input id="checked-checkbox" type="checkbox" {{ $checked ? 'checked' : '' }}
