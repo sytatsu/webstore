@@ -12,38 +12,38 @@
         </div>
     </div>
 
-    <x-field.text name="name"
+    <x-form.field.text name="name"
                   :label="__('Product name')"
                   :value="$product?->name"
                   class="mt-1 block w-full"/>
 
-    <x-field.textarea name="description"
+    <x-form.field.textarea name="description"
                       :label="__('Description')"
                       :value="$product?->description"
                       class="mt-1 block w-full"/>
 
-    <x-field.select name="brand"
+    <x-form.field.select name="brand"
                     :label="__('Brand')"
                     :options="$brands"
                     :selected="$product?->brand_uuid"
                     :placeholder="__('Please select a Brand...')"
                     class="mt-1 block w-full"/>
 
-    <x-field.select name="category"
+    <x-form.field.select name="category"
                     :label="__('Category')"
                     :options="$categories"
                     :selected="$product?->category_uuid"
                     :placeholder="__('Please select a Category...')"
                     class="mt-1 block w-full"/>
 
-    <x-field.select name="product_type"
+    <x-form.field.select name="product_type"
                     :label="__('Product Type')"
                     :options="\App\Enums\ProductTypeEnum::list()"
                     :selected="$product?->product_type"
                     :placeholder="__('Please select a Product Type...')"
                     class="mt-1 block w-full"/>
 
-    <x-field.select name="product_variant_type"
+    <x-form.field.select name="product_variant_type"
                     :label="__('Product Variant Type')"
                     :options="\App\Enums\ProductVariantType::list()"
                     :selected="$product?->product_variant_type"

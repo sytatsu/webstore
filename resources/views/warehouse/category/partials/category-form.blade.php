@@ -12,15 +12,15 @@
     @endif
 
     <div>
-        <x-input-label for="name" :value="__('Category name')" />
-        <x-text-input :value="$category?->name ?? ''" id="name" name="name" type="text" class="mt-1 block w-full" />
-        <x-input-error :messages="$errors->get('name')" class="mt-2" />
+        <x-form.field.partials.label for="name" :value="__('Category name')" />
+        <x-form.field.partials.text :value="$category?->name ?? ''" id="name" name="name" type="text" class="mt-1 block w-full" />
+        <x-form.field.partials.error :messages="$errors->get('name')" class="mt-2" />
     </div>
 
     <div>
-        <x-input-label for="description" :value="__('Description')" />
-        <x-text-input :value="$category?->description ?? ''" id="description" name="description" type="text" class="mt-1 block w-full" />
-        <x-input-error :messages="$errors->get('description')" class="mt-2" />
+        <x-form.field.partials.label for="description" :value="__('Description')" />
+        <x-form.field.partials.text :value="$category?->description ?? ''" id="description" name="description" type="text" class="mt-1 block w-full" />
+        <x-form.field.partials.error :messages="$errors->get('description')" class="mt-2" />
     </div>
 
     <div class="flex items-center gap-4">

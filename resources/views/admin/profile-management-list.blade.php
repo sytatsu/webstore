@@ -85,9 +85,9 @@
                                                 </p>
 
                                                 <div class="mt-6">
-                                                    <x-input-label for="reason" value="{{ __('reason') }}" class="sr-only" />
+                                                    <x-form.field.partials.label for="reason" value="{{ __('reason') }}" class="sr-only" />
 
-                                                    <x-text-input
+                                                    <x-form.field.partials.text
                                                         id="reason"
                                                         name="reason"
                                                         type="text"
@@ -95,7 +95,7 @@
                                                         placeholder="{{ __('Explanation') }}"
                                                     />
 
-                                                    <x-input-error :messages="$errors->userDisabled->get('reason')" class="mt-2" />
+                                                    <x-form.field.partials.error :messages="$errors->userDisabled->get('reason')" class="mt-2" />
                                                 </div>
 
                                                 <div class="mt-6 flex justify-end">
