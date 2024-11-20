@@ -6,7 +6,8 @@
                         :options="$attributes->get('options')"
                         :selected="old($attributes->get('name')) ?? $attributes->get('selected') ?? []"
                         :name="$attributes->get('name')"
-                        :placeholder="$attributes->get('placeholder')"/>
+                        :placeholder="$attributes->get('placeholder')"
+                        :position="$attributes->get('position')"/>
     @else
         <x-select-input {{ $attributes->only('class')->merge(['class' => 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm']) }}
                         :options="$attributes->get('options')"

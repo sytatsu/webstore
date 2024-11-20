@@ -23,6 +23,7 @@
                 :options="app(\App\Services\Warehouse\VariantService::class)->getVariantList()"
                 :selected="$productVariant?->variants()->pluck('uuid')"
                 :multiple="true"
+                position="top"
                 class="mt-1 block w-full"/>
 
 <duv class="flex flex-row gap-6 justify-evenly">
