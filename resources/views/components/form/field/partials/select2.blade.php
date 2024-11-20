@@ -12,10 +12,10 @@
         'bottom' => 'top-0 mt-12 border border-t-0 rounded-b-lg',
     })
 
-<div class="mt-1 relative" x-data="{
+<div x-data="{
             options: {{ json_encode($attributes->get('selected')) }},
             open: false,
-        }" class="w-full relative">
+        }" class="mt-1 w-full relative">
     <div class="p-3 flex gap-2 w-full border border-neutral-300 cursor-pointer truncate h-12 bg-white"
          x-bind:class="open ? '{{ $fieldOpenPositionClasses }}' : 'rounded-lg'"
          @click="open = !open"

@@ -26,7 +26,7 @@
                 position="top"
                 class="mt-1 block w-full"/>
 
-<duv class="flex flex-row gap-6 justify-evenly">
+<div class="flex flex-row gap-6 justify-evenly">
     <x-form.field.select name="product_variant_availability_type"
                     :label="__('Availability Type')"
                     :options="\App\Enums\AvailabilityEnum::list()"
@@ -43,5 +43,5 @@
                 :label="__('Availability Quantity')"
                 value="0"
                 class="mt-1 block w-full" outerClass="flex-grow"/>
-</duv>
+</div>
 
