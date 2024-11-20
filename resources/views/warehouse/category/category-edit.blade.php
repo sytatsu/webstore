@@ -1,9 +1,13 @@
 <x-layouts.warehouse.category-layout>
-    <x-section width="w-full" class="!p-2">
-        @include('warehouse.category.partials.category-form', [
-            'method' => 'patch',
-            'action' => route('warehouse.categories.update', ['action' => $action]),
-            'category' => $category
+    <form method="post" action="{{ route('warehouse.categories.update', ['action' => $action]) }}" class="p-6 space-y-6">
+        @csrf
+        @method('patch')
+
+        <input type="hidden" name="uuid" value="{{ $category->uuid }}">
+
+        @include('warehouse.category.partials.category-fields', [
+            'category' => $category,
+            'title' => sprintf('Edit: %s', $category->name),
         ])
-    </x-section>
+    </form>
 </x-layouts.warehouse.category-layout>

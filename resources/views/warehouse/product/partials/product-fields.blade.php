@@ -1,16 +1,15 @@
 @props([
+    'title',
     'brands',
     'categories',
     'product' => null
 ])
 
 
-<x-section width="w-full" class="p-6" innerClass="space-y-6">
-    <div class="flex flex-row justify-between p-1 bg-slate-700 text-white rounded-lg align-middle">
-        <div class="p-4 my-auto">
-            <span class='text-2xl avenir-bold'>New Product</span>
-        </div>
-    </div>
+<x-section width="w-full" innerClass="space-y-6">
+    <x-section-header>
+        {{ $title }}
+    </x-section-header>
 
     <x-form.field.text name="name"
                   :label="__('Product name')"
@@ -54,11 +53,9 @@
 
 @if($product === null  || $product->productVariantType === \App\Enums\ProductVariantType::UNIQUE)
     <x-section width="w-full" class="p-6 space-y-6" innerClass="space-y-6">
-        <div class="flex flex-row justify-between p-1 bg-slate-700 text-white rounded-lg align-middle">
-            <div class="p-4 my-auto">
-                <span class='text-2xl avenir-bold'>Details</span>
-            </div>
-        </div>
+        <x-section-header>
+            {{ __('Details') }}
+        </x-section-header>
 
         @include('warehouse.product.partials.product-variant-fields', [
             'productVariant' => $product?->productVariant()->first(),

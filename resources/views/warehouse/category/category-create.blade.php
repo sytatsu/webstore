@@ -1,8 +1,12 @@
 <x-layouts.warehouse.category-layout>
-    <x-section width="w-full" class="!p-2">
-        @include('warehouse.category.partials.category-form', [
+    <form method="post" action="{{ route('warehouse.categories.store') }}" class="p-6 space-y-6">
+        @csrf
+        @method('put')
+
+        @include('warehouse.category.partials.category-fields', [
            'method' => 'put',
            'action' => route('warehouse.categories.store'),
+           'title' => __('New Category')
        ])
-    </x-section>
+    </form>
 </x-layouts.warehouse.category-layout>

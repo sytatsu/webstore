@@ -6,6 +6,7 @@
         @include('warehouse.product.partials.product-fields', [
             'brands' => $brands,
             'categories' => $categories,
+            'title' => "New Product"
         ])
     </form>
 </x-layouts.warehouse.product-layout>

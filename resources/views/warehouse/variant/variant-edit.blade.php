@@ -1,9 +1,13 @@
 <x-layouts.warehouse.variant-layout>
-    <x-section width="w-full" class="!p-2">
-        @include('warehouse.variant.partials.variant-form', [
-            'method' => 'patch',
-            'action' => route('warehouse.variants.update', ['action' => $action]),
-            'variant' => $variant
+    <form method="post" action="{{ route('warehouse.variants.update', ['action' => $action]) }}" class="space-y-6">
+        @csrf
+        @method('patch')
+
+        <input type="hidden" name="uuid" value="{{ $variant->uuid }}">
+
+        @include('warehouse.variant.partials.variant-fields', [
+            'variant' => $variant,
+            'title'   => sprintf("Edit: %s", $variant->name),
         ])
-    </x-section>
+    </form>
 </x-layouts.warehouse.variant-layout>

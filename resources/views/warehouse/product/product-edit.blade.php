@@ -9,6 +9,7 @@
             'brands' => $brands,
             'categories' => $categories,
             'product' => $product,
+            'title' => sprintf('Edit: %s', $product->name),
         ])
     </form>
 </x-layouts.warehouse.product-layout>

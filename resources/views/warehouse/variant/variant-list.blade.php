@@ -1,5 +1,5 @@
 <x-layouts.warehouse.variant-layout>
-    <x-section width="w-full" class="!p-2">
+    <x-section width="w-full">
         <x-table>
             <x-slot name="header">
                 <x-table.row-head>

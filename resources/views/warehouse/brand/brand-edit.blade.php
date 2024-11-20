@@ -1,9 +1,14 @@
 <x-layouts.warehouse.brand-layout>
-    <x-section width="w-full" class="!p-2">
-        @include('warehouse.brand.partials.brand-form', [
-            'method' => 'patch',
-            'action' => route('warehouse.brands.update', ['action' => $action]),
-            'brand' => $brand
+
+    <form method="post" action="{{ route('warehouse.brands.update', ['action' => $action]) }}" class="p-6 space-y-6">
+        @csrf
+        @method('patch')
+
+        <input type="hidden" name="uuid" value="{{ $brand->uuid }}">
+
+        @include('warehouse.brand.partials.brand-fields', [
+            'brand' => $brand,
+            'title' => sprintf('Edit: %s', $brand->name),
         ])
-    </x-section>
+    </form>
 </x-layouts.warehouse.brand-layout>

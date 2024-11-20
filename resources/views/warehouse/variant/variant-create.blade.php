@@ -1,8 +1,14 @@
 <x-layouts.warehouse.variant-layout>
-    <x-section width="w-full" class="!p-2">
-        @include('warehouse.variant.partials.variant-form', [
-           'method' => 'put',
-           'action' => route('warehouse.variants.store'),
+    <form method="post" action="{{ route('warehouse.variants.store') }}" class="space-y-6">
+        @csrf
+        @method('put')
+
+        @if(isset($variant))
+            <input type="hidden" name="uuid" value="{{ $variant->uuid }}">
+        @endif
+
+        @include('warehouse.variant.partials.variant-fields', [
+           'title' => __('New Variant')
        ])
-    </x-section>
+    </form>
 </x-layouts.warehouse.variant-layout>

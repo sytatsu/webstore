@@ -1,23 +1,21 @@
 <x-layouts.warehouse.category-layout>
     <x-section width="w-full" class="!p-2">
         <div class="p-6 space-y-6 flex flex-col">
-            <div class="flex flex-row justify-between p-1 bg-slate-700 text-white rounded-lg align-middle">
-                <div class="p-4 my-auto">
-                    <span class='text-2xl avenir-bold'>
-                        {{ $category->name }}
-                    </span>
-                </div>
+            <x-section-header>
+                {{ __($category->name) }}
 
-               <div class="text-end p-4">
-                   <x-secondary-button-link :href="route('warehouse.categories.edit', ['category' => $category, 'action' => \App\Enums\Actions\SaveAndAction::TO_MODEL->toString()])">
-                       <i class="fa fa-pencil pr-1"></i>{{ __('Edit') }}
-                   </x-secondary-button-link>
+                <x-slot name="actions">
+                    <div class="text-end p-4">
+                        <x-secondary-button-link :href="route('warehouse.categories.edit', ['category' => $category, 'action' => \App\Enums\Actions\SaveAndAction::TO_MODEL->toString()])">
+                            <i class="fa fa-pencil pr-1"></i>{{ __('Edit') }}
+                        </x-secondary-button-link>
 
-                   <x-secondary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'confirm-category-deletion')">
-                       <i class="fa fa-trash pr-2"></i>{{ __('Delete') }}
-                   </x-secondary-button>
-               </div>
-            </div>
+                        <x-secondary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'confirm-category-deletion')">
+                            <i class="fa fa-trash pr-2"></i>{{ __('Delete') }}
+                        </x-secondary-button>
+                    </div>
+                </x-slot>
+            </x-section-header>
 
             <div class="flex flex-col p-4 rounded-lg bg-slate-100 shadow">
                 <span class='block font-medium text-sm text-gray-700'>{{ __("Description") }}</span>

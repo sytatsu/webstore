@@ -1,13 +1,14 @@
 <div class="flex flex-col gap-4">
-    <div class="flex flex-row justify-between bg-slate-700 text-white rounded-lg p-4">
-        <span class='block avenir-bold text-lg my-auto ml-2'>
-            {{ __("Product variants") }}
-        </span>
 
-        <x-secondary-button class="my-auto">
-            <i class="fa fa-plus pr-1"></i>{{ __("New Variant") }}
-        </x-secondary-button>
-    </div>
+    <x-section-header>
+        {{ __('details') }}
+
+        <x-slot name="actions">
+            <x-secondary-button class="my-auto">
+                <i class="fa fa-plus pr-1"></i>{{ __("New Variant") }}
+            </x-secondary-button>
+        </x-slot>
+    </x-section-header>
 
     <div class="flex flex-col">
         <x-table class="!p-0">
