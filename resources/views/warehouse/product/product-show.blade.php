@@ -4,8 +4,8 @@
             {{ $product->name }}
 
             <x-slot name="actions">
-                <div class="text-end p-4">
-                    <x-secondary-button-link :href="route('warehouse.products.edit', ['product' => $product, 'action' => \App\Enums\Actions\SaveAndAction::TO_MODEL->toString()])">
+                <div class="text-end">
+                    <x-secondary-button-link :href="route('warehouse.products.edit',  ['product' => $product, 'action' => \App\Enums\Actions\SaveAndAction::TO_MODEL->toString()])">
                         <i class="fa fa-pencil pr-1"></i>{{ __('Edit') }}
                     </x-secondary-button-link>
 
@@ -16,63 +16,61 @@
             </x-slot>
         </x-section-header>
 
-        <div class="flex flex-col p-4 rounded-lg bg-slate-100 shadow">
-            <span class='block font-medium text-sm text-gray-700'>{{ __("Description") }}</span>
-            <span class='text-md'>{{ $product->description }}</span>
-        </div>
+        <div class="px-2">
+            <div class="flex flex-col pb-4">
+                <span class='block font-medium text-xs text-gray-500'>{{ __("Description") }}</span>
+                <div class="w-8 border-b my-1 border-gray-200"></div>
+                <span class='text-md'>{{ $product->description ?? 'N/A' }}</span>
+            </div>
 
-        <div class="flex flex-row gap-8 py-1">
-            <div class="p-4 rounded-lg bg-slate-100 shadow grow">
+            <hr class="m-2" />
 
-                <div>
-                    <span class='block font-medium text-sm text-gray-700'>{{ __("Product type") }}</span>
+            <div class="flex flex-row pt-4 flex-wrap">
+                <div class="flex flex-col pb-4 w-1/3">
+                    <span class='font-medium text-xs text-gray-500'>{{ __("Product type") }}</span>
+                    <div class="w-8 border-b my-1 border-gray-200"></div>
                     <span class='text-md'>{{ $product->productType->translation() }}</span>
                 </div>
 
-                <hr class="my-1"/>
-
-                <div>
-                    <span class='block font-medium text-sm text-gray-700'>{{ __("Brand") }}</span>
+                <div class="flex flex-col pb-4 w-1/3">
+                    <span class='font-medium text-xs text-gray-500'>{{ __("Brand") }}</span>
+                    <div class="w-8 border-b my-1 border-gray-200"></div>
                     @if($product->brand)
-                        <a class="hover:underline" href="{{ route('warehouse.brands.show', $product->brand) }}">{{ $product->brand->name }}</a>
+                        <a class="hover:underline text-md" href="{{ route('warehouse.brands.show', $product->brand) }}">{{ $product->brand->name }}</a>
                     @else
                         <span class="text-sm rounded-lg py-1 px-2 my-1 bg-red-500 text-white"><i class="fa fa-warning pr-1"></i>N/A</span>
                     @endif
                 </div>
 
-                <hr class="my-1"/>
-
-                <div>
-                    <span class='block font-medium text-sm text-gray-700'>{{ __("Category") }}</span>
+                <div class="flex flex-col pb-4 w-1/3">
+                    <span class='font-medium text-xs text-gray-500'>{{ __("Category") }}</span>
+                    <div class="w-8 border-b my-1 border-gray-200"></div>
                     @if($product->category)
-                        <a class="hover:underline" href="{{ route('warehouse.categories.show', $product->category) }}">{{ $product->category->name }}</a>
+                        <a class="hover:underline text-md" href="{{ route('warehouse.categories.show', $product->category) }}">{{ $product->category->name }}</a>
                     @else
                         <span class="text-sm rounded-lg py-1 px-2 my-1 bg-red-500 text-white"><i class="fa fa-warning pr-1"></i>N/A</span>
                     @endif
                 </div>
-            </div>
 
-            <div class="text-end self-end p-4 rounded-lg bg-slate-100 shadow grow">
-                <div>
-                    <span class='block font-medium text-sm text-gray-700'>{{ __("Created at") }}</span>
+                <div class="flex flex-col pb-4 w-1/3">
+                    <span class='font-medium text-xs text-gray-500'>{{ __("Created at") }}</span>
+                    <div class="w-8 border-b my-1 border-gray-200"></div>
                     <span class='text-md'>{{ $product->createdAt }}</span>
                 </div>
 
-                <hr class="my-1"/>
-
-                <div>
-                    <span class='block font-medium text-sm text-gray-700'>{{ __("Updated at") }}</span>
+                <div class="flex flex-col pb-4 w-1/3">
+                    <span class='font-medium text-xs text-gray-500'>{{ __("Updated at") }}</span>
+                    <div class="w-8 border-b my-1 border-gray-200"></div>
                     <span class='text-md'>{{ $product->updatedAt }}</span>
                 </div>
 
-                <hr class="my-1"/>
-
-                <div>
-                    <span class='block font-medium text-sm text-gray-700'>{{ __("Discontinued at") }}</span>
+                <div class="flex flex-col pb-4 w-1/3">
+                    <span class='font-medium text-xs text-gray-500'>{{ __("Discontinued at") }}</span>
+                    <div class="w-8 border-b my-1 border-gray-200"></div>
                     <span class='text-md'>{{ $product->discontinuedAt ?? 'N/A'}}</span>
                 </div>
             </div>
-        </div>
+        <div>
     </x-section>
 
     <x-section width="w-full" class="!p-2">
