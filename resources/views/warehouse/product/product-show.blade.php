@@ -1,4 +1,4 @@
-<x-layouts.warehouse.product-layout>
+ <x-layouts.warehouse.product-layout>
     <x-section width="w-full" innerClass="space-y-6 flex-col">
         <x-section-header>
             {{ $product->name }}

@@ -11,5 +11,11 @@
             'product' => $product,
             'title' => sprintf('Edit: %s', $product->name),
         ])
+
+        <x-section width="w-full" class="p-6 space-y-6">
+            <div class="flex items-center gap-4">
+                <x-primary-button class="flex-grow justify-center">{{ __('Save') }}</x-primary-button>
+            </div>
+        </x-section>
     </form>
 </x-layouts.warehouse.product-layout>
