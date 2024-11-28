@@ -16,28 +16,27 @@
             </x-slot>
         </x-section-header>
 
-        <div class="flex flex-col p-4 rounded-lg bg-slate-100 shadow">
-            <span class='block font-medium text-sm text-gray-700'>{{ __("Description") }}</span>
-            <span class='text-md'>{{ $variant->description }}</span>
-        </div>
+        <div class="px-2">
+            <x-data-field :title="__('Description')">
+                {{ $variant->description ?? 'N/A' }}
+            </x-data-field>
 
-        <div class="flex flex-row gap-8 py-1">
-            <div class="p-4 rounded-lg bg-slate-100 shadow grow">
-                <span class='block font-medium text-sm text-gray-700'>{{ __("Used by") }}</span>
-                <ul class='text-md list-disc pl-4'>
-                    <li>{{ $variant->productVariantCount() }} Product Variant(s)</li>
-                </ul>
-            </div>
+            <hr class="m-2" />
 
-            <div class="text-end self-end p-4 rounded-lg bg-slate-100 shadow grow">
-                <div class="pb-1">
-                    <span class='block font-medium text-sm text-gray-700'>{{ __("Created at") }}</span>
-                    <span class='text-md'>{{ $variant->createdAt }}</span>
-                </div>
-                <div>
-                    <span class='block font-medium text-sm text-gray-700'>{{ __("Updated at") }}</span>
-                    <span class='text-md'>{{ $variant->updatedAt }}</span>
-                </div>
+            <div class="flex flex-row pt-4 flex-wrap">
+                <x-data-field :title="__('Used by')" class="w-1/3">
+                    <ul class='text-md list-disc pl-4'>
+                        <li>{{ $variant->productVariantCount() }} Product Variant(s)</li>
+                    </ul>
+                </x-data-field>
+
+                <x-data-field :title="__('Created at')" class="w-1/3">
+                    {{ $variant->createdAt }}
+                </x-data-field>
+
+                <x-data-field :title="__('Updated at')" class="w-1/3">
+                    {{ $variant->updatedAt }}
+                </x-data-field>
             </div>
         </div>
     </x-section>

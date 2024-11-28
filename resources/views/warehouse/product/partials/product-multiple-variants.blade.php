@@ -1,7 +1,7 @@
 <div class="flex flex-col gap-4">
 
     <x-section-header>
-        {{ __('details') }}
+        {{ __('Details') }}
 
         <x-slot name="actions">
             <x-secondary-button class="my-auto">
@@ -37,26 +37,15 @@
                             {{ $productVariant->price->formatted() }}
                         </td>
 
+
                         <td class="py-2">
                             @foreach($productVariant->availability as $availability)
-                                <div class="py-1">
-                                    <div class="inline">
-                                        <span class="avenir-bold">{{ $availability->availabilityType->translation() }}</span>
-
-                                        @if($availability->availabilityType === \App\Enums\AvailabilityEnum::STOCK)
-                                            <span>@ {{ $availability->availabilityLocation->label }}</span>
-                                        @endif
-                                    </div>
-
-                                    @if($availability->availabilityType === \App\Enums\AvailabilityEnum::STOCK)
-                                        <span class="float-end">{{ $availability->availabilityQuantity }}</span>
-                                    @endif
-                                </div>
+                                <x-availability.show :availability="$availability" />
 
                                 @if (!$loop->last)
-                                    <hr/>
+                                    <hr />
                                 @endif
-                          @endforeach
+                            @endforeach
                         </td>
 
                         <x-slot name="actions">
