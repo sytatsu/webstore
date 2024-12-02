@@ -22,7 +22,7 @@ class ProductRepository
     public function fill(Product $product, Category $category, Brand $brand, array $data): Product
     {
         $product->name = $data['name'];
-        $product->description = $data['description'] ?? '';
+        $product->description = $data['description'];
         $product->productType = $data['product_type'];
         $product->productVariantType = $data['product_variant_type'];
 

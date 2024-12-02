@@ -22,7 +22,7 @@ class ProductVariantRepository
     public function fill(ProductVariant $productVariant, Product $product, array $data): ProductVariant
     {
         $productVariant->name = $data['name'];
-        $productVariant->description = $data['description'] ?? '';
+        $productVariant->description = $data['description'];
         $productVariant->price = Currency::from(price: $data['price']);
         $productVariant->sku = $data['sku'];
 
