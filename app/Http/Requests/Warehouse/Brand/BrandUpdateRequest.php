@@ -16,7 +16,7 @@ class BrandUpdateRequest extends FormRequest
         return [
             'uuid' => ['required', 'string', 'exists:brands,uuid'],
             'name' => ['required', 'string', 'max:100'],
-            'description' => ['required', 'string'],
+                'description' => ['nullable', 'string'],
         ];
     }
 }

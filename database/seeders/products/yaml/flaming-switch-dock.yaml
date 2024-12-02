@@ -1,5 +1,5 @@
 name: "Flaming dock - Switch"
-description: ""
+description: null
 product_type: PRINTED
 product_variant_type: UNIQUE
 brand: "Sytatsu"
@@ -7,7 +7,7 @@ category: "Nintendo"
 product_variants:
 
   - name: "Flaming dock - Switch"
-    description: ""
+    description: null
     price: 35.00
     sku: "SYT-002"
 

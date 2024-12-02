@@ -16,7 +16,7 @@ class CategoryUpdateRequest extends FormRequest
         return [
             'uuid' => ['required', 'string', 'exists:categories,uuid'],
             'name' => ['required', 'string', 'max:100'],
-            'description' => ['required', 'string'],
+            'description' => ['nullable', 'string'],
         ];
     }
 }

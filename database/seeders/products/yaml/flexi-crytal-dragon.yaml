@@ -7,7 +7,7 @@ category: "Dragons"
 product_variants:
 
   - name: "Flexi Crystal Dragon | Galaxy, black"
-    description: ""
+    description: null
     price: 19.95
     sku: "SYT-004-01"
     availability:
@@ -24,7 +24,7 @@ product_variants:
           name: "Color"
 
   - name: "Flexi Crystal Dragon | Cotton candy (Multi-color), black"
-    description: ""
+    description: null
     price: 19.95
     sku: "SYT-004-02"
     availability:
@@ -41,7 +41,7 @@ product_variants:
           name: "Color"
 
   - name: "Flexi Crystal Dragon | Cotton Candy"
-    description: ""
+    description: null
     price: 19.95
     sku: "SYT-004-03"
     availability:

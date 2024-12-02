@@ -7,7 +7,7 @@ category: "TCG Accessories"
 product_variants:
 
   - name: "Tin insert | Black"
-    description: ""
+    description: null
     price: 20.00
     sku: "SYT-001-01"
 
@@ -23,7 +23,7 @@ product_variants:
           name: "Color"
 
   - name: "Tin insert | Rose"
-    description: ""
+    description: null
     price: 20.00
     sku: "SYT-001-02"
 
@@ -39,7 +39,7 @@ product_variants:
           name: "Color"
 
   - name: "Tin insert | Black, Split"
-    description: ""
+    description: null
     price: 25.00
     sku: "SYT-001-01-R"
 

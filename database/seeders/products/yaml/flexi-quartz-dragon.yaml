@@ -7,7 +7,7 @@ category: "Dragons"
 product_variants:
 
   - name: "Flexi Quartz Dragon | Green"
-    description: ""
+    description: null
     price: 14.95
     sku: "SYT-003-01"
     availability:
@@ -21,7 +21,7 @@ product_variants:
           name: "Color"
 
   - name: "Flexi Quartz Dragon | Blue"
-    description: ""
+    description: null
     price: 14.95
     sku: "SYT-003-02"
     availability:
@@ -35,7 +35,7 @@ product_variants:
           name: "Color"
 
   - name: "Flexi Quartz Dragon | Rose"
-    description: ""
+    description: null
     price: 14.95
     sku: "SYT-003-03"
     availability:
@@ -49,7 +49,7 @@ product_variants:
           name: "Color"
 
   - name: "Flexi Quartz Dragon | Orange"
-    description: ""
+    description: null
     price: 14.95
     sku: "SYT-003-04"
     availability:
