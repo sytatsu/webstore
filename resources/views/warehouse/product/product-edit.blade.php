@@ -5,7 +5,7 @@
 
         <input type="hidden" name="uuid" value="{{ $product->uuid }}">
 
-        @include('warehouse.product.partials.product-form', [
+        @include('warehouse.product.partials.product-fields', [
             'brands' => $brands,
             'categories' => $categories,
             'product' => $product,

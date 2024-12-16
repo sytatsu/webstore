@@ -44,6 +44,15 @@ class ProductController extends Controller
         ]);
     }
 
+    public function edit(Product $product): Factory|View|Application
+    {
+        return view("warehouse.product.product-edit", [
+            'product' => $product,
+            'brands' => $this->brandService->getBrandList()->toArray(),
+            'categories' => $this->categoryService->getCategoryList()->toArray(),
+        ]);
+    }
+
     public function show(Product $product): Factory|View|Application
     {
         return view(view: "warehouse.product.product-show", data: [

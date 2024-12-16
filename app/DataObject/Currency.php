@@ -31,6 +31,16 @@ class Currency
 
     public function integer(): int
     {
-        return $this->price;
+        return $this->price * 100;
+    }
+
+    public function __toString(): string
+    {
+        return $this->string();
+    }
+
+    public function __toInteger(): int
+    {
+        return $this->integer();
     }
 }

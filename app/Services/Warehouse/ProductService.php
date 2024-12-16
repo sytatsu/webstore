@@ -107,6 +107,10 @@ class ProductService
     {
         if (!isset($productVariant)) {
             $productVariant = $this->newProductVariant();
+
+            if (!isset($data['name'])) {
+                $data['name'] = implode(' | ', array_map(fn($variant) => $variant->name, $variants)) ?? 'N/A';
+            }
         }
 
         $this->productVariantRepository->fill(

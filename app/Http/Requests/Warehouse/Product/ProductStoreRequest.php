@@ -57,8 +57,8 @@ class ProductStoreRequest extends FormRequest
             ],
 
             'product_variant' => [
-                'name'        => $validatedData['product_variant_name'],
-                'description' => $validatedData['product_variant_description'],
+                'name'        => $validatedData['product_variant_name'] ?? null,
+                'description' => $validatedData['product_variant_description'] ?? null,
                 'price'       => $validatedData['product_variant_price'],
                 'sku'         => $validatedData['product_variant_sku'],
                 'variants'    => $validatedData['product_variant_variants'],

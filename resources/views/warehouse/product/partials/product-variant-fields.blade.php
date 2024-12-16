@@ -1,12 +1,14 @@
-<x-form.field.text name="product_variant_name"
-              :label="__('Name')"
-              :value="$productVariant?->name"
-              class="mt-1 block w-full"/>
-
-<x-form.field.textarea name="product_variant_description"
-                  :label="__('Description')"
-                  :value="$productVariant?->description"
+@if ($isUnique)
+    <x-form.field.text name="product_variant_name"
+                  :label="__('Name')"
+                  :value="$productVariant?->name"
                   class="mt-1 block w-full"/>
+
+    <x-form.field.textarea name="product_variant_description"
+                      :label="__('Description')"
+                      :value="$productVariant?->description"
+                      class="mt-1 block w-full"/>
+@endif
 
 <x-form.field.price name="product_variant_price"
                :label="__('Price')"
