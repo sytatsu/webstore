@@ -22,7 +22,7 @@ class VariantRepository
         return Variant::where('name', $name)->first();
     }
 
-    public function fill(Variant $variant, string $name, string $description, ?Variant $parentVariant): Variant
+    public function fill(Variant $variant, string $name, ?string $description, ?Variant $parentVariant): Variant
     {
         $variant->name = $name;
         $variant->description = $description;

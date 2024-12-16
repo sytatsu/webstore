@@ -22,7 +22,7 @@ class CategoryRepository
         return Category::where('name', $name)->first();
     }
 
-    public function fill(Category $category, string $name, string $description): Category
+    public function fill(Category $category, string $name, ?string $description): Category
     {
         $category->name = $name;
         $category->description = $description;

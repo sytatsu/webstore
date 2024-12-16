@@ -19,7 +19,11 @@
 
             <div class="px-2">
                 <x-data-field :title="__('Description')">
-                    {{ $category->description ?? 'N/A' }}
+                    @if ($category->descriptopm)
+                        {{ $category->description }}
+                    @else
+                        <i class="muted">No description available</i>
+                    @endif
                 </x-data-field>
 
                 <hr class="m-2" />

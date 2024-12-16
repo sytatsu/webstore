@@ -23,7 +23,7 @@ class BrandRepository
         return Brand::where('name', $name)->first();
     }
 
-    public function fill(Brand $brand, string $name, string $description): Brand
+    public function fill(Brand $brand, string $name, ?string $description): Brand
     {
         $brand->name = $name;
         $brand->description = $description;

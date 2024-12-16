@@ -47,7 +47,7 @@ class VariantService
             $variant = $this->new();
         }
 
-        $this->variantRepository->fill(variant: $variant, name: $data['name'], description: $data['description'] ?? '', parentVariant: $data['parent_variant']);
+        $this->variantRepository->fill(variant: $variant, name: $data['name'], description: $data['description'] ?? null, parentVariant: $data['parent_variant']);
         $this->variantRepository->save(variant: $variant);
 
         return $variant;

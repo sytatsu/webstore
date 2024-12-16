@@ -47,7 +47,7 @@ class CategoryService
             $category = $this->new();
         }
 
-        $this->categoryRepository->fill(category: $category, name: $data['name'], description: $data['description'] ?? '');
+        $this->categoryRepository->fill(category: $category, name: $data['name'], description: $data['description'] ?? null);
         $this->categoryRepository->save(category: $category);
 
         return $category;

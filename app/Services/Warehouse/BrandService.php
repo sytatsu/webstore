@@ -48,7 +48,7 @@ class BrandService
             $brand = $this->new();
         }
 
-        $this->brandRepository->fill(brand: $brand, name: $data['name'], description: $data['description'] ?? '',);
+        $this->brandRepository->fill(brand: $brand, name: $data['name'], description: $data['description'] ?? null);
         $this->brandRepository->save(brand: $brand);
 
         return $brand;
