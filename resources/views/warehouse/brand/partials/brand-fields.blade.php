@@ -13,7 +13,7 @@
                        class="mt-1 block w-full"/>
 
 
-    <x-form.field.textarea name="Description"
+    <x-form.field.textarea name="description"
                            :label="__('Description')"
                            :value="$brand?->description"
                            class="mt-1 block w-full"/>
