@@ -34,7 +34,7 @@ class ProductStoreRequest extends FormRequest
 
             'product_variant_availability_type'     => ['required', 'string', Rule::enum(AvailabilityEnum::class)],
             'product_variant_availability_location' => ['required', 'string', 'exists:availability_locations,label'],
-            'product_variant_availability_quantity' => ['required', 'number'],
+            'product_variant_availability_quantity' => ['required', 'numeric', 'min:0'],
         ];
     }
 
