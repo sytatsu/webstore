@@ -3,6 +3,7 @@
 namespace App\Services\Warehouse;
 
 use App\Enums\ProductVariantType;
+use App\Models\Availability;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
@@ -10,6 +11,7 @@ use App\Models\ProductVariant;
 use App\Models\Variant;
 use App\Repositories\Warehouse\ProductRepository;
 use App\Repositories\Warehouse\ProductVariantRepository;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -103,6 +105,38 @@ class ProductService
         return $product;
     }
 
+    public function deleteProduct(string $uuid): void
+    {
+        $product = $this->getProduct($uuid);
+
+        $product->productVariants()->each(function (ProductVariant $productVariant) {
+            $productVariant->availability()->each(fn (Availability $availability) => $availability->delete());
+            $productVariant->delete();
+        });
+
+        $product->delete();
+    }
+
+    public function discontinueProduct(string $uuid): Product
+    {
+        $product = $this->getProduct($uuid);
+
+        $product->discontinuedAt = Carbon::now();
+        $product->save();
+
+        return $product;
+    }
+
+    public function continueProduct(string $uuid): Product
+    {
+        $product = $this->getProduct($uuid);
+
+        $product->discontinuedAt = null;
+        $product->save();
+
+        return $product;
+    }
+
     public function storeProductVariant(?ProductVariant $productVariant, Product $product, array $variants, array $availability, array $data): ProductVariant
     {
         if (!isset($productVariant)) {
@@ -121,7 +155,10 @@ class ProductService
 
         $this->productVariantRepository->save($productVariant);
         $this->productVariantRepository->syncVariants($productVariant, $variants);
-        $this->productVariantRepository->syncAvailability($productVariant, $availability);
+
+        if ($availability) {
+            $this->productVariantRepository->syncAvailability($productVariant, $availability);
+        }
 
         return $productVariant;
     }

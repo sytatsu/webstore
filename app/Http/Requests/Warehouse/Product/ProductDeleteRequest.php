@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Warehouse\Variant;
+namespace App\Http\Requests\Warehouse\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class VariantUpdateRequest extends FormRequest
+class ProductDeleteRequest extends FormRequest
 {
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -14,9 +15,7 @@ class VariantUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'uuid' => ['required', 'string', 'exists:categories,uuid'],
-            'name' => ['required', 'string', 'max:100'],
-            'description' => ['nullable', 'string'],
+            'uuid' => ['required', 'string', 'exists:products,uuid'],
         ];
     }
 }

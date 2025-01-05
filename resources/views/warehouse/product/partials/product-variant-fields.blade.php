@@ -28,22 +28,24 @@
                 position="top"
                 class="mt-1 block w-full"/>
 
-<div class="flex flex-row gap-6 justify-evenly">
-    <x-form.field.select name="product_variant_availability_type"
-                    :label="__('Availability Type')"
-                    :options="\App\Enums\AvailabilityEnum::list()"
-                    selected="huehuehue"
-                    class="mt-1 block w-full" outerClass="flex-grow"/>
+@if(!isset($productVariant))
+    <div class="flex flex-row gap-6 justify-evenly">
+        <x-form.field.select name="product_variant_availability_type"
+                        :label="__('Availability Type')"
+                        :options="\App\Enums\AvailabilityEnum::list()"
+                        selected="huehuehue"
+                        class="mt-1 block w-full" outerClass="flex-grow"/>
 
-    <x-form.field.select name="product_variant_availability_location"
-                    :label="__('Availability Location')"
-                    :options="app(\App\Services\Warehouse\AvailabilityService::class)->getLocationList()"
-                    selected="huehuehue"
-                    class="mt-1 block w-full" outerClass="flex-grow"/>
+        <x-form.field.select name="product_variant_availability_location"
+                        :label="__('Availability Location')"
+                        :options="app(\App\Services\Warehouse\AvailabilityService::class)->getLocationList()"
+                        selected="huehuehue"
+                        class="mt-1 block w-full" outerClass="flex-grow"/>
 
-    <x-form.field.number name="product_variant_availability_quantity"
-                :label="__('Availability Quantity')"
-                value="0"
-                class="mt-1 block w-full" outerClass="flex-grow"/>
-</div>
+        <x-form.field.number name="product_variant_availability_quantity"
+                    :label="__('Availability Quantity')"
+                    value="0"
+                    class="mt-1 block w-full" outerClass="flex-grow"/>
+    </div>
+@endif
 

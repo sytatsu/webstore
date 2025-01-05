@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\ProductTypeEnum;
 use App\Enums\ProductVariantType;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string                     $uuid
  * @property string                     $name
  * @property string                     $description
+ * @property ?Carbon                    $discontinuedAt
  *
  * @property Brand                      $brand,
  * @property Category                   $category
@@ -39,7 +41,7 @@ class Product extends BaseModel
     protected $casts = [
         'product_type' => ProductTypeEnum::class,
         'product_variant_type' => ProductVariantType::class,
-        'discontinued_at' => 'timestamp'
+        'discontinued_at' => 'datetime'
     ];
 
     /**

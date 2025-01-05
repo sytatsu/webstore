@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Warehouse;
 
 use App\Enums\Actions\SaveAndAction;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Warehouse\Category\VariantDeleteRequest;
-use App\Http\Requests\Warehouse\Category\VariantStoreRequest;
-use App\Http\Requests\Warehouse\Category\VariantUpdateRequest;
+use App\Http\Requests\Warehouse\Variant\VariantDeleteRequest;
+use App\Http\Requests\Warehouse\Variant\VariantStoreRequest;
+use App\Http\Requests\Warehouse\Variant\VariantUpdateRequest;
 use App\Models\Variant;
 use App\Services\Warehouse\VariantService;
 use Illuminate\Contracts\View\Factory;

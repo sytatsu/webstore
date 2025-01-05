@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Warehouse;
 
 use App\Enums\Actions\SaveAndAction;
+use App\Enums\ProductVariantType;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Warehouse\Product\ProductDeleteRequest;
+use App\Http\Requests\Warehouse\Product\ProductDiscontineuRequest;
 use App\Http\Requests\Warehouse\Product\ProductStoreRequest;
+use App\Http\Requests\Warehouse\Product\ProductUpdateRequest;
 use App\Models\Product;
 use App\Services\Warehouse\AvailabilityService;
 use App\Services\Warehouse\BrandService;
@@ -90,6 +94,63 @@ class ProductController extends Controller
             action: $request->get('action'),
             product: $product,
         );
+    }
+
+    public function update(ProductUpdateRequest $request): RedirectResponse
+    {
+        $validatedData = $request->validated();
+        $product = $this->productService->getProduct($request->get('uuid'));
+        $oldProductVariantType = $product->productVariantType;
+
+        $this->productService->storeProduct(
+            product: $product,
+            category: $this->categoryService->findByUuid($request->get('category')),
+            brand: $this->brandService->findByUuid($request->get('brand')),
+            data: $validatedData['product']
+        );
+
+        if (($oldProductVariantType->value === $product->productVariantType->value) && ($oldProductVariantType->value === ProductVariantType::UNIQUE->value)) {
+            $productVariant = $product->productVariants->first();
+
+            $this->productService->storeProductVariant(
+                productVariant: $productVariant,
+                product: $product,
+                variants: array_map(function (string $uuid) {
+                    return $this->variantService->findByUuid($uuid);
+                }, $validatedData['product_variant']['variants']) ?? [],
+                availability: [],
+                data: array_merge($validatedData['product_variant'], [
+                    'name' => $productVariant->name,
+                    'description' => $productVariant->description,
+                ])
+            );
+        }
+
+        return $this->saveAndAction(
+            action: $request->get('action'),
+            product: $product,
+        );
+    }
+
+    public function discontinue(ProductDiscontineuRequest $request): RedirectResponse
+    {
+        $product = $this->productService->discontinueProduct($request->get('uuid'));
+
+        return Redirect::route('warehouse.products.show', $product);
+    }
+
+    public function continue(ProductDiscontineuRequest $request): RedirectResponse
+    {
+        $product = $this->productService->continueProduct($request->get('uuid'));
+
+        return Redirect::route('warehouse.products.show', $product);
+    }
+
+    public function delete(ProductDeleteRequest $request): RedirectResponse
+    {
+        $this->productService->deleteProduct($request->get('uuid'));
+
+        return Redirect::route('warehouse.products.list');
     }
 
     private function saveAndAction(?string $action, Product $product): RedirectResponse

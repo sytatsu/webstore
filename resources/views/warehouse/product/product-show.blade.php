@@ -9,9 +9,22 @@
                         <i class="fa fa-pencil pr-1"></i>{{ __('Edit') }}
                     </x-secondary-button-link>
 
-                    <x-secondary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'confirm-product-deletion')">
-                        <i class="fa fa-trash pr-1"></i>{{ __('Delete') }}
-                    </x-secondary-button>
+                    @if(is_null($product->discontinuedAt))
+                        <x-secondary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'confirm-product-discontinue')">
+                            <i class="fa fa-ban pr-1"></i>{{ __('Discontinue') }}
+                        </x-secondary-button>
+                        @include('warehouse.product.partials.product-discontinue-modal', $product)
+                    @else
+                        <x-secondary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'confirm-product-continue')">
+                            <i class="fa fa-check-circle pr-1"></i>{{ __('Continue') }}
+                        </x-secondary-button>
+                        @include('warehouse.product.partials.product-continue-modal', $product)
+
+                        <x-secondary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'confirm-product-deletion')">
+                            <i class="fa fa-trash pr-1"></i>{{ __('Delete') }}
+                        </x-secondary-button>
+                        @include('warehouse.product.partials.product-delete-modal', $product)
+                    @endif
                 </div>
             </x-slot>
         </x-section-header>
@@ -76,6 +89,4 @@
             ])
         @endif
     </x-section>
-
-    @include('warehouse.product.partials.product-delete-modal', $product)
 </x-layouts.warehouse.product-layout>

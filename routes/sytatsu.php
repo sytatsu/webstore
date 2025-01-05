@@ -46,6 +46,8 @@ Route::domain(env('APP_SYTATSU_URL'))->group(function () {
                         Route::get('/{product}', [ProductController::class, 'show'])->name('warehouse.products.show');
                         Route::get('/{product}/edit', [ProductController::class, 'edit'])->name('warehouse.products.edit');
                         Route::patch('/update', [ProductController::class, 'update'])->name('warehouse.products.update');
+                        Route::post('/discontinue', [ProductController::class, 'discontinue'])->name('warehouse.products.discontinue');
+                        Route::post('/continue', [ProductController::class, 'continue'])->name('warehouse.products.continue');
                         Route::delete('/delete', [ProductController::class, 'delete'])->name('warehouse.products.delete');
                     });
 

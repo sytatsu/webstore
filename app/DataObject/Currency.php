@@ -10,13 +10,18 @@ class Currency
         //
     }
 
-    static public function from(int|float $price): ?self
+    static public function from(int|float|string $price): ?self
     {
-        return match (true) {
+        $match = match (true) {
             is_float($price) => new self($price * 100),
             is_int($price) => new self($price),
+            is_string($price) => new self(floatval(str_replace(',', '.', $price)) * 100),
             default => null,
         };
+
+//        dd($price, $match);
+
+        return $match;
     }
 
     public function formatted(): string
@@ -31,7 +36,7 @@ class Currency
 
     public function integer(): int
     {
-        return $this->price * 100;
+        return $this->price;
     }
 
     public function __toString(): string

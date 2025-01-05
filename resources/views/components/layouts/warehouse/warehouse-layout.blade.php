@@ -7,6 +7,8 @@
                         {{ __('Products') }}
                     </x-nav-link>
 
+                    <x-nav-vertical-line/>
+
                     <x-nav-link :href="route('warehouse.brands.list')" :active="request()->routeIs('warehouse.brands.*')">
                         {{ __('Brands') }}
                     </x-nav-link>
