@@ -30,7 +30,7 @@ class ProductUpdateRequest extends FormRequest
         ];
 
         if(app(ProductService::class)->getProduct($this->get('uuid'))->productVariantType->value === ProductVariantType::UNIQUE->value) {
-            array_merge($rules, [
+            $rules = array_merge($rules, [
                 'product_variant_price'      => ['required', 'string'],
                 'product_variant_sku'        => ['required', 'string'],
                 'product_variant_variants'   => ['required', 'array'],

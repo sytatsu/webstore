@@ -9,6 +9,7 @@ use App\Http\Controllers\StpronkController;
 use App\Http\Controllers\Warehouse\BrandController;
 use App\Http\Controllers\Warehouse\CategoryController;
 use App\Http\Controllers\Warehouse\ProductController;
+use App\Http\Controllers\Warehouse\ProductVariantController;
 use App\Http\Controllers\Warehouse\VariantController;
 use App\Http\Controllers\WarehouseController;
 use App\Models\User;
@@ -49,6 +50,15 @@ Route::domain(env('APP_SYTATSU_URL'))->group(function () {
                         Route::post('/discontinue', [ProductController::class, 'discontinue'])->name('warehouse.products.discontinue');
                         Route::post('/continue', [ProductController::class, 'continue'])->name('warehouse.products.continue');
                         Route::delete('/delete', [ProductController::class, 'delete'])->name('warehouse.products.delete');
+
+                        Route::prefix('/{product}/variants')->group(function () {
+                            Route::get('/create', [ProductVariantController::class, 'create'])->name('warehouse.products.variants.create');
+                            Route::put('/create', [ProductVariantController::class, 'store'])->name('warehouse.products.variants.store');
+                            Route::get('/{productVariant}', [ProductVariantController::class, 'show'])->name('warehouse.products.variants.show');
+                            Route::get('/{productVariant}/edit', [ProductVariantController::class, 'edit'])->name('warehouse.products.variants.edit');
+                            Route::patch('/update', [ProductVariantController::class, 'update'])->name('warehouse.products.variants.update');
+                            Route::delete('/delete', [ProductVariantController::class, 'delete'])->name('warehouse.products.variants.delete');
+                        });
                     });
 
                     Route::prefix('brands')->group(function () {

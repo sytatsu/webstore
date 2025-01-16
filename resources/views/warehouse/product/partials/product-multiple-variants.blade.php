@@ -4,9 +4,9 @@
         {{ __('Details') }}
 
         <x-slot name="actions">
-            <x-secondary-button class="my-auto">
+            <x-secondary-button-link class="my-auto" href="{{ route('warehouse.products.variants.create', $product) }}">
                 <i class="fa fa-plus pr-1"></i>{{ __("New Variant") }}
-            </x-secondary-button>
+            </x-secondary-button-link>
         </x-slot>
     </x-section-header>
 
@@ -59,7 +59,7 @@
                                 <i class="fa fa-eye pr-1"></i>{{ __('Show') }}
                             </x-actions.button>
 
-                            <x-actions.button>
+                            <x-actions.button href="{{ route('warehouse.products.variants.edit', ['product' => $product, 'productVariant' => $productVariant]) }}">
                                 <i class="fa fa-pencil pr-1"></i>{{ __('Edit') }}
                             </x-actions.button>
                         </x-slot>
