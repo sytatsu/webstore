@@ -1,0 +1,61 @@
+<?php
+
+namespace App\Services\Catalog;
+
+use App\Models\Category;
+use App\Repositories\Catalog\CategoryRepository;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Support\Collection as SupportCollection;
+
+class CategoryService
+{
+    public function __construct(
+        private readonly CategoryRepository $categoryRepository,
+    ) {
+        //
+    }
+
+    public function getCategories(): EloquentCollection
+    {
+        return $this->categoryRepository->all(withRelations: ['products']);
+    }
+
+    public function getCategoryList(): SupportCollection
+    {
+        return $this->categoryRepository->all()->pluck('name', 'uuid');
+    }
+
+    public function findByUuid(string $uuid): ?Category
+    {
+        return $this->categoryRepository->find(uuid: $uuid);
+    }
+
+    public function findByNameOrCreate(string $name): Category
+    {
+        return $this->categoryRepository->findByName(name: $name)
+            ?? $this->store(data: ['name' => $name]);
+    }
+
+    public function new(): Category
+    {
+        return new Category();
+    }
+
+    public function store(array $data, ?Category $category = null): Category
+    {
+        if ($category === null) {
+            $category = $this->new();
+        }
+
+        $this->categoryRepository->fill(category: $category, name: $data['name'], description: $data['description'] ?? null);
+        $this->categoryRepository->save(category: $category);
+
+        return $category;
+    }
+
+    public function delete(string $uuid): void
+    {
+        $category = $this->categoryRepository->find(uuid: $uuid);
+        $this->categoryRepository->delete(category: $category);
+    }
+}

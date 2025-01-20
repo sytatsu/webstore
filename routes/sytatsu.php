@@ -6,12 +6,12 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Management\ProfileManagementController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StpronkController;
-use App\Http\Controllers\Warehouse\BrandController;
-use App\Http\Controllers\Warehouse\CategoryController;
-use App\Http\Controllers\Warehouse\ProductController;
-use App\Http\Controllers\Warehouse\ProductVariantController;
-use App\Http\Controllers\Warehouse\VariantController;
-use App\Http\Controllers\WarehouseController;
+use App\Http\Controllers\Catalog\BrandController;
+use App\Http\Controllers\Catalog\CategoryController;
+use App\Http\Controllers\Catalog\ProductController;
+use App\Http\Controllers\Catalog\ProductVariantController;
+use App\Http\Controllers\Catalog\VariantController;
+use App\Http\Controllers\CatalogController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -37,58 +37,58 @@ Route::domain(env('APP_SYTATSU_URL'))->group(function () {
             Route::middleware(['verified', 'password.updated'])->group(function (){
                 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-                Route::prefix('warehouse')->group(function () {
-                    Route::get('/' , [WarehouseController::class, 'index'])->name('warehouse.index');
+                Route::prefix('catalog')->group(function () {
+                    Route::get('/' , [CatalogController::class, 'index'])->name('catalog.index');
 
                     Route::prefix('products')->group(function () {
-                        Route::get('/', [ProductController::class, 'list'])->name('warehouse.products.list');
-                        Route::get('/create', [ProductController::class, 'create'])->name('warehouse.products.create');
-                        Route::put('/create', [ProductController::class, 'store'])->name('warehouse.products.store');
-                        Route::get('/{product}', [ProductController::class, 'show'])->name('warehouse.products.show');
-                        Route::get('/{product}/edit', [ProductController::class, 'edit'])->name('warehouse.products.edit');
-                        Route::patch('/update', [ProductController::class, 'update'])->name('warehouse.products.update');
-                        Route::post('/discontinue', [ProductController::class, 'discontinue'])->name('warehouse.products.discontinue');
-                        Route::post('/continue', [ProductController::class, 'continue'])->name('warehouse.products.continue');
-                        Route::delete('/delete', [ProductController::class, 'delete'])->name('warehouse.products.delete');
+                        Route::get('/', [ProductController::class, 'list'])->name('catalog.products.list');
+                        Route::get('/create', [ProductController::class, 'create'])->name('catalog.products.create');
+                        Route::put('/create', [ProductController::class, 'store'])->name('catalog.products.store');
+                        Route::get('/{product}', [ProductController::class, 'show'])->name('catalog.products.show');
+                        Route::get('/{product}/edit', [ProductController::class, 'edit'])->name('catalog.products.edit');
+                        Route::patch('/update', [ProductController::class, 'update'])->name('catalog.products.update');
+                        Route::post('/discontinue', [ProductController::class, 'discontinue'])->name('catalog.products.discontinue');
+                        Route::post('/continue', [ProductController::class, 'continue'])->name('catalog.products.continue');
+                        Route::delete('/delete', [ProductController::class, 'delete'])->name('catalog.products.delete');
 
                         Route::prefix('/{product}/variants')->group(function () {
-                            Route::get('/create', [ProductVariantController::class, 'create'])->name('warehouse.products.variants.create');
-                            Route::put('/create', [ProductVariantController::class, 'store'])->name('warehouse.products.variants.store');
-                            Route::get('/{productVariant}', [ProductVariantController::class, 'show'])->name('warehouse.products.variants.show');
-                            Route::get('/{productVariant}/edit', [ProductVariantController::class, 'edit'])->name('warehouse.products.variants.edit');
-                            Route::patch('/update', [ProductVariantController::class, 'update'])->name('warehouse.products.variants.update');
-                            Route::delete('/delete', [ProductVariantController::class, 'delete'])->name('warehouse.products.variants.delete');
+                            Route::get('/create', [ProductVariantController::class, 'create'])->name('catalog.products.variants.create');
+                            Route::put('/create', [ProductVariantController::class, 'store'])->name('catalog.products.variants.store');
+                            Route::get('/{productVariant}', [ProductVariantController::class, 'show'])->name('catalog.products.variants.show');
+                            Route::get('/{productVariant}/edit', [ProductVariantController::class, 'edit'])->name('catalog.products.variants.edit');
+                            Route::patch('/update', [ProductVariantController::class, 'update'])->name('catalog.products.variants.update');
+                            Route::delete('/delete', [ProductVariantController::class, 'delete'])->name('catalog.products.variants.delete');
                         });
                     });
 
                     Route::prefix('brands')->group(function () {
-                        Route::get('/', [BrandController::class, 'list'])->name('warehouse.brands.list');
-                        Route::get('/create', [BrandController::class, 'create'])->name('warehouse.brands.create');
-                        Route::put('/create', [BrandController::class, 'store'])->name('warehouse.brands.store');
-                        Route::get('/{brand}', [BrandController::class, 'show'])->name('warehouse.brands.show');
-                        Route::get('/{brand}/edit', [BrandController::class, 'edit'])->name('warehouse.brands.edit');
-                        Route::patch('/update', [BrandController::class, 'update'])->name('warehouse.brands.update');
-                        Route::delete('/delete', [BrandController::class, 'delete'])->name('warehouse.brands.delete');
+                        Route::get('/', [BrandController::class, 'list'])->name('catalog.brands.list');
+                        Route::get('/create', [BrandController::class, 'create'])->name('catalog.brands.create');
+                        Route::put('/create', [BrandController::class, 'store'])->name('catalog.brands.store');
+                        Route::get('/{brand}', [BrandController::class, 'show'])->name('catalog.brands.show');
+                        Route::get('/{brand}/edit', [BrandController::class, 'edit'])->name('catalog.brands.edit');
+                        Route::patch('/update', [BrandController::class, 'update'])->name('catalog.brands.update');
+                        Route::delete('/delete', [BrandController::class, 'delete'])->name('catalog.brands.delete');
                     });
 
                     Route::prefix('categories')->group(function () {
-                        Route::get('/', [CategoryController::class, 'list'])->name('warehouse.categories.list');
-                        Route::get('/create', [CategoryController::class, 'create'])->name('warehouse.categories.create');
-                        Route::put('/create', [CategoryController::class, 'store'])->name('warehouse.categories.store');
-                        Route::get('/{category}', [CategoryController::class, 'show'])->name('warehouse.categories.show');
-                        Route::get('/{category}/edit', [CategoryController::class, 'edit'])->name('warehouse.categories.edit');
-                        Route::patch('/update', [CategoryController::class, 'update'])->name('warehouse.categories.update');
-                        Route::delete('/delete', [CategoryController::class, 'delete'])->name('warehouse.categories.delete');
+                        Route::get('/', [CategoryController::class, 'list'])->name('catalog.categories.list');
+                        Route::get('/create', [CategoryController::class, 'create'])->name('catalog.categories.create');
+                        Route::put('/create', [CategoryController::class, 'store'])->name('catalog.categories.store');
+                        Route::get('/{category}', [CategoryController::class, 'show'])->name('catalog.categories.show');
+                        Route::get('/{category}/edit', [CategoryController::class, 'edit'])->name('catalog.categories.edit');
+                        Route::patch('/update', [CategoryController::class, 'update'])->name('catalog.categories.update');
+                        Route::delete('/delete', [CategoryController::class, 'delete'])->name('catalog.categories.delete');
                     });
 
                     Route::prefix('variants')->group(function () {
-                        Route::get('/', [VariantController::class, 'list'])->name('warehouse.variants.list');
-                        Route::get('/create', [VariantController::class, 'create'])->name('warehouse.variants.create');
-                        Route::put('/create', [VariantController::class, 'store'])->name('warehouse.variants.store');
-                        Route::get('/{variant}', [VariantController::class, 'show'])->name('warehouse.variants.show');
-                        Route::get('/{variant}/edit', [VariantController::class, 'edit'])->name('warehouse.variants.edit');
-                        Route::patch('/update', [VariantController::class, 'update'])->name('warehouse.variants.update');
-                        Route::delete('/delete', [VariantController::class, 'delete'])->name('warehouse.variants.delete');
+                        Route::get('/', [VariantController::class, 'list'])->name('catalog.variants.list');
+                        Route::get('/create', [VariantController::class, 'create'])->name('catalog.variants.create');
+                        Route::put('/create', [VariantController::class, 'store'])->name('catalog.variants.store');
+                        Route::get('/{variant}', [VariantController::class, 'show'])->name('catalog.variants.show');
+                        Route::get('/{variant}/edit', [VariantController::class, 'edit'])->name('catalog.variants.edit');
+                        Route::patch('/update', [VariantController::class, 'update'])->name('catalog.variants.update');
+                        Route::delete('/delete', [VariantController::class, 'delete'])->name('catalog.variants.delete');
                     });
                 });
 

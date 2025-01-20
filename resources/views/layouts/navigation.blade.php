@@ -19,8 +19,8 @@
                     </div>
 
                     <div class="hidden sm:flex">
-                        <x-nav-link :href="route('warehouse.index')" :active="request()->routeIs('warehouse.*')">
-                            {{ __('Warehouse') }}
+                        <x-nav-link :href="route('catalog.index')" :active="request()->routeIs('catalog.*')">
+                            {{ __('Catalog') }}
                         </x-nav-link>
                     </div>
                 </div>
@@ -97,8 +97,8 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('warehouse.index')" :active="request()->routeIs('warehouse.*')">
-                {{ __('Warehouse') }}
+            <x-responsive-nav-link :href="route('catalog.index')" :active="request()->routeIs('catalog.*')">
+                {{ __('Catalog') }}
             </x-responsive-nav-link>
         </div>
 

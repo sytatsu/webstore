@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\products;
 
-use App\Services\Warehouse\ProductService;
+use App\Services\Catalog\ProductService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
