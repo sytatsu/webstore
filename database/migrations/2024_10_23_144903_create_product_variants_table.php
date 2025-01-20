@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\AvailabilityEnum;
+use App\Enums\ChannelEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -40,13 +40,13 @@ return new class extends Migration
                 ->cascadeOnDelete();
         });
 
-        Schema::create('product_variants_many_availabilities', function (Blueprint $table) {
+        Schema::create('product_variants_many_channels', function (Blueprint $table) {
             $table->foreignUuid('product_variant_uuid')
-                ->constrained('product_variants', 'uuid', 'fk_availabilities_product_variant_uuid')
+                ->constrained('product_variants', 'uuid', 'fk_channels_product_variant_uuid')
                 ->cascadeOnDelete();
 
-            $table->foreignUuid('availability_uuid')
-                ->constrained('availabilities', 'uuid', 'fk_availabilities_availability_uuid')
+            $table->foreignUuid('channel_uuid')
+                ->constrained('channels', 'uuid', 'fk_channels_channel_uuid')
                 ->cascadeOnDelete();
         });
     }
@@ -56,7 +56,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_variants_many_availabilities');
+        Schema::dropIfExists('product_variants_many_channels');
         Schema::dropIfExists('product_variants_many_variants');
         Schema::dropIfExists('product_variants');
     }

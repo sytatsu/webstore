@@ -2,38 +2,38 @@
 
 namespace App\Models;
 
-use App\Enums\AvailabilityEnum;
+use App\Enums\ChannelEnum;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * @property mixed $availabilityQuantity
- * @property mixed $availabilityType
+ * @property mixed $channelQuantity
+ * @property mixed $channelType
  */
-class Availability extends BaseModel
+class Channel extends BaseModel
 {
     use HasUuids, SoftDeletes;
 
     protected $primaryKey = 'uuid';
 
     protected $fillable = [
-        'availability_type',
-        'availability_quantity',
-        'availability_location_uuid',
+        'channel_type',
+        'channel_quantity',
+        'channel_location_uuid',
     ];
     protected $with = [
-        'availabilityLocation'
+        'channelLocation'
     ];
 
     protected $casts = [
-        'availability_type' => AvailabilityEnum::class
+        'channel_type' => ChannelEnum::class
     ];
 
-    public function availabilityLocation(): BelongsTo
+    public function channelLocation(): BelongsTo
     {
-        return $this->belongsTo(AvailabilityLocation::class, 'availability_location_uuid');
+        return $this->belongsTo(ChannelLocation::class, 'channel_location_uuid');
     }
 
     /**
@@ -43,8 +43,8 @@ class Availability extends BaseModel
     {
         return $this->belongsToMany(
             related: ProductVariant::class,
-            table: 'product_variants_many_availabilities',
-            foreignPivotKey: 'availability_uuid',
+            table: 'product_variants_many_channels',
+            foreignPivotKey: 'channel_uuid',
             relatedPivotKey: 'product_variant_uuid',
         );
     }

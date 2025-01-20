@@ -3,7 +3,7 @@
 namespace App\Services\Catalog;
 
 use App\Enums\ProductVariantType;
-use App\Models\Availability;
+use App\Models\Channel;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
@@ -23,7 +23,7 @@ class ProductService
         private readonly BrandService $brandService,
         private readonly CategoryService $categoryService,
         private readonly VariantService $variantService,
-        private readonly AvailabilityService $availabilityService,
+        private readonly ChannelService $channelService,
     ) {
         //
     }
@@ -110,7 +110,7 @@ class ProductService
         $product = $this->getProduct($uuid);
 
         $product->productVariants()->each(function (ProductVariant $productVariant) {
-            $productVariant->availability()->each(fn (Availability $availability) => $availability->delete());
+            $productVariant->channel()->each(fn (Channel $channel) => $channel->delete());
             $productVariant->delete();
         });
 
@@ -137,7 +137,7 @@ class ProductService
         return $product;
     }
 
-    public function storeProductVariant(?ProductVariant $productVariant, Product $product, array $variants, array $availability, array $data): ProductVariant
+    public function storeProductVariant(?ProductVariant $productVariant, Product $product, array $variants, array $channel, array $data): ProductVariant
     {
         if (!isset($productVariant)) {
             $productVariant = $this->newProductVariant();
@@ -156,8 +156,8 @@ class ProductService
         $this->productVariantRepository->save($productVariant);
         $this->productVariantRepository->syncVariants($productVariant, $variants);
 
-        if ($availability) {
-            $this->productVariantRepository->syncAvailability($productVariant, $availability);
+        if ($channel) {
+            $this->productVariantRepository->syncChannel($productVariant, $channel);
         }
 
         return $productVariant;
@@ -180,11 +180,11 @@ class ProductService
 
                 return $this->variantService->findByNameOrCreate(name: $variantArray['name'], parentVariant: $parentVariant ?? null);
             }, $productVariantArray['variants']);
-            $availability = array_map(function ($availabilityArray) {
-                return $this->availabilityService->storeAvailability(availability: null, availabilityLocation: null, data: $availabilityArray);
-            }, $productVariantArray['availability']);
+            $channel = array_map(function ($channelArray) {
+                return $this->channelService->storeChannel(channel: null, channelLocation: null, data: $channelArray);
+            }, $productVariantArray['channel']);
 
-            $this->storeProductVariant(productVariant: null, product: $product, variants: $variants, availability: $availability, data: $productVariantArray);
+            $this->storeProductVariant(productVariant: null, product: $product, variants: $variants, channel: $channel, data: $productVariantArray);
         }
 
         return $product;

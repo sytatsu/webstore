@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Casts\CurrencyCast;
-use App\Enums\AvailabilityEnum;
+use App\Enums\ChannelEnum;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,12 +17,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string              $description
  * @property int                 $price
  * @property string              $sku
- * @property AvailabilityEnum    $availability_type
- * @property int                 $availability_quantity
+ * @property ChannelEnum    $channel_type
+ * @property int                 $channel_quantity
  *
- * @property Product                  $product
- * @property Collection<Variant>      $variant
- * @property Collection<Availability> $availability
+ * @property Product             $product
+ * @property Collection<Variant> $variant
+ * @property Collection<Channel> $channel
  */
 class ProductVariant extends BaseModel
 {
@@ -42,7 +42,7 @@ class ProductVariant extends BaseModel
     ];
 
     protected $with = [
-        'availability'
+        'channel'
     ];
 
     /**
@@ -69,13 +69,13 @@ class ProductVariant extends BaseModel
     /**
      * @return BelongsToMany<Variant>
      */
-    public function availability(): BelongsToMany
+    public function channel(): BelongsToMany
     {
         return $this->belongsToMany(
-            related: Availability::class,
-            table: 'product_variants_many_availabilities',
+            related: Channel::class,
+            table: 'product_variants_many_channels',
             foreignPivotKey: 'product_variant_uuid',
-            relatedPivotKey: 'availability_uuid',
+            relatedPivotKey: 'channel_uuid',
         );
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Catalog\Product;
 
-use App\Enums\AvailabilityEnum;
+use App\Enums\ChannelEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -23,9 +23,9 @@ class ProductVariantStoreRequest extends FormRequest
             'variants'    => ['required', 'array'],
             'variants.*'  => ['string', 'exists:variants,uuid'],
 
-            'availability_type'     => ['required', 'string', Rule::enum(AvailabilityEnum::class)],
-            'availability_location' => ['required', 'string', 'exists:availability_locations,label'],
-            'availability_quantity' => ['required', 'numeric', 'min:0'],
+            'channel_type'     => ['required', 'string', Rule::enum(ChannelEnum::class)],
+            'channel_location' => ['required', 'string', 'exists:channel_locations,label'],
+            'channel_quantity' => ['required', 'numeric', 'min:0'],
         ];
     }
 
@@ -44,10 +44,10 @@ class ProductVariantStoreRequest extends FormRequest
             'sku'         => $validatedData['sku'],
             'variants'    => $validatedData['variants'],
 
-            'availability' => [
-                'availability_type'     => $validatedData['availability_type'],
-                'availability_quantity' => $validatedData['availability_quantity'],
-                'location' => ['label' => $validatedData['availability_location']],
+            'channel' => [
+                'channel_type'     => $validatedData['channel_type'],
+                'channel_quantity' => $validatedData['channel_quantity'],
+                'location' => ['label' => $validatedData['channel_location']],
             ]
         ];
     }

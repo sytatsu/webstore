@@ -34,17 +34,17 @@
 <hr class="m-2" />
 
 <div class="flex flex-row pt-4">
-    <x-data-field :title="__('Availability')" class="w-full">
+    <x-data-field :title="__('Channel')" class="w-full">
         <x-table class="!p-0">
             <x-slot name="content">
-                @foreach($productVariant->availability as $availability)
+                @foreach($productVariant->channel as $channel)
                     <x-table.row>
                         <td class="pl-3">
-                            <x-availability.show :availability="$availability" />
+                            <x-channel.show :channel="$channel" />
                         </td>
 
                         <x-slot name="actions">
-                            @include('catalog.product.partials.product-variant-availability-action', ['productVariant' => $productVariant])
+                            @include('catalog.product.partials.product-variant-channel-action', ['productVariant' => $productVariant])
                         </x-slot>
                     </x-table.row>
                 @endforeach

@@ -43,9 +43,9 @@ class ProductVariantRepository
         return $productVariant;
     }
 
-    public function syncAvailability(ProductVariant $productVariant, array $availability): ProductVariant
+    public function syncChannel(ProductVariant $productVariant, array $channel): ProductVariant
     {
-        $productVariant->availability()->sync(array_column($availability, 'uuid'));
+        $productVariant->channel()->sync(array_column($channel, 'uuid'));
         return $productVariant;
     }
 }

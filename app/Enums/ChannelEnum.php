@@ -4,7 +4,7 @@ namespace App\Enums;
 
 use Nette\Utils\Arrays;
 
-enum AvailabilityEnum: string
+enum ChannelEnum: string
 {
     case STOCK = 'STOCK';
     case DOWNLOAD = 'DOWNLOAD';

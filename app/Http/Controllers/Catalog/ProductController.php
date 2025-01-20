@@ -10,7 +10,7 @@ use App\Http\Requests\Catalog\Product\ProductDiscontineuRequest;
 use App\Http\Requests\Catalog\Product\ProductStoreRequest;
 use App\Http\Requests\Catalog\Product\ProductUpdateRequest;
 use App\Models\Product;
-use App\Services\Catalog\AvailabilityService;
+use App\Services\Catalog\ChannelService;
 use App\Services\Catalog\BrandService;
 use App\Services\Catalog\CategoryService;
 use App\Services\Catalog\ProductService;
@@ -28,7 +28,7 @@ class ProductController extends Controller
         protected BrandService $brandService,
         protected CategoryService $categoryService,
         protected VariantService $variantService,
-        protected AvailabilityService $availabilityService,
+        protected ChannelService $channelService,
     ) {
     }
 
@@ -80,13 +80,13 @@ class ProductController extends Controller
             return $this->variantService->findByUuid($uuid);
         }, $validatedData['product_variant']['variants']) ?? [];
 
-        $availability = $this->availabilityService->storeAvailability(null, null, $validatedData['product_variant']['availability']);
+        $channel = $this->channelService->storeChannel(null, null, $validatedData['product_variant']['channel']);
 
         $this->productService->storeProductVariant(
             productVariant: null,
             product: $product,
             variants: $variants,
-            availability: [$availability],
+            channel: [$channel],
             data: $validatedData['product_variant'],
         );
 
@@ -118,7 +118,7 @@ class ProductController extends Controller
                 variants: array_map(function (string $uuid) {
                     return $this->variantService->findByUuid($uuid);
                 }, $validatedData['product_variant']['variants']) ?? [],
-                availability: [],
+                channel: [],
                 data: array_merge($validatedData['product_variant'], [
                     'name' => $productVariant->name,
                     'description' => $productVariant->description,

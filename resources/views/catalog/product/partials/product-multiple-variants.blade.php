@@ -18,7 +18,7 @@
                     <th>{{ __('SKU') }}</th>
                     <th>{{ __('Price') }}</th>
                     <th>
-                        <span>{{ __('Availability') }}</span>
+                        <span>{{ __('Channel') }}</span>
                         <span class="float-end">{{ __('Stock') }}</span>
                     </th>
                     <th></th>
@@ -39,8 +39,8 @@
 
 
                         <td class="py-2">
-                            @foreach($productVariant->availability as $availability)
-                                <x-availability.show :availability="$availability" />
+                            @foreach($productVariant->channel as $channel)
+                                <x-channel.show :channel="$channel" />
 
                                 @if (!$loop->last)
                                     <hr />
@@ -57,7 +57,7 @@
                                 <i class="fa fa-pencil pr-1"></i><span >{{ __('Edit variant') }}</span>
                             </x-actions.button>
 
-                            @include('catalog.product.partials.product-variant-availability-action', ['productVariant' => $productVariant])
+                            @include('catalog.product.partials.product-variant-channel-action', ['productVariant' => $productVariant])
                         </x-slot>
                     </x-table.row>
                 @endforeach

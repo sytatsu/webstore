@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * @property mixed $label
  */
-class AvailabilityLocation extends BaseModel
+class ChannelLocation extends BaseModel
 {
     use HasUuids, SoftDeletes;
 
@@ -19,8 +19,8 @@ class AvailabilityLocation extends BaseModel
         'label'
     ];
 
-    public function availability(): HasOne
+    public function channel(): HasOne
     {
-        return $this->hasOne(Availability::class);
+        return $this->hasOne(Channel::class);
     }
 }

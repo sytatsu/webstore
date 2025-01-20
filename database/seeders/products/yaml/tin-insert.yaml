@@ -11,9 +11,9 @@ product_variants:
     price: 20.00
     sku: "SYT-001-01"
 
-    availability:
-      - availability_type: STOCK
-        availability_quantity: 3
+    channel:
+      - channel_type: STOCK
+        channel_quantity: 3
         location:
           label: 'Home'
 
@@ -27,9 +27,9 @@ product_variants:
     price: 20.00
     sku: "SYT-001-02"
 
-    availability:
-      - availability_type: STOCK
-        availability_quantity: 1
+    channel:
+      - channel_type: STOCK
+        channel_quantity: 1
         location:
           label: 'Home'
 
@@ -43,9 +43,9 @@ product_variants:
     price: 25.00
     sku: "SYT-001-01-R"
 
-    availability:
-      - availability_type: ON_REQUEST
-        availability_quantity: 0
+    channel:
+      - channel_type: ON_REQUEST
+        channel_quantity: 0
 
     variants:
       - name: "Black"

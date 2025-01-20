@@ -13,7 +13,7 @@ use App\Http\Requests\Catalog\Product\ProductVariantStoreRequest;
 use App\Http\Requests\Catalog\Product\ProductVariantUpdateRequest;
 use App\Models\Product;
 use App\Models\ProductVariant;
-use App\Services\Catalog\AvailabilityService;
+use App\Services\Catalog\ChannelService;
 use App\Services\Catalog\BrandService;
 use App\Services\Catalog\CategoryService;
 use App\Services\Catalog\ProductService;
@@ -30,7 +30,7 @@ class ProductVariantController extends Controller
     public function __construct(
         protected ProductService $productService,
         protected VariantService $variantService,
-        protected AvailabilityService $availabilityService,
+        protected ChannelService $channelService,
     ) {
         //
     }

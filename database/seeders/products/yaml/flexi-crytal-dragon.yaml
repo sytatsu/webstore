@@ -10,9 +10,9 @@ product_variants:
     description: null
     price: 19.95
     sku: "SYT-004-01"
-    availability:
-      - availability_type: STOCK
-        availability_quantity: 1
+    channel:
+      - channel_type: STOCK
+        channel_quantity: 1
         location:
           label: 'Jouw Plekje'
     variants:
@@ -27,9 +27,9 @@ product_variants:
     description: null
     price: 19.95
     sku: "SYT-004-02"
-    availability:
-      - availability_type: STOCK
-        availability_quantity: 1
+    channel:
+      - channel_type: STOCK
+        channel_quantity: 1
         location:
           label: 'Jouw Plekje'
     variants:
@@ -44,9 +44,9 @@ product_variants:
     description: null
     price: 19.95
     sku: "SYT-004-03"
-    availability:
-      - availability_type: STOCK
-        availability_quantity: 1
+    channel:
+      - channel_type: STOCK
+        channel_quantity: 1
         location:
           label: 'Jouw Plekje'
     variants:

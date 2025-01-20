@@ -11,9 +11,9 @@ product_variants:
     price: 35.00
     sku: "SYT-002"
 
-    availability:
-      - availability_type: STOCK
-        availability_quantity: 1
+    channel:
+      - channel_type: STOCK
+        channel_quantity: 1
         location:
           label: 'Home'
 

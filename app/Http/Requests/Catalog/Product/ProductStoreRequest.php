@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Catalog\Product;
 
-use App\Enums\AvailabilityEnum;
+use App\Enums\ChannelEnum;
 use App\Enums\ProductTypeEnum;
 use App\Enums\ProductVariantType;
 use Illuminate\Foundation\Http\FormRequest;
@@ -32,9 +32,9 @@ class ProductStoreRequest extends FormRequest
             'product_variant_variants'    => ['required', 'array'],
             'product_variant_variants.*'  => ['string', 'exists:variants,uuid'],
 
-            'product_variant_availability_type'     => ['required', 'string', Rule::enum(AvailabilityEnum::class)],
-            'product_variant_availability_location' => ['required', 'string', 'exists:availability_locations,label'],
-            'product_variant_availability_quantity' => ['required', 'numeric', 'min:0'],
+            'product_variant_channel_type'     => ['required', 'string', Rule::enum(ChannelEnum::class)],
+            'product_variant_channel_location' => ['required', 'string', 'exists:channel_locations,label'],
+            'product_variant_channel_quantity' => ['required', 'numeric', 'min:0'],
         ];
     }
 
@@ -63,10 +63,10 @@ class ProductStoreRequest extends FormRequest
                 'sku'         => $validatedData['product_variant_sku'],
                 'variants'    => $validatedData['product_variant_variants'],
 
-                'availability' => [
-                    'availability_type'     => $validatedData['product_variant_availability_type'],
-                    'availability_quantity' => $validatedData['product_variant_availability_quantity'],
-                    'location' => ['label' => $validatedData['product_variant_availability_location']],
+                'channel' => [
+                    'channel_type'     => $validatedData['product_variant_channel_type'],
+                    'channel_quantity' => $validatedData['product_variant_channel_quantity'],
+                    'location' => ['label' => $validatedData['product_variant_channel_location']],
                 ]
             ],
         ];

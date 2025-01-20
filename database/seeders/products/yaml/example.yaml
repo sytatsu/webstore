@@ -11,9 +11,9 @@ product_variants:
     price: 20.00 # price should represent euro's & using dots for cents (Whole price is required)
     sku: "SYT-001-01" # Iterated, should be set carefully
 
-    availability:
-      - availability_type:  STOCK|DOWNLOAD|ON_REQUEST
-        availability_quantity: 3 # only really needed for stock
+    channel:
+      - channel_type:  STOCK|DOWNLOAD|ON_REQUEST
+        channel_quantity: 3 # only really needed for stock
         location:
           label: 'Home' # Where it is located, leave empty if now applicable
 

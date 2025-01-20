@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\DataObject\Currency;
-use App\Enums\AvailabilityEnum;
+use App\Enums\ChannelEnum;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\Variant;
