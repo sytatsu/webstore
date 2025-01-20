@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-layout-header title='Catalog' :showheader='true'>
-            <x-slot name="submenu">
+        <div class="flex flex-row justify-between px-4">
+            <div class="flex flex-row my-auto h-16 gap-10">
                 <div class="hidden sm:flex justify-between gap-4 my-0 pl-4">
                     <x-nav-link :href="route('catalog.products.list')" :active="request()->routeIs('catalog.products.*')">
                         {{ __('Products') }}
@@ -21,14 +21,14 @@
                         {{ __('Variants') }}
                     </x-nav-link>
                 </div>
-            </x-slot>
-
-            <div class="gap-2">
-                @if(isset($actions))
-                    {{ $actions }}
-                @endif
             </div>
-        </x-layout-header>
+
+            @if(isset($actions))
+                <div class="gap-2 flex my-auto">
+                    {{ $actions }}
+                </div>
+            @endif
+        </div>
     </x-slot>
 
     <x-container>
