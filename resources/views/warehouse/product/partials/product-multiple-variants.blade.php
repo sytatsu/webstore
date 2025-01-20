@@ -49,19 +49,15 @@
                         </td>
 
                         <x-slot name="actions">
-                            @if($productVariant->availabilityType === \App\Enums\AvailabilityEnum::STOCK)
-                                <x-actions.button>
-                                    <i class="fa fa-box pr-1"></i>{{ __('Add stock') }}
-                                </x-actions.button>
-                            @endif
-
-                            <x-actions.button>
-                                <i class="fa fa-eye pr-1"></i>{{ __('Show') }}
+                            <x-actions.button href="{{ route('warehouse.products.variants.show', ['product' => $product, 'productVariant' => $productVariant]) }}">
+                                <i class="fa fa-eye pr-1"></i><span>{{ __('Show variant') }}</span>
                             </x-actions.button>
 
                             <x-actions.button href="{{ route('warehouse.products.variants.edit', ['product' => $product, 'productVariant' => $productVariant]) }}">
-                                <i class="fa fa-pencil pr-1"></i>{{ __('Edit') }}
+                                <i class="fa fa-pencil pr-1"></i><span >{{ __('Edit variant') }}</span>
                             </x-actions.button>
+
+                            @include('warehouse.product.partials.product-variant-availability-action', ['productVariant' => $productVariant])
                         </x-slot>
                     </x-table.row>
                 @endforeach

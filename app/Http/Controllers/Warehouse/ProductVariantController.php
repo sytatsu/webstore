@@ -49,7 +49,10 @@ class ProductVariantController extends Controller
 
     public function show(Product $product, ProductVariant $productVariant): View
     {
-        //
+        return view("warehouse.product.product-variant-show", [
+            'product' => $product,
+            'productVariant' => $productVariant,
+        ]);
     }
 
     public function edit(Product $product, ProductVariant $productVariant): View
