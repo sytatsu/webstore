@@ -1,8 +1,4 @@
 <x-app-layout>
-    <x-slot name="header">
-        <x-layout-header title='Profile' />
-    </x-slot>
-
     <x-container>
         <x-section >
             @include('profile.partials.update-profile-information-form')

@@ -1,18 +1,20 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-layout-header title='Profile Management'>
-            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex justify-between">
-                <div class="flex justify-between">
-                    <x-child-nav-link class="mr-2" :href="route('admin.management.profile.index')" :active="request()->routeIs('admin.management.profile.index')">
+        <div class="flex flex-row justify-between px-4">
+            <div class="flex flex-row my-auto h-16 gap-10">
+                <div class="hidden sm:flex justify-between gap-4 my-0 pl-4">
+                    <x-nav-link class="mr-2" :href="route('admin.management.profile.index')"
+                                      :active="request()->routeIs('admin.management.profile.index')">
                         {{ __('List') }}
-                    </x-child-nav-link>
+                    </x-nav-link>
 
-                    <x-child-nav-link :href="route('admin.management.profile.create')" :active="request()->routeIs('admin.management.profile.create')">
+                    <x-nav-link :href="route('admin.management.profile.create')"
+                                      :active="request()->routeIs('admin.management.profile.create')">
                         <i class="fa fa-plus pr-1"></i> {{ __('Create') }}
-                    </x-child-nav-link>
+                    </x-nav-link>
                 </div>
             </div>
-        </x-layout-header>
+        </div>
     </x-slot>
 
     <x-container>

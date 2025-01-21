@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-layout-header title='Dashboard' />
+
     </x-slot>
 
     <x-container>
