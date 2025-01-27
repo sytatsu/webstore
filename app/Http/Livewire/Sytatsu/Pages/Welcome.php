@@ -11,7 +11,6 @@ class Welcome extends Component
     {
         return view('sytatsu.welcome')
             ->layout('layouts.sytatsu-layout', [
-                'title' => 'Coming soon!',
                 'center' => true,
             ]);
     }

@@ -9,9 +9,9 @@ class LayoutService
         //
     }
 
-    public function getAttributes(string $layout, string $title = null, array $customAttributes = []): array
+    public function getAttributes(string $layout, ?string $title = null, ?string $appName = null, array $customAttributes = []): array
     {
-        $metaAttributes = $this->getMetaAttributes(title: $title);
+        $metaAttributes = $this->getMetaAttributes(title: $title, appName: $appName);
         $layoutAttributes = $this->getDefaultAttributesForLayout(layout: $layout);
 
         return array_merge($metaAttributes, $layoutAttributes, $customAttributes);
@@ -42,19 +42,23 @@ class LayoutService
         return [];
     }
 
-    protected function getMetaAttributes(?string $title): array
+    protected function getMetaAttributes(?string $title, ?string $appName): array
     {
         return [
-            'title' => $this->formatTitle(title: $title),
+            'title' => $this->formatTitle(title: $title, appName: $appName),
         ];
     }
 
-    protected function formatTitle(?string $title): string
+    protected function formatTitle(?string $title, ?string $appName): string
     {
-        if ($title === null) {
-            return config('app.name');
+        if ($appName === null) {
+            $appName = config('app.name');
         }
 
-        return config('app.name') . " | {$title}";
+        if ($title === null) {
+            return $appName;
+        }
+
+        return "{$appName} | {$title}";
     }
 }

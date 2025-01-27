@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'sytatsy' => [
+    'sytatsu' => [
         'instagram' => [
             'enabled' => env(key: 'INSTAGRAM_ENABLED', default: false),
             'href' => env(key: 'INSTAGRAM_HREF', default: 'https://www.instagram.com/sytatsu_official/'),
