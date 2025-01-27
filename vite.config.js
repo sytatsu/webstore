@@ -14,8 +14,15 @@ export default defineConfig({
             input: [
                 'resources/scss/app.scss',
                 'resources/js/app.js',
+
+                'resources/scss/sytatsu.scss',
+                'resources/js/sytatsu.js',
+
                 'resources/scss/welcome.scss',
-                'resources/js/welcome.js'
+                'resources/js/welcome.js',
+
+                'resources/scss/stpronk.scss',
+                'resources/js/stpronk.js'
             ],
             refresh: true,
         }),
