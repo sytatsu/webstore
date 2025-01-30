@@ -2,16 +2,10 @@
 
 namespace App\Http\Livewire\Sytatsu\Pages;
 
-use Livewire\Component;
-use function view;
+use App\Http\Livewire\Sytatsu\SytatsuBasePage;
 
-class OnDemand extends Component
+class OnDemand extends SytatsuBasePage
 {
-    public function render()
-    {
-        return view('sytatsu.on-demand')
-            ->layout('layouts.sytatsu-layout', [
-                'title' => 'On Demand',
-            ]);
-    }
+    protected ?string $title = 'Print on Demand';
+    protected string $view = 'sytatsu.on-demand';
 }

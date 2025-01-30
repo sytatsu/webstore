@@ -2,16 +2,10 @@
 
 namespace App\Http\Livewire\Sytatsu\Pages;
 
-use Livewire\Component;
-use function view;
+use App\Http\Livewire\Sytatsu\SytatsuBasePage;
 
-class Welcome extends Component
+class Welcome extends SytatsuBasePage
 {
-    public function render()
-    {
-        return view('sytatsu.welcome')
-            ->layout('layouts.sytatsu-layout', [
-                'center' => true,
-            ]);
-    }
+    protected string $view = 'sytatsu.welcome';
+    protected string $layout = 'layouts.sytatsu-layout';
 }
