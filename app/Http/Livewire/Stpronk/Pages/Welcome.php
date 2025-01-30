@@ -2,14 +2,9 @@
 
 namespace App\Http\Livewire\Stpronk\Pages;
 
-use Livewire\Component;
-use function view;
+use App\Http\Livewire\Stpronk\StpronkBasePage;
 
-class Welcome extends Component
+class Welcome extends StpronkBasePage
 {
-    public function render()
-    {
-        return view('stpronk.welcome')
-            ->layout('layouts.stpronk-layout');
-    }
+    protected string $view = 'stpronk.welcome';
 }
