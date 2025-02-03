@@ -35,7 +35,11 @@
             </div>
         </div>
 
-        <div class="flex pb-4 md:pb-8 mx-auto">
+        <div class="flex lg:w-2/3 mx-auto py-4 md:py-8">
+            <livewire:sytatsu.components.contact-form />
+        </div>
+
+        <div class="flex py-4 md:py-8 mx-auto">
             <livewire:sytatsu.components.social-collection />
         </div>
 

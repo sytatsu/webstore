@@ -4,6 +4,8 @@
             <livewire:sytatsu.components.locale-switcher />
         </div>
 
+
+
         <div class="flex flex-col gap-2 text-center justify-center m-auto md:pt-0">
             <img src="{{ asset('/images/brands/brand.svg') }}" alt="brand" width="600" class="m-auto px-6 sm:px-4 pb-5">
 
