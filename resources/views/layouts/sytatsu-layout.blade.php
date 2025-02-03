@@ -1,3 +1,5 @@
+@props(['center' => true])
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -26,11 +28,11 @@
         @livewireScripts
     </head>
 
-    @if (isset($center) && $center === true)
+    @if ($center === true || $center === null)
         <body class="flex flex-col bg-gradient-to-br min-h-screen from-[#FFF1EA] from-10% to-[#FFFBF4] to-90% justify-center content-center">
             {{ $slot }}
         </body>
-    @else
+    @elseif ($center === false)
         <body class="bg-gradient-to-br h-dvh from-[#FFF1EA] from-10% to-[#FFFBF4] to-90% bg-no-repeat bg-fixed">
             {{ $slot }}
         </body>

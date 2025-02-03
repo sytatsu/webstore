@@ -2,13 +2,10 @@
 
 namespace App\Http\Livewire\Stpronk;
 
-use App\Services\LayoutService;
-use Livewire\Component;
+use App\Http\Livewire\BasePage;
 
-class StpronkBasePage extends Component
+class StpronkBasePage extends BasePage
 {
-    protected LayoutService $layoutService;
-
     protected ?string $title = 'Web-Magician';
     protected string $appName = 'StPronk';
     protected string $view;
@@ -16,35 +13,6 @@ class StpronkBasePage extends Component
 
     protected array $viewAttributes = [];
     protected array $layoutAttributes = [];
-
-    public function mount(LayoutService $layoutService): void
-    {
-        $this->layoutService = $layoutService;
-    }
-
-    protected function getViewAttributes(): array
-    {
-        return $this->viewAttributes;
-    }
-
-    protected function getLayoutAttributes(): array
-    {
-        return array_merge([
-            'title' => $this->title,
-            'appName' => $this->appName,
-            'center' => true,
-        ], $this->layoutAttributes);
-    }
-
-    public function render()
-    {
-        return $this->layoutService->render(
-            view: $this->view,
-            layout: $this->layout,
-            viewAttributes: $this->getViewAttributes(),
-            layoutAttributes: $this->getLayoutAttributes(),
-        );
-    }
 }
 
 
