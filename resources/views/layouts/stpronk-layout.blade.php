@@ -3,6 +3,8 @@
     <head>
         <meta charset="utf-8">
 
+        <title>{{ $title }}</title>
+
         <meta name="description" content="My vision is to build Website’s & Web Applications for the future. Keeping in mind the rapid changing technology and being ahead of the rest!">
         <meta name="keywords" content="HTML,CSS,JavaScript,PHP,React,Laravel,Symphony,Scss,Sass,Illustrator,Git,Github,Gitlab,Bootstrap,StPronk,Steve,Pronk,Developer,Designer,Develop,Design,Web,Website,Zuid,Holland,Zuid-Holland,Zoetermeer,Nederland,Maatwerk">
         <meta name="author" content="Steve Pronk">
@@ -28,8 +30,6 @@
         {{--    <meta name="msapplication-TileImage" content="images/icons/favicon/ms-icon-144x144.png">--}}
         <meta name="msapplication-TileColor" content="#000">
         <meta name="theme-color" content="#000">
-
-        <title>StPronk | Web-Magician</title>
 
         @vite([
             'resources/scss/stpronk.scss',

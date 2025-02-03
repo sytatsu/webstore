@@ -9,7 +9,7 @@ class StpronkBasePage extends Component
 {
     protected LayoutService $layoutService;
 
-    protected ?string $title = 'Developer';
+    protected ?string $title = 'Web-Magician';
     protected string $appName = 'StPronk';
     protected string $view;
     protected string $layout = 'layouts.stpronk-layout';

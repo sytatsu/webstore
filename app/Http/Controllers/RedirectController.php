@@ -1,22 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Stpronk;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 
-class WebController extends Controller
+class RedirectController extends Controller
 {
-    /**
-     * Show the application dashboard.
-     */
-    public function index(): Renderable
-    {
-        return view('stpronk.index-backup');
-    }
-
     /**
      * Redirect to login page
      */
