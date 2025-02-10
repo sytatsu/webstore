@@ -18,10 +18,6 @@
             </div>
 
             <livewire:sytatsu.components.social-collection />
-
-            <p class="flex justify-center m-auto text-secondary-light">
-                {!! __('partials/footer.creator', ['creator' => '<a class="ml-1 underline text-secondary font-bold" href="https://stpronk.nl/">stpronk.nl</a>']) !!}
-            </p>
         </div>
     </div>
 </div>

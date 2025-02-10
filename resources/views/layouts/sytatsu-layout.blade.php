@@ -28,13 +28,25 @@
         @livewireScripts
     </head>
 
-    @if ($center === true || $center === null)
-        <body class="flex flex-col bg-gradient-to-br min-h-screen from-[#FFF1EA] from-10% to-[#FFFBF4] to-90% justify-center content-center">
-            {{ $slot }}
-        </body>
-    @elseif ($center === false)
-        <body class="bg-gradient-to-br h-dvh from-[#FFF1EA] from-10% to-[#FFFBF4] to-90% bg-no-repeat bg-fixed">
-            {{ $slot }}
-        </body>
-    @endif
+    <body class="bg-slate-50 h-dvh">
+        <div class="flex flex-col min-h-screen">
+            @if ($center === true || $center === null)
+                <div class="flex flex-col justify-center content-center
+                            bg-gradient-to-br from-[#FFF1EA] from-10% to-[#FFFBF4] to-90%
+                            {{-- Line underneath for the  --}}
+                            shadow-lg rounded-bl-[4rem] flex-grow
+                            ">
+                    {{ $slot }}
+                </div>
+            @elseif ($center === false)
+                <div class="bg-gradient-to-br min-h-screen from-[#FFF1EA] from-10% to-[#FFFBF4] to-90% bg-no-repeat bg-fixed">
+                    {{ $slot }}
+                </div>
+            @endif
+
+            <p class="flex justify-center m-auto text-secondary-light py-4">
+                {!! __('partials/footer.creator', ['creator' => '<a class="ml-1 underline text-secondary font-bold" href="https://stpronk.nl/">stpronk.nl</a>']) !!}
+            </p>
+        </div>
+    </body>
 </html>
