@@ -1,15 +1,15 @@
-<div class="flex flex-row justify-center gap-5 m-auto pt-3 pb-4">
+<div class="flex flex-row justify-center gap-3 m-auto">
     @if (config('socials.sytatsu.instagram.enabled'))
         <livewire:sytatsu.components.social-tile
             config="socials.sytatsu.instagram"
-            src="/images/partials/socials/Instagram_Glyph_Gradient.png"
+            src="/images/partials/socials/Instagram_Glyph_White.svg"
             alt="Instagram" />
     @endif
 
     @if (config('socials.sytatsu.facebook.enabled'))
         <livewire:sytatsu.components.social-tile
             config="socials.sytatsu.facebook"
-            src="{{ asset('/images/partials/socials/Facebook_Logo_Primary.png') }}"
+            src="{{ asset('/images/partials/socials/Facebook_Logo_Secondary.png') }}"
             alt="Facebook" />
     @endif
 

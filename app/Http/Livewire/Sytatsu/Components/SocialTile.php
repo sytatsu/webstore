@@ -21,7 +21,7 @@ class SocialTile extends Component
         string $config,
         string $src,
         string $alt,
-        int $dimensions = 110
+        int $dimensions = 80
     ): void {
         $this->href = config("{$config}.href");
         $this->src = asset($src);
