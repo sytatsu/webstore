@@ -18,8 +18,6 @@
         <meta name="msapplication-config" content="{{ asset('browserconfig.xml') }}" />
         <meta name="theme-color" content="#ffffff" />
 
-        <script src="./node_modules/preline/dist/preline.js"></script>
-
         <!-- Vite -->
         @vite([
             'resources/scss/sytatsu.scss',
@@ -28,9 +26,56 @@
 
         @livewireStyles
         @livewireScripts
+
+        <script>
+            const html = document.querySelector('html');
+            const isLightOrAuto = localStorage.getItem('hs_theme') === 'light' || (localStorage.getItem('hs_theme') === 'auto' && !window.matchMedia('(prefers-color-scheme: dark)').matches);
+            const isDarkOrAuto = localStorage.getItem('hs_theme') === 'dark' || (localStorage.getItem('hs_theme') === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+            if (isLightOrAuto && html.classList.contains('dark')) html.classList.remove('dark');
+            else if (isDarkOrAuto && html.classList.contains('light')) html.classList.remove('light');
+            else if (isDarkOrAuto && !html.classList.contains('dark')) html.classList.add('dark');
+            else if (isLightOrAuto && !html.classList.contains('light')) html.classList.add('light');
+        </script>
     </head>
 
-    <body class="bg-gradient-to-br light:from-[#FFF1EA] dark:from-[#12100E] from-10% light:to-[#FFFFFF] dark:to-[#2B4162] to-90% bg-no-repeat min-h-screen">
+    <body class="bg-gradient-to-br from-[#FFF1EA] dark:from-[#12100E] from-10% to-[#FFFFFF] dark:to-[#2B4162] to-90% bg-no-repeat min-h-screen">
+        <div class="absolute top-0 right-0 p-5">
+            <div class="flex flex-row-reverse gap-4">
+                <livewire:sytatsu.components.locale-switcher />
+
+                <button type="button"
+                        class="hs-dark-mode-active:hidden flex hs-dark-mode font-medium text-gray-800 rounded-full focus:outline-none dark:text-neutral-200 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                        data-hs-theme-click-value="dark">
+                  <span class="group inline-flex shrink-0 justify-center items-center size-9 my-auto">
+                    <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                    </svg>
+                  </span>
+                </button>
+                <button type="button"
+                        class="hs-dark-mode-active:flex hidden hs-dark-mode font-medium text-gray-800 rounded-full focus:outline-none dark:text-neutral-200 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                        data-hs-theme-click-value="light">
+                  <span class="group inline-flex shrink-0 justify-center items-center size-9 my-auto">
+                    <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="4"></circle>
+                      <path d="M12 2v2"></path>
+                      <path d="M12 20v2"></path>
+                      <path d="m4.93 4.93 1.41 1.41"></path>
+                      <path d="m17.66 17.66 1.41 1.41"></path>
+                      <path d="M2 12h2"></path>
+                      <path d="M20 12h2"></path>
+                      <path d="m6.34 17.66-1.41 1.41"></path>
+                      <path d="m19.07 4.93-1.41 1.41"></path>
+                    </svg>
+                  </span>
+                </button>
+            </div>
+        </div>
+
+
         <div class="flex flex-col min-h-screen">
             <div class="flex flex-col justify-center content-center my-auto">
 
@@ -62,7 +107,7 @@
             </div>
 
             <div class="lg:col-span-4 mt-10 lg:mt-0 hidden lg:block">
-                <img class="w-full rounded-xl" src="https://images.unsplash.com/photo-1665686376173-ada7a0031a85?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=900&h=700&q=80" alt="Hero Image">
+                <img class="w-full rounded-xl shadow-lg dark:shadow-primary" src="https://images.unsplash.com/photo-1665686376173-ada7a0031a85?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=900&h=450&q=80" alt="Hero Image">
             </div>
             <!-- End Col -->
         </div>

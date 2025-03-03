@@ -13,18 +13,21 @@ use function view;
 class SocialTile extends Component
 {
     public string $href;
-    public string $src;
+    public string $srcLight;
+    public string $srcDark;
     public string $alt;
     public int $dimensions;
 
     public function mount(
         string $config,
-        string $src,
+        string $srcLight,
+        string $srcDark,
         string $alt,
         int $dimensions = 80
     ): void {
         $this->href = config("{$config}.href");
-        $this->src = asset($src);
+        $this->srcLight = asset($srcLight);
+        $this->srcDark = asset($srcDark);
         $this->alt = $alt;
         $this->dimensions = $dimensions;
     }
@@ -33,7 +36,8 @@ class SocialTile extends Component
     {
         return view('sytatsu.components.social', [
             'href' => $this->href,
-            'src' => $this->src,
+            'srcLight' => $this->srcLight,
+            'srcDark' => $this->srcDark,
             'alt' => $this->alt,
             'dimensions' => $this->dimensions,
         ]);

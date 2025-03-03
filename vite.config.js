@@ -22,7 +22,7 @@ export default defineConfig({
                 'resources/js/welcome.js',
 
                 'resources/scss/stpronk.scss',
-                'resources/js/stpronk.js'
+                'resources/js/stpronk.js',
             ],
             refresh: true,
         }),
