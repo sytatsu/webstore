@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire\Sytatsu\Components;
 
+use App\Mail\Sytatsu\ContactFormConfirmation;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -18,25 +20,33 @@ class ContactForm extends Component
     #[Validate('required|email')]
     public string $email = '';
 
-    #[Validate('required')]
-    public string $message = '';
+    #[Validate('max:11')]
+    public string $phone = '';
 
-    public function send()
+    #[Validate('required|min:30')]
+    public string $details = '';
+
+    /**
+     * @throws \Exception
+     */
+    public function send(): void
     {
-        $isValid = $this->validate();
+        $validatedArray = $this->validate();
 
-        if ($isValid) {
-            $hasBeenSend = true;
+        if (!$validatedArray) {
+            throw new \Exception('Something went wrong while validating the form, please try again.', 500);
         }
+
+        Mail::to($this->email)
+            ->send(mailable: new ContactFormConfirmation(
+                data: $validatedArray
+            ));
+
+        $this->hasBeenSend = true;
     }
 
     // --------------- [COMPONENT VARIABLES & FUNCTIONS] --------------- //
     public bool $hasBeenSend = false;
-
-    public function mount()
-    {
-        //
-    }
 
     public function render(): View|Factory|Application
     {
