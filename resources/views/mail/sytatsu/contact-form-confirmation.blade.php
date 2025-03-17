@@ -10,7 +10,7 @@
         <td bgcolor="#ffffff" style="border: 1px solid #eeeeee; background-color: #ffffff; border-radius:5px; display:block!important; max-width:600px!important; margin:0 auto!important; clear:both!important;"><div style="padding:20px; max-width:600px; margin:0 auto; display:block;">
                 <table style="width: 100%;">
                     <tr>
-                        <td><p style="text-align: center; display: block;  padding-bottom:20px;  margin-bottom:20px; border-bottom:1px solid #dddddd;"><img style="padding: 0 20px" width="520px" src="{{ $message->embed(public_path('images/brands/brand.svg')) }}"/></p>
+                        <td><p style="text-align: center; display: block;  padding-bottom:20px;  margin-bottom:20px; border-bottom:1px solid #dddddd;"><img style="padding: 0 20px" width="520px" src="{{ $message->embed(public_path('images/brands/brand.png')) }}"/></p>
                             <p style="margin-bottom: 10px; font-weight: normal; font-size:16px; color: #333333;">Thank you for getting in contact! Underneath you will find a copy of all information you have filled in.</p>
                             <h2 style="font-weight: 200; font-size: 16px; margin: 20px 0; color: #333333;"><b>Name:</b> {{ $name }} </h2>
                             <h2 style="font-weight: 200; font-size: 16px; margin: 20px 0; color: #333333;"><b>Email:</b> {{ $email }} </h2>

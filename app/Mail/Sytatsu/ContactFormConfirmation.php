@@ -38,6 +38,7 @@ class ContactFormConfirmation extends Mailable
                     name: config('mail.sytatsu.bcc.name'),
                 )
             ],
+            replyTo: $this->data['email'],
             subject: "Sytatsu.nl | Contact form",
         );
     }
