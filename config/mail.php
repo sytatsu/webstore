@@ -97,9 +97,31 @@ return [
     |
     */
 
+    /*
+    |--------------------------------------------------------------------------
+    | Global "From" Address
+    |--------------------------------------------------------------------------
+    |
+    | You may wish for all e-mails sent by your application to be sent from
+    | the same address. Here, you may specify a name and address that is
+    | used globally for all e-mails that are sent by your application.
+    |
+    */
+
+    'sytatsu' => [
+        'from' => [
+            'address' => env(key: 'SYTATSU_MAIL_FROM_ADDRESS', default: 'no-reply@sytatsu.nl'),
+            'name' => env(key: 'SYTATSU_MAIL_FROM_NAME', default: 'Sytatsu'),
+        ],
+         'bcc' => [
+            'address' => env(key: 'SYTATSU_MAIL_BBC_ADDRESS', default: 'info@sytatsu.nl'),
+            'name' => env(key: 'SYTATSU_MAIL_BCC_NAME', default: 'Sytatsu'),
+        ],
+    ],
+
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'no-reply@stpronk.nl'),
+        'name' => env('MAIL_FROM_NAME', 'StPronk'),
     ],
 
     /*

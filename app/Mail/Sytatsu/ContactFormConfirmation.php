@@ -28,14 +28,14 @@ class ContactFormConfirmation extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address( // @TODO: From address should be configured within the config
-                address: 'noreply@sytatsu.nl',
-                name: 'Sytatsu'
+            from: new Address(
+                address: config('mail.sytatsu.from.address'),
+                name: config('mail.sytatsu.from.name'),
             ),
             bcc: [
-                new Address( // @TODO: BCC address should be configured within the config
-                    address: 'info@sytatsu.nl',
-                    name: 'Sytatsu'
+                new Address(
+                    address: config('mail.sytatsu.bcc.address'),
+                    name: config('mail.sytatsu.bcc.name'),
                 )
             ],
             subject: "Sytatsu.nl | Contact form",
