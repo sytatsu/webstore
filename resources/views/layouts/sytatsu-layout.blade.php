@@ -18,6 +18,12 @@
         <meta name="msapplication-config" content="{{ asset('browserconfig.xml') }}" />
         <meta name="theme-color" content="#ffffff" />
 
+        <meta name="description" content="Print & Shop by Sytatsu. We create models & brind them to life!">
+        <meta name="keywords" content="HTML,CSS,JavaScript,PHP,React,Laravel,Symphony,Scss,Sass,Illustrator,Git,Github,Gitlab,Bootstrap,StPronk,Steve,Pronk,Developer,Designer,Develop,Design,Web,Website,Zuid,Holland,Zuid-Holland,Zoetermeer,Nederland,Maatwerk,3D,Print,Printing,Model,Modeling,Tatsugiri,Dondozo,Sytatsu,Syaritatsu">
+        <meta name="author" content="Sytatsu">
+        <meta name="google-site-verification" content="{{ config('multi-tendency.sytatsu.google-site-verification') }}"/>
+
+
         <!-- Vite -->
         @vite([
             'resources/scss/sytatsu.scss',
