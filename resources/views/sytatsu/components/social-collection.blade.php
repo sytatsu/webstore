@@ -2,7 +2,7 @@
     @if (config('socials.sytatsu.instagram.enabled'))
         <livewire:sytatsu.components.social-tile
             config="socials.sytatsu.instagram"
-            srcLight="/images/partials/socials/Instagram_Glyph_Gradient.svg"
+            srcLight="/images/partials/socials/Instagram_Glyph_Gradient_small.png"
             srcDark="/images/partials/socials/Instagram_Glyph_White.svg"
             alt="Instagram" />
     @endif
