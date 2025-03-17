@@ -16,5 +16,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::domain(env('APP_SYTATSU_URL'))->group(function () {
     Route::get('/', LivewireSytatsu\Welcome::class)->name('sytatsu.welcome');
+    Route::get('/contact', LivewireSytatsu\Contact::class)->name('sytatsu.contact');
     Route::get('/on-demand', LivewireSytatsu\OnDemand::class)->name('sytatsu.on-demand');
 });

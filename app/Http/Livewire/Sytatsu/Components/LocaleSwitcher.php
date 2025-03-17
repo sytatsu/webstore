@@ -43,7 +43,7 @@ class LocaleSwitcher extends Component
 
     public function render(): Application|Factory|View
     {
-        return view('sytatsu.components.locale-switcher', [
+        return view('sytatsu.components.livewire.locale-switcher', [
             'supportedLocales' => $this->supportedLocales,
             'activeLocale' => $this->activeLocale
         ]);
