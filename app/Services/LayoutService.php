@@ -22,11 +22,20 @@ class LayoutService
         return "{$appName} | " . __($title);
     }
 
+    protected function formatSeoTitle(?string $title): string
+    {
+        return $title;
+    }
+
     public function render(string $view, string $layout, array $viewAttributes = [], array $layoutAttributes = [])
     {
         $layoutAttributes['title'] = $this->formatTitle(
             title: $layoutAttributes['title'] ?? null,
             appName: $layoutAttributes['appName'] ?? null,
+        );
+
+        $layoutAttributes['seoTitle'] = $this->formatSeoTitle(
+            title: $layoutAttributes['title'] ?? null,
         );
 
         return view($view, $viewAttributes)
