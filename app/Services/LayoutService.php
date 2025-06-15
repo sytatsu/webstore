@@ -19,7 +19,7 @@ class LayoutService
             return $appName;
         }
 
-        return __($title) . " | $appName";
+        return __($title) . " - $appName";
     }
 
     public function render(string $view, string $layout, array $viewAttributes = [], array $layoutAttributes = [])
