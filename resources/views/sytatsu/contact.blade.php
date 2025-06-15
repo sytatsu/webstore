@@ -12,5 +12,10 @@
 
     <div class="mt-12 max-w-lg mx-auto">
         <livewire:sytatsu.components.contact-form />
+
+        <div class="px-5 pt-8 flex flex-col md:flex-row justify-between text-xs text-gray-500 dark:text-neutral-500">
+            <span>kvk - 83166742</span>
+            <span>E-mail - <a href="mail:info@sytatsu.nl" class="underline">info@sytatsu.nl</a></span>
+        </div>
     </div>
 </div>
