@@ -20,7 +20,6 @@
         <meta name="author" content="Sytatsu">
         <meta name="google-site-verification" content="{{ config('multi-tendency.sytatsu.google-site-verification') }}"/>
 
-
         <!-- Vite -->
         @vite([
             'resources/scss/sytatsu.scss',
