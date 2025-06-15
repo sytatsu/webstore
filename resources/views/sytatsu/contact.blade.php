@@ -2,7 +2,7 @@
     <div class="max-w-xl mx-auto">
         <div class="text-center">
             <h1 class="text-3xl font-bold text-gray-800 sm:text-4xl dark:text-white">
-                {{ __('Contact us') }}
+                {{ __('Get in touch with us') }}
             </h1>
             <p class="mt-1 text-gray-600 dark:text-neutral-400">
                 {{ __('We\'d love to talk about how we can help you.') }}
@@ -12,5 +12,10 @@
 
     <div class="mt-12 max-w-lg mx-auto">
         <livewire:sytatsu.components.contact-form />
+
+        <div class="px-5 pt-8 flex flex-col md:flex-row justify-between text-xs text-gray-500 dark:text-neutral-500">
+            <span>kvk - 83166742</span>
+            <span>E-mail - <a href="mail:info@sytatsu.nl" class="underline">info@sytatsu.nl</a></span>
+        </div>
     </div>
 </div>
