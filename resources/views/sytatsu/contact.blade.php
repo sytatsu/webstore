@@ -2,7 +2,7 @@
     <div class="max-w-xl mx-auto">
         <div class="text-center">
             <h1 class="text-3xl font-bold text-gray-800 sm:text-4xl dark:text-white">
-                {{ __('Contact us') }}
+                {{ __('Get in touch with us') }}
             </h1>
             <p class="mt-1 text-gray-600 dark:text-neutral-400">
                 {{ __('We\'d love to talk about how we can help you.') }}
