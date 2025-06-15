@@ -3,12 +3,12 @@
         <div class="lg:col-span-3">
             <h1 class="block text-3xl font-bold text-gray-800 sm:text-4xl md:text-5xl lg:text-6xl dark:text-white sr-only">Sytatsu, Print & Shop</h1>
 
-            <img src="{{ asset('/images/brands/no_background_text_only.webp') }}" alt="brand" width="700" class="m-auto px-0 lg:px-4">
+            <img src="{{ asset('/images/brands/no_background_text_only.webp') }}" alt="brand" width="700" class="m-auto px-4 lg:px-4">
             <p class="mt-3 text-lg text-gray-800 dark:text-neutral-400 py-4 lg:py-0">
                 {{ __('At Sytatsu, we’re working hard behind the scenes — but we’re already building beautiful things. Feel free to get in touch or follow Sytatsu on social media to see what we’re up to!') }}
             </p>
 
-            <div class=" flex flex-col items-center gap-2 lg:flex-row sm:gap-3  ">
+            <div class="flex flex-col items-center gap-2 lg:flex-row sm:gap-3  ">
                 <a class="lg:mr-4 lg:flex-grow w-full lg:w-auto py-3 px-4 mb-3 lg:mt-auto lg:mb-auto inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-primary text-white hover:bg-primary-light focus:outline-none focus:bg-primary-light disabled:opacity-50 disabled:pointer-events-none"
                    href="{{ route('sytatsu.contact') }}">
                     {{ __('Get in touch') }} <i class="fa fa-paper-plane"></i>
