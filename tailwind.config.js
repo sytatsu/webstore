@@ -17,18 +17,18 @@ module.exports = {
             colors: {
                 primary: {
                     light: '#a5dcf3',
-                    DEFAULT: '#7ad1f1',
+                    DEFAULT: '#7bd1f2',
                     dark: '#43b8d8',
                 },
                 secondary: {
                     light: '#ff8f64',
-                    DEFAULT: '#fa6933',
+                    DEFAULT: '#f48356',
                     dark: '#da4d18',
                 },
                 background: {
-                    light: '#fffaf7',
-                    DEFAULT: '#FFF1EA',
-                    dark: '#d3baac',
+                    light: '#FFFFFF',
+                    DEFAULT: '#FFFAF7',
+                    dark: '#FFF1EA',
                 },
             },
         },
