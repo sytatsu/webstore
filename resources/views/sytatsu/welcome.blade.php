@@ -3,7 +3,7 @@
         <div class="lg:col-span-3">
             <h1 class="block text-3xl font-bold text-gray-800 sm:text-4xl md:text-5xl lg:text-6xl dark:text-white sr-only">Sytatsu, Print & Shop</h1>
 
-            <img src="{{ asset('/images/brands/no_background_text_only.webp') }}" alt="brand" width="700" class="m-auto px-4 lg:px-4">
+            <img src="{{ Vite::asset('resources/images/brands/no_background_text_only.webp') }}" alt="brand" width="700" class="m-auto px-4 lg:px-4">
             <p class="mt-3 text-lg text-gray-800 dark:text-neutral-400 py-4 lg:py-0">
                 {{ __('At Sytatsu, we’re working hard behind the scenes — but we’re already building beautiful things. Feel free to get in touch or follow Sytatsu on social media to see what we’re up to!') }}
             </p>
@@ -19,7 +19,7 @@
         </div>
 
         <div class="lg:col-span-4 mt-10 lg:mt-0 hidden lg:block">
-            <img class="w-full rounded-xl shadow-lg dark:shadow-primary" src="{{ asset('/images/sytatsu_hero.jpg') }}" width="900" height="450" alt="Hero Image">
+            <img class="w-full rounded-xl shadow-lg dark:shadow-primary" src="{{ Vite::asset('resources/images/sytatsu_hero.jpg') }}" width="900" height="450" alt="Hero Image">
         </div>
     </div>
 </div>

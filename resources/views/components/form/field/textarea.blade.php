@@ -1,7 +1,0 @@
-<div>
-    <x-form.field.partials.label :for="$attributes->get('name')" :value="$attributes->get('label')" />
-    <textarea {{ $attributes->only('class')->merge(['class' => 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm']) }}
-              id="{{ $attributes->get('name') }}" name="{{ $attributes->get('name') }}" rows="{{ $attributes->get('rows') ?? 3 }}"
-              type="text">{{ old($attributes->get('name')) ?? $attributes->get('value') ?? '' }}</textarea>
-    <x-form.field.partials.error :messages="$errors->get($attributes->get('name'))" class="mt-2" />
-</div>
