@@ -12,7 +12,7 @@
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.2",
         "livewire/livewire": "^3.5",
-        "lunarphp/lunar": "1.0.0-beta20",
+        "lunarphp/lunar": "^1.0.0",
         "lunarphp/stripe": "^1.0@beta",
         "symfony/yaml": "^7.1"
     },
