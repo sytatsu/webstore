@@ -13,7 +13,7 @@
         <link rel="shortcut icon" href="{{ Vite::asset('resources/images/favicons/favicon.ico') }}" />
         <link rel="apple-touch-icon" sizes="180x180" href="{{ Vite::asset('resources/images/favicons/apple-touch-icon.png') }}" />
         <meta name="apple-mobile-web-app-title" content="Sytatsu" />
-        <link rel="manifest" href="{{ Vite::asset('resources/site.webmanifest') }}" />
+        <link rel="manifest" href="{{ asset('resources/site.webmanifest') }}" />
 
         <meta name="description" content="Print & Shop by Sytatsu. We create models & brind them to life!">
         <meta name="keywords" content="HTML,CSS,JavaScript,PHP,React,Laravel,Symphony,Scss,Sass,Illustrator,Git,Github,Gitlab,Bootstrap,StPronk,Steve,Pronk,Developer,Designer,Develop,Design,Web,Website,Zuid,Holland,Zuid-Holland,Zoetermeer,Nederland,Maatwerk,3D,Print,Printing,3dprint,3dprinting,Model,Modeling,Tatsugiri,Dondozo,Sytatsu,Syaritatsu,Tatsu">
