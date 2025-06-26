@@ -11,7 +11,7 @@ use Livewire\Component;
 
 class LocaleSwitcher extends Component
 {
-    const IMAGE_PATH = '/images/countries/rounded';
+    const IMAGE_PATH = 'resources/images/countries/rounded';
 
     public array $supportedLocales = [];
     public array $activeLocale = [];
