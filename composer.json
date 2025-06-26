@@ -1,9 +1,15 @@
 {
-    "name": "laravel/laravel",
+    "name": "sytatsu/webshop",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "description": "Webshop Sytatsu",
+    "keywords": ["sytatsu", "webshoop", "framework", "laravel"],
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "path",
+            "url":  "packages/sytatsu/filament-printed-production"
+        }
+    ],
     "require": {
         "php": "^8.1",
         "guzzlehttp/guzzle": "^7.2",
@@ -14,6 +20,7 @@
         "livewire/livewire": "^3.5",
         "lunarphp/lunar": "^1.0.0",
         "lunarphp/stripe": "^1.0@beta",
+        "sytatsu/filament-printed-production": "@dev",
         "symfony/yaml": "^7.1"
     },
     "require-dev": {
