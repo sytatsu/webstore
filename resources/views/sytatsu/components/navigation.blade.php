@@ -26,7 +26,7 @@
                             <a class="px-1 m-3 md:m-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent hover:md:!border-secondary dark:text-neutral-200"
                                href="{{ route('sytatsu.welcome')  }}"
                             >
-                                <img src="{{ asset('/images/brands/no_background_text_only.webp') }}" alt="brand" width="70" class="md:hidden">
+                                <img src="{{ Vite::asset('resources/images/brands/no_background_text_only.webp') }}" alt="brand" width="70" class="md:hidden">
                                 <span class="hidden md:block"><i class="fa fa-house p-1"></i></span>
                             </a>
 
