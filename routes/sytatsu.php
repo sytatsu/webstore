@@ -17,4 +17,3 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', LivewireSytatsu\Welcome::class)->name('sytatsu.welcome');
 Route::get('/about', LivewireSytatsu\About::class)->name('sytatsu.about');
 Route::get('/contact', LivewireSytatsu\Contact::class)->name('sytatsu.contact');
-//    Route::get('/on-demand', LivewireSytatsu\OnDemand::class)->name('sytatsu.on-demand');
