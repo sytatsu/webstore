@@ -1,4 +1,4 @@
-<div class="bg-slate-50 dark:bg-slate-800 flex justify-between shadow">
+<div class="bg-background-light dark:bg-slate-800 flex justify-between shadow">
     <header class="sticky-top top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 text-sm p-0 md:p-6" style="z-index: 60">
         <nav class="relative max-w-2xl w-full mx-2 py-2.5 md:flex md:items-center md:justify-between md:py-0 md:px-4 md:mx-auto">
 
