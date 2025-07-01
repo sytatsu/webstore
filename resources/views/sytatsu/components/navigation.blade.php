@@ -72,7 +72,7 @@
 
         </nav>
     </header>
-    <!-- ========== END HEADER ========== -->
+
     <div class="flex my-auto">
         <div class="flex flex-row-reverse gap-4 pr-4">
             <livewire:sytatsu.components.locale-switcher/>
@@ -107,6 +107,4 @@
             </button>
         </div>
     </div>
-    {{------ END ABSOLUTE TOP ------}}
-
 </div>
