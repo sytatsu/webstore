@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes | https://stpronk.nl/
+| Web Routes | https://sytatsu.nl/
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
