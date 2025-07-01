@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
     php-fpm:
         container_name: sytatsu-php-fpm
@@ -60,6 +58,7 @@ services:
 networks:
     sail:
         driver: bridge
+
 volumes:
     data-mysql:
         driver: local
