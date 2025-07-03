@@ -19,7 +19,7 @@ class Locale {
      */
     public function handle(Request $request, Closure $next): mixed
     {
-        App::setLocale(session('locale', config('app.locale')));
+        App::setLocale(session('locale', env('DEFAULT_LOCALE', config('app.locale'))));
 
         return $next($request);
     }
