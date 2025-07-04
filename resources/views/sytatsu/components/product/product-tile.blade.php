@@ -1,0 +1,72 @@
+<div class="group flex flex-col">
+    <div class="relative">
+        <div class="aspect-square overflow-hidden rounded-2xl shadow">
+            <livewire:sytatsu.components.product.carousel :product="$this->product" :images="$this->product->images" />
+        </div>
+
+        <a class="flex flex-col" href="{{ \App\DataTransformers\RouteTransformer::getProductRoute($this->product) }}">
+            <div class="pt-4 [&>*]:hover:underline">
+                <h3 class="font-medium md:text-lg text-black dark:text-white">
+                    {{ $this->product->translateAttribute('name') }}
+                </h3>
+
+                <p class="mt-2 font-semibold text-black dark:text-white">
+                    {{ $this->getPriceRangeString() }}
+                </p>
+            </div>
+        </a>
+    </div>
+
+    <div class="mb-2 mt-4 text-sm">
+        <div class="flex flex-col">
+            {{-- TODO; Every line/item should be it's own component --}}
+            @foreach($this->getProductOptionsArray() as $optionCollectionName => $options)
+                <div class="py-3 border-t border-gray-200 dark:border-neutral-700">
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <span class="font-medium text-black dark:text-white">{{ $optionCollectionName }}:</span>
+                        </div>
+
+                        <div class="text-end text-black dark:text-white">
+                            @foreach($options as $option)
+                                <a href="{{ \App\DataTransformers\RouteTransformer::getProductRoute($this->product, ['option_id' => $option['id']]) }}" class="hover:underline">{{ $option['name'] }}</a>{{ !$loop->last ? ', ' : '' }}
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+
+            <div class="py-3 border-t border-gray-200 dark:border-neutral-700">
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <span class="font-medium text-black dark:text-white">{{ __('Collection') }}:</span>
+                    </div>
+
+                    <div class="text-end text-black dark:text-white">
+                        @foreach($this->product->collections as $collection)
+                            <div class="block">
+                                @if ($collection->parent)
+                                    {{-- @TODO; Make sure the link is created to the collection page with the correct collection --}}
+                                    <a href="#collection_{{ $collection->parent->id }}" class="hover:underline">{{ $collection->parent->translateAttribute('name') }}</a><span> > </span>
+                                @endif
+
+                                {{-- @TODO; Make sure the link is created to the collection page with the correct collection --}}
+                                <a href="#collection_{{ $collection->id }}" class="hover:underline">{{ $collection->translateAttribute('name') }}</a>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- @TODO; Should be converted to a livewire component --}}
+    <div class="flex gap-3 mt-auto">
+        <a class="py-2 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium text-nowrap rounded-xl border border-transparent bg-primary-dark text-white hover:bg-primary focus:outline-hidden focus:bg-primary-dark transition disabled:opacity-50 disabled:pointer-events-none"
+           {{-- @TODO; Make sure an event gets fired to add to shopping cart --}}
+           {{-- @TODO; Make a pop-up with option list if variants exisits --}}
+           {{-- @TODO; Disabled state when out of stock --}}
+           href="#bag_{{ $this->product->id }}">{{ __('Add to Cart') }}<i class="fa fa-cart-shopping"></i>
+        </a>
+    </div>
+</div>

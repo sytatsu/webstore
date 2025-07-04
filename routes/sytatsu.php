@@ -2,6 +2,8 @@
 
 use App\Http\Livewire\Sytatsu\Pages as LivewireSytatsu;
 use Illuminate\Support\Facades\Route;
+use Lunar\Models\Product;
+use Lunar\Models\Url;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +21,8 @@ Route::get('/about', LivewireSytatsu\About::class)->name('sytatsu.about');
 Route::get('/contact', LivewireSytatsu\Contact::class)->name('sytatsu.contact');
 
 Route::get('/webstore', LivewireSytatsu\Webstore\Welcome::class)->name('sytatsu.webstore.welcome');
+Route::get('/products/{product}', LivewireSytatsu\Webstore\Product::class)->name('sytatsu.webstore.product');
+
+Route::model('product', Product::class, function (string $slug) {
+    return ($element = Url::query()->where('slug', $slug)->firstOrFail()->element) instanceof Product ? abort(404, 'Element not Product') : $element;
+});

@@ -10,8 +10,6 @@ use Livewire\Component;
 
 class BasePage extends Component
 {
-    protected LayoutService $layoutService;
-
     protected ?string $title = null;
     protected string $appName;
     protected string $view;
@@ -23,26 +21,14 @@ class BasePage extends Component
     /**
      * Livewire function
      *
-     * @param \App\Services\LayoutService $layoutService
-     *
-     * @return void
-     */
-    public function mount(LayoutService $layoutService): void
-    {
-        $this->layoutService = $layoutService;
-
-        $this->addLayoutAttribute(value: $this->title, key: 'title')
-            ->addLayoutAttribute(value: $this->appName, key: 'appName');
-    }
-
-    /**
-     * Livewire function
-     *
      * @return \Closure|\Illuminate\Contracts\Support\Htmlable|\Illuminate\Contracts\View\View|string
      */
     public function render(): View|Htmlable|Closure|string
     {
-        return $this->layoutService->render(
+        $this->addLayoutAttribute(value: $this->title, key: 'title')
+            ->addLayoutAttribute(value: $this->appName, key: 'appName');
+
+        return app(LayoutService::class)->render(
             view: $this->view,
             layout: $this->layout,
             viewAttributes: $this->getViewAttributes(),
