@@ -1,11 +1,10 @@
 <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-24">
-    <!-- Card Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
         @foreach($this->getProducts() as $product)
             {{-- @TODO; Whole section should be it's own component --}}
             <div class="group flex flex-col">
                 <div class="relative">
-                    <div class="aspect-square overflow-hidden rounded-2xl">
+                    <div class="aspect-square overflow-hidden rounded-2xl shadow">
 
                         {{-- @TODO; Make separate component from the carousel --}}
                         <div data-hs-carousel='{
@@ -14,7 +13,7 @@
                             {{-- @TODO; isDraggable feels a bit buggy, see if we can fix this --}}
                             "isDraggable": true
                         }' class="relative">
-                            <div class="hs-carousel relative overflow-hidden w-full min-h-96 bg-white rounded-lg">
+                            <div class="hs-carousel relative overflow-hidden w-full aspect-square bg-white rounded-lg">
                                 {{-- @TODO; Make sure the link is created to the product page --}}
                                 <a class="flex flex-col hover:underline" href="#view_{{ $product->id }}">
                                     <div
@@ -38,23 +37,25 @@
 
                                 @if ($product->images->count() > 1)
                                     <button type="button"
-                                            class="hs-carousel-prev hs-carousel-disabled:opacity-50 hs-carousel-disabled:pointer-events-none absolute px-2 inset-y-0 start-0 inline-flex justify-center items-center w-11.5 h-full text-gray-800 hover:bg-gray-800/10 focus:outline-hidden focus:bg-gray-800/10 rounded-s-lg dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10">
+                                            class="hs-carousel-prev hs-carousel-disabled:opacity-50 hs-carousel-disabled:pointer-events-none absolute px-2 inset-y-0 start-0 inline-flex justify-center items-center w-11.5 h-full focus:outline-hidden focus:bg-gray-800/10 rounded-s-lg text-black hover:bg-white/10 focus:bg-white/10">
                                         <span class="text-2xl" aria-hidden="true">
                                           <svg class="shrink-0 size-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                                fill="none" stroke="currentColor"
                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="m15 18-6-6 6-6"></path>
                                             <path d="m15 18-6-6 6-6"></path>
                                           </svg>
                                         </span>
                                         <span class="sr-only">Previous</span>
                                     </button>
                                     <button type="button"
-                                            class="hs-carousel-next hs-carousel-disabled:opacity-50 hs-carousel-disabled:pointer-events-none absolute px-2 inset-y-0 end-0 inline-flex justify-center items-center w-11.5 h-full text-gray-800 hover:bg-gray-800/10 focus:outline-hidden focus:bg-gray-800/10 rounded-e-lg dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10">
+                                            class="hs-carousel-next hs-carousel-disabled:opacity-50 hs-carousel-disabled:pointer-events-none absolute px-2 inset-y-0 end-0 inline-flex justify-center items-center w-11.5 h-full focus:outline-hidden focus:bg-gray-800/10 rounded-e-lg text-black hover:bg-white/10 focus:bg-white/10">
                                         <span class="sr-only">Next</span>
                                         <span class="text-2xl" aria-hidden="true">
                                           <svg class="shrink-0 size-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                                fill="none" stroke="currentColor"
                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="m9 18 6-6-6-6"></path>
                                             <path d="m9 18 6-6-6-6"></path>
                                           </svg>
                                         </span>
@@ -132,12 +133,11 @@
                     <a class="py-2 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium text-nowrap rounded-xl border border-transparent bg-primary-dark text-white hover:bg-primary focus:outline-hidden focus:bg-primary-dark transition disabled:opacity-50 disabled:pointer-events-none"
                        {{-- @TODO; Make sure an event gets fired to add to shopping cart --}}
                        {{-- @TODO; Make a pop-up with option list if variants exisits --}}
-                       href="bag.html">{{ __('Add to Cart') }}<i class="fa fa-cart-shopping"></i>
+                       {{-- @TODO; Disabled state when out of stock --}}
+                       href="#bag_{{ $product->id }}">{{ __('Add to Cart') }}<i class="fa fa-cart-shopping"></i>
                     </a>
                 </div>
             </div>
-            <!-- End Card -->
         @endforeach
     </div>
-    <!-- End Card Grid -->
 </div>
