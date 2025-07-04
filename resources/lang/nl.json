@@ -38,6 +38,7 @@
 
         "Collection": "Collectie",
         "Collections": "Collecties",
+<<<<<<< HEAD
         "Add to Cart": "Toevoegen aan mandje"
 
         "All rights reserved": "Alle rechten voorbehouden",
@@ -99,3 +100,8 @@
                 "Vul als waar nodig": "",
         }
 }
+=======
+        "Add to Cart": "Toevoegen aan mandje",
+        "From": "Vanaf"
+    }
+>>>>>>> d57d1ee (Fixed issue with translation)
