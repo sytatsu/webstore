@@ -8,13 +8,15 @@ use Lunar\Models\Product;
 
 class Welcome extends SytatsuBasePage
 {
-    protected string $view = 'sytatsu.webstore.welcome';
+    protected string $view = 'sytatsu.webstore.listing';
     protected ?string $title = 'Print & Shop';
 
-    /** @var Collection<Product> $products */
+    public ?string $label = null;
+
+    /** @var Collection<ProductPage> $products */
     public Collection $products;
 
-    /** @return Collection<Product> */
+    /** @return Collection<ProductPage> */
     public function getProducts(): Collection
     {
         if (isset($this->products)) {
