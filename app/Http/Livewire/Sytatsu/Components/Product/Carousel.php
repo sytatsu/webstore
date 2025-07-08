@@ -21,11 +21,20 @@ class Carousel extends Component
     /** @var \Illuminate\Support\Collection<Media> $images */
     public Collection $images;
 
-    public function mount(Product|ProductVariant $product, Collection $images, ?string $carouselType = CarouselTypeEnum::COMPACT->value): void
+    /**
+     * @param \Lunar\Models\Product|\Lunar\Models\ProductVariant $product
+     * @param \Illuminate\Support\Collection                     $images
+     * @param CarouselTypeEnum|null                              $carouselType
+     *
+     * @return void
+     */
+    public function mount(Product|ProductVariant $product, Collection $images, $carouselType = null): void
     {
         $this->product = $product;
         $this->images = $images->sortByDesc(fn (Media $image) => $image->custom_properties['primary']);
-        $this->carouselType = CarouselTypeEnum::from($carouselType) ?? CarouselTypeEnum::COMPACT;
+        $this->carouselType = $carouselType instanceof CarouselTypeEnum
+            ? $carouselType
+            : CarouselTypeEnum::COMPACT;
     }
 
     public function render(): Factory|View|Application

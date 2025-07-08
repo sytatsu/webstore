@@ -30,13 +30,12 @@
 
             <!-- Collapse -->
             <div id="hs-header-base"
-                 class="avenir-bold hs-overlay [--auto-close:md] hs-overlay-open:translate-x-0 -translate-x-full fixed top-0 start-0 transition-all duration-300 transform h-full max-w-xs w-full z-[60] bg-white md:bg-transparent border-e basis-full grow md:order-2 md:static md:block md:h-auto md:max-w-none md:w-auto md:border-e-transparent md:transition-none md:translate-x-0 md:z-40 md:basis-auto dark:bg-neutral-800 dark:md:bg-transparent dark:border-e-gray-700 md:dark:border-e-transparent hidden "
-                 role="dialog" tabindex="-1" aria-label="Sidebar" data-hs-overlay-close-on-resize>
+                 class="avenir-bold hs-overlay [--auto-close:md] hs-overlay-open:translate-x-0 -translate-x-full fixed top-0 start-0 z-60 transition-all duration-300 transform h-full max-w-xs w-full z-[60] bg-white md:bg-transparent border-e basis-full grow md:order-2 md:static md:block md:h-auto md:max-w-none md:w-auto md:border-e-transparent md:transition-none md:translate-x-0 md:z-40 md:basis-auto dark:bg-neutral-800 dark:md:bg-transparent dark:border-e-gray-700 md:dark:border-e-transparent hidden "
+                 role="dialog" tabindex="-1" aria-label="Sidebar"
+                 data-hs-overlay-close-on-resize >
                 <div
                     class="overflow-hidden overflow-y-auto max-h-[75vh] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
-                    <div class="py-2 md:py-0 px-2 md:px-0 flex flex-col md:flex-row md:items-center ">
-
-                        <!-- End Offcanvas Header -->
+                    <div class="py-2 md:py-0 px-2 md:px-0 flex flex-col md:flex-row md:items-center">
                         <div class="grow">
                             <div class="flex flex-col md:flex-row md:justify-center md:items-center gap-0.5 md:gap-2">
                                 <a class="px-1 m-3 md:ml-0 md:mr-3 md:my-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent dark:text-neutral-200"
@@ -45,9 +44,8 @@
                                     <img src="{{ Vite::asset('resources/images/brands/no_background_text_only.webp') }}" alt="brand" width="70"
                                          class="md:hidden">
                                     <span class="hidden md:block">
-                                    <img src="{{ Vite::asset('resources/images/brands/no_background_text_only.webp') }}" alt="brand" width="70">
-{{--                                    <i class="fa fa-house p-1"></i>--}}
-                                </span>
+                                        <img src="{{ Vite::asset('resources/images/brands/no_background_text_only.webp') }}" alt="brand" width="70">
+                                    </span>
                                 </a>
 
                                 <a class="px-1 m-3 md:m-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent hover:!border-secondary dark:text-neutral-200
@@ -78,7 +76,7 @@
             <livewire:sytatsu.components.locale-switcher/>
 
             <button type="button"
-                    class="hs-dark-mode-active:hidden flex hs-dark-mode font-medium text-gray-800 rounded-full focus:outline-none dark:text-neutral-200 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    class="dark:hidden flex hs-dark-mode font-medium text-gray-800 rounded-full focus:outline-none dark:text-neutral-200 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     data-hs-theme-click-value="dark">
                       <span class="group inline-flex shrink-0 justify-center items-center size-9 my-auto">
                         <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -88,7 +86,7 @@
                       </span>
             </button>
             <button type="button"
-                    class="hs-dark-mode-active:flex hidden hs-dark-mode font-medium text-gray-800 rounded-full focus:outline-none dark:text-neutral-200 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                    class="dark:flex hidden hs-dark-mode font-medium text-gray-800 rounded-full focus:outline-none dark:text-neutral-200 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                     data-hs-theme-click-value="light">
                       <span class="group inline-flex shrink-0 justify-center items-center size-9 my-auto">
                         <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"

@@ -1,8 +1,6 @@
 <div class="group flex flex-col">
     <div class="relative">
-        <div class="aspect-square overflow-hidden rounded-2xl shadow">
-            <livewire:sytatsu.components.product.carousel :product="$this->product" :images="$this->product->images" />
-        </div>
+        <livewire:sytatsu.components.product.carousel :product="$this->product" :images="$this->product->images" />
 
         <a class="flex flex-col" href="{{ \App\DataTransformers\RouteTransformer::getProductRoute($this->product) }}">
             <div class="pt-4 [&>*]:hover:underline">

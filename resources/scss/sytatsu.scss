@@ -1,21 +1,11 @@
-/* Fonts @TODO; Find out if we still use this? */
 @use "fonts";
-
-/* Tailwindcss */
 @use "tailwindcss";
 
-/* Pre-Line */
 @import "../../node_modules/preline/variants.css";
 @source "../../node_modules/preline/dist/*.js";
 
-/* Makes dark mode work */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Theme:
-    @TODO; Make sure the font is working correctly
-    @TODO; Set theme to own file
-    @TODO; Change all *-white & *-black classes too *-light & *-black
-  */
 @theme {
     --color-primary-light: #a5dcf3;
     --color-primary: #7bd1f2;
@@ -28,13 +18,6 @@
     --color-background-light: #FFFFFF;
     --color-background: #FFFAF7;
     --color-background-dark: #FFF1EA;
-
-    --color-light: #FFFFFF;
-    --color-dark: #000000;
-}
-
-html {
-    font-family: "AvenirNextLTPro-Regular", "Roboto", sans-serif;
 }
 
 /* Adds pointer cursor to buttons */
@@ -47,3 +30,20 @@ html {
 
 /* Defaults hover styles on all devices */
 @custom-variant hover (&:hover);
+
+//
+//.open.hs-overlay-open\:translate-x-0, .open .hs-overlay-open\:translate-x-0 {
+//    --tw-translate-x: 0px;
+//    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+//}
+//
+//.inset-0 {
+//    top: 0;
+//    right: 0;
+//    bottom: 0;
+//    left: 0;
+//}
+
+.color {
+    background-color: #fffbf4;
+}
