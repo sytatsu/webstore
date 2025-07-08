@@ -1,8 +1,48 @@
 @use "fonts";
+@use "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "../../node_modules/preline/variants.css";
+@source "../../node_modules/preline/dist/*.js";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --color-primary-light: #a5dcf3;
+    --color-primary: #7bd1f2;
+    --color-primary-dark: #43b8d8;
+
+    --color-secondary-light: #ff8f64;
+    --color-secondary: #f48356;
+    --color-secondary-dark: #da4d18;
+
+    --color-background-light: #FFFFFF;
+    --color-background: #FFFAF7;
+    --color-background-dark: #FFF1EA;
+}
+
+/* Adds pointer cursor to buttons */
+@layer base {
+    button:not(:disabled),
+    [role="button"]:not(:disabled) {
+        cursor: pointer;
+    }
+}
+
+/* Defaults hover styles on all devices */
+@custom-variant hover (&:hover);
+
+//
+//.open.hs-overlay-open\:translate-x-0, .open .hs-overlay-open\:translate-x-0 {
+//    --tw-translate-x: 0px;
+//    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+//}
+//
+//.inset-0 {
+//    top: 0;
+//    right: 0;
+//    bottom: 0;
+//    left: 0;
+//}
 
 .color {
     background-color: #fffbf4;

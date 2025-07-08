@@ -6,6 +6,7 @@ import.meta.glob([
     '/resources/site.manifest'
 ]);
 
+
 // import Alpine from 'alpinejs'
 //
 // window.Alpine = Alpine
