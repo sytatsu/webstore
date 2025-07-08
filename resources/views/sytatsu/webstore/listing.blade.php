@@ -6,7 +6,7 @@
 
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
         {{-- @TODO; Should be within a foreach loop to make more than just one group (dataTransformer/Service?) --}}
-        @foreach($this->getProducts() as $product)
+        @foreach($products as $product)
             <livewire:sytatsu.components.product.product-tile :product="$product" />
         @endforeach
     </div>

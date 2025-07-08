@@ -13,11 +13,18 @@ class Welcome extends SytatsuBasePage
 
     public ?string $label = null;
 
-    /** @var Collection<ProductPage> $products */
+    /** @var Collection<Product> $products */
     public Collection $products;
 
+    public function mount(): void
+    {
+        $this->setViewAttributes([
+            'products' => $this->getProductsAttribute(),
+        ]);
+    }
+
     /** @return Collection<ProductPage> */
-    public function getProducts(): Collection
+    public function getProductsAttribute(): Collection
     {
         if (isset($this->products)) {
             return $this->products;

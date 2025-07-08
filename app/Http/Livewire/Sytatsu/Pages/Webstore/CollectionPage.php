@@ -22,10 +22,14 @@ class CollectionPage extends SytatsuBasePage
         $this->collection = $collection;
         $this->setTitle($collection->translateAttribute('name'));
         $this->label = sprintf('%s: %s', __('Collection'), $collection->translateAttribute('name'));
+
+        $this->setViewAttributes([
+            'products' => $this->getProductsAttribute(),
+        ]);
     }
 
     /** @return EloquentCollection<ProductPage> */
-    public function getProducts(): EloquentCollection
+    public function getProductsAttribute(): EloquentCollection
     {
         if (isset($this->products)) {
             return $this->products;
