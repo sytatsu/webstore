@@ -6,6 +6,7 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* @TODO; Make sure the font is working correctly */
 @theme {
     --color-primary-light: #a5dcf3;
     --color-primary: #7bd1f2;
