@@ -31,7 +31,7 @@ class ProductTile extends Component
 
     public function render(): Factory|View|Application
     {
-        return view('sytatsu.components.product.product-tile', [
+        return view('sytatsu.components.livewire.product.product-tile', [
             'product' => $this->product
         ]);
     }
