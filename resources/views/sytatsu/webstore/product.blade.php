@@ -1,4 +1,4 @@
-<div class="justify-center max-w-[85rem] px-4 sm:px-6 lg:px-8 py-12 lg:py-24 min-w-full grid-cols-1 md:grid-cols-2 md:grid xl:grid-cols-3 gap-12">
+<div class="mx-auto max-w-[85rem] px-4 sm:px-6 lg:px-8 py-12 lg:py-24 grid-cols-1 md:grid-cols-2 md:grid xl:grid-cols-3 gap-12">
         <livewire:sytatsu.components.product.carousel :product="$product" :carouselType="\App\Enums\CarouselTypeEnum::EXPANDED" :images="$product->images" />
 
         <div class="xl:col-span-2 flex flex-col mb-2 mt-4 text-sm">
