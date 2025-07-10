@@ -39,7 +39,7 @@ class Carousel extends Component
 
     public function render(): Factory|View|Application
     {
-        return view('sytatsu.components.product.carousel', [
+        return view('sytatsu.components.livewire.product.carousel', [
             'product' => $this->product,
             'images' => $this->images,
             'carouselType' => $this->carouselType,
