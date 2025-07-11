@@ -6,7 +6,7 @@
                 <div class="md:hidden">
                     <!-- Toggle Button -->
                     <button type="button"
-                            class="md:hidden relative p-2 m-2 flex items-center font-medium text-[12px] rounded-lg text-gray-800 hover:bg-background-dark hover:inset-shadow-lg hover:text-white hover:bg-background-dark focus:outline-none focus:bg-background-dark focus:text-white focus:inset-shadow-lg disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:border-neutral-700 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                            class="md:hidden relative p-2 m-2 flex items-center font-medium text-[12px] rounded-lg text-gray-800 hover:bg-background-dark hover:inset-shadow-lg hover:text-white hover:bg-background-dark focus:outline-none focus:bg-background-dark focus:text-white focus:inset-shadow-lg disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:border-neutral-700 dark:hover:bg-slate-700 dark:focus:bg-slate-700"
                             id="hs-header-base-collapse" aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-header-base"
                             aria-label="Toggle navigation" data-hs-overlay="#hs-header-base">
                         <svg class="hs-collapse-open:hidden shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -31,11 +31,11 @@
 
                 <!-- Collapse -->
                 <div id="hs-header-base"
-                     class="avenir-bold hs-overlay [--auto-close:md] hs-overlay-open:translate-x-0 -translate-x-full fixed top-0 start-0 z-60 transition-all duration-300 transform h-full max-w-xs w-full z-[60] bg-white md:bg-transparent border-e basis-full grow md:order-2 md:static md:block md:h-auto md:max-w-none md:w-auto md:border-e-transparent md:transition-none md:translate-x-0 md:z-40 md:basis-auto dark:bg-neutral-800 dark:md:bg-transparent dark:border-e-gray-700 md:dark:border-e-transparent hidden "
+                     class="avenir-bold hs-overlay [--auto-close:md] hs-overlay-open:translate-x-0 -translate-x-full fixed top-0 start-0 z-60 transition-all duration-300 transform h-full max-w-xs w-full z-[60] bg-white md:bg-transparent border-e basis-full grow md:order-2 md:static md:block md:h-auto md:max-w-none md:w-auto md:border-e-transparent md:transition-none md:translate-x-0 md:z-40 md:basis-auto dark:bg-slate-900 dark:md:bg-transparent dark:border-e-gray-700 md:dark:border-e-transparent hidden "
                      role="dialog" tabindex="-1" aria-label="Sidebar"
                      data-hs-overlay-close-on-resize >
                     <div
-                        class="overflow-hidden overflow-y-auto max-h-[75vh] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
+                        class="overflow-hidden overflow-y-auto max-h-[75vh] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-slate-800 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
                         <div class="py-2 md:py-0 px-2 md:px-0 flex flex-col md:flex-row md:items-center">
                             <div class="grow">
                                 <div class="flex flex-col md:flex-row md:justify-center md:items-center gap-0.5 md:gap-2">
@@ -104,6 +104,8 @@
                             </svg>
                           </span>
                 </button>
+
+                <livewire:sytatsu.components.cart />
             </div>
         </div>
     </div>
