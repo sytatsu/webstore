@@ -4,13 +4,9 @@
     <div class="xl:col-span-2 flex flex-col mb-2 mt-4 text-sm">
         <a class="flex flex-col" href="{{ \App\DataTransformers\RouteTransformer::getProductRoute($product) }}">
             <div class="pt-4 [&>*]:hover:underline">
-                <h3 class="font-medium md:text-lg text-black dark:text-white">
+                <h3 class="font-medium tex-lg md:text-xl text-black dark:text-white">
                     {{ $product->translateAttribute('name') }}
                 </h3>
-
-                <p class="mt-2 font-semibold text-black dark:text-white">
-                    {{ $this->getPriceRangeString() }}
-                </p>
             </div>
         </a>
 
@@ -51,10 +47,32 @@
             </div>
         </div>
 
-        <div class="flex gap-3 mt-auto">
-            <a class="py-2 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium text-nowrap rounded-xl border border-transparent bg-primary-dark text-white hover:bg-primary focus:outline-hidden focus:bg-primary-dark transition disabled:opacity-50 disabled:pointer-events-none"
-               href="#bag_{{ $product->id }}">{{ __('Add to Cart') }}<i class="fa fa-cart-shopping"></i>
-            </a>
+        <div class="flex flex-col space-y-6 mt-auto">
+            {{-- @TODO; Make section themed (dark mode) --}}
+            {{-- @TODO; Make section translatable --}}
+            @foreach ($this->productOptions as $option)
+                <fieldset class="flex flex-row gap-2 divide-x divide-slate-800 dark:divide-gray-100 ">
+                    <span class="block pr-2 self-center font-medium text-gray-700 dark:text-white">
+                        {{ __($option['option']->translate('name')) }}
+                    </span>
+
+                    <div class="flex flex-grow flex-wrap flex-row-reverse gap-2 text-xs tracking-wide uppercase"
+                         x-data="{selectedOption: @entangle('selectedOptionValues'),selectedValues: []}"
+                         x-init="selectedValues = Object.values(selectedOption); $watch('selectedOption', value => selectedValues = Object.values(selectedOption))">
+                        @foreach ($option['values'] as $value)
+                            <button class="px-3 py-2 font-medium rounded-lg outline-none focus:ring"
+                                    type="button"
+                                    wire:click="$set('selectedOptionValues.{{ $option['option']->id }}', {{ $value->id }})"
+                                    :class="{'!bg-primary-dark cursor-none text-white ': selectedValues.includes({{ $value->id }}), 'border border-gray-100 dark:border-slate-900 bg-white hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 text-black dark:text-white cursor-pointer': !selectedValues.includes({{ $value->id }})}">
+                                {{ __($value->translate('name')) }}
+                            </button>
+                        @endforeach
+                    </div>
+
+                </fieldset>
+            @endforeach
+
+            <livewire:sytatsu.components.add-to-cart :purchasable="$this->variant" :wire:key="$this->variant->id" />
         </div>
     </div>
 </div>

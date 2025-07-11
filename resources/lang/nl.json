@@ -38,6 +38,16 @@
 
         "Collection": "Collectie",
         "Collections": "Collecties",
-        "Add to Cart": "Toevoegen aan mandje",
-        "From": "Vanaf"
+        "From": "Vanaf",
+
+        "Add to Shopping Cart": "Toevoegen aan winkelwagen",
+            "Quantity": "Hoeveelheid",
+            "Available": "Beschikbaar",
+            "Sold out": "Uitverkocht",
+            "Including Taxes": "Inclusief belastingen",
+
+        "Options": "Opties",
+            "Color": "Kleur",
+                "White": "Wit",
+                "Black": "Zwart"
     }

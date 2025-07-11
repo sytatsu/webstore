@@ -14,6 +14,7 @@
 /* Theme:
     @TODO; Make sure the font is working correctly
     @TODO; Set theme to own file
+    @TODO; Change all *-white & *-black classes too *-light & *-black
   */
 @theme {
     --color-primary-light: #a5dcf3;
@@ -27,6 +28,9 @@
     --color-background-light: #FFFFFF;
     --color-background: #FFFAF7;
     --color-background-dark: #FFF1EA;
+
+    --color-light: #FFFFFF;
+    --color-dark: #000000;
 }
 
 /* Adds pointer cursor to buttons */
