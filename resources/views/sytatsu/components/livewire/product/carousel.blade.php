@@ -77,7 +77,7 @@
             <div class="hs-carousel-pagination flex justify-center absolute bottom-3 start-0 end-0 flex gap-x-2"></div>
         @else {{-- \App\Enums\CarouselTypeEnum::EXPANDED --}}
             <div class="hs-carousel-pagination overflow-x-auto">
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 py-4">
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 pt-4">
                     @forelse($this->images as $image)
                         <div class="hs-carousel-pagination-item cursor-pointer hs-carousel-active:inset-ring-3 hs-carousel-active:inset-ring-secondary-light overflow-hidden rounded-lg">
                             <img class="object-cover aspect-video rounded-lg hs-carousel-active:p-1"
