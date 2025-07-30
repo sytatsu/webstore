@@ -43,7 +43,7 @@ class Cart extends Component
     public function rules(): array
     {
         return [
-            'lines.*.quantity' => 'required|numeric|min:1|max:10000',
+            'lines.*.quantity' => 'required|numeric',
         ];
     }
 
@@ -69,8 +69,32 @@ class Cart extends Component
         $this->updateLines();
     }
 
+    public function updateQuantity(string $index, int $quantity)
+    {
+        $this->lines[$index]['quantity'] = $quantity;
+
+        $this->updateLines();
+    }
+
     public function updateLines(): void
     {
+        // @TODO; Make sure this mess does not get to production
+        $this->lines = array_map(function (array $line) {
+            $line['quantity'] = $line['quantity'] > $line['purchasable']->stock
+                ? $line['purchasable']->stock
+                : $line['quantity'];
+            return $line;
+        }, $this->lines) ?? [];
+
+        $this->lines = array_filter($this->lines, function (array $line) {
+            if ($line['quantity'] <= 0) {
+                CartSession::remove($line['id']);
+                return false;
+            }
+
+            return true;
+        });
+
         $this->validate();
 
         CartSession::updateLines(
