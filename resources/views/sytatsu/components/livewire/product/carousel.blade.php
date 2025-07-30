@@ -2,9 +2,10 @@
     "loadingClasses": "opacity-0",
     "dotsItemClasses": "hs-carousel-active:bg-primary hs-carousel-active:border-white size-3 border border-neutral-200 rounded-2xl cursor-pointer dark:border-neutral-200 dark:hs-carousel-active:bg-primary dark:hs-carousel-active:border-white",
     {{-- @TODO; isDraggable feels a bit buggy, see if we can fix this --}}
+    "isInfiniteLoop": true,
     "isDraggable": true
 }' class="relative">
-    <div class="hs-carousel relative overflow-x-hidden min-w-full bg-white rounded-2xl shadow">
+    <div class="hs-carousel relative overflow-x-hidden min-w-full bg-white rounded-2xl shadow mb-4 md:mb-0">
 
         @if ($this->carouselType === \App\Enums\CarouselTypeEnum::COMPACT)
             <a class="flex flex-col aspect-square" href="{{ \App\DataTransformers\RouteTransformer::getProductRoute($this->product) }}">
