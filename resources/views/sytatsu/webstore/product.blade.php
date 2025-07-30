@@ -1,8 +1,8 @@
-<div class="mx-auto max-w-[85rem] px-4 sm:px-6 lg:px-8 py-12 lg:py-24 grid-cols-1 md:grid-cols-2 md:grid xl:grid-cols-3 gap-12">
+<div class="mx-auto xl:min-w-[80rem] max-w-[85rem] px-4 sm:px-6 lg:px-8 py-12 lg:py-24 grid-cols-1 md:grid-cols-2 md:grid xl:grid-cols-3 gap-12">
     <livewire:sytatsu.components.product.carousel :product="$product" :carouselType="\App\Enums\CarouselTypeEnum::EXPANDED" :images="$product->images" />
 
     <div class="xl:col-span-2 flex flex-col text-sm">
-        <h3 class="font-medium tex-lg md:text-xl text-black dark:text-white">
+        <h3 class="font-medium text-lg md:text-xl text-black dark:text-white">
             {{ $product->translateAttribute('name') }}
         </h3>
 
