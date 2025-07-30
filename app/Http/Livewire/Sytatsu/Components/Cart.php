@@ -9,6 +9,7 @@ use Livewire\Component;
 use Lunar\Facades\CartSession;
 use Lunar\Models\Cart as LunarCart;
 use Lunar\Models\CartLine;
+use Lunar\Models\ProductOption;
 
 class Cart extends Component
 {
@@ -128,7 +129,7 @@ class Cart extends Component
              'description' => $line->purchasable->getDescription(),
              'thumbnail' => $line->purchasable->getThumbnail()?->getUrl(),
              'option' => $line->purchasable->getOption(),
-             'options' => $line->purchasable->getOptions()->implode(' / '),
+             'options' => $line->purchasable->getOptions()->map(fn (string $option) => __($option))->implode(' / '),
              'sub_total' => $line->subTotal->formatted(),
              'unit_price' => $line->unitPrice->formatted(),
         ])->toArray();
