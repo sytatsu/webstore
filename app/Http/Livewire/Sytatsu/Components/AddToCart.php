@@ -26,6 +26,10 @@ class AddToCart extends Component
      */
     public int $quantity = 1;
 
+    public $listeners = [
+        'cart-updated' => '$refresh',
+    ];
+
     public function rules(): array
     {
         return [

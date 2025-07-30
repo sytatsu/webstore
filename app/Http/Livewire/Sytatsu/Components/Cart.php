@@ -61,7 +61,7 @@ class Cart extends Component
         $this->updateLines();
     }
 
-    public function updateLines()
+    public function updateLines(): void
     {
         $this->validate();
 
@@ -69,7 +69,7 @@ class Cart extends Component
             collect($this->lines)
         );
         $this->mapLines();
-        $this->dispatch('cartUpdated');
+        $this->dispatch('cart-updated');
     }
 
     public function removeLine($id)
