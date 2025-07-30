@@ -49,15 +49,23 @@ class Cart extends Component
 
     public function incrementLine(string $index)
     {
-        // @TODO; Set failsafe for validation
         $this->lines[$index]['quantity']++;
+
+        if ($this->lines[$index]['quantity'] >  $this->lines[$index]['purchasable']->stock) {
+             $this->lines[$index]['quantity'] = $this->lines[$index]['purchasable']->stock;
+        }
+
         $this->updateLines();
     }
 
     public function decrementLine(string $index)
     {
-        // @TODO; Set failsafe for validation
         $this->lines[$index]['quantity']--;
+
+        if ($this->lines[$index]['quantity'] <= 0) {
+            $this->removeLine($this->lines[$index]['id']);
+        }
+
         $this->updateLines();
     }
 
