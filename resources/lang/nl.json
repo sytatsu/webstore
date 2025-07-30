@@ -49,5 +49,8 @@
         "Options": "Opties",
             "Color": "Kleur",
                 "White": "Wit",
-                "Black": "Zwart"
+                "Black": "Zwart",
+            "Size": "Groote",
+                "Small": "Klein",
+                "Large": "Groot"
     }
