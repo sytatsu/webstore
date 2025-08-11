@@ -6,7 +6,7 @@
             <h3 class="font-medium text-lg md:text-xl text-black dark:text-white">
                 {{ $product->translateAttribute('name') }}
             </h3>
-            <div class="flex-nowrap text-black dark:text-white">
+            <div class="flex-nowrap text-black dark:text-white my-auto">
                 @foreach($product->collections as $collection)
                     @if ($collection->parent)
                         <a href="{{ \App\Services\WebstoreHelperService::getCollectionRoute($collection->parent) }}" class="hover:underline text-nowrap">{{ $collection->parent->translateAttribute('name') }}</a><span><i class="px-1 fa fa-caret-right"></i></span>
