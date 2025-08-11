@@ -12,11 +12,6 @@ class WebstoreHelperService
     private string $productRouteName = 'sytatsu.webstore.product';
     private string $collectionRouteName = 'sytatsu.webstore.collection';
 
-    public function __construct()
-    {
-        //
-    }
-
     /**
      * @param \Illuminate\Support\Collection<\Lunar\Models\Price> $priceCollection
      */
