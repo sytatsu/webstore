@@ -50,10 +50,6 @@ class CartService
 
         $lines[$index]['quantity']--;
 
-        if ($lines[$index]['quantity'] <= 0) {
-            $this->removeLine($lines[$index]['id']);
-        }
-
         return $this->updateLines($lines);
     }
 
@@ -68,7 +64,7 @@ class CartService
         return $this->updateLines($lines);
     }
 
-    public function removeLine(string $lineId): void
+    public function removeLine(int $lineId): void
     {
         CartSession::remove($lineId);
     }
@@ -79,7 +75,6 @@ class CartService
             'id' => $line->id,
             'purchasable' => $line->purchasable,
             'product' => $line->purchasable->product,
-            'option_id' => $line->purchasable->option_id,
             'identifier' => $line->purchasable->getIdentifier(),
             'quantity' => $line->quantity,
             'description' => $line->purchasable->getDescription(),

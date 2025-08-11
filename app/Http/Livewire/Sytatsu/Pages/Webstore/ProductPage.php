@@ -3,13 +3,18 @@
 namespace App\Http\Livewire\Sytatsu\Pages\Webstore;
 
 use App\Services\WebstoreHelperService;
+use Livewire\Attributes\Url;
 use Lunar\Models\Product;
 use App\Http\Livewire\Sytatsu\SytatsuBasePage;
+use Lunar\Models\ProductOption;
+use Lunar\Models\ProductVariant;
 
 class ProductPage extends SytatsuBasePage
 {
     protected string $view = 'sytatsu.webstore.product';
 
+    #[Url(except: '')]
+    public string $purchasable_id = '';
     public Product $product;
 
     public array $selectedOptionValues = [];
@@ -23,13 +28,27 @@ class ProductPage extends SytatsuBasePage
             'product' => $this->product,
         ]);
 
-        $this->selectedOptionValues = $this->productOptions->mapWithKeys(function ($data) {
-            return [$data['option']->id => $data['values']->first()->id];
-        })->toArray();
+        if ($this->purchasable_id) {
+            $optionValues = ProductVariant::find($this->purchasable_id)->values;
+            $this->selectedOptionValues = [];
+            foreach ($optionValues as $value) {
+                $this->selectedOptionValues[$value->product_option_id] = $value->id;
+            }
+        } else {
+            $this->selectedOptionValues = $this->productOptions->mapWithKeys(function ($data) {
+                return [$data['option']->id => $data['values']->first()->id];
+            })->toArray();
+        }
 
         if (! $this->variant) {
             abort(404);
         }
+    }
+
+    public function setSelectedOptionValue(int $optionId, int $valueId): void
+    {
+        $this->selectedOptionValues[$optionId] = $valueId;
+        $this->getVariantProperty();
     }
 
     /**
@@ -39,12 +58,16 @@ class ProductPage extends SytatsuBasePage
      */
     public function getVariantProperty()
     {
-        return $this->product->variants->first(function ($variant) {
+        $variant = $this->product->variants->first(function ($variant) {
             return ! $variant->values->pluck('id')
                 ->diff(
                     collect($this->selectedOptionValues)->values()
                 )->count();
         });
+
+        $this->purchasable_id = $variant->id;
+
+        return $variant;
     }
 
     /**

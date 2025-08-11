@@ -27,7 +27,7 @@
 
                         <div class="text-end text-black dark:text-white">
                             @foreach($options as $option)
-                                <a href="{{ \App\Services\WebstoreHelperService::getProductRoute($this->product, ['option_id' => $option['id']]) }}" class="hover:underline">{{ $option['name'] }}</a>{{ !$loop->last ? ', ' : '' }}
+                                <span >{{ $option['name'] }}</span>{{ !$loop->last ? ', ' : '' }}
                             @endforeach
                         </div>
                     </div>

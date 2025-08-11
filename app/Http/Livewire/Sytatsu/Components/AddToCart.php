@@ -61,7 +61,7 @@ class AddToCart extends Component
             return $this->quantity = 1;
         }
 
-        if ($this->purchasable->purchasable === 'stock' && $quantity >= $this->availableStock) {
+        if ($this->purchasable->purchasable === 'in_stock' && $quantity >= $this->availableStock) {
             return $this->quantity = $this->availableStock;
         }
 
