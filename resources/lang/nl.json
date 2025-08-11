@@ -78,7 +78,7 @@
 
         "Add to Shopping Cart": "Toevoegen aan winkelwagen",
 
-        "Material": "Matariaal",
+
 
         "Previous": "Vorige",
         "Next": "Volgende",
@@ -92,6 +92,7 @@
             "Sold out": "Uitverkocht",
             "Including Taxes": "Inclusief belastingen",
 
+        "Material": "Matariaal",
         "variants": "varianten",
         "Options": "Opties",
             "Color": "Kleur",

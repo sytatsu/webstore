@@ -29,8 +29,8 @@
                 {{-- @TODO: create foreach loop for specifications --}}
                 <hr class="text-gray-500"/>
                 <div class="grid grid-cols-2 gap-2">
-                    <span class="font-medium text-black dark:text-white">{{ __('Collection') }}:</span>
-                    <span class="text-end text-black dark:text-white">{{ __('@TODO') }}</span>
+                    <span class="font-medium text-black dark:text-white">{{ __('Material') }}:</span>
+                    <span class="text-end text-black dark:text-white">{{ __('PLA') }}</span>
                 </div>
 
                 {{-- @TODO; Only on last in loop --}}
