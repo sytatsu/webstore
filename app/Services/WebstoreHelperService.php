@@ -49,6 +49,12 @@ class WebstoreHelperService
         })->toArray();
     }
 
+    public static function productPlaceholderImage(): string
+    {
+        return 'https://dummyimage.com/400x400/a5dcf3/ffffff&text=Coming Soon';
+        // return \Vite::asset('resources/images/product_placeholder.jpg');
+    }
+
     public static function getProductRoute(Product $product, array $parameters = []): string
     {
         return self::getRoute(

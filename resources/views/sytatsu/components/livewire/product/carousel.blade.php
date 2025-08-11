@@ -19,7 +19,7 @@
                     @empty
                         <div class="hs-carousel-slide">
                             <img class="size-full object-cover aspect-square transform transition-all scale-100 hover:scale-105"
-                                 src="https://dummyimage.com/400x400/a5dcf3/ffffff&text=Coming Soon"
+                                 src="{{ \App\Services\WebstoreHelperService::productPlaceholderImage() }}"
                                  alt="product_placeholder">
                         </div>
                     @endforelse
@@ -37,7 +37,7 @@
                     @empty
                         <div class="hs-carousel-slide">
                             <img class="size-full object-cover aspect-square transform transition-all scale-100 hover:scale-105"
-                                 src="https://dummyimage.com/400x400/a5dcf3/ffffff&text=Coming Soon"
+                                 src="{{ \App\Services\WebstoreHelperService::productPlaceholderImage() }}"
                                  alt="product_placeholder">
                         </div>
                     @endforelse
@@ -73,7 +73,7 @@
 
     @if ($this->images->count() > 1)
         @if ($this->carouselType === \App\Enums\CarouselTypeEnum::COMPACT)
-            <div class="hs-carousel-pagination flex justify-center absolute bottom-3 start-0 end-0 flex gap-x-2"></div>
+            <div class="hs-carousel-pagination flex justify-center absolute bottom-3 start-0 end-0 gap-x-2"></div>
         @else {{-- \App\Enums\CarouselTypeEnum::EXPANDED --}}
             <div class="hs-carousel-pagination overflow-x-auto">
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 pt-4">

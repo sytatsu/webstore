@@ -51,7 +51,7 @@
                             <li>
                                 <div class="flex py-4" wire:key="line_{{ $line['id'] }}">
                                     <img class="object-cover aspect-square w-16 h-16 rounded"
-                                         src="{{ $line['thumbnail'] ?? Vite::asset('resources/images/product_placeholder.jpg') }}">
+                                         src="{{ $line['thumbnail'] ?? \App\Services\WebstoreHelperService::productPlaceholderImage() }}">
 
                                     <div class="flex-1 ml-4">
                                         {{-- @TODO; Option does not get translated correctly --}}
