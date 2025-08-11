@@ -86,6 +86,7 @@ class Cart extends Component
     {
         $this->cartService->removeLine($id);
         $this->mapLines();
+        $this->dispatch('cart-updated');
     }
 
     public function handleAddToCart(): void
