@@ -13,12 +13,13 @@ class ProductPage extends SytatsuBasePage
 {
     protected string $view = 'sytatsu.webstore.product';
 
-    #[Url(except: '')]
-    public string $purchasable_id = '';
+    #[Url(as: 'purchasable_id', except: '')]
+    public string $purchasableId = '';
     public Product $product;
 
     public array $selectedOptionValues = [];
 
+//    @TODO; Mount does a lot a should be optimized
     public function mount(Product $product): void
     {
         $this->product = $product;
@@ -28,8 +29,8 @@ class ProductPage extends SytatsuBasePage
             'product' => $this->product,
         ]);
 
-        if ($this->purchasable_id) {
-            $optionValues = ProductVariant::find($this->purchasable_id)->values;
+        if ($this->purchasableId) {
+            $optionValues = ProductVariant::find($this->purchasableId)->values;
             $this->selectedOptionValues = [];
             foreach ($optionValues as $value) {
                 $this->selectedOptionValues[$value->product_option_id] = $value->id;
@@ -48,7 +49,7 @@ class ProductPage extends SytatsuBasePage
     public function setSelectedOptionValue(int $optionId, int $valueId): void
     {
         $this->selectedOptionValues[$optionId] = $valueId;
-        $this->getVariantProperty();
+        $this->getVariantProperty(); // @TODO; This is only used to update the purchable_id in the query string
     }
 
     /**
@@ -58,6 +59,7 @@ class ProductPage extends SytatsuBasePage
      */
     public function getVariantProperty()
     {
+        // @TODO; this function does a lot but hardly readable
         $variant = $this->product->variants->first(function ($variant) {
             return ! $variant->values->pluck('id')
                 ->diff(
@@ -65,7 +67,7 @@ class ProductPage extends SytatsuBasePage
                 )->count();
         });
 
-        $this->purchasable_id = $variant->id;
+        $this->purchasableId = $variant->id;
 
         return $variant;
     }
@@ -87,6 +89,7 @@ class ProductPage extends SytatsuBasePage
      */
     public function getProductOptionsProperty()
     {
+        // @TODO; this function does a lot but hardly readable
         return $this->productOptionValues->unique('id')->groupBy('product_option_id')
             ->map(function ($values) {
                 return [
