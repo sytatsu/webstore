@@ -17,10 +17,9 @@
                                  alt="{{ $image->name }}">
                         </div>
                     @empty
-                        {{-- @TODO; Placeholder image should be replaced, now image from outdated logo --}}
                         <div class="hs-carousel-slide">
                             <img class="size-full object-cover aspect-square transform transition-all scale-100 hover:scale-105"
-                                 src="{{ Vite::asset('resources/images/product_placeholder.jpg') }}"
+                                 src="https://dummyimage.com/400x400/a5dcf3/ffffff&text=Coming Soon"
                                  alt="product_placeholder">
                         </div>
                     @endforelse
@@ -36,10 +35,9 @@
                                  alt="{{ $image->name }}">
                         </div>
                     @empty
-                        {{-- @TODO; Placeholder image should be replaced, now image from outdated logo --}}
                         <div class="hs-carousel-slide">
                             <img class="size-full object-cover aspect-square transform transition-all scale-100 hover:scale-105"
-                                 src="{{ Vite::asset('resources/images/product_placeholder.jpg') }}"
+                                 src="https://dummyimage.com/400x400/a5dcf3/ffffff&text=Coming Soon"
                                  alt="product_placeholder">
                         </div>
                     @endforelse
