@@ -33,6 +33,8 @@
                     <span class="text-end text-black dark:text-white">{{ __('@TODO') }}</span>
                 </div>
 
+                {{-- @TODO; Only on last in loop --}}
+                <hr class="text-gray-500"/>
             </div>
             <div class="flex justify-end">
                 <button type="button" class="hs-collapse-toggle inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent text-primary-dark decoration-2 hover:text-primary hover:underline focus:outline-hidden focus:underline focus:text-primary disabled:opacity-50 disabled:pointer-events-none dark:text-primary dark:hover:text-primary-light dark:focus:text-primary-light" id="hs-show-hide-collapse" aria-expanded="false" aria-controls="hs-show-hide-collapse-heading" data-hs-collapse="#hs-show-hide-collapse-heading">
