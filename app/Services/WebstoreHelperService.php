@@ -2,55 +2,82 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection as IlluminateCollection;
+use Lunar\Models\Collection;
 use Lunar\Models\Product;
 use Lunar\Models\ProductOption;
 use Lunar\Models\ProductOptionValue;
 
 class WebstoreHelperService
 {
-    private string $productRouteName = 'sytatsu.webstore.product';
-    private string $collectionRouteName = 'sytatsu.webstore.collection';
+    private const string ROUTE_PRODUCT    = 'sytatsu.webstore.product';
+    private const string ROUTE_COLLECTION = 'sytatsu.webstore.collection';
 
-    /**
-     * @param \Illuminate\Support\Collection<\Lunar\Models\Price> $priceCollection
-     */
-    public static function priceRangeString(Collection $priceCollection): string
+    public static function priceRangeString(IlluminateCollection $priceCollection): string
     {
-        $priceCollection = $priceCollection->unique('price');
+        if ($priceCollection->isEmpty()) {
+            return __('N/A');
+        }
 
-        if ($priceCollection->count() <= 1) {
-            return $priceCollection->first()?->price->formatted() ?? 'N/A';
+        $uniquePrices = $priceCollection->unique('price');
+
+        if ($uniquePrices->count() === 1) {
+            return $uniquePrices->first()->price->formatted();
         }
 
         return sprintf(
             '%s %s',
             __('From'),
-            $priceCollection->sortBy('price')->first()->price->formatted()
+            $uniquePrices->sortBy('price')->first()->price->formatted()
         );
     }
 
     public static function productOptionsArray(Product $product): array
     {
+        if ($product->productOptions->isEmpty()) {
+            return [];
+        }
+
         return $product->productOptions->mapWithKeys(function (ProductOption $productOption) {
-            return [$productOption->translate('name') => $productOption->values->map(fn (ProductOptionValue $value) => [
-                'id' => $value->id,
+            $mappedValues = $productOption->values->map(static fn(ProductOptionValue $value) => [
+                'id'   => $value->id,
                 'name' => $value->translate('name')
-            ])];
+            ]);
+
+            return [$productOption->translate('name') => $mappedValues];
         })->toArray();
     }
 
     public static function getProductRoute(Product $product, array $parameters = []): string
     {
-        return route('sytatsu.webstore.product', array_merge($parameters, [
-            'product' => $product->defaultUrl->slug,
-        ]));
+        return self::getRoute(
+            model: $product,
+            routeName: self::ROUTE_PRODUCT,
+            parameterKey: 'product',
+            parameters: $parameters
+        );
     }
 
-    public static function getCollectionRoute(\Lunar\Models\Collection $collection, array $parameters = []): string
+    public static function getCollectionRoute(Collection $collection, array $parameters = []): string
     {
-        return route('sytatsu.webstore.collection', array_merge($parameters, [
-            'collection' => $collection->defaultUrl->slug
-        ]));
+        return self::getRoute(
+            model: $collection,
+            routeName: self::ROUTE_COLLECTION,
+            parameterKey: 'collection',
+            parameters: $parameters
+        );
     }
+
+    private static function getRoute(Model $model, string $routeName, string $parameterKey, array $parameters = []): string
+    {
+        $defaultUrl = $model->defaultUrl;
+        if (!$defaultUrl?->slug) {
+            $modelType = class_basename($model);
+            throw new \InvalidArgumentException("{$modelType} must have a default URL with slug");
+        }
+
+        return route($routeName, $parameters + [$parameterKey => $defaultUrl->slug]);
+    }
+
 }
