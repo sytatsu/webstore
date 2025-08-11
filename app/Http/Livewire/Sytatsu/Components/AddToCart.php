@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Sytatsu\Components;
 
+use App\Services\CartService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -12,6 +13,8 @@ use Lunar\Models\Cart as LunarCart;
 
 class AddToCart extends Component
 {
+    private readonly CartService $cartService;
+
     /**
      * The purchasable model we want to add to the cart.
      *
@@ -30,6 +33,11 @@ class AddToCart extends Component
         'cart-updated' => '$refresh',
     ];
 
+    public function boot(CartService $cartService): void
+    {
+        $this->cartService = $cartService;
+    }
+
     public function rules(): array
     {
         return [
@@ -39,14 +47,12 @@ class AddToCart extends Component
 
     public function getCartProperty(): LunarCart
     {
-        return CartSession::current();
+        return $this->cartService->getCurrentCart();
     }
 
     public function getAvailableStockProperty(): int
     {
-        $inCart = $this->cart->lines->first(fn($line) => $line->purchasable_id === $this->purchasable->id)?->quantity;
-        $avilableStock = $this->purchasable->stock;
-        return $avilableStock - $inCart;
+        return $this->cartService->getAvailableStockProperty($this->purchasable);
     }
 
     public function updatedQuantity($quantity): int
@@ -55,7 +61,7 @@ class AddToCart extends Component
             return $this->quantity = 1;
         }
 
-        if ($quantity >= $this->availableStock) {
+        if ($this->purchasable->purchasable === 'stock' && $quantity >= $this->availableStock) {
             return $this->quantity = $this->availableStock;
         }
 
@@ -78,16 +84,16 @@ class AddToCart extends Component
         $this->updatedQuantity($this->quantity);
     }
 
-    public function addToCart()
+    public function addToCart(): void
     {
         $this->validate();
 
-        if ($this->purchasable->purchasable !== 'always' && $this->purchasable->stock < $this->quantity) {
+        if ($this->purchasable->purchasable === 'in_stock' && $this->purchasable->stock < $this->quantity) {
             $this->addError('quantity', 'The quantity exceeds the available stock.');
             return;
         }
 
-        CartSession::manager()->add($this->purchasable, $this->quantity);
+        $this->cartService->addLine($this->purchasable, $this->quantity);
         $this->dispatch('add-to-cart');
     }
 
