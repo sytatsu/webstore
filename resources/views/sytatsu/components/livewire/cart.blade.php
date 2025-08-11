@@ -50,7 +50,6 @@
                                          src="{{ $line['thumbnail'] ?? \App\Services\WebstoreHelperService::productPlaceholderImage() }}">
 
                                     <div class="flex-1 ml-4">
-                                        {{-- @TODO; Option does not get translated correctly --}}
                                         <a href="{{ \App\Services\WebstoreHelperService::getProductRoute($line['purchasable']->product, ['purchasable_id' => $line['purchasable']->id]) }}" class="max-w-[20ch] text-sm font-medium text-black dark:text-white hover:underline">
                                             <span class="font-bold">{{ $line['description'] }}</span>
 
@@ -60,6 +59,7 @@
                                         </a>
 
                                         <div class="flex items-center mt-2">
+                                            {{-- @TODO; Loader on change --}}
                                             <div class="flex rounded-lg border border-gray-100 dark:border-slate-800">
                                                 <button type="button" class="size-8 m-0 inline-flex justify-center items-center gap-x-2 text-xs font-semibold rounded-s-md border border-transparent text-black dark:text-white bg-white hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
                                                         wire:click.prevent="incrementLine('{{ $index }}')"
