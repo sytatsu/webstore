@@ -3,10 +3,6 @@
          cartOpen: @entangle('cartOpen')
      }">
 
-    {{-- @TODO; Make component themed (dark mode) --}}
-    {{-- @TODO; Make component translatable --}}
-    {{-- @TODO; Make component fit the current style --}}
-
     <button class="relative grid w-16 h-16 transition hover:opacity-75  m-auto"
             x-on:click="cartOpen = !cartOpen">
         <span class="sr-only">
@@ -62,8 +58,6 @@
                                         </a>
 
                                         <div class="flex items-center mt-2">
-
-                                            {{-- @TODO; Alter to be correct size and correct function --}}
                                             <div class="flex rounded-lg border border-gray-100 dark:border-slate-800">
                                                 <button type="button" class="size-8 m-0 inline-flex justify-center items-center gap-x-2 text-xs font-semibold rounded-s-md border border-transparent text-black dark:text-white bg-white hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
                                                         wire:click.prevent="incrementLine('{{ $index }}')"
