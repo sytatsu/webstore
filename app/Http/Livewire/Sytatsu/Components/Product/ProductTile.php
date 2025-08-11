@@ -2,8 +2,7 @@
 
 namespace App\Http\Livewire\Sytatsu\Components\Product;
 
-use App\DataTransformers\PriceTransformer;
-use App\DataTransformers\ProductTransformer;
+use App\Services\WebstoreHelperService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -21,12 +20,12 @@ class ProductTile extends Component
 
     public function getPriceRangeString(): string
     {
-        return PriceTransformer::rangeString(priceCollection: $this->product->prices);
+        return WebstoreHelperService::priceRangeString(priceCollection: $this->product->prices);
     }
 
     public function getProductOptionsArray(): array
     {
-        return ProductTransformer::productOptionsArray(product: $this->product);
+        return WebstoreHelperService::productOptionsArray(product: $this->product);
     }
 
     public function render(): Factory|View|Application

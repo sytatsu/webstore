@@ -55,7 +55,7 @@
 
                                     <div class="flex-1 ml-4">
                                         {{-- @TODO; Option does not get translated correctly --}}
-                                        <a href="{{ \App\DataTransformers\RouteTransformer::getProductRoute($line['purchasable']->product, ['option_id' => $line['option_id']]) }}" class="max-w-[20ch] text-sm font-medium text-black dark:text-white hover:underline">
+                                        <a href="{{ \App\Services\WebstoreHelperService::getProductRoute($line['purchasable']->product, ['option_id' => $line['option_id']]) }}" class="max-w-[20ch] text-sm font-medium text-black dark:text-white hover:underline">
                                             <span class="font-bold">{{ $line['description'] }}</span>
 
                                             @if($line['options']) - {{ __($line['options']) }}@endif

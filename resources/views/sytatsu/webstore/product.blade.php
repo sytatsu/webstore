@@ -21,10 +21,10 @@
 {{--                    @foreach($product->collections as $collection)--}}
 {{--                        <div class="block">--}}
 {{--                            @if ($collection->parent)--}}
-{{--                                <a href="{{ \App\DataTransformers\RouteTransformer::getCollectionRoute($collection->parent) }}" class="hover:underline text-nowrap">{{ $collection->parent->translateAttribute('name') }}</a><span><i class="px-1 fa fa-caret-right"></i></span>--}}
+{{--                                <a href="{{ \App\Services\WebstoreHelperService::getCollectionRoute($collection->parent) }}" class="hover:underline text-nowrap">{{ $collection->parent->translateAttribute('name') }}</a><span><i class="px-1 fa fa-caret-right"></i></span>--}}
 {{--                            @endif--}}
 
-{{--                            <a href="{{ \App\DataTransformers\RouteTransformer::getCollectionRoute($collection) }}" class="hover:underline text-nowrap">{{ $collection->translateAttribute('name') }}</a>--}}
+{{--                            <a href="{{ \App\Services\WebstoreHelperService::getCollectionRoute($collection) }}" class="hover:underline text-nowrap">{{ $collection->translateAttribute('name') }}</a>--}}
 {{--                        </div>--}}
 {{--                    @endforeach--}}
 {{--                </div>--}}

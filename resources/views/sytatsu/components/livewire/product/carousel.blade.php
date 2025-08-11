@@ -8,7 +8,7 @@
     <div class="hs-carousel relative overflow-x-hidden min-w-full bg-white rounded-2xl shadow mb-4 md:mb-0">
 
         @if ($this->carouselType === \App\Enums\CarouselTypeEnum::COMPACT)
-            <a class="flex flex-col aspect-square" href="{{ \App\DataTransformers\RouteTransformer::getProductRoute($this->product) }}">
+            <a class="flex flex-col aspect-square" href="{{ \App\Services\WebstoreHelperService::getProductRoute($this->product) }}">
                 <div class="hs-carousel-body absolute top-0 bottom-0 start-0 flex flex-nowrap transition-transform duration-700 opacity-0 min-w-full overflow-hidden">
                     @forelse($this->images as $image)
                         <div class="hs-carousel-slide">
