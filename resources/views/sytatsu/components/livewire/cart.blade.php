@@ -54,7 +54,9 @@
                                         <a href="{{ \App\Services\WebstoreHelperService::getProductRoute($line['purchasable']->product, ['option_id' => $line['option_id']]) }}" class="max-w-[20ch] text-sm font-medium text-black dark:text-white hover:underline">
                                             <span class="font-bold">{{ $line['description'] }}</span>
 
-                                            @if($line['options']) - {{ __($line['options']) }}@endif
+                                            @if($line['options'])
+                                                <span> - {{ __($line['options']) }}</span>
+                                            @endif
                                         </a>
 
                                         <div class="flex items-center mt-2">
