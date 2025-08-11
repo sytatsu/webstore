@@ -2,8 +2,7 @@
 
 namespace App\Http\Livewire\Sytatsu\Pages\Webstore;
 
-use App\DataTransformers\PriceTransformer;
-use App\DataTransformers\ProductTransformer;
+use App\Services\WebstoreHelperService;
 use Lunar\Models\Product;
 use App\Http\Livewire\Sytatsu\SytatsuBasePage;
 
@@ -76,11 +75,11 @@ class ProductPage extends SytatsuBasePage
 
     public function getPriceRangeString(): string
     {
-        return PriceTransformer::rangeString(priceCollection: $this->product->prices);
+        return WebstoreHelperService::priceRangeString(priceCollection: $this->product->prices);
     }
 
     public function getProductOptionsArray(): array
     {
-        return ProductTransformer::productOptionsArray(product: $this->product);
+        return WebstoreHelperService::productOptionsArray(product: $this->product);
     }
 }
