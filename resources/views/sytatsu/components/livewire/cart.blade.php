@@ -42,7 +42,7 @@
         <div>
             @if ($this->cart && $lines)
                 <div class="flow-root">
-                    <ul class="-my-4 overflow-y-auto divide-y divide-gray-500 max-h-96">
+                    <ul class="-my-4 overflow-y-auto divide-y divide-gray-200 dark:divide-gray-500 max-h-96">
                         @foreach ($lines as $index => $line)
                             <li>
                                 <div class="flex py-4" wire:key="line_{{ $line['id'] }}">
@@ -51,7 +51,7 @@
 
                                     <div class="flex-1 ml-4">
                                         {{-- @TODO; Option does not get translated correctly --}}
-                                        <a href="{{ \App\Services\WebstoreHelperService::getProductRoute($line['purchasable']->product, ['option_id' => $line['option_id']]) }}" class="max-w-[20ch] text-sm font-medium text-black dark:text-white hover:underline">
+                                        <a href="{{ \App\Services\WebstoreHelperService::getProductRoute($line['purchasable']->product, ['purchasable_id' => $line['purchasable']->id]) }}" class="max-w-[20ch] text-sm font-medium text-black dark:text-white hover:underline">
                                             <span class="font-bold">{{ $line['description'] }}</span>
 
                                             @if($line['options'])
@@ -118,7 +118,7 @@
                     </ul>
                 </div>
 
-                <dl class="flex flex-wrap pt-4 mt-6 text-sm border-t border-gray-100 dark:border-gray-500">
+                <dl class="flex flex-wrap pt-4 mt-6 text-sm border-t border-gray-200 dark:border-gray-500">
                     <dt class="w-1/2 font-medium text-black dark:text-white">
                         Sub-Totaal
                     </dt>
