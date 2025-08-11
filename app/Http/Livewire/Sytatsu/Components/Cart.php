@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Sytatsu\Components;
 
+use App\Services\CartService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -13,12 +14,19 @@ use Lunar\Models\ProductOption;
 
 class Cart extends Component
 {
+    private readonly CartService $cartService;
+
     public array $lines = [];
     public bool $cartOpen = false;
 
     protected $listeners = [
         'add-to-cart' => 'handleAddToCart',
     ];
+
+    public function boot(CartService $cartService): void
+    {
+        $this->cartService = $cartService;
+    }
 
     public function mount(): void
     {
@@ -27,7 +35,7 @@ class Cart extends Component
 
     public function getCartProperty(): LunarCart
     {
-        return CartSession::current();
+        return $this->cartService->getCurrentCart();
     }
 
     public function getLinesProperty(): array
@@ -38,7 +46,7 @@ class Cart extends Component
 
     public function getCartTotalQuantityProperty(): int
     {
-        return array_sum(collect($this->lines)->map(fn (array $mappedCartLine) => $mappedCartLine['quantity'])->toArray()) ?? 0;
+        return $this->cartService->getTotalQuantity($this->lines);
     }
 
     public function rules(): array
@@ -48,66 +56,35 @@ class Cart extends Component
         ];
     }
 
-    public function incrementLine(string $index)
+    public function incrementLine(string $index): void
     {
-        $this->lines[$index]['quantity']++;
-
-        if ($this->lines[$index]['quantity'] >  $this->lines[$index]['purchasable']->stock) {
-             $this->lines[$index]['quantity'] = $this->lines[$index]['purchasable']->stock;
-        }
-
-        $this->updateLines();
+        $this->lines = $this->cartService->incrementLine($this->lines, $index);
+        $this->dispatch('cart-updated');
     }
 
-    public function decrementLine(string $index)
+    public function decrementLine(string $index): void
     {
-        $this->lines[$index]['quantity']--;
-
-        if ($this->lines[$index]['quantity'] <= 0) {
-            $this->removeLine($this->lines[$index]['id']);
-        }
-
-        $this->updateLines();
+        $this->lines = $this->cartService->decrementLine($this->lines, $index);
+        $this->dispatch('cart-updated');
     }
 
-    public function updateQuantity(string $index, int $quantity)
+    public function updateQuantity(string $index, int $quantity): void
     {
-        $this->lines[$index]['quantity'] = $quantity;
-
-        $this->updateLines();
+        $this->lines = $this->cartService->updateQuantity($this->lines, $index, $quantity);
+        $this->validate();
+        $this->dispatch('cart-updated');
     }
 
     public function updateLines(): void
     {
-        // @TODO; Make sure this mess does not get to production
-        $this->lines = array_map(function (array $line) {
-            $line['quantity'] = $line['quantity'] > $line['purchasable']->stock
-                ? $line['purchasable']->stock
-                : $line['quantity'];
-            return $line;
-        }, $this->lines) ?? [];
-
-        $this->lines = array_filter($this->lines, function (array $line) {
-            if ($line['quantity'] <= 0) {
-                CartSession::remove($line['id']);
-                return false;
-            }
-
-            return true;
-        });
-
         $this->validate();
-
-        CartSession::updateLines(
-            collect($this->lines)
-        );
-        $this->mapLines();
+        $this->lines = $this->cartService->updateLines($this->lines);
         $this->dispatch('cart-updated');
     }
 
-    public function removeLine($id)
+    public function removeLine($id): void
     {
-        CartSession::remove($id);
+        $this->cartService->removeLine($id);
         $this->mapLines();
     }
 
@@ -119,20 +96,7 @@ class Cart extends Component
 
     public function mapLines(): void
     {
-        $this->lines = $this->cart->lines->map(fn (CartLine $line) => [
-             'id' => $line->id,
-             'purchasable' => $line->purchasable,
-             'product' => $line->purchasable->product,
-             'option_id' => $line->purchasable->option_id,
-             'identifier' => $line->purchasable->getIdentifier(),
-             'quantity' => $line->quantity,
-             'description' => $line->purchasable->getDescription(),
-             'thumbnail' => $line->purchasable->getThumbnail()?->getUrl(),
-             'option' => $line->purchasable->getOption(),
-             'options' => $line->purchasable->getOptions()->map(fn (string $option) => __($option))->implode(' / '),
-             'sub_total' => $line->subTotal->formatted(),
-             'unit_price' => $line->unitPrice->formatted(),
-        ])->toArray();
+        $this->lines = $this->cartService->mapCartLines();
     }
 
     public function render(): View|Factory|Application
