@@ -6,7 +6,7 @@
             {{ $this->purchasable->basePrices->first()->price->formatted() }}
         </p>
 
-        <span class="text-sm text-gray-400">({{ __('Inclusief belastingen') }})</span>
+        <span class="text-sm text-gray-400">({{ __('Including Taxes') }})</span>
 
         @if($this->purchasable->purchasable === 'in_stock')
             @if ($this->availableStock !== 0)

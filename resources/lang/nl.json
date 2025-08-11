@@ -46,11 +46,13 @@
         "Show specifications": "",
         "Hide specifications": "",
 
-        "Add to Shopping Cart": "Toevoegen aan winkelwagen",
+        "Add to shopping cart": "Toevoegen aan winkelwagen",
             "Quantity": "Hoeveelheid",
             "Available": "Beschikbaar",
             "Sold out": "Uitverkocht",
             "Including Taxes": "Inclusief belastingen",
+
+        "Material": "",
 
         "Options": "Opties",
             "Color": "Kleur",
