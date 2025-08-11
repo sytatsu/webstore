@@ -15,7 +15,7 @@ class WebstoreHelperService
     /**
      * @param \Illuminate\Support\Collection<\Lunar\Models\Price> $priceCollection
      */
-    public function priceRangeString(Collection $priceCollection): string
+    public static function priceRangeString(Collection $priceCollection): string
     {
         $priceCollection = $priceCollection->unique('price');
 
@@ -30,7 +30,7 @@ class WebstoreHelperService
         );
     }
 
-    public function productOptionsArray(Product $product): array
+    public static function productOptionsArray(Product $product): array
     {
         return $product->productOptions->mapWithKeys(function (ProductOption $productOption) {
             return [$productOption->translate('name') => $productOption->values->map(fn (ProductOptionValue $value) => [
@@ -40,14 +40,14 @@ class WebstoreHelperService
         })->toArray();
     }
 
-    public function getProductRoute(Product $product, array $parameters = []): string
+    public static function getProductRoute(Product $product, array $parameters = []): string
     {
         return route('sytatsu.webstore.product', array_merge($parameters, [
             'product' => $product->defaultUrl->slug,
         ]));
     }
 
-    public function getCollectionRoute(\Lunar\Models\Collection $collection, array $parameters = []): string
+    public static function getCollectionRoute(\Lunar\Models\Collection $collection, array $parameters = []): string
     {
         return route('sytatsu.webstore.collection', array_merge($parameters, [
             'collection' => $collection->defaultUrl->slug
