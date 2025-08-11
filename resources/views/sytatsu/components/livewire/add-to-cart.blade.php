@@ -24,7 +24,7 @@
             <label for="quantity" class="sr-only">{{ __('Quantity') }}</label>
             <div class="flex rounded-lg border border-gray-100 dark:border-slate-800">
                 <button type="button" class="size-11.5 m-0 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-s-md border border-transparent text-black dark:text-white bg-white hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
-                        wire:click.prevent="increment()" @disabled($this->availableStock <= $quantity)>
+                        wire:click.prevent="increment()" @disabled($this->purchasable->purchasable === 'in_stock' && $this->availableStock <= $quantity)>
                     <i class="fa fa-plus"></i>
                 </button>
 
