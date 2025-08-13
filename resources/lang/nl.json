@@ -49,10 +49,9 @@
         "Delivery time & shipping costs": "",
         "Return conditions & registration": "",
 
-
+    "From": "Vanaf",
     "Collection": "Collectie",
     "Collections": "Collecties",
-    "From": "Vanaf",
 
     "Material": "",
 
@@ -68,6 +67,7 @@
         "Sold out": "Uitverkocht",
         "Including Taxes": "Inclusief belastingen",
 
+    "variants": "varianten",
     "Options": "Opties",
         "Color": "Kleur",
             "White": "Wit",

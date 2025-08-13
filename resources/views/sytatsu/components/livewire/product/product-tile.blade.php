@@ -8,7 +8,7 @@
                     {{ $this->product->translateAttribute('name') }}
                 </h3>
 
-                <p class="mt-2 font-semibold text-black dark:text-white">
+                <p class="mt-2 text-black dark:text-white">
                     {{ $this->getPriceRangeString() }}
                 </p>
             </div>
@@ -58,11 +58,17 @@
 
     {{-- @TODO; Should be converted to a livewire component --}}
     <div class="flex gap-3 mt-auto">
-        <a class="py-2 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium text-nowrap rounded-xl border border-transparent bg-primary-dark text-white hover:bg-primary focus:outline-hidden focus:bg-primary-dark transition disabled:opacity-50 disabled:pointer-events-none"
-           {{-- @TODO; Make sure an event gets fired to add to shopping cart --}}
-           {{-- @TODO; Make a pop-up with option list if variants exisits --}}
-           {{-- @TODO; Disabled state when out of stock --}}
-           href="#bag_{{ $this->product->id }}">{{ __('Add to Cart') }}<i class="fa fa-cart-shopping"></i>
-        </a>
+        @if ($this->product->variants->count() >= 2)
+            <a class="size-11.5 py-2 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium text-nowrap rounded-xl border border-primary-dark text-white hover:bg-primary focus:outline-hidden focus:bg-primary-dark transition disabled:opacity-50 disabled:pointer-events-none"
+               href="{{ \App\Services\WebstoreHelperService::getProductRoute($this->product) }}">
+                {{ $this->product->variants->count() }} {{ __('variants') }}
+            </a>
+        @else
+            <livewire:sytatsu.components.add-to-cart
+                :minimalistic="true"
+                :purchasable="$this->product->variant"
+                :wire:key="$this->product->variant->id"
+            />
+        @endif
     </div>
 </div>
