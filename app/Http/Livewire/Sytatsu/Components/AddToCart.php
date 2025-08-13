@@ -22,6 +22,8 @@ class AddToCart extends Component
      */
     public ?Purchasable $purchasable = null;
 
+    public bool $minimalistic = false;
+
     /**
      * The quantity to add to cart.
      *
