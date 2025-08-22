@@ -77,7 +77,7 @@
                 <livewire:sytatsu.components.locale-switcher/>
 
                 <button type="button"
-                        class="dark:hidden flex hs-dark-mode font-medium text-gray-800 rounded-full focus:outline-none dark:text-neutral-200 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                        class="dark:hidden flex hs-dark-mode font-medium text-gray-800 hover:text-gray-900 rounded-full focus:outline-none dark:text-neutral-200 dark:hover:text-neutral-300"
                         data-hs-theme-click-value="dark">
                           <span class="group inline-flex shrink-0 justify-center items-center size-9 my-auto">
                             <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -87,7 +87,7 @@
                           </span>
                 </button>
                 <button type="button"
-                        class="dark:flex hidden hs-dark-mode font-medium text-gray-800 rounded-full focus:outline-none dark:text-neutral-200 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                        class="dark:flex hidden hs-dark-mode font-medium text-gray-800 hover:text-gray-900 rounded-full focus:outline-none dark:text-neutral-200 dark:hover:text-neutral-300"
                         data-hs-theme-click-value="light">
                           <span class="group inline-flex shrink-0 justify-center items-center size-9 my-auto">
                             <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
