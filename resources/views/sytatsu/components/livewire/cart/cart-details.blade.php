@@ -1,7 +1,7 @@
 <div>
     @if ($this->cart && $this->lines)
         <div class="flow-root">
-            <ul class="-my-4 overflow-y-auto divide-y divide-gray-200 dark:divide-gray-500 max-h-96">
+            <ul class="-mt-4 overflow-y-auto divide-y divide-gray-200 dark:divide-gray-500{{ $this->checkout ? "" : " max-h-96" }}">
                 @foreach ($this->lines as $index => $line)
                     <li>
                         <div class="flex py-4" wire:key="line_{{ $line['id'] }}">
@@ -77,22 +77,58 @@
             </ul>
         </div>
 
-        <dl class="flex flex-wrap pt-4 mt-6 text-sm border-t border-gray-200 dark:border-gray-500">
-            <dt class="w-1/2 font-medium text-black dark:text-white">
-                {{ __('Sub-total') }}
-            </dt>
+        <hr class="text-gray-300 dark:text-gray-400">
 
-            <dd class="w-1/2 text-right text-black dark:text-white">
-                {{ $this->cart->subTotal->formatted() }}
-            </dd>
-        </dl>
+        <div class="divide-y divide-gray-200 dark:divide-gray-500">
+            @if ($this->checkout)
+                <dl class="flex flex-wrap py-2 text-sm">
+                    <dt class="w-1/2 font-medium text-black dark:text-white">
+                        {{ __('Sub-total') }}
+                    </dt>
+
+                    <dd class="w-1/2 text-right text-black dark:text-white">
+                        {{ $this->cart->subTotal->formatted() }}
+                    </dd>
+                </dl>
+
+                <dl class="flex flex-wrap py-2 text-sm">
+                    <dt class="w-1/2 font-medium text-black dark:text-white">
+                        {{ __('Tax') }}
+                    </dt>
+
+                    <dd class="w-1/2 text-right text-black dark:text-white">
+                        {{ $this->cart->taxTotal->formatted() }}
+                    </dd>
+                </dl>
+
+                <dl class="flex flex-wrap py-2 text-sm">
+                    <dt class="w-1/2 font-medium text-black dark:text-white">
+                        {{ __('Shipping costs') }}
+                    </dt>
+
+                    <dd class="w-1/2 text-right text-black dark:text-white">
+                        {{ $this->cart->shippingTotal?->formatted() ?? __('Unknown') }}
+                    </dd>
+                </dl>
+            @endif
+
+            <dl class="flex flex-wrap pt-4">
+                <dt class="w-1/2 font-medium text-black dark:text-white">
+                    {{ __('Total') }}
+                </dt>
+
+                <dd class="w-1/2 text-right text-black dark:text-white">
+                    {{ $this->cart->total->formatted() }}
+                </dd>
+            </dl>
+        </div>
     @else
         <p class="py-4 text-sm font-medium text-center text-gray-500 dark:text-gray-300">
             {{ __('Your cart is empty') }}
         </p>
     @endif
 
-    @if ($this->cart && $this->lines)
+    @if (($this->cart && $this->lines) && !$this->checkout)
         <div class="mt-4 space-y-4 text-center">
             <a class="block w-full p-3 text-sm font-medium text-center text-white bg-primary-dark rounded-lg hover:bg-primary"
                href="{{ route('sytatsu.webstore.checkout') }}">

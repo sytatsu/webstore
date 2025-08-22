@@ -13,12 +13,13 @@ class CartDetails extends Component
 {
     private readonly CartService $cartService;
 
+    public bool $checkout = false;
     public array $lines = [];
 
-    protected $listeners
-        = [
-            'add-to-cart' => 'handleAddToCart',
-        ];
+    protected $listeners = [
+        'add-to-cart' => 'handleAddToCart',
+        'cart-updated' => 'mapLines',
+    ];
 
     public function boot(CartService $cartService): void
     {
@@ -78,7 +79,6 @@ class CartDetails extends Component
     public function removeLine($id): void
     {
         $this->cartService->removeLine($id);
-        $this->mapLines();
         $this->dispatch('cart-updated');
     }
 
