@@ -86,9 +86,9 @@ class CartService
         ])->toArray();
     }
 
-    public function getTotalQuantity(array $lines): int
+    public function getTotalQuantity(): int
     {
-        return array_sum(array_column($lines, 'quantity'));
+        return array_sum($this->getCurrentCart()->lines->map(fn (CartLine $line) => $line->quantity)->toArray());
     }
 
     public function getAvailableStockProperty(Purchasable $purchasable): int
