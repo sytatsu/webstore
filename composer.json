@@ -19,7 +19,7 @@
         "laravel/ui": "^4.2",
         "livewire/livewire": "^3.5",
         "lunarphp/lunar": "^1.0.0",
-        "lunarphp/stripe": "^1.0@beta",
+        "lunarphp/stripe": "^1.0.0",
         "sytatsu/filament-printed-production": "@dev",
         "symfony/yaml": "^7.1"
     },
