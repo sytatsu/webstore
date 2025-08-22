@@ -7,10 +7,6 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Livewire\Component;
-use Lunar\Facades\CartSession;
-use Lunar\Models\Cart as LunarCart;
-use Lunar\Models\CartLine;
-use Lunar\Models\ProductOption;
 
 class Cart extends Component
 {
@@ -18,9 +14,11 @@ class Cart extends Component
 
     public array $lines = [];
     public bool $cartOpen = false;
+    public int $cartTotalQuantity = 0;
 
     protected $listeners = [
-        'add-to-cart' => 'handleAddToCart',
+        'add-to-cart' => 'openCart',
+        'cart-updated' => 'calculateCartTotalQuantity'
     ];
 
     public function boot(CartService $cartService): void
@@ -30,74 +28,22 @@ class Cart extends Component
 
     public function mount(): void
     {
-        $this->mapLines();
+        $this->calculateCartTotalQuantity();
     }
 
-    public function getCartProperty(): LunarCart
+    public function openCart(): void
     {
-        return $this->cartService->getCurrentCart();
-    }
-
-    public function getLinesProperty(): array
-    {
-        $this->mapLines();
-        return $this->lines;
-    }
-
-    public function getCartTotalQuantityProperty(): int
-    {
-        return $this->cartService->getTotalQuantity($this->lines);
-    }
-
-    public function rules(): array
-    {
-        return [
-            'lines.*.quantity' => 'required|numeric',
-        ];
-    }
-
-    public function incrementLine(string $index): void
-    {
-        $this->lines = $this->cartService->incrementLine($this->lines, $index);
-        $this->dispatch('cart-updated');
-    }
-
-    public function decrementLine(string $index): void
-    {
-        $this->lines = $this->cartService->decrementLine($this->lines, $index);
-        $this->dispatch('cart-updated');
-    }
-
-    public function updateQuantity(string $index, int $quantity): void
-    {
-        $this->lines = $this->cartService->updateQuantity($this->lines, $index, $quantity);
-        $this->validate();
-        $this->dispatch('cart-updated');
-    }
-
-    public function updateLines(): void
-    {
-        $this->validate();
-        $this->lines = $this->cartService->updateLines($this->lines);
-        $this->dispatch('cart-updated');
-    }
-
-    public function removeLine($id): void
-    {
-        $this->cartService->removeLine($id);
-        $this->mapLines();
-        $this->dispatch('cart-updated');
-    }
-
-    public function handleAddToCart(): void
-    {
-        $this->mapLines();
         $this->cartOpen = true;
     }
 
-    public function mapLines(): void
+    public function closeCart(): void
     {
-        $this->lines = $this->cartService->mapCartLines();
+        $this->cartOpen = false;
+    }
+
+    public function calculateCartTotalQuantity(): void
+    {
+        $this->cartTotalQuantity = $this->cartService->getTotalQuantity();
     }
 
     public function render(): View|Factory|Application
