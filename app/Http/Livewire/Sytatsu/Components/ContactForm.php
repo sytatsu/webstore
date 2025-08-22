@@ -50,6 +50,6 @@ class ContactForm extends Component
 
     public function render(): View|Factory|Application
     {
-        return view('sytatsu.components.contact-form');
+        return view('sytatsu.components.livewire.contact-form');
     }
 }
