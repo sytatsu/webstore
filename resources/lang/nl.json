@@ -43,11 +43,16 @@
         "Privacy statement": "",
         "Sitemap": "Sitemap",
 
-
     "Customer Service": "",
         "Warranty & Complaints": "",
         "Delivery time & shipping costs": "",
         "Return conditions & registration": "",
+
+    "Cart": "Winkelmandje",
+    "Sub-total": "Subtotaal",
+    "Total": "Totaal",
+    "Checkout": "Afrekenen",
+    "Your cart is empty": "Uw winkelmandje is leeg",
 
     "From": "Vanaf",
     "Collection": "Collectie",

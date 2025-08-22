@@ -6,7 +6,7 @@
     <button class="relative grid w-16 h-16 transition hover:opacity-75  m-auto"
             x-on:click="cartOpen = !cartOpen">
         <span class="sr-only">
-            Cart
+            {{ __('Cart') }}
         </span>
         <div class="place-self-center">
             <i class="fa fa-cart-shopping text-size-lg text-slate-800 dark:text-white"></i>
@@ -109,7 +109,7 @@
                                     <div class="p-2 mb-4 text-xs font-medium text-center text-red-700 rounded bg-red-50"
                                          role="alert">
                                         @foreach ($errors->get('lines.' . $index . '.quantity') as $error)
-                                            {{ $error }}
+                                            {{ __($error) }}
                                         @endforeach
                                     </div>
                                 @endif
@@ -120,7 +120,7 @@
 
                 <dl class="flex flex-wrap pt-4 mt-6 text-sm border-t border-gray-200 dark:border-gray-500">
                     <dt class="w-1/2 font-medium text-black dark:text-white">
-                        Sub-Totaal
+                        {{ __('Sub-total') }}
                     </dt>
 
                     <dd class="w-1/2 text-right text-black dark:text-white">
@@ -129,7 +129,7 @@
                 </dl>
             @else
                 <p class="py-4 text-sm font-medium text-center text-gray-500 dark:text-gray-300">
-                    Je winkelmandje is leeg
+                    {{ __('Your cart is empty') }}
                 </p>
             @endif
         </div>
@@ -140,7 +140,7 @@
                    {{-- @TODO; Add checkout route --}}
 {{--                   href="{{ route('checkout.view') }}"--}}
                 >
-                    Afrekenen
+                    {{ __('Checkout') }}
                 </a>
             </div>
         @endif
