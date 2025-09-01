@@ -97,6 +97,7 @@ class AddToCart extends Component
 
         $this->cartService->addLine($this->purchasable, $this->quantity);
         $this->dispatch('add-to-cart');
+        $this->dispatch('cart-updated');
     }
 
     public function render(): View|Factory|Application
