@@ -26,19 +26,20 @@
                 {{-- @TODO; Loader on change --}}
                 <div class="flex rounded-lg border border-gray-100 dark:border-slate-800">
                     <button type="button" class="size-11.5 m-0 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-s-md border border-transparent text-black dark:text-white bg-white hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
-                            wire:click.prevent="increment()" @disabled($this->purchasable->purchasable === 'in_stock' && $this->availableStock <= $quantity)>
+                            wire:loading.attr="disabled" wire:click.prevent="increment()" @disabled($this->purchasable->purchasable === 'in_stock' && $this->availableStock <= $quantity)>
                         <i class="fa fa-plus"></i>
                     </button>
 
-                    <input class="flex-grow sm:w-12 px-1 py-2 text-sm text-center transition-colors border border-transparent text-black dark:text-white bg-white hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 [&::-webkit-inner-spin-button]:appearance-none focus:outline-none"
+                    <input class="flex-grow sm:w-12 px-1 py-2 text-sm text-center transition-colors border border-transparent text-black dark:text-white bg-white hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 [&::-webkit-inner-spin-button]:appearance-none focus:outline-none disabled:pointer-events-none"
                            type="number"
                            id="quantity"
                            min="1"
                            value="1"
-                           wire:model.blur="quantity" />
+                           wire:model.blur="quantity"
+                           wire:loading.attr="disabled"/>
 
                     <button type="button" class="size-11.5 m-0 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-e-md border border-transparent text-black dark:text-white bg-white hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
-                            wire:click.prevent="decrement()" @disabled($quantity <= 1)>
+                            wire:loading.attr="disabled" wire:click.prevent="decrement()" @disabled($quantity <= 1)>
                         <i class="fa fa-minus"></i>
                     </button>
                 </div>
