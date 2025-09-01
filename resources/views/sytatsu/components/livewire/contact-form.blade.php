@@ -7,7 +7,7 @@
                     {{ __('Name') }}
                 </label>
                 <input type="text" wire:model.blur="name" name="hs-fullname-contacts-1" id="hs-fullname-contacts-1"
-                       class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600{{ !$errors->has('name') ?: ' !border-red-500' }}">
+                       class="py-3 px-4 block w-full bg-neutral-50 border-1 border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600{{ !$errors->has('name') ?: ' !border-red-500' }}">
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
@@ -16,12 +16,14 @@
                         <span class="text-red-500">*</span>
                         {{ __('Email') }}
                     </label>
-                    <input type="email" name="hs-email-contacts-1" wire:model.blur="email" id="hs-email-contacts-1" autocomplete="email" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600{{ !$errors->has('email') ?: ' !border-red-500' }}">
+                    <input type="email" name="hs-email-contacts-1" wire:model.blur="email" id="hs-email-contacts-1" autocomplete="email"
+                           class="py-3 px-4 block w-full bg-neutral-50 border-1 border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600{{ !$errors->has('email') ?: ' !border-red-500' }}">
                 </div>
 
                 <div>
                     <label for="hs-phone-number-1" class="block mb-2 text-sm text-gray-700 font-medium dark:text-white">{{ __('Phone Number') }}</label>
-                    <input type="text" name="hs-phone-number-1" wire:model.blur="phone" id="hs-phone-number-1" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600{{ !$errors->has('phone') ?: ' !border-red-500' }}">
+                    <input type="text" name="hs-phone-number-1" wire:model.blur="phone" id="hs-phone-number-1"
+                           class="py-3 px-4 block w-full bg-neutral-50 border-1 border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600{{ !$errors->has('phone') ?: ' !border-red-500' }}">
                 </div>
             </div>
 
@@ -30,7 +32,8 @@
                     <span class="text-red-500">*</span>
                     {{ __('Message') }}
                 </label>
-                <textarea id="hs-about-contacts-1" name="hs-about-contacts-1" wire:model.blur="details" rows="4" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600{{ !$errors->has('details') ?: ' !border-red-500' }}"></textarea>
+                <textarea id="hs-about-contacts-1" name="hs-about-contacts-1" wire:model.blur="details" rows="4"
+                          class="py-3 px-4 block w-full bg-neutral-50 border-1 border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600{{ !$errors->has('details') ?: ' !border-red-500' }}"></textarea>
             </div>
         </div>
 
