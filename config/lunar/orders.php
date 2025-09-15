@@ -81,16 +81,29 @@ return [
         'payment-received' => [
             'label' => 'Payment Received',
             'color' => '#6a67ce',
-            'mailers' => [],
+            'mailers' => [
+                \App\Mail\Sytatsu\Orders\Confirmation::class,
+            ],
             'notifications' => [],
             'favourite' => true,
         ],
 
         'dispatched' => [
             'label' => 'Dispatched',
-            'mailers' => [],
+            'mailers' => [
+                App\Mail\Sytatsu\Orders\Dispatched::class,
+            ],
             'notifications' => [],
             'favourite' => true,
+        ],
+
+        'cancelled' => [
+            'label' => 'Cancelled',
+            'mailers' => [
+                // @TODO; Create cancelled mailer
+            ],
+            'notifications' => [],
+            'favourite' => false,
         ],
 
     ],
@@ -116,10 +129,6 @@ return [
             Lunar\Pipelines\Order\Creation\CleanUpOrderLines::class,
             Lunar\Pipelines\Order\Creation\MapDiscountBreakdown::class,
             App\Pipelines\Lunar\Order\Creation\DecreaseStock::class,
-            App\Pipelines\Lunar\Order\Creation\OrderConfirmation::class,
         ],
-        'update' => [
-
-        ]
     ],
 ];

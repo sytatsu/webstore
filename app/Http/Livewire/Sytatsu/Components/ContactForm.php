@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Sytatsu\Components;
 
-use App\Mail\Sytatsu\ContactFormConfirmation;
+use App\Mail\Sytatsu\Contact;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -38,7 +38,7 @@ class ContactForm extends Component
         }
 
         Mail::to($this->email)
-            ->send(mailable: new ContactFormConfirmation(
+            ->send(mailable: new Contact\Confirmation(
                 data: $validatedArray
             ));
 

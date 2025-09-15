@@ -6,6 +6,7 @@ use App\Modifiers\BasicShippingModifier;
 use Illuminate\Support\ServiceProvider;
 use Lunar\Admin\Support\Facades\LunarPanel;
 use Lunar\Base\ShippingModifiers;
+use Lunar\Models\Order;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,5 +24,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(ShippingModifiers $shippingModifiers): void
     {
         $shippingModifiers->add(BasicShippingModifier::class);
+
+        Order::observe(\App\Observers\OrderObserver::class);;
     }
 }
