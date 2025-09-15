@@ -102,12 +102,17 @@
                 </dl>
 
                 <dl class="flex flex-wrap py-2 text-sm">
-                    <dt class="w-1/2 font-medium text-black dark:text-white">
+                    <dt class="w-1/2 font-medium text-black dark:text-white my-auto">
                         {{ __('Shipping costs') }}
                     </dt>
 
-                    <dd class="w-1/2 text-right text-black dark:text-white">
-                        {{ $this->cart->shippingTotal?->formatted() ?? __('Unknown') }}
+                    <dd class="flex flex-col w-1/2 text-right text-black dark:text-white">
+                        @if ($this->cart->getShippingOption())
+                            <span>{{ $this->cart->getShippingOption()->getName() }}</span>
+                            <span>{{ $this->cart->shippingTotal->formatted() }}</span>
+                        @else
+                            {{ __('Unknown') }}
+                        @endif
                     </dd>
                 </dl>
             @endif

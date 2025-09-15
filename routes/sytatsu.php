@@ -25,6 +25,13 @@ Route::get('/webstore', LivewireSytatsu\Webstore\Welcome::class)->name('sytatsu.
 Route::get('/products/{product}', LivewireSytatsu\Webstore\ProductPage::class)->name('sytatsu.webstore.product');
 Route::get('/collections/{collection}', LivewireSytatsu\Webstore\CollectionPage::class)->name('sytatsu.webstore.collection');
 Route::get('/checkout', LivewireSytatsu\Webstore\CheckoutPage::class)->name('sytatsu.webstore.checkout');
+Route::get('/checkout/success', LivewireSytatsu\Webstore\CheckoutSuccessPage::class)->name('sytatsu.webstore.checkout.success');
+
+Route::get('/forget-cart', function () {
+    \Lunar\Facades\CartSession::forget();
+
+    return redirect()->route('sytatsu.webstore.welcome');
+});
 
 Route::model('product', Product::class, function (string $slug) {
     return ($element = Url::query()->where('slug', $slug)->firstOrFail()->element) instanceof Product ? $element : abort(404, 'Element not Product');

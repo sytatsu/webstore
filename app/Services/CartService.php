@@ -103,6 +103,11 @@ class CartService
         return CartSession::current();
     }
 
+    public function forgetCurrentCart(): void
+    {
+        CartSession::forget();
+    }
+
     private function normalizeQuantities(array $lines): array
     {
         return array_map(function (array $line) {
