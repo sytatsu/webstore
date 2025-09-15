@@ -115,7 +115,11 @@ return [
             Lunar\Pipelines\Order\Creation\CreateShippingLine::class,
             Lunar\Pipelines\Order\Creation\CleanUpOrderLines::class,
             Lunar\Pipelines\Order\Creation\MapDiscountBreakdown::class,
+            App\Pipelines\Lunar\Order\Creation\DecreaseStock::class,
+            App\Pipelines\Lunar\Order\Creation\OrderConfirmation::class,
         ],
-    ],
+        'update' => [
 
+        ]
+    ],
 ];

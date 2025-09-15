@@ -33,6 +33,10 @@
     --color-dark: #000000;
 }
 
+html {
+    font-family: "AvenirNextLTPro-Regular", "Roboto", sans-serif;
+}
+
 /* Adds pointer cursor to buttons */
 @layer base {
     button:not(:disabled),
