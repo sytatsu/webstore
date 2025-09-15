@@ -2,13 +2,13 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build && ln -sfn /var/www/html/resources/images /var/www/html/public/images"
     },
     "devDependencies": {
         "@popperjs/core": "^2.11.6",
         "@tailwindcss/forms": "^0.5.2",
         "alpinejs": "^3.4.2",
-        "autoprefixer": "^10.4.2",
+        "autopre    fixer": "^10.4.2",
         "axios": "^1.1.2",
         "bootstrap": "^5.2.3",
         "laravel-vite-plugin": "^0.7.2",

@@ -4,7 +4,7 @@ return [
 
     'delivery_rates' => [
         'BASDEL' => env('DELIVERY_RATE_BASDEL', 500),
-        'EXDEL' => env('DELIVERY_RATE_EXDEL', 1000),
+        'TARDEL' => env('DELIVERY_RATE_TARDEL', 1000),
     ],
 
     /*

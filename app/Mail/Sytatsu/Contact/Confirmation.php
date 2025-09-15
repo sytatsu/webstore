@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Mail\Sytatsu;
+namespace App\Mail\Sytatsu\Contact;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -9,22 +9,16 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ContactFormConfirmation extends Mailable
+class Confirmation extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     */
     public function __construct(
         protected array $data,
     ) {
         //
     }
 
-    /**
-     * Get the message envelope.
-     */
     public function envelope(): Envelope
     {
         return new Envelope(
@@ -43,13 +37,10 @@ class ContactFormConfirmation extends Mailable
         );
     }
 
-    /**
-     * Get the message content definition.
-     */
     public function content(): Content
     {
         return new Content(
-            view: 'mail.sytatsu.contact-form-confirmation',
+            view: 'mail.sytatsu.contact.confirmation',
             with: [
                 'name'    => $this->data['name'],
                 'email'   => $this->data['email'],

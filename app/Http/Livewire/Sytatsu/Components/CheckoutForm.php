@@ -9,8 +9,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 use Livewire\Component;
-use Livewire\Features\SupportRedirects\HandlesRedirects;
-use Lunar\Facades\Payments;
 use Lunar\Facades\ShippingManifest;
 use Lunar\Models\CartAddress;
 
@@ -81,7 +79,9 @@ class CheckoutForm extends Component
             $this->billingAddress = $this->cart->billingAddress;
         }
 
-        $this->setCheckoutStep(CheckoutStepEnum::SHIPPING_OPTION->value);
+        if ($this->shippingAddress && ($this->isShippingSameAsBilling || $this->billingAddress)) {
+            $this->setCheckoutStep(CheckoutStepEnum::SHIPPING_OPTION->value);
+        }
     }
 
     public function getShippingOptionsProperty(): Collection

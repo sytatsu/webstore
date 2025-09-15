@@ -21,7 +21,7 @@ class BasicShippingModifier extends ShippingModifier
         ShippingManifest::addOption(
             new ShippingOption(
                 name: 'Basic Delivery',
-                description: 'Sending items in 2-3 business days',
+                description: 'Sending items in 1-2 business days without Track & Trace',
                 identifier: 'BASDEL',
                 price: new Price(config('lunar.shipping.delivery_rates.BASDEL'), $cart->currency, 1),
                 taxClass: $this->getDefaultTaxClass()
@@ -30,10 +30,10 @@ class BasicShippingModifier extends ShippingModifier
 
         ShippingManifest::addOption(
             new ShippingOption(
-                name: 'Express Delivery',
-                description: 'Sending items within 1 business day',
-                identifier: 'EXDEL',
-                price: new Price(config('lunar.shipping.delivery_rates.EXDEL'), $cart->currency, 1),
+                name: 'Tracked Delivery',
+                description: 'Sending items within 1-2 business days with Track & Trace',
+                identifier: 'TARDEL',
+                price: new Price(config('lunar.shipping.delivery_rates.TARDEL'), $cart->currency, 1),
                 taxClass: $this->getDefaultTaxClass()
             )
         );
