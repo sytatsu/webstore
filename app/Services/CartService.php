@@ -71,6 +71,8 @@ class CartService
 
     public function mapCartLines(): array
     {
+        $this->getCurrentCart()->refresh()->calculate();
+
         return $this->getCurrentCart()->lines->map(fn (CartLine $line) => [
             'id' => $line->id,
             'purchasable' => $line->purchasable,

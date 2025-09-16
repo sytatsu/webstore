@@ -4,12 +4,12 @@ namespace App\Http\Livewire\Sytatsu\Components;
 
 use App\Enums\CheckoutStepEnum;
 use App\Services\CartService;
+use App\Services\ShippingService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 use Livewire\Component;
-use Lunar\Facades\ShippingManifest;
 use Lunar\Models\CartAddress;
 
 /**
@@ -19,6 +19,7 @@ class CheckoutForm extends Component
 {
 
     private CartService $cartService;
+    private ShippingService $shippingService;
 
     public ?CartAddress $shippingAddress = null;
     public ?CartAddress $billingAddress = null;
@@ -31,11 +32,13 @@ class CheckoutForm extends Component
 
     protected $listeners = [
         'address-updated' => 'refreshAddresses',
+        'updated-cart' => 'resetChosenShipping',
     ];
 
-    public function boot(CartService $cartService): void
+    public function boot(CartService $cartService, ShippingService $shippingService): void
     {
         $this->cartService = $cartService;
+        $this->shippingService = $shippingService;
     }
 
     public function mount()
@@ -84,11 +87,15 @@ class CheckoutForm extends Component
         }
     }
 
+    public function resetChosenShipping(): void
+    {
+        $this->chosenShipping = null;
+        $this->cart->setShippingOption($this->shippingService->getDefaultShippingOption($this->cart));
+    }
+
     public function getShippingOptionsProperty(): Collection
     {
-        return ShippingManifest::getOptions(
-            $this->cart
-        );
+        return $this->shippingService->getAvailableShippingOptions($this->cart);
     }
 
     public function setChosenShipping(string $shipping): void

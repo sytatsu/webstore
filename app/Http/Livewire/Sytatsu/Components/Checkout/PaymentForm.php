@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Sytatsu\Components\Checkout;
 use App\Services\CartService;
 use Livewire\Component;
 use Lunar\Models\Cart;
+use Lunar\Stripe\Enums\CancellationReason;
 use Lunar\Stripe\Facades\Stripe as StripeFacade;
 use Stripe\Stripe;
 
@@ -15,8 +16,10 @@ class PaymentForm extends Component
 
     protected CartService $cartService;
 
+    public string $clientSecret;
+
     protected $listeners = [
-        'updated-cart' => 'refreshCart'
+        'cart-updated' => 'refreshPayment'
     ];
 
     public function boot(CartService $cartService): void
@@ -29,23 +32,18 @@ class PaymentForm extends Component
         Stripe::setApiKey(config('services.stripe.key'));
         $this->policy = config('stripe.policy', 'capture');
         $this->returnUrl = route('sytatsu.webstore.checkout');
+        $this->clientSecret = StripeFacade::createIntent($this->cart)->client_secret;
     }
 
-    protected function refreshCart(): void
+    public function refreshPayment(): void
     {
-        $this->cart->refresh();
+        $this->cart->refresh()->calculate();
+        StripeFacade::syncIntent($this->cart);
     }
 
     public function getCartProperty(): Cart
     {
         return $this->cartService->getCurrentCart();
-    }
-
-    public function getClientSecretProperty(): ?string
-    {
-        $intent = StripeFacade::createIntent($this->cart);
-
-        return $intent->client_secret;
     }
 
     public function getBillingProperty(): mixed
