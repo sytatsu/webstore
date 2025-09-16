@@ -7,6 +7,8 @@ use App\Services\CartService;
 use App\Http\Livewire\Sytatsu\SytatsuBasePage;
 use Lunar\Facades\Payments;
 use Lunar\Models\Cart;
+use Lunar\Stripe\Enums\CancellationReason;
+use Lunar\Stripe\Facades\Stripe as StripeFacade;
 
 class CheckoutPage extends SytatsuBasePage
 {
@@ -19,10 +21,12 @@ class CheckoutPage extends SytatsuBasePage
     protected string $paymentType = 'stripe';
     public ?string $payment_intent = null;
     public ?string $payment_intent_client_secret = null;
+    public ?string $redirect_status = null;
 
     protected $queryString = [
         'payment_intent',
         'payment_intent_client_secret',
+        'redirect_status'
     ];
 
     public function boot(CartService $cartService): void
