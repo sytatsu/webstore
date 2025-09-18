@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Modifiers\BasicShippingModifier;
+use App\Modifiers\PostNLShippingModifier;
 use Illuminate\Support\ServiceProvider;
 use Lunar\Admin\Support\Facades\LunarPanel;
 use Lunar\Base\ShippingModifiers;
@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(ShippingModifiers $shippingModifiers): void
     {
-        $shippingModifiers->add(BasicShippingModifier::class);
+        $shippingModifiers->add(PostNLShippingModifier::class);
 
         Order::observe(\App\Observers\OrderObserver::class);;
     }
