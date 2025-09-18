@@ -22,7 +22,7 @@
                                     <div class="flex rounded-lg border border-gray-100 dark:border-slate-800">
                                         <button type="button" class="size-8 m-0 inline-flex justify-center items-center gap-x-2 text-xs font-semibold rounded-s-md border border-transparent text-black dark:text-white bg-white hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
                                                 wire:click.prevent="incrementLine('{{ $index }}')"
-                                            @disabled($line['purchasable']->purchasable === 'in_stock' && $line['purchasable']->stock <= $line['quantity'])>
+                                            @disabled(($line['purchasable']->purchasable === 'in_stock' && $line['purchasable']->stock <= $line['quantity']) || $this->isCartDisabled())>
                                             <i class="fa fa-plus"></i>
                                         </button>
 
@@ -34,10 +34,11 @@
                                                wire:model.debounce="lines.{{ $index }}.quantity"
                                                wire:change="updateLines"
                                                wire:loading.attr="disabled"
+                                               @disabled($this->isCartDisabled())
                                         />
 
                                         <button type="button" class="size-8 m-0 inline-flex justify-center items-center gap-x-2 text-xs font-semibold rounded-e-md border border-transparent text-black dark:text-white bg-white hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
-                                                wire:click.prevent="decrementLine('{{ $index }}')" @disabled($line['quantity'] <= 1)>
+                                                wire:click.prevent="decrementLine('{{ $index }}')" @disabled(($line['quantity'] <= 1 || $this->isCartDisabled()))>
                                             <i class="fa fa-minus"></i>
                                         </button>
                                     </div>
@@ -46,20 +47,22 @@
                                         @ {{ $line['unit_price'] }}
                                     </p>
 
-                                    <button class="p-2 ml-auto text-gray-600 transition-colors rounded-lg hover:bg-gray-100 hover:text-gray-700 text-black dark:text-white"
-                                            type="button"
-                                            wire:click="removeLine('{{ $line['id'] }}')">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                             class="w-4 h-4"
-                                             fill="none"
-                                             viewBox="0 0 24 24"
-                                             stroke="currentColor">
-                                            <path stroke-linecap="round"
-                                                  stroke-linejoin="round"
-                                                  stroke-width="2"
-                                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                        </svg>
-                                    </button>
+                                    @if (!$this->isCartDisabled())
+                                        <button class="p-2 ml-auto text-gray-600 transition-colors rounded-lg hover:bg-gray-100 hover:text-gray-700 text-black dark:text-white"
+                                                type="button"
+                                                wire:click="removeLine('{{ $line['id'] }}')">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                 class="w-4 h-4"
+                                                 fill="none"
+                                                 viewBox="0 0 24 24"
+                                                 stroke="currentColor">
+                                                <path stroke-linecap="round"
+                                                      stroke-linejoin="round"
+                                                      stroke-width="2"
+                                                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                        </button>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -100,22 +103,18 @@
                         {{ $this->cart->taxTotal->formatted() }}
                     </dd>
                 </dl>
-
-                <dl class="flex flex-wrap py-2 text-sm">
-                    <dt class="w-1/2 font-medium text-black dark:text-white my-auto">
-                        {{ __('Shipping costs') }}
-                    </dt>
-
-                    <dd class="flex flex-col w-1/2 text-right text-black dark:text-white">
-                        @if ($this->cart->getShippingOption())
-                            <span>{{ $this->cart->getShippingOption()->getName() }}</span>
-                            <span>{{ $this->cart->shippingTotal->formatted() }}</span>
-                        @else
-                            {{ __('Unknown') }}
-                        @endif
-                    </dd>
-                </dl>
             @endif
+
+            <dl class="flex flex-wrap py-2 text-sm">
+                <dt class="w-1/2 font-medium text-black dark:text-white my-auto">
+                    {{ __('Shipping costs') }}
+                </dt>
+
+                <dd class="flex flex-col w-1/2 text-right text-black dark:text-white">
+                    <span>{{ $this->shippingOption->getName() }}</span>
+                    <span>{{ $this->shippingOption->getPrice()->formatted() }}</span>
+                </dd>
+            </dl>
 
             <dl class="flex flex-wrap pt-4">
                 <dt class="w-1/2 font-medium text-black dark:text-white">
@@ -133,9 +132,16 @@
         </p>
     @endif
 
-    @if (($this->cart && $this->lines) && !$this->checkout)
+    @if (!((!($this->cart && $this->lines) && $this->checkout) || $this->isCartDisabled()))
         <div class="mt-4 space-y-4 text-center">
             <a class="block w-full p-3 text-sm font-medium text-center text-white bg-primary-dark rounded-lg hover:bg-primary"
+               href="{{ route('sytatsu.webstore.cart') }}">
+                {{ __('Overview') }}
+            </a>
+        </div>
+
+        <div class="mt-4 space-y-4 text-center">
+            <a class="block w-full p-3 text-sm font-medium text-center text-white bg-secondary-dark rounded-lg hover:bg-secondary"
                href="{{ route('sytatsu.webstore.checkout') }}">
                 {{ __('Checkout') }}
             </a>

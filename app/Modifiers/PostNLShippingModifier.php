@@ -13,7 +13,7 @@ use Lunar\DataTypes\ShippingOption;
 use Lunar\Facades\ShippingManifest;
 use Lunar\Models\Contracts\Cart;
 
-class BasicShippingModifier extends ShippingModifier
+class PostNLShippingModifier extends ShippingModifier
 {
     use TaxTrait;
 

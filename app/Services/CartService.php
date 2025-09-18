@@ -4,14 +4,19 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use Illuminate\Support\Collection;
 use Lunar\Base\Purchasable;
+use Lunar\DataTypes\ShippingOption;
 use Lunar\Facades\CartSession;
 use Lunar\Models\Cart as LunarCart;
 use Lunar\Models\CartLine;
 
 class CartService
 {
+    public function __construct(
+        private readonly ShippingService $shippingService
+    ) {
+    }
+
     public function updateLines(array $lines): array
     {
         $normalizedLines = $this->normalizeQuantities($lines);
@@ -73,6 +78,8 @@ class CartService
     {
         $this->getCurrentCart()->refresh()->calculate();
 
+        $this->getCurrentCart()->setShippingOption($this->shippingService->recalculateShippingOption($this->getCurrentCart()));
+
         return $this->getCurrentCart()->lines->map(fn (CartLine $line) => [
             'id' => $line->id,
             'purchasable' => $line->purchasable,
@@ -100,6 +107,11 @@ class CartService
         return $availableStock - $inCart;
     }
 
+    public function getShippingOption(): ShippingOption
+    {
+        return $this->shippingService->getShippingOption($this->getCurrentCart());
+    }
+
     public function getCurrentCart(): LunarCart
     {
         return CartSession::current();
@@ -108,6 +120,11 @@ class CartService
     public function forgetCurrentCart(): void
     {
         CartSession::forget();
+    }
+
+    public function isCartDisabled(): bool
+    {
+        return request()->has('disable_cart');
     }
 
     private function normalizeQuantities(array $lines): array

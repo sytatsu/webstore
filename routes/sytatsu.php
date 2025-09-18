@@ -24,8 +24,12 @@ Route::get('/contact', LivewireSytatsu\Contact::class)->name('sytatsu.contact');
 Route::get('/webstore', LivewireSytatsu\Webstore\Welcome::class)->name('sytatsu.webstore.welcome');
 Route::get('/products/{product}', LivewireSytatsu\Webstore\ProductPage::class)->name('sytatsu.webstore.product');
 Route::get('/collections/{collection}', LivewireSytatsu\Webstore\CollectionPage::class)->name('sytatsu.webstore.collection');
-Route::get('/checkout', LivewireSytatsu\Webstore\CheckoutPage::class)->name('sytatsu.webstore.checkout');
-Route::get('/checkout/success', LivewireSytatsu\Webstore\CheckoutSuccessPage::class)->name('sytatsu.webstore.checkout.success');
+
+Route::get('/cart', LivewireSytatsu\Webstore\CartPage::class)->name('sytatsu.webstore.cart');
+Route::middleware('disable.cart')->group(function () {
+    Route::get('/checkout', LivewireSytatsu\Webstore\CheckoutPage::class)->name('sytatsu.webstore.checkout');
+    Route::get('/checkout/success', LivewireSytatsu\Webstore\CheckoutSuccessPage::class)->name('sytatsu.webstore.checkout.success');
+});
 
 Route::get('/forget-cart', function () {
     \Lunar\Facades\CartSession::forget();
