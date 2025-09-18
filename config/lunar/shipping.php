@@ -3,10 +3,11 @@
 return [
 
     'delivery_rates' => [
-        'BASDEL' => env('DELIVERY_RATE_BASDEL', 500),
-        'TARDEL' => env('DELIVERY_RATE_TARDEL', 1000),
+        'BASDEL' => (int)env('DELIVERY_RATE_BASDEL', 500),
+        'TARDEL' => (int)env('DELIVERY_RATE_TARDEL', 1000),
     ],
 
+    'free_delivery_threshold' => env('LUNAR_FREE_DELIVERY_THRESHOLD', 7000),
     /*
     |--------------------------------------------------------------------------
     | Measurements

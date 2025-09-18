@@ -62,6 +62,9 @@
                 <!--Stripe.js injects the Payment Element-->
             </div>
             <div class="mt-4">
+
+                <p class="mb-4 text-sm text-slate-800 dark:text-white">With payment you agree to the general terms and conditions</p>
+
                 <button class="w-full size-11.5 flex flex-row justify-center items-center sm:flex-grow px-6 m-0 text-sm font-medium text-center text-white bg-primary-dark rounded-lg hover:bg-primary disabled:opacity-50"
                         type="submit" x-bind:disabled="processing">
                     <span x-show="!processing">

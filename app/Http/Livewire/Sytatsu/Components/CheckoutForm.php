@@ -11,6 +11,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 use Lunar\Models\CartAddress;
+use Lunar\Stripe\Facades\Stripe as StripeFacade;
 
 /**
  * @property \Lunar\Models\Cart $cart
@@ -32,7 +33,7 @@ class CheckoutForm extends Component
 
     protected $listeners = [
         'address-updated' => 'refreshAddresses',
-        'updated-cart' => 'resetChosenShipping',
+        'updated-cart' => 'updatedCartRefresh',
     ];
 
     public function boot(CartService $cartService, ShippingService $shippingService): void
@@ -85,6 +86,12 @@ class CheckoutForm extends Component
         if ($this->shippingAddress && ($this->isShippingSameAsBilling || $this->billingAddress)) {
             $this->setCheckoutStep(CheckoutStepEnum::SHIPPING_OPTION->value);
         }
+    }
+
+    public function updatedCartRefresh(): void
+    {
+        StripeFacade::syncIntent($this->cart);
+        $this->resetChosenShipping();
     }
 
     public function resetChosenShipping(): void
