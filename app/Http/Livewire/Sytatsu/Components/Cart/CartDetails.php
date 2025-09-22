@@ -16,10 +16,10 @@ class CartDetails extends Component
 
     private readonly CartService $cartService;
 
-    private bool $cartDisabled;
+    public bool $cartDisabled;
     public bool $checkout = false;
     public array $lines = [];
-    public ShippingOption $shippingOption;
+    protected ?ShippingOption $shippingOption;
 
     protected $listeners
         = [
@@ -111,6 +111,13 @@ class CartDetails extends Component
         $this->lines = $this->cartService->mapCartLines();
         $this->shippingOption = $this->cartService->getShippingOption();
     }
+
+    public function getShippingOptionProperty(string $property): mixed
+    {
+        $property = ucfirst($property);
+        return $this->shippingOption?->{"get{$property}"}();
+    }
+
 
     public function isCartDisabled(): bool
     {

@@ -53,8 +53,7 @@ class Cart extends Component
     public function setShippingOption (): void
     {
         if ($this->cartService->getCurrentCart()->shippingAddress) {
-            $this->cartService->getCurrentCart()
-                ->setShippingOption($this->shippingService->getDefaultShippingOption($this->cartService->getCurrentCart()));
+            $this->cartService->getCurrentCart()->setShippingOption($this->shippingService->recalculateShippingOption($this->cartService->getCurrentCart()));
         }
     }
 

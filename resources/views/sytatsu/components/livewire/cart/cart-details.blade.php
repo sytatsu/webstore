@@ -111,8 +111,12 @@
                 </dt>
 
                 <dd class="flex flex-col w-1/2 text-right text-black dark:text-white">
-                    <span>{{ $this->shippingOption->getName() }}</span>
-                    <span>{{ $this->shippingOption->getPrice()->formatted() }}</span>
+                    @if ($this->shippingOption)
+                        <span>{{ $this->getShippingOptionProperty('name') }}</span>
+                        <span>{{ $this->getShippingOptionProperty('price')->formatted() }}</span>
+                    @else
+                        {{ __('Unknown') }}
+                    @endif
                 </dd>
             </dl>
 

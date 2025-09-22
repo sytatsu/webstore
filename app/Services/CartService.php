@@ -78,7 +78,10 @@ class CartService
     {
         $this->getCurrentCart()->refresh()->calculate();
 
-        $this->getCurrentCart()->setShippingOption($this->shippingService->recalculateShippingOption($this->getCurrentCart()));
+        if ($this->getCurrentCart()->shippingAddress) {
+            $this->getCurrentCart()
+                ->setShippingOption($this->shippingService->recalculateShippingOption($this->getCurrentCart()));
+        }
 
         return $this->getCurrentCart()->lines->map(fn (CartLine $line) => [
             'id' => $line->id,
@@ -107,9 +110,11 @@ class CartService
         return $availableStock - $inCart;
     }
 
-    public function getShippingOption(): ShippingOption
+    public function getShippingOption(): ?ShippingOption
     {
-        return $this->shippingService->getShippingOption($this->getCurrentCart());
+        return $this->getCurrentCart()->shippingAddress
+            ? $this->shippingService->getShippingOption($this->getCurrentCart())
+            : null;
     }
 
     public function getCurrentCart(): LunarCart
