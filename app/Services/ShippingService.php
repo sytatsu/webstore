@@ -28,14 +28,17 @@ class ShippingService
         return $cart->getShippingOption();
     }
 
-
     public function recalculateShippingOption(Cart $cart): ShippingOption|\Closure
     {
         $shippingOptions = $this->getAvailableShippingOptions($cart);
 
-        return $shippingOptions->has(['identifier' => $cart->getShippingOption()->getIdentifier()])
-            ? $shippingOptions->first(['identifier' => $cart->getShippingOption()->getIdentifier()])
-            : $shippingOptions->first();
+        if ($cart->getShippingOption()) {
+            return $shippingOptions->has(['identifier' => $cart->getShippingOption()->getIdentifier()])
+                ? $shippingOptions->first(['identifier' => $cart->getShippingOption()->getIdentifier()])
+                : $shippingOptions->first();
+        }
+
+        return $shippingOptions->first();
     }
 
     private function canHaveFreeShipping (Cart $cart): bool
