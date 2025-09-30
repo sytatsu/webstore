@@ -23,21 +23,21 @@ class PostNLShippingModifier extends ShippingModifier
                 new ShippingOption(
                     name: 'Basic Delivery',
                     description: 'Sending items in 1-2 business days without Track & Trace',
-                    identifier: 'BASDEL',
+                    identifier: 'NLD_BASDEL',
                     price: new Price(config('lunar.shipping.delivery_rates.BASDEL'), $cart->currency, 1),
                     taxClass: $this->getDefaultTaxClass()
                 ),
                 new ShippingOption(
                     name: 'Tracked Delivery',
                     description: 'Sending items within 1-2 business days with Track & Trace',
-                    identifier: 'TARDEL',
+                    identifier: 'NLD_TARDEL',
                     price: new Price(config('lunar.shipping.delivery_rates.TARDEL'), $cart->currency, 1),
                     taxClass: $this->getDefaultTaxClass()
                 ),
                 new ShippingOption(
                     name: 'Free Tracked Delivery',
                     description: 'Sending items within 1-2 business days with Track & Trace',
-                    identifier: 'FREETARDEL',
+                    identifier: 'NLD_FREETARDEL',
                     price: new Price(0, $cart->currency, 1),
                     taxClass: $this->getDefaultTaxClass()
                 ),
