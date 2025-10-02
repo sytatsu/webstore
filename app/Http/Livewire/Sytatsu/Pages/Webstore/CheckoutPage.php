@@ -13,6 +13,7 @@ use Lunar\Stripe\Facades\Stripe as StripeFacade;
 class CheckoutPage extends SytatsuBasePage
 {
     protected string $view = 'sytatsu.webstore.checkout';
+    protected string $layout = 'layouts.checkout-layout';
     protected ?string $title = 'Checkout';
 
     private CartService $cartService;
