@@ -1,4 +1,4 @@
-<div>
+<div class="flex-grow">
     @if ($this->cart && $this->lines)
         <div class="flow-root">
             <ul class="-mt-4 overflow-y-auto divide-y divide-gray-200 dark:divide-gray-500{{ $this->checkout ? "" : " max-h-96" }}">
