@@ -20,7 +20,7 @@
         <hr class="text-gray-500 w-12" />
 
         <div class="font-light text-black dark:text-white">
-                {!! __($product->translateAttribute('description')) !!}
+            {!! __($product->translateAttribute('description')) !!}
         </div>
 
         <div class="pb-4">
@@ -54,17 +54,17 @@
                         {{ __($option['option']->translate('name')) }}
                     </span>
 
-                    <div class="flex flex-grow flex-wrap flex-row-reverse gap-2 text-xs tracking-wide uppercase col-span-3"
-                         x-data="{selectedOption: @entangle('selectedOptionValues'),selectedValues: []}"
-                         x-init="selectedValues = Object.values(selectedOption); $watch('selectedOption', value => selectedValues = Object.values(selectedOption))"
-                    >
+                    <div class="flex flex-grow flex-wrap flex-row-reverse gap-2 text-xs tracking-wide uppercase col-span-3">
                         @foreach ($option['values'] as $value)
-                            <button class="px-3 py-2 font-medium rounded-lg outline-none focus:ring"
-                                    type="button"
-                                    wire:click="setSelectedOptionValue('{{ $option['option']->id }}', {{ $value->id }})"
-                                    :class="{'!bg-primary-dark text-white ': selectedValues.includes({{ $value->id }}), 'border border-gray-100 dark:border-slate-900 bg-white hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 text-black dark:text-white cursor-pointer': !selectedValues.includes({{ $value->id }})}">
-                                {{ __($value->translate('name')) }}
-                            </button>
+                            @if (array_search($value->id, $selectedOptionValues))
+                                <x-ui.button.default.primary type="button" class="inline" wire:click="setSelectedOptionValue('{{ $option['option']->id }}', {{ $value->id }})" wire:loading.attr="disabled">
+                                    {{ __($value->translate('name')) }}
+                                </x-ui.button.default.primary>
+                            @else
+                                <x-ui.button.outline.primary type="button" class="inline" wire:click="setSelectedOptionValue('{{ $option['option']->id }}', {{ $value->id }})" wire:loading.attr="disabled">
+                                    {{ __($value->translate('name')) }}
+                                </x-ui.button.outline.primary>
+                            @endif
                         @endforeach
                     </div>
 

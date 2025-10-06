@@ -9,10 +9,9 @@
             </p>
 
             <div class="flex flex-col items-center gap-2 lg:flex-row sm:gap-3  ">
-                <a class="lg:mr-4 lg:flex-grow w-full lg:w-auto py-3 px-4 mb-3 lg:mt-auto lg:mb-auto inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-primary text-white hover:bg-primary-light focus:outline-none focus:bg-primary-light disabled:opacity-50 disabled:pointer-events-none"
-                   href="{{ route('sytatsu.contact') }}">
+                <x-ui.button.default.primary class="w-full" href="{{ route('sytatsu.contact') }}">
                     {{ __('Get in touch') }} <i class="fa fa-paper-plane"></i>
-                </a>
+                </x-ui.button.default.primary>
                 <livewire:sytatsu.components.social-collection />
             </div>
 

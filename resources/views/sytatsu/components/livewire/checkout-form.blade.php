@@ -9,15 +9,13 @@
 
             @if($this->isShippingSameAsBilling)
                 <div class="grid grid-cols-2 gap-4">
-                    <button class="w-full sm:w-auto size-11.5 sm:flex-grow px-6 m-0 text-sm font-medium text-center rounded-lg text-slate-800 dark:text-white hover:underline focus:outline-hidden focus:underline transition disabled:opacity-50 disabled:pointer-events-none"
-                            type="submit" wire:click.prevent="toggleIsShippingSameAsBilling()" wire:loading.attr="disabled">
+                    <x-ui.button.link.default type="submit" class="w-full" wire:click.prevent="toggleIsShippingSameAsBilling()" wire:loading.attr="disabled">
                         {{ __('Add billing Address') }}
-                    </button>
+                    </x-ui.button.link.default>
 
-                    <button class="w-full sm:w-auto size-11.5 sm:flex-grow px-6 m-0 text-sm font-medium text-center text-white bg-primary-dark rounded-lg hover:bg-primary disabled:opacity-50"
-                            type="submit" wire:click.prevent="saveAddresses()" wire:loading.attr="disabled">
+                    <x-ui.button.default.primary type="submit" class="w-full" wire:click.prevent="saveAddresses()" wire:loading.attr="disabled">
                         {{ __('Continue') }}
-                    </button>
+                    </x-ui.button.default.primary>
                 </div>
             @endif
         </div>
@@ -30,15 +28,13 @@
                 <livewire:sytatsu.components.checkout.address-form address-type="{{ \App\Enums\AddressTypeEnum::BILLING->value }}" :address="$this->billingAddress?->toArray() ?? []"/>
 
                 <div class="grid grid-cols-2 gap-4">
-                    <button class="w-full sm:w-auto size-11.5 sm:flex-grow px-6 m-0 text-sm font-medium text-center rounded-lg text-slate-800 dark:text-white hover:underline focus:outline-hidden focus:underline transition disabled:opacity-50 disabled:pointer-events-none"
-                            type="submit" wire:click.prevent="toggleIsShippingSameAsBilling()" wire:loading.attr="disabled">
+                    <x-ui.button.link.default class="w-full" type="submit" wire:click.prevent="toggleIsShippingSameAsBilling()" wire:loading.attr="disabled">
                         {{ __('Remove billing address') }}
-                    </button>
+                    </x-ui.button.link.default>
 
-                    <button class="w-full sm:w-auto size-11.5 sm:flex-grow px-6 m-0 text-sm font-medium text-center text-white bg-primary-dark rounded-lg hover:bg-primary disabled:opacity-50"
-                            type="submit" wire:click.prevent="saveAddresses()" wire:loading.attr="disabled">
+                    <x-ui.button.default.primary class="w-full" type="submit" wire:click.prevent="saveAddresses()" wire:loading.attr="disabled">
                         {{ __('Continue') }}
-                    </button>
+                    </x-ui.button.default.primary>
                 </div>
             </div>
         @endif
