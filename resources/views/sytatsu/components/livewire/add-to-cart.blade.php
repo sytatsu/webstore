@@ -16,9 +16,9 @@
     @endif
 
     @if($this->purchasable->purchasable === 'in_stock' && $this->availableStock <= 0)
-        <button class="w-full sm:w-auto size-11.5 sm:flex-grow px-6 m-0 text-sm font-medium text-center text-white bg-secondary rounded-lg" disabled>
+        <x-ui.button.default.secondary class="w-full" disabled>
             {{ __('Sold out') }}
-        </button>
+        </x-ui.button.default.secondary>
     @else
         <div class="flex flex-col sm:flex-row gap-4">
             @if (!$this->minimalistic)
@@ -45,10 +45,9 @@
                 </div>
             @endif
 
-            <button class="w-full sm:w-auto size-11.5 sm:flex-grow px-6 m-0 text-sm font-medium text-center text-white bg-primary-dark rounded-lg hover:bg-primary disabled:opacity-50"
-                    type="submit" wire:click.prevent="addToCart()" wire:loading.attr="disabled">
+            <x-ui.button.default.primary class="w-full" type="submit" wire:click.prevent="addToCart()" wire:loading.attr="disabled">
                 {{ __('Add to shopping cart') }}
-            </button>
+            </x-ui.button.default.primary>
         </div>
 
         @if ($errors->has('quantity'))

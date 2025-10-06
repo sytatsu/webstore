@@ -138,17 +138,15 @@
 
     @if (!((!($this->cart && $this->lines) && $this->checkout) || $this->isCartDisabled()))
         <div class="mt-4 space-y-4 text-center">
-            <a class="block w-full p-3 text-sm font-medium text-center text-white bg-primary-dark rounded-lg hover:bg-primary"
-               href="{{ route('sytatsu.webstore.cart') }}">
+            <x-ui.button.default.primary class="w-full" href="{{ route('sytatsu.webstore.cart') }}">
                 {{ __('Overview') }}
-            </a>
+            </x-ui.button.default.primary>
         </div>
 
         <div class="mt-4 space-y-4 text-center">
-            <a class="block w-full p-3 text-sm font-medium text-center text-white bg-secondary-dark rounded-lg hover:bg-secondary"
-               href="{{ route('sytatsu.webstore.checkout') }}">
+            <x-ui.button.default.secondary class="w-full" href="{{ route('sytatsu.webstore.checkout') }}">
                 {{ __('Checkout') }}
-            </a>
+            </x-ui.button.default.secondary>
         </div>
    @endif
 </div>
