@@ -21,10 +21,10 @@ services:
             XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
         volumes:
             - '.:/var/www/html'
-        networks:
-            - sail
-        depends_on:
-            - mysql
+#        networks:
+#            - sytatsu_bridge
+#        depends_on:
+#            - mysql
 
     mysql:
         container_name: sytatsu-mysql
@@ -42,7 +42,7 @@ services:
             - 'data-mysql:/var/lib/mysql'
             - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
         networks:
-            - sail
+            - sytatsu_bridge
         healthcheck:
             test: 'CMD mysqladmin ping -p${DB_PASSWORD}'
             retries: 3
@@ -55,11 +55,13 @@ services:
             - '${FORWARD_MAILPIT_PORT:-1025}:1025'
             - '${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025'
         networks:
-            - sail
+            - sytatsu_bridge
 
 networks:
-    sail:
+    sytatsu_bridge:
+        name: sytatsu-bridge
         driver: bridge
+
 volumes:
     data-mysql:
         driver: local
