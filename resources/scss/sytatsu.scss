@@ -1,9 +1,49 @@
+/* Fonts @TODO; Find out if we still use this? */
 @use "fonts";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Tailwindcss */
+@use "tailwindcss";
 
-.color {
-    background-color: #fffbf4;
+/* Pre-Line */
+@import "../../node_modules/preline/variants.css";
+@source "../../node_modules/preline/dist/*.js";
+
+/* Makes dark mode work */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Theme:
+    @TODO; Make sure the font is working correctly
+    @TODO; Set theme to own file
+    @TODO; Change all *-white & *-black classes too *-light & *-black
+  */
+@theme {
+    --color-primary-light: #a5dcf3;
+    --color-primary: #7bd1f2;
+    --color-primary-dark: #43b8d8;
+
+    --color-secondary-light: #ff8f64;
+    --color-secondary: #f48356;
+    --color-secondary-dark: #da4d18;
+
+    --color-background-light: #FFFFFF;
+    --color-background: #FFFAF7;
+    --color-background-dark: #FFF1EA;
+
+    --color-light: #FFFFFF;
+    --color-dark: #000000;
 }
+
+html {
+    font-family: "AvenirNextLTPro-Regular", "Roboto", sans-serif;
+}
+
+/* Adds pointer cursor to buttons */
+@layer base {
+    button:not(:disabled),
+    [role="button"]:not(:disabled) {
+        cursor: pointer;
+    }
+}
+
+/* Defaults hover styles on all devices */
+@custom-variant hover (&:hover);
