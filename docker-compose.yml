@@ -5,7 +5,8 @@ services:
         ports:
             - '${SAIL_APP_PORT:-80}:80'
         volumes:
-            - ./.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+            - "./.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf"
+            - "./public:/var/www/html/public"
         networks:
             - sytatsu-bridge
 
