@@ -1,14 +1,12 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Http\Livewire\Sytatsu\Pages\Webstore;
 
 use App\Services\CartService;
 use App\Http\Livewire\Sytatsu\SytatsuBasePage;
-use Lunar\Facades\Payments;
-use Lunar\Models\Cart;
-use Lunar\Stripe\Enums\CancellationReason;
-use Lunar\Stripe\Facades\Stripe as StripeFacade;
+use App\Services\CheckoutService;
 
 class CheckoutPage extends SytatsuBasePage
 {
@@ -17,6 +15,7 @@ class CheckoutPage extends SytatsuBasePage
     protected ?string $title = 'Checkout';
 
     private CartService $cartService;
+    private CheckoutService $checkoutService;
     public array $lines = [];
 
     protected string $paymentType = 'stripe';
@@ -30,18 +29,22 @@ class CheckoutPage extends SytatsuBasePage
         'redirect_status'
     ];
 
-    public function boot(CartService $cartService): void
-    {
+    public function boot(
+        CartService $cartService,
+        CheckoutService $checkoutService,
+    ): void {
         $this->cartService = $cartService;
+        $this->checkoutService = $checkoutService;
     }
 
     public function mount()
     {
         if ($this->payment_intent) {
-            $payment = Payments::driver($this->paymentType)->cart($this->cart)->withData([
-                'payment_intent_client_secret' => $this->payment_intent_client_secret,
-                'payment_intent' => $this->payment_intent,
-            ])->authorize();
+            $payment = $this->checkoutService->authorizePaymentIntent(
+                paymentType: $this->paymentType,
+                paymentIntent: $this->payment_intent,
+                paymentIntentClientSecret: $this->payment_intent_client_secret,
+            );
 
             if ($payment->success) {
                 return redirect()->route('sytatsu.webstore.checkout.success', ['order_id' => $this->cart->orders()->first()->id]);

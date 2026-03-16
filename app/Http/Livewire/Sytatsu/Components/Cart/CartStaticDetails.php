@@ -11,18 +11,16 @@ use Livewire\Component;
 use Lunar\DataTypes\ShippingOption;
 use Lunar\Models\Cart as LunarCart;
 
-class CartStaticOverview extends Component
+class CartStaticDetails extends Component
 {
-
     private readonly CartService $cartService;
 
-    protected array $lines = [];
-    protected ?ShippingOption $shippingOption;
+    public array $lines = [];
+    public ?ShippingOption $shippingOption;
 
     protected $listeners = [
-        'updated-cart' => 'mapLines',
-        'updated-shipping-option' => 'mapLines',
-    ];
+            'cart-updated' => 'mapLines',
+        ];
 
     public function boot(CartService $cartService): void
     {
@@ -42,32 +40,17 @@ class CartStaticOverview extends Component
     public function getLinesProperty(): array
     {
         $this->mapLines();
-
         return $this->lines;
     }
 
     public function mapLines(): void
     {
         $this->lines = $this->cartService->mapCartLines();
-    }
-
-    public function handleUpdatedCart(): void
-    {
-        $this->mapLines();
-    }
-
-    public function handleUpdatedShippingOption(): void
-    {
         $this->shippingOption = $this->cartService->getShippingOption();
-    }
-
-    public function getShippingOption(): ShippingOption
-    {
-        return $this->shippingOption;
     }
 
     public function render(): View|Factory|Application
     {
-        return view('sytatsu.components.livewire.cart.cart-details');
+        return view('sytatsu.components.livewire.cart.cart-static-details');
     }
 }

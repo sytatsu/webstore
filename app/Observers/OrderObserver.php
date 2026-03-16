@@ -15,14 +15,8 @@ class OrderObserver extends LunarOrderObserver
     {
         parent::updating($order);
 
-        if ($order->getOriginal('status') != $order->status) {
-            if ($order->status === 'payment-received') {
-                Mail::send(new Orders\Confirmation(order: $order));
-            }
-
-//            if ($order->status === 'dispatched') {
-//                Mail::send(new Orders\Dispatched(order: $order));
-//            }
+        if ($order->getOriginal('status') != $order->status && $order->status === 'payment-received') {
+            Mail::send(new Orders\Confirmation(order: $order));
         }
     }
 }

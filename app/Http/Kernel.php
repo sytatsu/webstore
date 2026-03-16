@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'password.updated' => \App\Http\Middleware\PasswordUpdated::class,
         'disable.cart' => \App\Http\Middleware\DisableCart::class,
+        'has.cart' => \App\Http\Middleware\HasCart::class,
     ];
 }
