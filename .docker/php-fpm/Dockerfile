@@ -42,16 +42,16 @@ RUN apt-get update && apt-get install -y \
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Enable exentions
-RUN docker-php-ext-configure intl \
- && docker-php-ext-install intl \
- && docker-php-ext-install zip
-
 # Install extensions
 RUN docker-php-ext-install exif pcntl \
  && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
+ && docker-php-ext-configure intl \
  && docker-php-ext-install gd \
- && docker-php-ext-install pdo  pdo_pgsql
+    pdo \
+    pdo_mysql \
+    intl \
+    zip \
+    bcmath
 
 # Add user for laravel application
 RUN groupadd -g 1000 www

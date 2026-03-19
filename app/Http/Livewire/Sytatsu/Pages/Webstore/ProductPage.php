@@ -2,18 +2,18 @@
 
 namespace App\Http\Livewire\Sytatsu\Pages\Webstore;
 
-use Lunar\Models\Product as LunarProduct;
+use Lunar\Models\Product;
 use App\Http\Livewire\Sytatsu\SytatsuBasePage;
 
-class Product extends SytatsuBasePage
+class ProductPage extends SytatsuBasePage
 {
     protected string $view = 'sytatsu.webstore.product';
-    protected ?string $title = 'Print & Shop';
 
-    public LunarProduct $product;
+    public Product $product;
 
-    public function mount(LunarProduct $product): void
+    public function mount(Product $product): void
     {
         $this->product = $product;
+        $this->setTitle($product->translateAttribute('name'));
     }
 }

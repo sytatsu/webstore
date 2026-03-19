@@ -36,10 +36,7 @@
             "Thank you for your message, we will so our best to get back as soon as possible!": "Bedankt voor uw bericht, wij doen ons best om zo snel mogelijk terug te komen!",
             "A confirmation will be send to your email as well.": "Er wordt ook een bevestiging naar uw e-mailadres verzonden.",
 
-        "Collection": "Collectie",
-        "Collections": "Collecties",
-<<<<<<< HEAD
-        "Add to Cart": "Toevoegen aan mandje"
+        "Add to Cart": "Toevoegen aan mandje",
 
         "All rights reserved": "Alle rechten voorbehouden",
 
@@ -92,16 +89,9 @@
             "Color": "Kleur",
                 "White": "Wit",
                 "Black": "Zwart",
-                "Vul als waar nodig": "",
 
             "Size": "Groote",
                 "Small": "Klein",
                 "Large": "Groot",
-                "Vul als waar nodig": "",
+                "Vul als waar nodig": ""
         }
-}
-=======
-        "Add to Cart": "Toevoegen aan mandje",
-        "From": "Vanaf"
-    }
->>>>>>> d57d1ee (Fixed issue with translation)

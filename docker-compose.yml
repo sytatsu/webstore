@@ -29,8 +29,7 @@ services:
             XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
         volumes:
             - '.:/var/www/html'
-            - './.docker/bin/container:/var/www/.bin'
-            - './.docker/php/configs/php.ini:/usr/local/etc/php/php.ini'
+            - './.docker/php-fpm/configs/php.ini:/usr/local/etc/php/php.ini'
         networks:
             - sytatsu-bridge
 

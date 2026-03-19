@@ -46,12 +46,10 @@
                         @foreach($this->product->collections as $collection)
                             <div class="block">
                                 @if ($collection->parent)
-                                    {{-- @TODO; Make sure the link is created to the collection page with the correct collection --}}
-                                    <a href="#collection_{{ $collection->parent->id }}" class="hover:underline">{{ $collection->parent->translateAttribute('name') }}</a><span> > </span>
+                                    <a href="{{ \App\DataTransformers\RouteTransformer::getCollectionRoute($collection->parent) }}" class="hover:underline text-nowrap">{{ $collection->parent->translateAttribute('name') }}</a><span><i class="px-1 fa fa-caret-right"></i></span>
                                 @endif
 
-                                {{-- @TODO; Make sure the link is created to the collection page with the correct collection --}}
-                                <a href="#collection_{{ $collection->id }}" class="hover:underline">{{ $collection->translateAttribute('name') }}</a>
+                                <a href="{{ \App\DataTransformers\RouteTransformer::getCollectionRoute($collection) }}" class="hover:underline text-nowrap">{{ $collection->translateAttribute('name') }}</a>
                             </div>
                         @endforeach
                     </div>

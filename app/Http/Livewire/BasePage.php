@@ -25,8 +25,8 @@ class BasePage extends Component
      */
     public function render(): View|Htmlable|Closure|string
     {
-        $this->addLayoutAttribute(value: $this->title, key: 'title')
-            ->addLayoutAttribute(value: $this->appName, key: 'appName');
+        $this->addLayoutAttribute(value: $this->getTitle(), key: 'title')
+            ->addLayoutAttribute(value: $this->getAppName(), key: 'appName');
 
         return app(LayoutService::class)->render(
             view: $this->view,
@@ -93,5 +93,27 @@ class BasePage extends Component
     {
         unset($this->layoutAttributes[$key]);
         return $this;
+    }
+
+    protected function setTitle(string $title): self
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    protected function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    protected function setAppName(string $appName): self
+    {
+        $this->appName = $appName;
+        return $this;
+    }
+
+    protected function getAppName(): ?string
+    {
+        return $this->appName;
     }
 }
