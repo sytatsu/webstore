@@ -4,6 +4,7 @@
     </div>
 
     <div class="col-span-1 p-8 flex items-center justify-items-stretch bg-slate-50 dark:bg-slate-800">
-        <livewire:sytatsu.components.cart.cart-static-details/>
+        {{-- TODO: create new cart component with same style but different functionality--}}
+        <livewire:sytatsu.components.cart.cart-details :checkout="true"/>
     </div>
 </div>

@@ -7,6 +7,8 @@ namespace App\Http\Livewire\Sytatsu\Pages\Webstore;
 use App\Services\CartService;
 use App\Http\Livewire\Sytatsu\SytatsuBasePage;
 use App\Services\CheckoutService;
+use Lunar\Stripe\Enums\CancellationReason;
+use Lunar\Stripe\Facades\Stripe as StripeFacade;
 
 class CheckoutPage extends SytatsuBasePage
 {
