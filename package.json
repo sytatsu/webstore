@@ -2,7 +2,8 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "vite build && ln -sfn /var/www/html/resources/images /var/www/html/public/images"
+        "build": "vite build && ln -sfn /var/www/html/resources/images /var/www/html/public/images",
+        "link": "ln -sfn /var/www/html/resources/images /var/www/html/public/images && ln -sfn /var/www/html/resources/files /var/www/html/public/files"
     },
     "devDependencies": {
         "@popperjs/core": "^2.11.6",

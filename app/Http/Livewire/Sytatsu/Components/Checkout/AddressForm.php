@@ -4,12 +4,11 @@ namespace App\Http\Livewire\Sytatsu\Components\Checkout;
 
 use App\Enums\AddressTypeEnum;
 use App\Services\CartService;
+use App\Services\CheckoutService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 use Lunar\Models\Cart;
-use Lunar\Models\CartAddress;
-use Lunar\Models\Country;
 
 /**
  * @property Cart $cart
@@ -20,14 +19,18 @@ class AddressForm extends Component
     public  array $address = [];
 
     private CartService $cartService;
+    private CheckoutService $checkoutService;
 
     protected $listeners = [
         'save-address' => 'saveAddress'
     ];
 
-    public function boot(CartService $cartService): void
-    {
+    public function boot(
+        CartService $cartService,
+        CheckoutService $checkoutService
+    ): void {
         $this->cartService = $cartService;
+        $this->checkoutService = $checkoutService;
     }
 
     public function mount(string $addressType): void
@@ -42,43 +45,32 @@ class AddressForm extends Component
 
     public function getCountriesProperty(): Collection
     {
-        return Country::whereIn('iso3', ['NLD'])->get();
+        return $this->checkoutService->getAvailableCountries();
     }
 
     protected function rules(): array
     {
-        return [
-            'address.first_name'    => 'required',
-            'address.last_name'     => 'required',
-            'address.line_one'      => 'required',
-            'address.line_two'      => 'required',
-            'address.line_three'    => 'nullable',
-            'address.postcode'      => 'required',
-            'address.city'          => 'required',
-            'address.country_id'    => 'required',
-            'address.contact_email' => 'required|email',
-            'address.contact_phone' => 'nullable',
-        ];
+        return $this->checkoutService->getAddressValidationRules();
     }
 
     public function saveAddress(): void
     {
-        $this->validate($this->rules());
+        try {
+            $this->validate($this->rules());
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->dispatch('address-save-failed');
+            throw $e;
+        }
 
         if (isset($this->address['id'])) {
-            CartAddress::find($this->address['id'])->update($this->cleanAddressArray($this->address));
+            $this->checkoutService->updateCartAddress($this->address['id'], $this->cleanAddressArray($this->address));
         } else {
             if ($this->addressType === AddressTypeEnum::SHIPPING->value) {
-                $this->cart->setShippingAddress($this->address);
-                $this->cart->save();
-                $this->address = $this->cart->refresh()->shippingAddress->toArray();
-
+                $this->address = $this->checkoutService->setShippingAddress($this->cart, $this->address);
             }
 
             if ($this->addressType === AddressTypeEnum::BILLING->value) {
-                $this->cart->setBillingAddress($this->address);
-                $this->cart->save();
-                $this->address = $this->cart->refresh()->billingAddress->toArray();
+                $this->address = $this->checkoutService->setBillingAddress($this->cart, $this->address);
             }
         }
 

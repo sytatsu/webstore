@@ -14,6 +14,4 @@ class DisableCart
 
         return $next($request);
     }
-
-
 }

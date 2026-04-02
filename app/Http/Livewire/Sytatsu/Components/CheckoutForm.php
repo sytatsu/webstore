@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Sytatsu\Components;
 
 use App\Enums\CheckoutStepEnum;
 use App\Services\CartService;
-use App\Services\ShippingService;
+use App\Services\CheckoutService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -20,7 +20,7 @@ class CheckoutForm extends Component
 {
 
     private CartService $cartService;
-    private ShippingService $shippingService;
+    private CheckoutService $checkoutService;
 
     public ?CartAddress $shippingAddress = null;
     public ?CartAddress $billingAddress = null;
@@ -33,13 +33,16 @@ class CheckoutForm extends Component
 
     protected $listeners = [
         'address-updated' => 'refreshAddresses',
-        'updated-cart' => 'updatedCartRefresh',
+        'address-save-failed' => 'stopProcessing',
+        'cart-updated' => 'onCartUpdated',
     ];
 
-    public function boot(CartService $cartService, ShippingService $shippingService): void
-    {
+    public function boot(
+        CartService $cartService,
+        CheckoutService $checkoutService
+    ): void {
         $this->cartService = $cartService;
-        $this->shippingService = $shippingService;
+        $this->checkoutService = $checkoutService;
     }
 
     public function mount()
@@ -51,7 +54,7 @@ class CheckoutForm extends Component
 
     public function rules(): array
     {
-        return $this->getAddressValidation('shipping');
+        return $this->checkoutService->getAddressValidationRules('shipping');
     }
 
     public function getCartProperty(): \Lunar\Models\Cart
@@ -64,61 +67,66 @@ class CheckoutForm extends Component
         return $this->isShippingSameAsBilling = !$this->isShippingSameAsBilling;
     }
 
+    public bool $isProcessing = false;
+
     public function saveAddresses(): void
     {
+        $this->isProcessing = true;
         $this->dispatch('save-address');
     }
 
     public function refreshAddresses(): void
     {
-        $this->cart->refresh();
-        $this->shippingAddress = $this->cart->shippingAddress;
+        $this->isProcessing = true;
+        $this->checkoutService->syncAddresses($this->cart, $this->isShippingSameAsBilling);
+        $this->fillAddresses();
 
-        if ($this->isShippingSameAsBilling) {
-            $this->cart->setBillingAddress($this->shippingAddress);
-            $this->billingAddress = $this->cart->refresh()->billingAddress;
-        }
-
-        if (!$this->isShippingSameAsBilling) {
-            $this->billingAddress = $this->cart->billingAddress;
-        }
+        $this->onCartUpdated();
 
         if ($this->shippingAddress && ($this->isShippingSameAsBilling || $this->billingAddress)) {
             $this->setCheckoutStep(CheckoutStepEnum::SHIPPING_OPTION->value);
         }
+
+        $this->dispatch('cart-updated');
     }
 
-    public function updatedCartRefresh(): void
+    public function onCartUpdated(): void
     {
-        StripeFacade::syncIntent($this->cart);
-        $this->resetChosenShipping();
+        $this->cart->refresh();
+
+        if ($this->currentStep === CheckoutStepEnum::PAYMENT->value) {
+            StripeFacade::syncIntent($this->cart);
+        }
+
+        $option = $this->cartService->recalculateShippingOption($this->cart);
+        $this->cart->setShippingOption($option);
+        $this->fillChosenShipping();
     }
 
-    public function resetChosenShipping(): void
+    public function updatedChosenShipping($value): void
     {
-        $this->chosenShipping = null;
-        $this->cart->setShippingOption($this->shippingService->getDefaultShippingOption($this->cart));
+        $option = $this->shippingOptions->first(fn ($option) => $option->getIdentifier() == $value);
+
+        if ($option) {
+            $this->cart->setShippingOption($option);
+            $this->cart->refresh();
+
+            $this->dispatch('cart-updated');
+            $this->dispatch('shipping-option-updated');
+        }
     }
 
     public function getShippingOptionsProperty(): Collection
     {
-        return $this->shippingService->getAvailableShippingOptions($this->cart);
-    }
-
-    public function setChosenShipping(string $shipping): void
-    {
-        $this->chosenShipping = $shipping;
+        return $this->cartService->getAvailableShippingOptions($this->cart);
     }
 
     public function saveShippingOption(): void
     {
-        $option = $this->shippingOptions->first(fn ($option) => $option->getIdentifier() == $this->chosenShipping);
-
-        $this->cart->setShippingOption($option);
-        $this->cart->refresh();
-
-        $this->dispatch('cart-updated');
-        $this->setCheckoutStep(CheckoutStepEnum::PAYMENT->value);;
+        $this->isProcessing = true;
+        $this->setCheckoutStep(CheckoutStepEnum::PAYMENT->value);
+        $this->onCartUpdated();
+        $this->isProcessing = false;
     }
 
     private function findCheckoutStep(): void
@@ -136,10 +144,16 @@ class CheckoutForm extends Component
         $this->setCheckoutStep(CheckoutStepEnum::PAYMENT->value);
     }
 
+    public function stopProcessing(): void
+    {
+        $this->isProcessing = false;
+    }
+
     public function setCheckoutStep(string $step): void
     {
         if (CheckoutStepEnum::tryFrom($step)) {
             $this->currentStep = $step;
+            $this->isProcessing = false;
         }
     }
 

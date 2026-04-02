@@ -11,7 +11,7 @@
         'textarea' => '',
         'select' => '',
         'input' => '',
-    }, 'py-2 px-3 block bg-neutral-50 border-1 border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600']);
+    }, 'py-3 px-4 block w-full bg-gray-50 border-gray-300 rounded-none text-sm focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-slate-700 dark:text-gray-400 dark:placeholder-gray-500 dark:focus:ring-slate-600 transition-all duration-200']);
 
     $sizeClasses = match ($size) {
         'full' => 'w-full'
@@ -23,7 +23,7 @@
 @endphp
 
 <div class="{{ $parentClasses }}">
-    <label for="{{ $attributes->get('id') }}" class="block mb-2 text-sm text-gray-700 font-medium dark:text-white">
+    <label for="{{ $attributes->get('id') }}" class="block mb-2 text-xs text-gray-700 font-bold dark:text-white avenir-bold uppercase tracking-widest">
         @if ($attributes->has('required'))
             <span class="text-red-500">*</span>
         @endif

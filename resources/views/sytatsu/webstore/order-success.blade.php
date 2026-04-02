@@ -1,20 +1,25 @@
-<div class="mx-auto xl:min-w-[80rem] max-w-[30rem] md:max-w-[85rem] w-full px-4 md:px-6 lg:px-8 py-12 lg:py-24 flex flex-col justify-center items-center gap-2">
-        <h1 class="text-3xl font-extra bold sm:text-5xl text-center">
-            <span class="block" role="img">🥳</span>
-            <span class="block mt-1 text-slate-800 dark:text-white">
-               Order has been placed
-            </span>
+<div class="mx-auto xl:min-w-[80rem] max-w-[30rem] md:max-w-[85rem] w-full px-4 md:px-6 lg:px-8 flex flex-col justify-center items-center">
+    <div class="shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 p-8 md:p-12 w-full max-w-2xl text-center flex flex-col gap-6">
+        <span class="text-6xl" role="img">🥳</span>
+
+        <h1 class="text-3xl font-bold text-black dark:text-white avenir-bold uppercase">
+           {{ __('Order has been placed') }}
         </h1>
 
-        <p class="text-center font-medium sm:text-lg text-slate-800 dark:text-white">
-            Your order reference number is <strong class="underline">#{{ $order->reference }}</strong>
+        <hr class="border-gray-200 dark:border-gray-500">
+
+        <p class="font-medium text-lg text-black dark:text-white">
+            {{ __('Your order reference number is') }} <strong class="underline">#{{ $order->reference }}</strong>
         </p>
 
-        <p class="text-center font-medium text-slate-800 dark:text-white">
-            An email confirmation has been sent to the given e-mail, it may take a few minutes to arrive
+        <p class="text-slate-600 dark:text-gray-400">
+            {{ __('An email confirmation has been sent to the given e-mail, it may take a few minutes to arrive') }}
         </p>
 
-        <a class="pt-6 w-full sm:w-auto size-11.5 sm:flex-grow px-6 m-0 text-sm font-medium text-center rounded-lg text-slate-800 dark:text-white hover:underline focus:outline-hidden focus:underline transition disabled:opacity-50 disabled:pointer-events-none" href="{{ route('sytatsu.webstore.welcome') }}">
-            Go back to the store
-        </a>
+        <div class="mt-4">
+            <x-ui.button.default.primary href="{{ route('sytatsu.webstore.welcome') }}">
+                {{ __('Go back to the store') }}
+            </x-ui.button.default.primary>
+        </div>
+    </div>
 </div>

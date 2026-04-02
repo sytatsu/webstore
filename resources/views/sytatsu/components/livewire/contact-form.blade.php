@@ -1,4 +1,4 @@
-<div class="flex flex-col border rounded-xl p-4 sm:p-6 lg:p-8 bg-background-light dark:bg-slate-800 dark:border-neutral-700 shadow-lg dark:shadow-primary" >
+<div class="flex flex-col">
     @if(!$hasBeenSend)
         <div class="grid gap-4 lg:gap-6">
             <x-ui.input.default.input label="Name" id="name" wire:model.blur="name" type="text" name="name" required/>

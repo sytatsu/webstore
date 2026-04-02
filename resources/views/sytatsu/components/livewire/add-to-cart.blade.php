@@ -1,15 +1,15 @@
-<div class="flex flex-col space-y-6 w-full">
+<div class="flex flex-col space-y-6 w-full relative">
     @if (!$this->minimalistic)
         <div class="flex flex-col items-end">
-            <p class="mb-2 text-2xl font-bold text-black dark:text-white">
+            <p class="mb-1 text-2xl font-bold text-black dark:text-white avenir-bold uppercase">
                 {{ $this->purchasable->basePrices->first()->price->formatted() }}
             </p>
 
-            <span class="text-sm text-gray-400">({{ __('Including Taxes') }})</span>
+            <span class="text-xs font-bold avenir-bold uppercase tracking-widest text-gray-400">({{ __('Including Taxes') }})</span>
 
             @if($this->purchasable->purchasable === 'in_stock')
                 @if ($this->availableStock !== 0)
-                    <span class="block text-primary">{{ $this->availableStock }} {{ __('Available') }}</span>
+                    <span class="block mt-2 text-xs font-bold avenir-bold uppercase tracking-widest text-primary">{{ $this->availableStock }} {{ __('Available') }}</span>
                 @endif
             @endif
         </div>
@@ -23,14 +23,13 @@
         <div class="flex flex-col sm:flex-row gap-4">
             @if (!$this->minimalistic)
                 <label for="quantity" class="sr-only">{{ __('Quantity') }}</label>
-                {{-- @TODO; Loader on change --}}
-                <div class="flex rounded-lg border border-gray-100 dark:border-slate-800">
-                    <button type="button" class="size-11.5 m-0 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-s-md border border-transparent text-black dark:text-white bg-white hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
+                <div class="flex rounded-none bg-gray-50 dark:bg-slate-900">
+                    <button type="button" class="size-11.5 m-0 inline-flex justify-center items-center gap-x-2 text-sm font-semibold border border-transparent text-black dark:text-white bg-transparent hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
                             wire:loading.attr="disabled" wire:click.prevent="increment()" @disabled($this->purchasable->purchasable === 'in_stock' && $this->availableStock <= $quantity)>
                         <i class="fa fa-plus"></i>
                     </button>
 
-                    <input class="flex-grow sm:w-12 px-1 py-2 text-sm text-center transition-colors border border-transparent text-black dark:text-white bg-white hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 [&::-webkit-inner-spin-button]:appearance-none focus:outline-none disabled:pointer-events-none"
+                    <input class="flex-grow sm:w-12 px-1 py-2 text-sm text-center transition-colors text-black dark:text-white bg-transparent hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 [&::-webkit-inner-spin-button]:appearance-none focus:outline-none disabled:pointer-events-none"
                            type="number"
                            id="quantity"
                            min="1"
@@ -38,7 +37,7 @@
                            wire:model.blur="quantity"
                            wire:loading.attr="disabled"/>
 
-                    <button type="button" class="size-11.5 m-0 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-e-md border border-transparent text-black dark:text-white bg-white hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
+                    <button type="button" class="size-11.5 m-0 inline-flex justify-center items-center gap-x-2 text-sm font-semibold border border-transparent text-black dark:text-white bg-transparent hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
                             wire:loading.attr="disabled" wire:click.prevent="decrement()" @disabled($quantity <= 1)>
                         <i class="fa fa-minus"></i>
                     </button>
@@ -46,7 +45,14 @@
             @endif
 
             <x-ui.button.default.primary class="w-full" type="submit" wire:click.prevent="addToCart()" wire:loading.attr="disabled">
-                {{ __('Add to shopping cart') }}
+                <span wire:loading.remove wire:target="addToCart">{{ __('Add to shopping cart') }}</span>
+                <div wire:loading wire:target="addToCart" class="flex items-center justify-center flex-nowrap">
+                    <svg class="inline w-5 h-5 text-white animate-spin mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span class="inline">{{ __('Processing') }}</span>
+                </div>
             </x-ui.button.default.primary>
         </div>
 

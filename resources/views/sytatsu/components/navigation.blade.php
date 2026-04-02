@@ -1,6 +1,6 @@
-<div class="bg-background-light dark:bg-slate-800 shadow">
-    <div class="flex justify-between mx-auto max-w-[85rem]">
-        <header class="sticky-top top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 text-sm p-0 md:p-6" style="z-index: 60">
+<div class="bg-background-light dark:bg-slate-800 shadow-md dark:shadow-slate-700">
+    <div class="mx-auto xl:min-w-[80rem] max-w-[30rem] md:max-w-[85rem] w-full px-4 md:px-6 lg:px-8 py-2 flex justify-between">
+        <header class="sticky top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 text-sm p-0 md:py-4" style="z-index: 60">
             <nav class="relative max-w-2xl w-full mx-2 py-2.5 md:flex md:items-center md:justify-between md:py-0 md:px-4 md:mx-auto">
 
                 <div class="md:hidden">
@@ -49,19 +49,36 @@
                                         </span>
                                     </a>
 
-                                    <a class="px-1 m-3 md:m-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent hover:!border-secondary dark:text-neutral-200
+                                    <a class="px-1 m-3 md:m-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent hover:!border-secondary dark:text-neutral-200 avenir-bold uppercase
                                    @if (Route::is('sytatsu.about')) !border-primary @endif"
                                        href="{{ route('sytatsu.about')  }}"
                                     >
                                         {{ __('About us') }}
                                     </a>
 
-                                    <a class="px-1 m-3 md:m-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent hover:!border-secondary dark:text-neutral-200
+                                    <a class="px-1 m-3 md:m-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent hover:!border-secondary dark:text-neutral-200 avenir-bold uppercase
                                    @if (Route::is('sytatsu.contact')) !border-primary @endif"
                                        href="{{ route('sytatsu.contact')  }}"
                                     >
                                         {{ __('Contact') }}
                                     </a>
+
+                                    @foreach($collections as $collection)
+                                        @if($collection->defaultUrl && Request::is('collections/' . $collection->defaultUrl->slug . '*'))
+                                            <button type="button"
+                                                    wire:click="$dispatch('filtersReset')"
+                                                    class="px-1 m-3 md:m-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent hover:!border-secondary dark:text-neutral-200 avenir-bold uppercase !border-primary"
+                                            >
+                                                {{ $collection->translateAttribute('name') }}
+                                            </button>
+                                        @else
+                                            <a class="px-1 m-3 md:m-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent hover:!border-secondary dark:text-neutral-200 avenir-bold uppercase"
+                                               href="{{ route('sytatsu.webstore.collection', $collection->defaultUrl?->slug ?? $collection->id) }}"
+                                            >
+                                                {{ $collection->translateAttribute('name') }}
+                                            </a>
+                                        @endif
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -73,7 +90,7 @@
         </header>
 
         <div class="flex my-auto">
-            <div class="flex flex-row-reverse gap-4 pr-4">
+            <div class="flex flex-row-reverse gap-4 mx-2 md:px-4">
                 <livewire:sytatsu.components.locale-switcher/>
 
                 <button type="button"

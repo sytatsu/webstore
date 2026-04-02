@@ -4,6 +4,7 @@
 namespace App\Http\Livewire\Sytatsu\Pages\Webstore;
 
 use App\Http\Livewire\Sytatsu\SytatsuBasePage;
+use App\Services\CheckoutService;
 use Lunar\Models\Order;
 
 class CheckoutSuccessPage extends SytatsuBasePage
@@ -16,8 +17,15 @@ class CheckoutSuccessPage extends SytatsuBasePage
 
     protected array $queryString = ['order_id'];
 
-    public function mount()
+    private CheckoutService $checkoutService;
+
+    public function boot(CheckoutService $checkoutService): void
     {
-        $this->order = Order::find($this->order_id);
+        $this->checkoutService = $checkoutService;
+    }
+
+    public function mount(): void
+    {
+        $this->order = $this->checkoutService->findOrder($this->order_id);
     }
 }

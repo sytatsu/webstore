@@ -5,10 +5,10 @@
 
 @php
     $defaultClasses = implode(' ', [match ($buttonType) {
-        'outline'   => 'rounded-lg shadow',
+        'outline'   => 'rounded-none shadow-sm',
         'link'      => '',
-        default     => 'rounded-lg shadow hover:shadow-none inset-shadow-sm inset-shadow-transparent hover:inset-shadow-gray-700',
-    }, "block py-3 px-5 text-sm font-medium text-center outline-none transition-all duration-300 hover:cursor-pointer"]);
+        default     => 'rounded-none shadow-sm hover:shadow-md active:shadow-inner active:translate-y-px',
+    }, "block py-3 px-10 text-xs font-bold avenir-bold uppercase tracking-widest text-center outline-none transition-all duration-200 hover:cursor-pointer disabled:opacity-50 disabled:pointer-events-none"]);
 @endphp
 
 @if ($attributes->has('href'))

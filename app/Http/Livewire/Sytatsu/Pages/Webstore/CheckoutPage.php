@@ -11,7 +11,7 @@ use App\Services\CheckoutService;
 class CheckoutPage extends SytatsuBasePage
 {
     protected string $view = 'sytatsu.webstore.checkout';
-    protected string $layout = 'layouts.checkout-layout';
+    protected string $layout = 'layouts.sytatsu-layout';
     protected ?string $title = 'Checkout';
 
     private CartService $cartService;
@@ -31,13 +31,13 @@ class CheckoutPage extends SytatsuBasePage
 
     public function boot(
         CartService $cartService,
-        CheckoutService $checkoutService,
+        CheckoutService $checkoutService
     ): void {
         $this->cartService = $cartService;
         $this->checkoutService = $checkoutService;
     }
 
-    public function mount()
+    public function mount(): null|\Illuminate\Http\RedirectResponse
     {
         if ($this->payment_intent) {
             $payment = $this->checkoutService->authorizePaymentIntent(
@@ -47,11 +47,13 @@ class CheckoutPage extends SytatsuBasePage
             );
 
             if ($payment->success) {
-                return redirect()->route('sytatsu.webstore.checkout.success', ['order_id' => $this->cart->orders()->first()->id]);
+                return redirect()->route('sytatsu.webstore.checkout.success', ['order_id' => $this->checkoutService->getFirstOrderForCart($this->cart)->id]);
             }
         }
 
         $this->mapLines();
+
+        return null;
     }
 
     public function getCartProperty()

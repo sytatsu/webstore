@@ -3,8 +3,9 @@
          cartOpen: @entangle('cartOpen')
      }">
 
-    <button class="relative grid w-16 h-16 transition hover:opacity-75  m-auto"
-            x-on:click="cartOpen = !cartOpen">
+    <button class="relative grid w-16 h-16 transition hover:opacity-75 m-auto disabled:opacity-50 disabled:pointer-events-none"
+            x-on:click="cartOpen = !cartOpen"
+            {{ $this->isCartDisabled() ? 'disabled' : '' }}>
         <span class="sr-only">
             {{ __('Cart') }}
         </span>
@@ -18,7 +19,7 @@
         </div>
     </button>
 
-    <div class="absolute inset-x-0 top-auto z-50 w-screen max-w-sm px-6 py-8 mx-auto mt-8 bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 shadow-lg dark:shadow-primary/30 sm:left-auto rounded-xl"
+    <div class="absolute inset-x-0 top-auto z-50 w-screen max-w-sm px-6 py-8 mx-auto mt-8 bg-white dark:bg-slate-800 border-none shadow-md dark:shadow-slate-700 sm:left-auto rounded-none"
          x-show="cartOpen"
          x-on:click.away="cartOpen = false"
          x-transition
@@ -39,6 +40,6 @@
             </svg>
         </button>
 
-        <livewire:sytatsu.components.cart.cart-details />
+        <livewire:sytatsu.components.cart.details />
     </div>
 </div>
