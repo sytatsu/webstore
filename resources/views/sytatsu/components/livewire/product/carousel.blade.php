@@ -1,15 +1,14 @@
 <div data-hs-carousel='{
     "loadingClasses": "opacity-0",
     "dotsItemClasses": "hs-carousel-active:bg-primary hs-carousel-active:border-white size-3 border border-neutral-200 rounded-2xl cursor-pointer dark:border-neutral-200 dark:hs-carousel-active:bg-primary dark:hs-carousel-active:border-white",
-    {{-- @TODO; isDraggable feels a bit buggy, see if we can fix this --}}
     "isInfiniteLoop": true,
     "isDraggable": true
 }' class="relative">
-    <div class="hs-carousel relative overflow-x-hidden min-w-full bg-white rounded-2xl shadow mb-4 md:mb-0">
+    <div class="hs-carousel relative overflow-x-hidden min-w-full bg-white mb-4 md:mb-0 shadow-lg dark:shadow-slate-700">
 
         @if ($this->carouselType === \App\Enums\CarouselTypeEnum::COMPACT)
             <a class="flex flex-col aspect-square" href="{{ \App\Services\WebstoreHelperService::getProductRoute($this->product) }}">
-                <div class="hs-carousel-body absolute top-0 bottom-0 start-0 flex flex-nowrap transition-transform duration-700 opacity-0 min-w-full overflow-hidden">
+                <div class="hs-carousel-body absolute top-0 bottom-0 start-0 flex flex-nowrap transition-transform duration-700 min-w-full overflow-hidden opacity-0 hs-carousel-initialized:opacity-100">
                     @forelse($this->images as $image)
                         <div class="hs-carousel-slide">
                             <img class="size-full object-cover aspect-square transform transition-all scale-100 hover:scale-105"
@@ -27,7 +26,7 @@
             </a>
         @else {{-- \App\Enums\CarouselTypeEnum::EXPANDED --}}
             <div class="flex flex-col aspect-square">
-                <div class="hs-carousel-body absolute top-0 bottom-0 start-0 flex flex-nowrap transition-transform duration-700 opacity-0 min-w-full overflow-hidden ">
+                <div class="hs-carousel-body absolute top-0 bottom-0 start-0 flex flex-nowrap transition-transform duration-700 min-w-full overflow-hidden opacity-0 hs-carousel-initialized:opacity-100">
                     @forelse($this->images as $image)
                         <div class="hs-carousel-slide">
                             <img class="size-full object-cover aspect-square transform transition-all scale-100 hover:scale-105"

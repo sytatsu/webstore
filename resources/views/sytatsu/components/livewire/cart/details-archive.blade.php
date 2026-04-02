@@ -20,11 +20,13 @@
                                 <div class="flex items-center mt-2">
                                     {{-- @TODO; Loader on change --}}
                                     <div class="flex rounded-lg border border-gray-100 dark:border-slate-800">
-                                        <button type="button" class="size-8 m-0 inline-flex justify-center items-center gap-x-2 text-xs font-semibold rounded-s-md border border-transparent text-black dark:text-white bg-white hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
-                                                wire:click.prevent="incrementLine('{{ $index }}')"
-                                            @disabled(($line['purchasable']->purchasable === 'in_stock' && $line['purchasable']->stock <= $line['quantity']) || $this->isCartDisabled())>
-                                            <i class="fa fa-plus"></i>
-                                        </button>
+                                        @if (!$this->isCartDisabled())
+                                            <button type="button" class="size-8 m-0 inline-flex justify-center items-center gap-x-2 text-xs font-semibold rounded-s-md border border-transparent text-black dark:text-white bg-white hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
+                                                    wire:click.prevent="incrementLine('{{ $index }}')"
+                                                @disabled(($line['purchasable']->purchasable === 'in_stock' && $line['purchasable']->stock <= $line['quantity']) || $this->isCartDisabled())>
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        @endif
 
                                         <input class="size-8 text-xs text-center transition-colors border border-transparent text-black dark:text-white bg-white hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 [&::-webkit-inner-spin-button]:appearance-none focus:outline-none"
                                                type="number"
@@ -37,10 +39,12 @@
                                                @disabled($this->isCartDisabled())
                                         />
 
-                                        <button type="button" class="size-8 m-0 inline-flex justify-center items-center gap-x-2 text-xs font-semibold rounded-e-md border border-transparent text-black dark:text-white bg-white hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
-                                                wire:click.prevent="decrementLine('{{ $index }}')" @disabled(($line['quantity'] <= 1 || $this->isCartDisabled()))>
-                                            <i class="fa fa-minus"></i>
-                                        </button>
+                                        @if (!$this->isCartDisabled())
+                                            <button type="button" class="size-8 m-0 inline-flex justify-center items-center gap-x-2 text-xs font-semibold rounded-e-md border border-transparent text-black dark:text-white bg-white hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
+                                                    wire:click.prevent="decrementLine('{{ $index }}')" @disabled(($line['quantity'] <= 1 || $this->isCartDisabled()))>
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        @endif
                                     </div>
 
                                     <p class="ml-2 text-xs text-place dark:text-white">

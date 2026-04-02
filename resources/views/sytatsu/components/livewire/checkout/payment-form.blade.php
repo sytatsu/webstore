@@ -7,6 +7,7 @@
       error: null,
       handleSubmit() {
         this.processing = true
+        window.dispatchEvent(new CustomEvent('stripe-processing', { detail: true }))
         this.error = null
 
         address = {
@@ -36,9 +37,11 @@
             if (result.error) {
               this.error = result.error.message
               this.processing = false
+              window.dispatchEvent(new CustomEvent('stripe-processing', { detail: false }))
             }
           }).catch(error => {
             this.processing = false
+            window.dispatchEvent(new CustomEvent('stripe-processing', { detail: false }))
           })
       },
       init() {
@@ -57,28 +60,38 @@
       }
     }">
         <!-- Display a payment form -->
-        <form x-ref="payment_form" x-on:submit.prevent="handleSubmit()">
-            <div x-ref="paymentElement">
+        <form x-ref="payment_form" x-on:submit.prevent="handleSubmit()" class="relative">
+            <div x-ref="paymentElement" wire:ignore>
                 <!--Stripe.js injects the Payment Element-->
             </div>
-            <div class="mt-4">
+            <div class="mt-8 pt-4 border-t border-gray-100 dark:border-slate-700">
+                <p class="mb-4 text-sm text-slate-800 dark:text-white">
+                    {{ __('With payment you agree to the general terms and conditions') }}
+                </p>
 
-                <p class="mb-4 text-sm text-slate-800 dark:text-white">With payment you agree to the general terms and conditions</p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <x-ui.button.default.primary class="w-full sm:w-auto px-12"
+                            type="submit" x-bind:disabled="processing">
+                        <div class="flex items-center justify-center gap-2">
+                            <span x-show="!processing">
+                                {{ __('Make payment') }}
+                            </span>
 
-                <button class="w-full size-11.5 flex flex-row justify-center items-center sm:flex-grow px-6 m-0 text-sm font-medium text-center text-white bg-primary-dark rounded-lg hover:bg-primary disabled:opacity-50"
-                        type="submit" x-bind:disabled="processing">
-                    <span x-show="!processing">
-                        {{ __('Make payment') }}
-                    </span>
+                            <span x-show="processing" class="block">
+                              <svg class="w-5 h-5 text-white animate-spin" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                              </svg>
+                            </span>
+                            <span x-show="processing">{{ __('Processing') }}</span>
+                        </div>
+                    </x-ui.button.default.primary>
 
-                    <span x-show="processing" class="block mr-2">
-                      <svg class="w-5 h-5 text-white animate-spin" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
-                    </span>
-                    <span x-show="processing">{{ __('Processing') }}</span>
-                </button>
+                    <x-ui.button.link.default class="w-full sm:w-auto"
+                            type="button" wire:click.prevent="$parent.setCheckoutStep('{{ \App\Enums\CheckoutStepEnum::SHIPPING_OPTION->value }}')" wire:loading.attr="disabled">
+                        {{ __('Return to shipping') }}
+                    </x-ui.button.link.default>
+                </div>
             </div>
             <div x-show="error" x-text="error" class="p-3 mt-4 text-sm text-red-600 rounded bg-red-50"></div>
         </form>

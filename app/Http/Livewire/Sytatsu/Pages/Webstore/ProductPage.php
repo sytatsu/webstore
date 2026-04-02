@@ -2,11 +2,11 @@
 
 namespace App\Http\Livewire\Sytatsu\Pages\Webstore;
 
+use App\Services\StorefrontService;
 use App\Services\WebstoreHelperService;
 use Livewire\Attributes\Url;
 use Lunar\Models\Product;
 use App\Http\Livewire\Sytatsu\SytatsuBasePage;
-use Lunar\Models\ProductOption;
 use Lunar\Models\ProductVariant;
 
 class ProductPage extends SytatsuBasePage
@@ -19,7 +19,14 @@ class ProductPage extends SytatsuBasePage
 
     public array $selectedOptionValues = [];
 
+    private StorefrontService $storefrontService;
+
 //    @TODO; Mount does a lot a should be optimized
+    public function boot(StorefrontService $storefrontService): void
+    {
+        $this->storefrontService = $storefrontService;
+    }
+
     public function mount(Product $product): void
     {
         $this->product = $product;
@@ -30,15 +37,10 @@ class ProductPage extends SytatsuBasePage
         ]);
 
         if ($this->purchasableId) {
-            $optionValues = ProductVariant::find($this->purchasableId)->values;
-            $this->selectedOptionValues = [];
-            foreach ($optionValues as $value) {
-                $this->selectedOptionValues[$value->product_option_id] = $value->id;
-            }
+            $variant = $this->storefrontService->findVariant($this->purchasableId);
+            $this->selectedOptionValues = $variant ? $this->storefrontService->getSelectedOptionsForVariant($variant) : [];
         } else {
-            $this->selectedOptionValues = $this->productOptions->mapWithKeys(function ($data) {
-                return [$data['option']->id => $data['values']->first()->id];
-            })->toArray();
+            $this->selectedOptionValues = $this->storefrontService->getDefaultSelectedOptions($this->product);
         }
 
         if (! $this->variant) {
@@ -52,34 +54,15 @@ class ProductPage extends SytatsuBasePage
         $this->getVariantProperty(); // @TODO; This is only used to update the purchable_id in the query string
     }
 
-    /**
-     * Computed property to get variant.
-     *
-     * @return \Lunar\Models\ProductVariant
-     */
-    public function getVariantProperty()
+    public function getVariantProperty(): ?ProductVariant
     {
-        // @TODO; this function does a lot but hardly readable
-        $variant = $this->product->variants->first(function ($variant) {
-            return ! $variant->values->pluck('id')
-                ->diff(
-                    collect($this->selectedOptionValues)->values()
-                )->count();
-        });
+        $variant = $this->storefrontService->findVariantByOptions($this->product, $this->selectedOptionValues);
 
-        $this->purchasableId = $variant->id;
+        if ($variant) {
+            $this->purchasableId = (string) $variant->id;
+        }
 
         return $variant;
-    }
-
-    /**
-     * Computed property to return all available option values.
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function getProductOptionValuesProperty()
-    {
-        return $this->product->variants->pluck('values')->flatten();
     }
 
     /**
@@ -87,16 +70,9 @@ class ProductPage extends SytatsuBasePage
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getProductOptionsProperty()
+    public function getProductOptionsProperty(): \Illuminate\Support\Collection
     {
-        // @TODO; this function does a lot but hardly readable
-        return $this->productOptionValues->unique('id')->groupBy('product_option_id')
-            ->map(function ($values) {
-                return [
-                    'option' => $values->first()->option,
-                    'values' => $values,
-                ];
-            })->values();
+        return $this->storefrontService->getProductOptionsWithValues($this->product);
     }
 
     public function getPriceRangeString(): string

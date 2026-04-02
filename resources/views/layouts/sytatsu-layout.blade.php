@@ -43,9 +43,9 @@
 
     <body class="bg-gradient-to-br from-[#FFF1EA] dark:from-[#12100E] from-10% to-[#FFFFFF] dark:to-[#2B4162] to-90% bg-no-repeat min-h-screen">
         <div class="min-h-screen flex flex-col justify-between">
-            @include('sytatsu.components.navigation')
+            <livewire:sytatsu.components.navigation />
 
-            <div class="flex flex-col flex-grow">
+            <div class="flex flex-col grow py-12 md:py-16">
                 <div class="flex flex-col justify-center content-center my-auto">
                     {{ $slot }}
                 </div>

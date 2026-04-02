@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Sytatsu\Components;
 
 use App\Services\CartService;
-use App\Services\ShippingService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -12,31 +11,43 @@ use Livewire\Component;
 class Cart extends Component
 {
     private readonly CartService $cartService;
-    private readonly ShippingService $shippingService;
 
     public array $lines = [];
     public bool $cartOpen = false;
     public int $cartTotalQuantity = 0;
 
     protected $listeners = [
-        'add-to-cart' => 'openCart',
         'cart-updated' => 'cartUpdated',
+        'add-to-cart' => 'openCart',
+        'shipping-option-updated' => 'cartUpdated',
     ];
 
-    public function boot(CartService $cartService, ShippingService $shippingService): void
+    public function boot(CartService $cartService): void
     {
         $this->cartService = $cartService;
-        $this->shippingService = $shippingService;
     }
 
     public function mount(): void
     {
         $this->calculateCartTotalQuantity();
+
+        if ($this->isCartDisabled()) {
+            $this->cartOpen = false;
+        }
     }
 
     public function openCart(): void
     {
+        if ($this->isCartDisabled()) {
+            return;
+        }
+
         $this->cartOpen = true;
+    }
+
+    public function isCartDisabled(): bool
+    {
+        return $this->cartService->isCartDisabled();
     }
 
     public function closeCart(): void
@@ -48,12 +59,16 @@ class Cart extends Component
     {
         $this->setShippingOption();
         $this->calculateCartTotalQuantity();
+
+        if ($this->isCartDisabled()) {
+            $this->cartOpen = false;
+        }
     }
 
     public function setShippingOption (): void
     {
         if ($this->cartService->getCurrentCart()->shippingAddress) {
-            $this->cartService->getCurrentCart()->setShippingOption($this->shippingService->recalculateShippingOption($this->cartService->getCurrentCart()));
+            $this->cartService->getCurrentCart()->setShippingOption($this->cartService->recalculateShippingOption($this->cartService->getCurrentCart()));
         }
     }
 

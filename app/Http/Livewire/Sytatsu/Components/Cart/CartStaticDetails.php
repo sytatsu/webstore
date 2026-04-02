@@ -51,6 +51,7 @@ class CartStaticDetails extends Component
 
     public function render(): View|Factory|Application
     {
-        return view('sytatsu.components.livewire.cart.cart-static-details');
+//        return view('sytatsu.components.livewire.cart.cart-static-details');
+        dd('Shouldn\'t be here');
     }
 }

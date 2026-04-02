@@ -3,48 +3,125 @@
 namespace App\Http\Livewire\Sytatsu\Pages\Webstore;
 
 use App\Http\Livewire\Sytatsu\SytatsuBasePage;
+use App\Services\StorefrontService;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Lunar\Models\Collection;
-use Lunar\Models\Product;
 
 class CollectionPage extends SytatsuBasePage
 {
-    protected string $view = 'sytatsu.webstore.listing';
+    protected string $view = 'sytatsu.webstore.collection';
     public ?string $label;
 
-    /** @var EloquentCollection<ProductPage> $products */
+    /** @var EloquentCollection $products */
     public EloquentCollection $products;
 
     public Collection $collection;
+    public string $maxWidth = 'max-w-[85rem]';
 
-    public function mount(Collection $collection): void
+    public array $subCollections = [];
+    public ?float $minPrice = null;
+    public ?float $maxPrice = null;
+    public bool $inStock = false;
+
+    protected $queryString = [
+        'subCollections' => ['except' => []],
+        'minPrice' => ['except' => null],
+        'maxPrice' => ['except' => null],
+        'inStock' => ['except' => false],
+    ];
+
+    public array $filters = [];
+
+    protected StorefrontService $storefrontService;
+
+    protected $listeners = ['filtersUpdated' => 'updateFilters'];
+
+    public function updated($name): void
+    {
+        if (in_array($name, ['subCollections', 'minPrice', 'maxPrice', 'inStock'])) {
+            $this->syncFilters();
+        }
+    }
+
+    public function updateFilters(array $filters): void
+    {
+        $this->subCollections = $filters['subCollections'] ?? [];
+        $this->minPrice = $filters['minPrice'] ?? null;
+        $this->maxPrice = $filters['maxPrice'] ?? null;
+        $this->inStock = $filters['inStock'] ?? false;
+
+        $this->syncFilters();
+    }
+
+    protected function syncFilters(): void
+    {
+        $this->filters = [
+            'subCollections' => $this->subCollections,
+            'minPrice' => $this->minPrice,
+            'maxPrice' => $this->maxPrice,
+            'inStock' => $this->inStock,
+        ];
+
+        unset($this->products);
+        $this->getProductsAttribute();
+    }
+
+    public function mount(Collection $collection, StorefrontService $storefrontService): void
     {
         $this->collection = $collection;
+        $this->storefrontService = $storefrontService;
         $this->setTitle($collection->translateAttribute('name'));
         $this->label = sprintf('%s: %s', __('Collection'), $collection->translateAttribute('name'));
 
-        $this->setViewAttributes([
-            'products' => $this->getProductsAttribute(),
-        ]);
+        $this->syncFilters();
     }
 
-    /** @return EloquentCollection<ProductPage> */
     public function getProductsAttribute(): EloquentCollection
     {
         if (isset($this->products)) {
             return $this->products;
         }
 
-        // Decendants
-        $collections = $this->collection->descendants->toFlatTree();
-        $collections->add($this->collection);
+        $collectionIds = collect([$this->collection->id]);
 
-        // Get all products from given collections
-        $this->products = Product::query()
-            ->with('collections')
-            ->whereRelation('collections', fn ($builder) => $builder->whereIn('lunar_collections.id', $collections->pluck('id')))
-            ->get();
+        $storefrontService = app(StorefrontService::class);
+
+        if (!empty($this->filters['subCollections'])) {
+            $collectionIds = collect($this->filters['subCollections']);
+        } else {
+            $collections = $storefrontService->getCollectionAndDescendants($this->collection);
+            $collectionIds = $collections->pluck('id');
+        }
+
+        // Get all products from given collections with filters
+        $this->products = $storefrontService->getProductsForCollections($collectionIds, null, $this->filters);
 
         return $this->products;
+    }
+
+    public function resetFilters(): void
+    {
+        $this->subCollections = [];
+        $this->minPrice = null;
+        $this->maxPrice = null;
+        $this->inStock = false;
+
+        $this->syncFilters();
+
+        $this->dispatch('filtersReset');
+    }
+
+    public function render(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\Support\Htmlable|\Closure|string
+    {
+        $showFilters = $this->collection->translateAttribute('filters');
+
+        $this->setViewAttributes([
+            'products' => $this->getProductsAttribute(),
+            'gridColumns' => $showFilters ? 'grid-cols-2 lg:grid-cols-3' : 'grid-cols-2 lg:grid-cols-4',
+            'maxWidth' => $this->maxWidth,
+            'showFilters' => $showFilters,
+        ]);
+
+        return parent::render();
     }
 }

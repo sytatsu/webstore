@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 use App\Modifiers\PostNLShippingModifier;
+use App\Scopes\PublishedProductScope;
 use Illuminate\Support\ServiceProvider;
 use Lunar\Admin\Support\Facades\LunarPanel;
 use Lunar\Base\ShippingModifiers;
 use Lunar\Models\Order;
+use Lunar\Models\Product;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
     {
         $shippingModifiers->add(PostNLShippingModifier::class);
 
-        Order::observe(\App\Observers\OrderObserver::class);;
+        Order::observe(\App\Observers\OrderObserver::class);
+
+        Product::addGlobalScope(new PublishedProductScope);
     }
 }
