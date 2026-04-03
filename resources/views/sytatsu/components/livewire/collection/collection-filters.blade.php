@@ -19,13 +19,10 @@
                     <h4 class="text-sm font-bold text-black dark:text-white avenir-bold uppercase mb-3">{{ __('Sub-categories') }}</h4>
                     <div class="flex flex-col gap-2">
                         @foreach($subCollections as $subCollection)
-                            <label class="flex items-center gap-2 cursor-pointer group">
-                                <input type="checkbox"
+                            <x-ui.input.default.checkbox
                                        wire:model="selectedSubCollections"
                                        value="{{ $subCollection->id }}"
-                                       class="shrink-0 mt-0.5 border-gray-200 rounded text-primary-dark focus:ring-primary dark:bg-slate-900 dark:border-gray-700 dark:checked:bg-primary dark:checked:border-primary dark:focus:ring-offset-gray-800">
-                                <span class="text-sm text-gray-800 dark:text-gray-200 group-hover:text-primary transition-colors">{{ $subCollection->translateAttribute('name') }}</span>
-                            </label>
+                                       :label="$subCollection->translateAttribute('name')" />
                         @endforeach
                     </div>
                 </div>
@@ -63,12 +60,9 @@
             <div>
                 <h4 class="text-sm font-bold text-black dark:text-white avenir-bold uppercase mb-3">{{ __('Availability') }}</h4>
                 <div class="flex flex-col gap-2">
-                    <label class="flex items-center gap-2 cursor-pointer group">
-                        <input type="checkbox"
+                    <x-ui.input.default.checkbox
                                wire:model="inStockOnly"
-                               class="shrink-0 mt-0.5 border-gray-200 rounded text-primary-dark focus:ring-primary dark:bg-slate-900 dark:border-gray-700 dark:checked:bg-primary dark:checked:border-primary dark:focus:ring-offset-gray-800">
-                        <span class="text-sm text-gray-800 dark:text-gray-200 group-hover:text-primary transition-colors">{{ __('In Stock Only') }}</span>
-                    </label>
+                               :label="__('In Stock Only')" />
                 </div>
             </div>
 
