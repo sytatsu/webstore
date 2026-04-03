@@ -9,6 +9,7 @@ use Lunar\Admin\Support\Facades\LunarPanel;
 use Lunar\Base\ShippingModifiers;
 use Lunar\Models\Order;
 use Lunar\Models\Product;
+use Lunar\Models\ProductVariant;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
         $shippingModifiers->add(PostNLShippingModifier::class);
 
         Order::observe(\App\Observers\OrderObserver::class);
+        ProductVariant::observe(\App\Observers\ProductVariantObserver::class);
 
         Product::addGlobalScope(new PublishedProductScope);
     }
