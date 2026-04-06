@@ -3,7 +3,13 @@
         <!-- Filter Section -->
         @if($showFilters ?? false)
             <div class="md:col-span-1">
-                <livewire:sytatsu.components.collection.collection-filters :collection="$collection" :initial-filters="$filters" />
+                <livewire:sytatsu.components.collection.collection-filters
+                    :collection="$collection"
+                    :initial-filters="$filters"
+                    :show-categories="$showFilterCategories ?? false"
+                    :show-price="$showFilterPrice ?? false"
+                    :show-availability="$showFilterAvailability ?? false"
+                />
             </div>
         @endif
 

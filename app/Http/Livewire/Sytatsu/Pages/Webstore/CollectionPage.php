@@ -113,13 +113,20 @@ class CollectionPage extends SytatsuBasePage
 
     public function render(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\Support\Htmlable|\Closure|string
     {
-        $showFilters = $this->collection->translateAttribute('filters');
+        $showFilterCategories = $this->collection->translateAttribute('filter_categories');
+        $showFilterPrice = $this->collection->translateAttribute('filter_price');
+        $showFilterAvailability = $this->collection->translateAttribute('filter_availability');
+
+        $showFilters = $showFilterCategories || $showFilterPrice || $showFilterAvailability;
 
         $this->setViewAttributes([
             'products' => $this->getProductsAttribute(),
             'gridColumns' => $showFilters ? 'grid-cols-2 lg:grid-cols-3' : 'grid-cols-2 lg:grid-cols-4',
             'maxWidth' => $this->maxWidth,
             'showFilters' => $showFilters,
+            'showFilterCategories' => $showFilterCategories,
+            'showFilterPrice' => $showFilterPrice,
+            'showFilterAvailability' => $showFilterAvailability,
         ]);
 
         return parent::render();

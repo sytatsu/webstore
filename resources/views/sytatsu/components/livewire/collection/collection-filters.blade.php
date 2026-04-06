@@ -1,3 +1,4 @@
+@if($this->hasContent)
 <div class="flex flex-col gap-6 shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 p-8">
     <div class="flex items-center justify-between md:block">
         <h3 class="text-lg font-bold text-black dark:text-white avenir-bold uppercase md:mb-4">{{ __('Filters') }}</h3>
@@ -14,7 +15,7 @@
     <div id="hs-filters-collapse-content" class="hs-collapse hidden md:block w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-filters-collapse">
         <div class="flex flex-col gap-6">
             <!-- Category/Sub-collection Filter -->
-            @if($subCollections->isNotEmpty())
+            @if($showCategories && $subCollections->isNotEmpty())
                 <div>
                     <h4 class="text-sm font-bold text-black dark:text-white avenir-bold uppercase mb-3">{{ __('Sub-categories') }}</h4>
                     <div class="flex flex-col gap-2">
@@ -30,41 +31,44 @@
                 <hr class="border-gray-200 dark:border-gray-500">
             @endif
 
-{{--            @TODO: Enable price filters --}}
             <!-- Price Filter -->
-{{--            <div>--}}
-{{--                <h4 class="text-sm font-bold text-black dark:text-white avenir-bold uppercase mb-3">{{ __('Price Range') }}</h4>--}}
-{{--                <div class="flex flex-col gap-4">--}}
-{{--                    <div class="grid grid-cols-2 gap-2">--}}
-{{--                        <div>--}}
-{{--                            <label for="min-price" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Min</label>--}}
-{{--                            <input type="number" id="min-price"--}}
-{{--                                   wire:model.debounce.500ms="minPrice"--}}
-{{--                                   placeholder="€ 0"--}}
-{{--                                   class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">--}}
-{{--                        </div>--}}
-{{--                        <div>--}}
-{{--                            <label for="max-price" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Max</label>--}}
-{{--                            <input type="number" id="max-price"--}}
-{{--                                   wire:model.debounce.500ms="maxPrice"--}}
-{{--                                   placeholder="€"--}}
-{{--                                   class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
+            @if($showPrice)
+                <div>
+                    <h4 class="text-sm font-bold text-black dark:text-white avenir-bold uppercase mb-3">{{ __('Price Range') }}</h4>
+                    <div class="flex flex-col gap-4">
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label for="min-price" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Min</label>
+                                <input type="number" id="min-price"
+                                       wire:model.debounce.500ms="minPrice"
+                                       placeholder="€ 0"
+                                       class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
+                            </div>
+                            <div>
+                                <label for="max-price" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Max</label>
+                                <input type="number" id="max-price"
+                                       wire:model.debounce.500ms="maxPrice"
+                                       placeholder="€"
+                                       class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-{{--            <hr class="border-gray-200 dark:border-gray-500">--}}
+                <hr class="border-gray-200 dark:border-gray-500">
+            @endif
 
             <!-- Status/Availability Filter -->
-            <div>
-                <h4 class="text-sm font-bold text-black dark:text-white avenir-bold uppercase mb-3">{{ __('Availability') }}</h4>
-                <div class="flex flex-col gap-2">
-                    <x-ui.input.default.checkbox
-                               wire:model="inStockOnly"
-                               :label="__('In Stock Only')" />
+            @if($showAvailability)
+                <div>
+                    <h4 class="text-sm font-bold text-black dark:text-white avenir-bold uppercase mb-3">{{ __('Availability') }}</h4>
+                    <div class="flex flex-col gap-2">
+                        <x-ui.input.default.checkbox
+                                   wire:model="inStockOnly"
+                                   :label="__('In Stock Only')" />
+                    </div>
                 </div>
-            </div>
+            @endif
 
             <div class="mt-4 flex flex-col gap-2">
                 <x-ui.button.default.primary class="w-full justify-center" wire:click="applyFilters" wire:loading.attr="disabled">
@@ -88,3 +92,4 @@
         </div>
     </div>
 </div>
+@endif

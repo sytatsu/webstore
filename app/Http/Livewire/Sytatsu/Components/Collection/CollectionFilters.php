@@ -15,10 +15,17 @@ class CollectionFilters extends Component
     public bool $inStockOnly = false;
     public array $initialFilters = [];
 
-    public function mount(Collection $collection, array $initialFilters = []): void
+    public bool $showCategories = true;
+    public bool $showPrice = true;
+    public bool $showAvailability = true;
+
+    public function mount(Collection $collection, array $initialFilters = [], bool $showCategories = true, bool $showPrice = true, bool $showAvailability = true): void
     {
         $this->collection = $collection;
         $this->initialFilters = $initialFilters;
+        $this->showCategories = $showCategories;
+        $this->showPrice = $showPrice;
+        $this->showAvailability = $showAvailability;
 
         $this->syncFromInitial();
     }
@@ -69,6 +76,13 @@ class CollectionFilters extends Component
             $this->minPrice !== null ||
             $this->maxPrice !== null ||
             $this->inStockOnly;
+    }
+
+    public function getHasContentProperty(): bool
+    {
+        return ($this->showCategories && $this->collection->children()->count() > 0) ||
+            $this->showPrice ||
+            $this->showAvailability;
     }
 
     public function render()

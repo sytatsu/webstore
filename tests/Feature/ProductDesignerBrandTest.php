@@ -39,7 +39,7 @@ class ProductDesignerBrandTest extends TestCase
                 'name' => new \Lunar\FieldTypes\Text('Test Product'),
                 'description' => new \Lunar\FieldTypes\Text('Test Description'),
                 'brand' => new \Lunar\FieldTypes\Text('Gucci'),
-                'brand-is-designer' => new \Lunar\FieldTypes\Toggle(true),
+                'brand_is_designer' => new \Lunar\FieldTypes\Toggle(true),
             ]),
         ]);
 
@@ -63,7 +63,7 @@ class ProductDesignerBrandTest extends TestCase
                 'name' => new \Lunar\FieldTypes\Text('Test Product'),
                 'description' => new \Lunar\FieldTypes\Text('Test Description'),
                 'brand' => new \Lunar\FieldTypes\Text('Nike'),
-                'brand-is-designer' => new \Lunar\FieldTypes\Toggle(false),
+                'brand_is_designer' => new \Lunar\FieldTypes\Toggle(false),
             ]),
         ]);
 

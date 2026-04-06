@@ -35,13 +35,13 @@
                         @if($product->brand)
                             <hr class="border-gray-200 dark:border-gray-500"/>
                             <div class="grid grid-cols-2 gap-2">
-                                <span class="font-medium text-black dark:text-white">{{  $specifications->get('brand-is-designer') ? __('Designer') : __('Brand') }}:</span>
+                                <span class="font-medium text-black dark:text-white">{{  $specifications->get('brand_is_designer') ? __('Designer') : __('Brand') }}:</span>
                                 <span class="text-end text-black dark:text-white">{{ $product->brand->name }}</span>
                             </div>
                         @endif
 
                         @foreach($specifications as $handle => $value)
-                            @continue(in_array($handle, ['brand-is-designer']))
+                            @continue(in_array($handle, ['brand_is_designer']))
                             <hr class="border-gray-200 dark:border-gray-500"/>
                             <div class="grid grid-cols-2 gap-2">
                                 <span class="font-medium text-black dark:text-white">{{ Str::headline($handle) }}:</span>
