@@ -24,7 +24,7 @@ readonly class StorefrontService
 
     public function getProductsForCollections(Collection|array $collectionIds, ?int $limit = null, array $filters = []): Collection
     {
-        return $this->productRepository->getOrderedByName($collectionIds, $limit, $filters);
+        return $this->productRepository->getFilteredProducts($collectionIds, $limit, $filters);
     }
 
     public function findVariantByOptions(Product $product, array $selectedOptionValues): ?ProductVariant

@@ -22,12 +22,14 @@ class CollectionPage extends SytatsuBasePage
     public ?float $minPrice = null;
     public ?float $maxPrice = null;
     public bool $inStock = false;
+    public ?string $sort = null;
 
     protected $queryString = [
         'subCollections' => ['except' => []],
         'minPrice' => ['except' => null],
         'maxPrice' => ['except' => null],
         'inStock' => ['except' => false],
+        'sort' => ['except' => null],
     ];
 
     public array $filters = [];
@@ -38,7 +40,7 @@ class CollectionPage extends SytatsuBasePage
 
     public function updated($name): void
     {
-        if (in_array($name, ['subCollections', 'minPrice', 'maxPrice', 'inStock'])) {
+        if (in_array($name, ['subCollections', 'minPrice', 'maxPrice', 'inStock', 'sort'])) {
             $this->syncFilters();
         }
     }
@@ -49,6 +51,7 @@ class CollectionPage extends SytatsuBasePage
         $this->minPrice = $filters['minPrice'] ?? null;
         $this->maxPrice = $filters['maxPrice'] ?? null;
         $this->inStock = $filters['inStock'] ?? false;
+        $this->sort = $filters['sort'] ?? $this->collection->translateAttribute('default_sort');
 
         $this->syncFilters();
     }
@@ -60,10 +63,10 @@ class CollectionPage extends SytatsuBasePage
             'minPrice' => $this->minPrice,
             'maxPrice' => $this->maxPrice,
             'inStock' => $this->inStock,
+            'sort' => $this->sort,
         ];
 
-        unset($this->products);
-        $this->getProductsAttribute();
+        $this->getProductsAttribute(resetProducts: true);
     }
 
     public function mount(Collection $collection, StorefrontService $storefrontService): void
@@ -73,16 +76,18 @@ class CollectionPage extends SytatsuBasePage
         $this->setTitle($collection->translateAttribute('name'));
         $this->label = sprintf('%s: %s', __('Collection'), $collection->translateAttribute('name'));
 
+        if (!$this->sort) {
+            $this->sort = $this->collection->translateAttribute('default_sort');
+        }
+
         $this->syncFilters();
     }
 
-    public function getProductsAttribute(): EloquentCollection
+    public function getProductsAttribute(bool $resetProducts = false): EloquentCollection
     {
-        if (isset($this->products)) {
+        if (!isset($this->products) && !$resetProducts) {
             return $this->products;
         }
-
-        $collectionIds = collect([$this->collection->id]);
 
         $storefrontService = app(StorefrontService::class);
 
@@ -105,6 +110,7 @@ class CollectionPage extends SytatsuBasePage
         $this->minPrice = null;
         $this->maxPrice = null;
         $this->inStock = false;
+        $this->sort = $this->collection->translateAttribute('default_sort');
 
         $this->syncFilters();
 
@@ -116,17 +122,19 @@ class CollectionPage extends SytatsuBasePage
         $showFilterCategories = $this->collection->translateAttribute('filter_categories');
         $showFilterPrice = $this->collection->translateAttribute('filter_price');
         $showFilterAvailability = $this->collection->translateAttribute('filter_availability');
+        $showSorting = $this->collection->translateAttribute('show_sorting');
 
-        $showFilters = $showFilterCategories || $showFilterPrice || $showFilterAvailability;
+        $showFilters = $showFilterCategories || $showFilterPrice || $showFilterAvailability || $showSorting;
 
         $this->setViewAttributes([
             'products' => $this->getProductsAttribute(),
-            'gridColumns' => $showFilters ? 'grid-cols-2 lg:grid-cols-3' : 'grid-cols-2 lg:grid-cols-4',
+            'gridColumns' => $showFilters ? 'grid-cols-2 xl:grid-cols-3' : 'grid-cols-2 lg:grid-cols-4',
             'maxWidth' => $this->maxWidth,
             'showFilters' => $showFilters,
             'showFilterCategories' => $showFilterCategories,
             'showFilterPrice' => $showFilterPrice,
             'showFilterAvailability' => $showFilterAvailability,
+            'showSorting' => $showSorting,
         ]);
 
         return parent::render();

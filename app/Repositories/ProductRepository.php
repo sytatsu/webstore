@@ -16,7 +16,7 @@ class ProductRepository
      * @param array $filters
      * @return Collection<Product>
      */
-    public function getOrderedByName(array|Collection $collectionIds, ?int $limit = null, array $filters = []): Collection
+    public function getFilteredProducts(array|Collection $collectionIds, ?int $limit = null, array $filters = []): Collection
     {
         $query = Product::query();
 
@@ -45,7 +45,20 @@ class ProductRepository
             });
         }
 
-        $query->orderByRaw("json_extract(lunar_products.attribute_data, '$.name.value') ASC");
+        $sort = $filters['sort'] ?? 'alphabetical';
+
+        switch ($sort) {
+            case 'newest':
+                $query->orderBy('lunar_products.created_at', 'desc');
+                break;
+            case 'oldest':
+                $query->orderBy('lunar_products.created_at', 'asc');
+                break;
+            case 'alphabetical':
+            default:
+                $query->orderByRaw("json_extract(lunar_products.attribute_data, '$.name.value') ASC");
+                break;
+        }
 
         if ($limit) {
             $query->limit($limit);

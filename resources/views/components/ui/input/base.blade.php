@@ -1,5 +1,5 @@
 @props([
-    'label',
+    'label' => null,
     'inputType' => 'input',
     'classes' => '',
     'size' => 'full',
@@ -23,12 +23,14 @@
 @endphp
 
 <div class="{{ $parentClasses }}">
-    <label for="{{ $attributes->get('id') }}" class="block mb-2 text-xs text-gray-700 font-bold dark:text-white avenir-bold uppercase tracking-widest">
-        @if ($attributes->has('required'))
-            <span class="text-red-500">*</span>
-        @endif
-        {{ __($label) }}
-    </label>
+    @if($label)
+        <label for="{{ $attributes->get('id') }}" class="block mb-2 text-xs text-gray-700 font-bold dark:text-white avenir-bold uppercase tracking-widest">
+            @if ($attributes->has('required'))
+                <span class="text-red-500">*</span>
+            @endif
+            {{ __($label) }}
+        </label>
+    @endif
 
     @switch($inputType)
         @case('textarea')

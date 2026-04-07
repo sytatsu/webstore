@@ -10,6 +10,8 @@ use Lunar\Models\Product;
 use Lunar\Models\ProductType;
 use Lunar\Models\ProductVariant;
 use Lunar\Models\Price;
+use Livewire\Livewire;
+use App\Http\Livewire\Sytatsu\Components\Collection\CollectionFilters;
 use Tests\TestCase;
 
 class CollectionFilterTest extends TestCase
@@ -32,6 +34,17 @@ class CollectionFilterTest extends TestCase
         ]);
 
         ProductType::factory()->create();
+    }
+
+    /** @test */
+    public function collection_filters_component_renders_without_errors()
+    {
+        $collection = \Lunar\Models\Collection::factory()->create();
+
+        Livewire::test(CollectionFilters::class, [
+            'collection' => $collection,
+            'showSorting' => true,
+        ])->assertStatus(200);
     }
 
     /** @test */
@@ -67,7 +80,7 @@ class CollectionFilterTest extends TestCase
         $collectionIds = [0]; // Not used for now as we are testing filtering logic
 
         // Mock a collection join for the test
-        // Actually, getOrderedByName joins collection_product.
+        // Actually, getFilteredProducts joins collection_product.
         // We need to create a collection and attach the product.
         $collection = \Lunar\Models\Collection::factory()->create();
         $collection->products()->attach($product);
@@ -80,7 +93,7 @@ class CollectionFilterTest extends TestCase
             'inStock' => true,
         ];
 
-        $results = $repo->getOrderedByName([$collection->id], null, $filters);
+        $results = $repo->getFilteredProducts([$collection->id], null, $filters);
 
         $this->assertCount(0, $results, 'Product should not be returned if no single variant matches both price and stock filters');
 
@@ -96,7 +109,53 @@ class CollectionFilterTest extends TestCase
             'priceable_type' => ProductVariant::class,
         ]);
 
-        $results = $repo->getOrderedByName([$collection->id], null, $filters);
+        $results = $repo->getFilteredProducts([$collection->id], null, $filters);
         $this->assertCount(1, $results, 'Product should be returned if a single variant matches both price and stock filters');
+    }
+
+    /** @test */
+    public function products_are_sorted_correctly()
+    {
+        $collection = \Lunar\Models\Collection::factory()->create();
+
+        $productA = Product::factory()->create([
+            'attribute_data' => ['name' => new \Lunar\FieldTypes\Text('Apple')],
+            'created_at' => now()->subDays(2),
+        ]);
+        ProductVariant::factory()->create(['product_id' => $productA->id, 'purchasable' => 'in_stock', 'stock' => 10]);
+
+        $productB = Product::factory()->create([
+            'attribute_data' => ['name' => new \Lunar\FieldTypes\Text('Banana')],
+            'created_at' => now()->subDays(1),
+        ]);
+        ProductVariant::factory()->create(['product_id' => $productB->id, 'purchasable' => 'in_stock', 'stock' => 10]);
+
+        $productC = Product::factory()->create([
+            'attribute_data' => ['name' => new \Lunar\FieldTypes\Text('Cherry')],
+            'created_at' => now(),
+        ]);
+        ProductVariant::factory()->create(['product_id' => $productC->id, 'purchasable' => 'in_stock', 'stock' => 10]);
+
+        $collection->products()->attach([$productA->id, $productB->id, $productC->id]);
+
+        $repo = new ProductRepository();
+
+        // Alphabetical ASC (default)
+        $results = $repo->getFilteredProducts([$collection->id], null, ['sort' => 'alphabetical']);
+        $this->assertEquals('Apple', $results[0]->translateAttribute('name'));
+        $this->assertEquals('Banana', $results[1]->translateAttribute('name'));
+        $this->assertEquals('Cherry', $results[2]->translateAttribute('name'));
+
+        // Newest
+        $results = $repo->getFilteredProducts([$collection->id], null, ['sort' => 'newest']);
+        $this->assertEquals('Cherry', $results[0]->translateAttribute('name'));
+        $this->assertEquals('Banana', $results[1]->translateAttribute('name'));
+        $this->assertEquals('Apple', $results[2]->translateAttribute('name'));
+
+        // Oldest
+        $results = $repo->getFilteredProducts([$collection->id], null, ['sort' => 'oldest']);
+        $this->assertEquals('Apple', $results[0]->translateAttribute('name'));
+        $this->assertEquals('Banana', $results[1]->translateAttribute('name'));
+        $this->assertEquals('Cherry', $results[2]->translateAttribute('name'));
     }
 }

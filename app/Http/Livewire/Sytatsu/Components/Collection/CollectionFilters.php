@@ -13,19 +13,22 @@ class CollectionFilters extends Component
     public ?float $minPrice = null;
     public ?float $maxPrice = null;
     public bool $inStockOnly = false;
+    public ?string $selectedSort = null;
     public array $initialFilters = [];
 
     public bool $showCategories = true;
     public bool $showPrice = true;
     public bool $showAvailability = true;
+    public bool $showSorting = false;
 
-    public function mount(Collection $collection, array $initialFilters = [], bool $showCategories = true, bool $showPrice = true, bool $showAvailability = true): void
+    public function mount(Collection $collection, array $initialFilters = [], bool $showCategories = true, bool $showPrice = true, bool $showAvailability = true, bool $showSorting = false): void
     {
         $this->collection = $collection;
         $this->initialFilters = $initialFilters;
         $this->showCategories = $showCategories;
         $this->showPrice = $showPrice;
         $this->showAvailability = $showAvailability;
+        $this->showSorting = $showSorting;
 
         $this->syncFromInitial();
     }
@@ -42,6 +45,7 @@ class CollectionFilters extends Component
             $this->minPrice = $this->initialFilters['minPrice'] ?? null;
             $this->maxPrice = $this->initialFilters['maxPrice'] ?? null;
             $this->inStockOnly = $this->initialFilters['inStock'] ?? false;
+            $this->selectedSort = $this->initialFilters['sort'] ?? null;
         }
     }
 
@@ -57,6 +61,7 @@ class CollectionFilters extends Component
             'minPrice' => $this->minPrice,
             'maxPrice' => $this->maxPrice,
             'inStock' => $this->inStockOnly,
+            'sort' => $this->selectedSort,
         ]);
     }
 
@@ -83,6 +88,7 @@ class CollectionFilters extends Component
         return ($this->showCategories && $this->collection->children()->count() > 0) ||
             $this->showPrice ||
             $this->showAvailability;
+
     }
 
     public function render()
