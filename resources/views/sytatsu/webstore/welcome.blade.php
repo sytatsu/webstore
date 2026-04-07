@@ -1,4 +1,14 @@
 <div class="{{ $maxWidth ?? 'max-w-[85rem]' }} w-full mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    @if($homeTitle || $homeSubTitle)
+        <div class="mb-12 text-center">
+            @if($homeTitle)
+                <h1 class="text-4xl font-bold text-gray-900 dark:text-white avenir-bold uppercase mb-4">{{ $homeTitle }}</h1>
+            @endif
+            @if($homeSubTitle)
+                <p class="text-lg text-gray-600 dark:text-gray-400">{{ $homeSubTitle }}</p>
+            @endif
+        </div>
+    @endif
     <div class="flex flex-col @if($showFilters ?? false) md:grid md:grid-cols-4 @endif gap-8">
         <!-- Filter Section -->
         @if($showFilters ?? false)

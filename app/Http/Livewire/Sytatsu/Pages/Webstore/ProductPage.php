@@ -58,6 +58,10 @@ class ProductPage extends SytatsuBasePage
     {
         $variant = $this->storefrontService->findVariantByOptions($this->product, $this->selectedOptionValues);
 
+        if (! $variant) {
+            $variant = $this->product->variants->first();
+        }
+
         if ($variant) {
             $this->purchasableId = (string) $variant->id;
         }

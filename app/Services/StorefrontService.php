@@ -91,11 +91,14 @@ readonly class StorefrontService
         $collections = collect(array_map(function (int $collectionId) use ($maxProducts) {
             // @TODO: Feels hacky but works for now. Only used on the welcome page so shouldn't affect performance too much.
             $collection = $this->collectionRepository->find($collectionId);
+            if (!$collection) {
+                return null;
+            }
             $collections = $this->getCollectionAndDescendants($collection);
             $collection->products = $this->productRepository->getOrderedByCreatedAt($collections->pluck('id'), $maxProducts);
 
             return $collection;
-        }, $collectionIds));
+        }, $collectionIds))->filter();
 
         return $collections->map(function (LunarCollection $collection) {
             return new ProductCollectionDTO(

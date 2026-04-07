@@ -1,0 +1,27 @@
+<div>
+    @if($banner)
+        @if($banner->banner_url)
+            <a href="{{ $banner->banner_url }}" class="block hover:opacity-90 transition-opacity">
+                <div class="bg-primary px-4 py-2 text-white text-center text-sm font-medium flex items-center justify-center gap-2">
+                    @if($banner->banner_icon)
+                        <x-filament::icon
+                            :icon="$banner->banner_icon"
+                            class="w-5 h-5"
+                        />
+                    @endif
+                    {{ $banner->banner_text }}
+                </div>
+            </a>
+        @else
+            <div class="bg-primary px-4 py-2 text-white text-center text-sm font-medium flex items-center justify-center gap-2">
+                @if($banner->banner_icon)
+                    <x-filament::icon
+                        :icon="$banner->banner_icon"
+                        class="w-5 h-5"
+                    />
+                @endif
+                {{ $banner->banner_text }}
+            </div>
+        @endif
+    @endif
+</div>

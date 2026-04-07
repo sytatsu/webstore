@@ -16,10 +16,9 @@
             <hr class="mb-8 border-gray-200 dark:border-gray-500">
 
             <div class="grid {{ $gridColumns }} gap-8 lg:gap-12">
-                    @foreach($collection->products as $product)
-                        <livewire:sytatsu.components.product.product-tile :product="$product" :wire:key="'product-'.$product->id.'-'.md5($product->updated_at)" />
-                    @endforeach
-                </div>
+                @foreach($collection->products as $product)
+                    <livewire:sytatsu.components.product.product-tile :product="$product" :wire:key="'product-'.$product->id.'-'.md5($product->updated_at)" />
+                @endforeach
             </div>
         </div>
     @empty
