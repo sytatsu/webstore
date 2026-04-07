@@ -7,11 +7,15 @@ use Lunar\Models\Language;
 use Lunar\Models\Product;
 use Lunar\Models\ProductType;
 use Lunar\Models\Currency;
+use Lunar\Models\Channel;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class ProductDesignerBrandTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected $productType;
 
     protected function setUp(): void
     {
@@ -28,10 +32,16 @@ class ProductDesignerBrandTest extends TestCase
             'decimal_places' => 2,
         ]);
 
-        ProductType::factory()->create();
+        Channel::factory()->create([
+            'handle' => 'default',
+            'default' => true,
+            'name' => 'Default Channel',
+        ]);
+
+        $this->productType = ProductType::factory()->create();
     }
 
-    /** @test */
+    #[Test]
     public function brand_label_changes_to_designer_when_brand_is_designer_is_true()
     {
         $brand = \Lunar\Models\Brand::factory()->create([
@@ -41,17 +51,21 @@ class ProductDesignerBrandTest extends TestCase
             ]),
         ]);
 
-        $product = Product::factory()->create([
+        $taxClass = \Lunar\Models\TaxClass::factory()->create();
+
+        $variant = \Lunar\Models\ProductVariant::factory()->create([
+            'sku' => 'TEST-SKU-1',
+            'tax_class_id' => $taxClass->id,
+            'unit_quantity' => 1,
+        ]);
+
+        $product = $variant->product;
+        $product->update([
             'brand_id' => $brand->id,
             'attribute_data' => collect([
                 'name' => new \Lunar\FieldTypes\Text('Test Product'),
                 'description' => new \Lunar\FieldTypes\Text('Test Description'),
             ]),
-        ]);
-
-        $variant = \Lunar\Models\ProductVariant::factory()->create([
-            'product_id' => $product->id,
-            'sku' => 'TEST-SKU-1',
         ]);
 
         \Lunar\Models\Price::factory()->create([
@@ -60,6 +74,7 @@ class ProductDesignerBrandTest extends TestCase
             'currency_id' => Currency::first()->id,
             'min_quantity' => 1,
             'price' => 1000,
+            'customer_group_id' => null,
         ]);
 
         $this->get(route('sytatsu.webstore.product', $product->id))
@@ -70,7 +85,7 @@ class ProductDesignerBrandTest extends TestCase
             ->assertDontSee('Brand Is Designer:');
     }
 
-    /** @test */
+    #[Test]
     public function brand_label_remains_brand_when_brand_is_designer_is_false()
     {
         $brand = \Lunar\Models\Brand::factory()->create([
@@ -80,17 +95,21 @@ class ProductDesignerBrandTest extends TestCase
             ]),
         ]);
 
-        $product = Product::factory()->create([
+        $taxClass = \Lunar\Models\TaxClass::factory()->create();
+
+        $variant = \Lunar\Models\ProductVariant::factory()->create([
+            'sku' => 'TEST-SKU-2',
+            'tax_class_id' => $taxClass->id,
+            'unit_quantity' => 1,
+        ]);
+
+        $product = $variant->product;
+        $product->update([
             'brand_id' => $brand->id,
             'attribute_data' => collect([
                 'name' => new \Lunar\FieldTypes\Text('Test Product'),
                 'description' => new \Lunar\FieldTypes\Text('Test Description'),
             ]),
-        ]);
-
-        $variant = \Lunar\Models\ProductVariant::factory()->create([
-            'product_id' => $product->id,
-            'sku' => 'TEST-SKU-2',
         ]);
 
         \Lunar\Models\Price::factory()->create([
@@ -99,6 +118,7 @@ class ProductDesignerBrandTest extends TestCase
             'currency_id' => Currency::first()->id,
             'min_quantity' => 1,
             'price' => 1000,
+            'customer_group_id' => null,
         ]);
 
         $this->get(route('sytatsu.webstore.product', $product->id))
@@ -109,20 +129,24 @@ class ProductDesignerBrandTest extends TestCase
             ->assertDontSee('Brand Is Designer:');
     }
 
-    /** @test */
+    #[Test]
     public function brand_label_is_brand_when_brand_is_designer_is_missing()
     {
-        $product = Product::factory()->create([
+        $taxClass = \Lunar\Models\TaxClass::factory()->create();
+
+        $variant = \Lunar\Models\ProductVariant::factory()->create([
+            'sku' => 'TEST-SKU-3',
+            'tax_class_id' => $taxClass->id,
+            'unit_quantity' => 1,
+        ]);
+
+        $product = $variant->product;
+        $product->update([
             'attribute_data' => collect([
                 'name' => new \Lunar\FieldTypes\Text('Test Product'),
                 'description' => new \Lunar\FieldTypes\Text('Test Description'),
                 'brand' => new \Lunar\FieldTypes\Text('Adidas'),
             ]),
-        ]);
-
-        $variant = \Lunar\Models\ProductVariant::factory()->create([
-            'product_id' => $product->id,
-            'sku' => 'TEST-SKU-3',
         ]);
 
         \Lunar\Models\Price::factory()->create([
@@ -131,6 +155,7 @@ class ProductDesignerBrandTest extends TestCase
             'currency_id' => Currency::first()->id,
             'min_quantity' => 1,
             'price' => 1000,
+            'customer_group_id' => null,
         ]);
 
         $this->get(route('sytatsu.webstore.product', $product->id))
