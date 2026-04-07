@@ -49,20 +49,6 @@
                                         </span>
                                     </a>
 
-                                    <a class="px-1 m-3 md:m-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent hover:!border-secondary dark:text-neutral-200 avenir-bold uppercase
-                                   @if (Route::is('sytatsu.about')) !border-primary @endif"
-                                       href="{{ route('sytatsu.about')  }}"
-                                    >
-                                        {{ __('About us') }}
-                                    </a>
-
-                                    <a class="px-1 m-3 md:m-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent hover:!border-secondary dark:text-neutral-200 avenir-bold uppercase
-                                   @if (Route::is('sytatsu.contact')) !border-primary @endif"
-                                       href="{{ route('sytatsu.contact')  }}"
-                                    >
-                                        {{ __('Contact') }}
-                                    </a>
-
                                     @foreach($collections as $collection)
                                         @if($collection->defaultUrl && Request::is('collections/' . $collection->defaultUrl->slug . '*'))
                                             <button type="button"
