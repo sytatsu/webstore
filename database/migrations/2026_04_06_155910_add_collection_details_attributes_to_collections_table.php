@@ -15,6 +15,15 @@ return new class extends Migration
     {
         $collectionGroup = AttributeGroup::whereHandle('collection_details')->first();
 
+        if (!$collectionGroup) {
+            $collectionGroup = AttributeGroup::create([
+                'attributable_type' => Collection::class,
+                'name' => ['en' => 'Collection Details'],
+                'handle' => 'collection_details',
+                'position' => 1,
+            ]);
+        }
+
         $attributes = [
             [
                 'name' => 'Filter Categories',

@@ -24,19 +24,22 @@ class DatabaseSeeder extends Seeder
             User::firstOrCreate([
                 'name' => 'Steve Admin',
                 'email' => 'admin@sytatsu.nl',
+            ],[
                 'password' => Hash::make('password'),
             ]);
 
             User::firstOrCreate([
                 'name' => 'Steve User',
                 'email' => 'user@sytatsu.nl',
+            ],[
                 'password' => Hash::make('password'),
             ]);
         }
 
         // fill database with real data
         $this->call([
-            //
+//            \Database\Seeders\collections\CollectionPokeballSeeder::class,
+//            \Database\Seeders\collections\CollectionMiniFriendsSeeder::class,
         ]);
     }
 }

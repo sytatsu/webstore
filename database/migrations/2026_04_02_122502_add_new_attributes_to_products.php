@@ -19,6 +19,15 @@ return new class extends Migration
     {
         $productGroup = AttributeGroup::whereHandle('details')->first();
 
+        if (!$productGroup) {
+            $productGroup = AttributeGroup::create([
+                'attributable_type' => Product::class,
+                'name' => ['en' => 'Details'],
+                'handle' => 'details',
+                'position' => 1,
+            ]);
+        }
+
         Attribute::create([
             'attribute_type' => 'product',
             'attribute_group_id' => $productGroup->id,
