@@ -9,7 +9,7 @@
                             class="w-5 h-5"
                         />
                     @endif
-                    {{ $banner->banner_text }}
+                    {{ $banner->translate('banner_text') }}
                 </div>
             </a>
         @else
@@ -20,7 +20,7 @@
                         class="w-5 h-5"
                     />
                 @endif
-                {{ $banner->banner_text }}
+                {{ $banner->translate('banner_text') }}
             </div>
         @endif
     @endif

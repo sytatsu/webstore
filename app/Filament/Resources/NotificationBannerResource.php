@@ -17,6 +17,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
+use Lunar\Admin\Support\Forms\Components\TranslatedText;
 
 class NotificationBannerResource extends Resource
 {
@@ -48,7 +49,7 @@ class NotificationBannerResource extends Resource
 
                 Forms\Components\Section::make('Banner Content')
                     ->schema([
-                        TextInput::make('banner_text')
+                        TranslatedText::make('banner_text')
                             ->label('Banner Text')
                             ->required()
                             ->placeholder('e.g. 20% off all items this weekend!'),

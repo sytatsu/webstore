@@ -83,7 +83,7 @@ class HomeSettingsTest extends TestCase
         NotificationBanner::create([
             'name' => 'Banner Settings',
             'is_active' => true,
-            'banner_text' => 'Flash Sale!',
+            'banner_text' => ['en' => 'Flash Sale!'],
             'banner_icon' => 'heroicon-o-sparkles',
             'banner_start_at' => now()->subDay(),
             'banner_end_at' => now()->addDay(),
@@ -100,7 +100,7 @@ class HomeSettingsTest extends TestCase
         NotificationBanner::create([
             'name' => 'Banner Settings',
             'is_active' => false,
-            'banner_text' => 'Flash Sale!',
+            'banner_text' => ['en' => 'Flash Sale!'],
         ]);
 
         Livewire::test(\App\Http\Livewire\Sytatsu\Components\NotificationBanner::class)
@@ -113,7 +113,7 @@ class HomeSettingsTest extends TestCase
         NotificationBanner::create([
             'name' => 'Banner Settings',
             'is_active' => true,
-            'banner_text' => 'Future Sale!',
+            'banner_text' => ['en' => 'Future Sale!'],
             'banner_start_at' => now()->addDay(),
             'banner_end_at' => now()->addWeeks(2),
         ]);
@@ -126,12 +126,37 @@ class HomeSettingsTest extends TestCase
         NotificationBanner::create([
             'name' => 'Past Settings',
             'is_active' => true,
-            'banner_text' => 'Past Sale!',
+            'banner_text' => ['en' => 'Past Sale!'],
             'banner_start_at' => now()->subWeeks(2),
             'banner_end_at' => now()->subDay(),
         ]);
 
         Livewire::test(\App\Http\Livewire\Sytatsu\Components\NotificationBanner::class)
             ->assertDontSee('Past Sale!');
+    }
+
+    #[Test]
+    public function notification_banner_shows_translated_text()
+    {
+        NotificationBanner::create([
+            'name' => 'Banner Settings',
+            'is_active' => true,
+            'banner_text' => [
+                'en' => 'English Text',
+                'nl' => 'Nederlandse Tekst',
+            ],
+            'banner_start_at' => now()->subDay(),
+            'banner_end_at' => now()->addDay(),
+        ]);
+
+        app()->setLocale('en');
+        Livewire::test(\App\Http\Livewire\Sytatsu\Components\NotificationBanner::class)
+            ->assertSee('English Text')
+            ->assertDontSee('Nederlandse Tekst');
+
+        app()->setLocale('nl');
+        Livewire::test(\App\Http\Livewire\Sytatsu\Components\NotificationBanner::class)
+            ->assertSee('Nederlandse Tekst')
+            ->assertDontSee('English Text');
     }
 }
