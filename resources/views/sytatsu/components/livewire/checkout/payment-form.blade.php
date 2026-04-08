@@ -65,8 +65,10 @@
                 <!--Stripe.js injects the Payment Element-->
             </div>
             <div class="mt-8 pt-4 border-t border-gray-100 dark:border-slate-700">
+
                 <p class="mb-4 text-sm text-slate-800 dark:text-white">
-                    {{ __('With payment you agree to the general terms and conditions') }}
+                    {{ __('With payment you agree to the') }} <a class="inline-flex gap-x-2 hover:underline focus:outline-hidden focus:text-gray-700 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
+                       href="{{ asset('files/General Terms and Conditions Sytatsu v1.pdf') }}" target="_blank">{{ __("General Terms & Conditions") }}</a>
                 </p>
 
                 <div class="flex flex-col sm:flex-row gap-4">

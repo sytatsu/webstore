@@ -38,7 +38,7 @@
 
     <dl class="flex flex-wrap py-2 text-sm">
         <dt class="w-1/2 font-medium text-black dark:text-white">
-            {{ __('Tax') }}
+            {{ __('Of which VAT') }}
         </dt>
 
         <dd class="w-1/2 text-right text-black dark:text-white">
