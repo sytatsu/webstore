@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Lunar\Base\Traits\HasTranslations;
 
 class HomeSettings extends Model
 {
+    use HasTranslations;
+
     protected $fillable = [
         'name',
         'title',
@@ -15,6 +18,8 @@ class HomeSettings extends Model
 
     protected $casts = [
         'is_active' => 'boolean',
+        'title' => 'array',
+        'sub_title' => 'array',
     ];
 
     public function homeCollections()

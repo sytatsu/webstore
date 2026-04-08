@@ -24,6 +24,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
+use Lunar\Admin\Support\Forms\Components\TranslatedText;
 use Lunar\Models\Collection;
 
 class HomeSettingsResource extends Resource
@@ -56,9 +57,9 @@ class HomeSettingsResource extends Resource
 
                 Section::make('Hero Content')
                     ->schema([
-                        TextInput::make('title')
+                        TranslatedText::make('title')
                             ->placeholder('e.g. Welcome to our Store'),
-                        Textarea::make('sub_title')
+                        TranslatedText::make('sub_title')
                             ->placeholder('e.g. Find the best products here'),
                     ]),
 

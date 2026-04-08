@@ -53,8 +53,8 @@ class HomeSettingsTest extends TestCase
 
         $settings = HomeSettings::create([
             'name' => 'Test Settings',
-            'title' => 'Custom Welcome Title',
-            'sub_title' => 'Custom Subtitle Text',
+            'title' => ['en' => 'Custom Welcome Title'],
+            'sub_title' => ['en' => 'Custom Subtitle Text'],
             'is_active' => true,
         ]);
 
@@ -158,5 +158,36 @@ class HomeSettingsTest extends TestCase
         Livewire::test(\App\Http\Livewire\Sytatsu\Components\NotificationBanner::class)
             ->assertSee('Nederlandse Tekst')
             ->assertDontSee('English Text');
+    }
+
+    #[Test]
+    public function home_settings_shows_translated_text()
+    {
+        HomeSettings::query()->delete();
+
+        HomeSettings::create([
+            'name' => 'Home Settings',
+            'is_active' => true,
+            'title' => [
+                'en' => 'English Title',
+                'nl' => 'Nederlandse Titel',
+            ],
+            'sub_title' => [
+                'en' => 'English Subtitle',
+                'nl' => 'Nederlandse Ondertitel',
+            ],
+        ]);
+
+        $this->withSession(['locale' => 'en'])
+            ->get(route('sytatsu.welcome'))
+            ->assertSee('English Title')
+            ->assertSee('English Subtitle')
+            ->assertDontSee('Nederlandse Titel');
+
+        $this->withSession(['locale' => 'nl'])
+            ->get(route('sytatsu.welcome'))
+            ->assertSee('Nederlandse Titel')
+            ->assertSee('Nederlandse Ondertitel')
+            ->assertDontSee('English Title');
     }
 }

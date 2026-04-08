@@ -38,10 +38,11 @@ class Welcome extends SytatsuBasePage
         if ($settings) {
             $this->collectionIds = $settings->homeCollections->pluck('collection_id')->toArray();
             if ($settings->title) {
-                $this->homeTitle = $settings->title;
-                $this->setTitle($settings->title);
+                $translatedTitle = $settings->translate('title');
+                $this->homeTitle = $translatedTitle;
+                $this->setTitle($translatedTitle);
             }
-            $this->homeSubTitle = $settings->sub_title;
+            $this->homeSubTitle = $settings->translate('sub_title');
         }
     }
 
