@@ -135,8 +135,8 @@ class WebstoreSettingsTest extends TestCase
     {
         // Add a setting with a nested array (e.g. translation)
         WebstoreSetting::updateOrCreate(
-            ['key' => 'home_title'],
-            ['value' => ['en' => 'Welcome', 'nl' => 'Welkom']]
+            ['key' => 'navigation_collection_groups'],
+            ['value' => ['printed']]
         );
 
         // Add a setting with a nested array within a list (e.g. if someone manually corrupted the data or it's a list of translations)

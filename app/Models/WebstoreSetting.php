@@ -31,8 +31,6 @@ class WebstoreSetting extends Model
     {
         return in_array($key, [
             'navigation_collection_groups',
-            'home_title',
-            'home_sub_title',
             'home_featured_collections',
         ]);
     }

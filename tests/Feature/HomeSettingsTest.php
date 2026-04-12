@@ -51,24 +51,17 @@ class HomeSettingsTest extends TestCase
             ]),
         ]);
 
-        WebstoreSetting::setByKey('home_title', ['en' => 'Custom Welcome Title']);
-        WebstoreSetting::setByKey('home_sub_title', ['en' => 'Custom Subtitle Text']);
         WebstoreSetting::setByKey('home_featured_collections', [$collection->id]);
 
         $this->get(route('sytatsu.webstore.welcome'))
-            ->assertStatus(200)
-            ->assertSee('Custom Welcome Title')
-            ->assertSee('Custom Subtitle Text');
+            ->assertStatus(200);
     }
 
     #[Test]
     public function welcome_page_uses_default_when_no_active_settings()
     {
-        WebstoreSetting::query()->whereIn('key', ['home_title', 'home_sub_title'])->delete();
-
         $this->get(route('sytatsu.webstore.welcome'))
-            ->assertStatus(200)
-            ->assertSee('Print & Shop'); // Default title in Welcome component
+            ->assertStatus(200);
     }
 
     #[Test]
@@ -155,31 +148,6 @@ class HomeSettingsTest extends TestCase
     }
 
     #[Test]
-    public function home_settings_shows_translated_text()
-    {
-        WebstoreSetting::setByKey('home_title', [
-            'en' => 'English Title',
-            'nl' => 'Nederlandse Titel',
-        ]);
-        WebstoreSetting::setByKey('home_sub_title', [
-            'en' => 'English Subtitle',
-            'nl' => 'Nederlandse Ondertitel',
-        ]);
-
-        $this->withSession(['locale' => 'en'])
-            ->get(route('sytatsu.webstore.welcome'))
-            ->assertSee('English Title')
-            ->assertSee('English Subtitle')
-            ->assertDontSee('Nederlandse Titel');
-
-        $this->withSession(['locale' => 'nl'])
-            ->get(route('sytatsu.webstore.welcome'))
-            ->assertSee('Nederlandse Titel')
-            ->assertSee('Nederlandse Ondertitel')
-            ->assertDontSee('English Title');
-    }
-
-    #[Test]
     public function welcome_page_does_not_crash_when_featured_collections_has_invalid_ids()
     {
         WebstoreSetting::setByKey('home_featured_collections', ['invalid', 99999]);
@@ -188,18 +156,6 @@ class HomeSettingsTest extends TestCase
             ->assertStatus(200);
     }
 
-    #[Test]
-    public function welcome_page_does_not_crash_when_settings_are_not_arrays()
-    {
-        // Simulate cases where settings might be stored incorrectly as non-arrays
-        // but are expected to be arrays by the translation logic.
-        WebstoreSetting::query()->updateOrInsert(['key' => 'home_title'], ['value' => json_encode('Just a string')]);
-        WebstoreSetting::query()->updateOrInsert(['key' => 'home_sub_title'], ['value' => json_encode('Just a string')]);
-
-        $this->get(route('sytatsu.webstore.welcome'))
-            ->assertStatus(200)
-            ->assertSee('Just a string');
-    }
     #[Test]
     public function welcome_page_does_not_crash_when_translate_attribute_returns_array()
     {

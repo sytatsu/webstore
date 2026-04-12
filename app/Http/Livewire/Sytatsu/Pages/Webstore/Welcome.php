@@ -18,8 +18,6 @@ class Welcome extends SytatsuBasePage
     protected ?string $title = 'Print & Shop';
 
     public ?string $label = null;
-    public ?string $homeTitle = null;
-    public ?string $homeSubTitle = null;
 
     protected StorefrontService $storefrontService;
 
@@ -42,21 +40,6 @@ class Welcome extends SytatsuBasePage
         // Ensure collectionIds is an array
         if (!is_array($this->collectionIds)) {
             $this->collectionIds = [];
-        }
-
-        $titleData = WebstoreSetting::getByKey('home_title');
-        if ($titleData) {
-            // Since WebstoreSetting doesn't have HasTranslations trait yet,
-            // we can either add it or handle it manually here.
-            // But we can use the trait on this component to translate the array.
-            $translatedTitle = $this->translateArray($titleData);
-            $this->homeTitle = $translatedTitle;
-            $this->setTitle($translatedTitle);
-        }
-
-        $subTitleData = WebstoreSetting::getByKey('home_sub_title');
-        if ($subTitleData) {
-            $this->homeSubTitle = $this->translateArray($subTitleData);
         }
     }
 
@@ -90,8 +73,6 @@ class Welcome extends SytatsuBasePage
             'gridColumns' => 'grid-cols-2 lg:grid-cols-4',
             'maxWidth' => $this->maxWidth,
             'showFilters' => false,
-            'homeTitle' => $this->homeTitle,
-            'homeSubTitle' => $this->homeSubTitle,
         ]);
 
         return parent::render();

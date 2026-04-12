@@ -47,7 +47,7 @@ class WebstoreSettingResource extends Resource
 
                         TranslatedText::make('value')
                             ->label('Value')
-                            ->visible(fn ($get) => in_array($get('key'), ['home_title', 'home_sub_title']))
+                            ->visible(fn ($get) => false) // No longer using translated text for home titles
                             ->required(),
 
                         Repeater::make('value')
@@ -78,7 +78,7 @@ class WebstoreSettingResource extends Resource
 
                         TextInput::make('value')
                             ->label('Value')
-                            ->visible(fn ($get) => !in_array($get('key'), ['navigation_collection_groups', 'home_title', 'home_sub_title', 'home_featured_collections']))
+                            ->visible(fn ($get) => !in_array($get('key'), ['navigation_collection_groups', 'home_featured_collections']))
                             ->required(),
                     ])
             ]);
