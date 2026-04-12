@@ -55,7 +55,7 @@ class HomeSettingsTest extends TestCase
         WebstoreSetting::setByKey('home_sub_title', ['en' => 'Custom Subtitle Text']);
         WebstoreSetting::setByKey('home_featured_collections', [$collection->id]);
 
-        $this->get(route('sytatsu.welcome'))
+        $this->get(route('sytatsu.webstore.welcome'))
             ->assertStatus(200)
             ->assertSee('Custom Welcome Title')
             ->assertSee('Custom Subtitle Text');
@@ -66,7 +66,7 @@ class HomeSettingsTest extends TestCase
     {
         WebstoreSetting::query()->whereIn('key', ['home_title', 'home_sub_title'])->delete();
 
-        $this->get(route('sytatsu.welcome'))
+        $this->get(route('sytatsu.webstore.welcome'))
             ->assertStatus(200)
             ->assertSee('Print & Shop'); // Default title in Welcome component
     }
@@ -167,13 +167,13 @@ class HomeSettingsTest extends TestCase
         ]);
 
         $this->withSession(['locale' => 'en'])
-            ->get(route('sytatsu.welcome'))
+            ->get(route('sytatsu.webstore.welcome'))
             ->assertSee('English Title')
             ->assertSee('English Subtitle')
             ->assertDontSee('Nederlandse Titel');
 
         $this->withSession(['locale' => 'nl'])
-            ->get(route('sytatsu.welcome'))
+            ->get(route('sytatsu.webstore.welcome'))
             ->assertSee('Nederlandse Titel')
             ->assertSee('Nederlandse Ondertitel')
             ->assertDontSee('English Title');
