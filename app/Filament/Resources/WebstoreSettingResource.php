@@ -94,7 +94,36 @@ class WebstoreSettingResource extends Resource
                 TextColumn::make('value')
                     ->label('Values')
                     ->badge()
-                    ->separator(','),
+                    ->separator(',')
+                    ->getStateUsing(function ($record) {
+                        $value = $record->value;
+                        if (!is_array($value)) {
+                            return (string) $value;
+                        }
+
+                        // Check if it's a translation array (keys are locale codes)
+                        $locales = ['en', 'nl'];
+                        $isTranslation = false;
+                        foreach ($value as $k => $v) {
+                            if (in_array($k, $locales)) {
+                                $isTranslation = true;
+                                break;
+                            }
+                        }
+
+                        if ($isTranslation) {
+                            return $value[app()->getLocale()] ?? $value[config('app.fallback_locale', 'en')] ?? collect($value)->first();
+                        }
+
+                        // Otherwise, it's a list (like navigation_collection_groups or home_featured_collections)
+                        // Ensure all elements are strings or numbers
+                        return collect($value)->map(function ($item) {
+                            if (is_array($item)) {
+                                return json_encode($item);
+                            }
+                            return (string) $item;
+                        })->toArray();
+                    }),
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable(),

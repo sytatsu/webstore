@@ -39,6 +39,11 @@ class Welcome extends SytatsuBasePage
 
         $this->collectionIds = WebstoreSetting::getByKey('home_featured_collections', []);
 
+        // Ensure collectionIds is an array
+        if (!is_array($this->collectionIds)) {
+            $this->collectionIds = [];
+        }
+
         $titleData = WebstoreSetting::getByKey('home_title');
         if ($titleData) {
             // Since WebstoreSetting doesn't have HasTranslations trait yet,
@@ -58,10 +63,19 @@ class Welcome extends SytatsuBasePage
     /**
      * Helper to translate an array of locales.
      */
-    protected function translateArray(?array $values, ?string $locale = null): ?string
+    protected function translateArray($values, ?string $locale = null): ?string
     {
         if (!$values) {
             return null;
+        }
+
+        // If it's already a string, return it (handles incorrectly stored data)
+        if (is_string($values)) {
+            return $values;
+        }
+
+        if (!is_array($values)) {
+            return (string) $values;
         }
 
         $locale = $locale ?: app()->getLocale();

@@ -129,4 +129,30 @@ class WebstoreSettingsTest extends TestCase
         $this->assertTrue($nonProtectedSetting->delete());
         $this->assertDatabaseMissing('webstore_settings', ['key' => $nonProtectedKey]);
     }
+
+    #[Test]
+    public function setting_resource_table_does_not_crash_with_array_values()
+    {
+        // Add a setting with a nested array (e.g. translation)
+        WebstoreSetting::updateOrCreate(
+            ['key' => 'home_title'],
+            ['value' => ['en' => 'Welcome', 'nl' => 'Welkom']]
+        );
+
+        // Add a setting with a nested array within a list (e.g. if someone manually corrupted the data or it's a list of translations)
+        WebstoreSetting::updateOrCreate(
+            ['key' => 'corrupted_setting'],
+            ['value' => [['en' => 'Sub-array']]]
+        );
+
+        // Add a setting with a list of IDs
+        WebstoreSetting::updateOrCreate(
+            ['key' => 'home_featured_collections'],
+            ['value' => [1, 2, 3]]
+        );
+
+        // Test the Filament resource table
+        Livewire::test(\App\Filament\Resources\WebstoreSettingResource\Pages\ManageWebstoreSettings::class)
+            ->assertSuccessful();
+    }
 }

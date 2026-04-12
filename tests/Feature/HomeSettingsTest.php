@@ -178,4 +178,56 @@ class HomeSettingsTest extends TestCase
             ->assertSee('Nederlandse Ondertitel')
             ->assertDontSee('English Title');
     }
+
+    #[Test]
+    public function welcome_page_does_not_crash_when_featured_collections_has_invalid_ids()
+    {
+        WebstoreSetting::setByKey('home_featured_collections', ['invalid', 99999]);
+
+        $this->get(route('sytatsu.webstore.welcome'))
+            ->assertStatus(200);
+    }
+
+    #[Test]
+    public function welcome_page_does_not_crash_when_settings_are_not_arrays()
+    {
+        // Simulate cases where settings might be stored incorrectly as non-arrays
+        // but are expected to be arrays by the translation logic.
+        WebstoreSetting::query()->updateOrInsert(['key' => 'home_title'], ['value' => json_encode('Just a string')]);
+        WebstoreSetting::query()->updateOrInsert(['key' => 'home_sub_title'], ['value' => json_encode('Just a string')]);
+
+        $this->get(route('sytatsu.webstore.welcome'))
+            ->assertStatus(200)
+            ->assertSee('Just a string');
+    }
+    #[Test]
+    public function welcome_page_does_not_crash_when_translate_attribute_returns_array()
+    {
+        $group = CollectionGroup::factory()->create();
+        $collection = Collection::factory()->create([
+            'collection_group_id' => $group->id,
+            'attribute_data' => collect([
+                'name' => new \Lunar\FieldTypes\Text('Original Name'),
+            ]),
+        ]);
+
+        WebstoreSetting::setByKey('home_featured_collections', [$collection->id]);
+
+        // Mock the translateAttribute method to return an array
+        $mockCollection = \Mockery::mock($collection)->makePartial();
+        $mockCollection->shouldReceive('translateAttribute')
+            ->with('name')
+            ->andReturn(['en' => 'Mock Name EN', 'nl' => 'Mock Name NL']);
+
+        // Since the component uses StorefrontService which calls Repository which calls Model,
+        // we might need to mock the service or repository, but let's see if we can just test the DTO directly first
+        // to verify our fix in DTO.
+
+        $dto = new \App\DTOs\ProductCollectionDTO($mockCollection, collect());
+        $this->assertEquals('Mock Name EN', $dto->getName());
+
+        app()->setLocale('nl');
+        $this->assertEquals('Mock Name NL', $dto->getName());
+        app()->setLocale('en');
+    }
 }

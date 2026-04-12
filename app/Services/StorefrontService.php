@@ -88,9 +88,13 @@ readonly class StorefrontService
      */
     public function getCollectionsAndDescendantsWithLimitedProducts(array $collectionIds, int $maxProducts = 4): Collection
     {
-        $collections = collect(array_map(function (int $collectionId) use ($maxProducts) {
+        $collections = collect(array_map(function ($collectionId) use ($maxProducts) {
             // @TODO: Feels hacky but works for now. Only used on the welcome page so shouldn't affect performance too much.
-            $collection = $this->collectionRepository->find($collectionId);
+            if (!is_numeric($collectionId)) {
+                return null;
+            }
+
+            $collection = $this->collectionRepository->find((int) $collectionId);
             if (!$collection) {
                 return null;
             }
