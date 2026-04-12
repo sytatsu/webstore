@@ -21,7 +21,7 @@ use Lunar\Models\Product;
 Route::get('/about', LivewireSytatsu\About::class)->name('sytatsu.about');
 Route::get('/contact', LivewireSytatsu\Contact::class)->name('sytatsu.contact');
 
-Route::get('/', LivewireSytatsu\Webstore\Welcome::class)->name('sytatsu.welcome');
+Route::get('/', LivewireSytatsu\Webstore\Welcome::class)->name('sytatsu.webstore.welcome');
 Route::get('/products/{product}', LivewireSytatsu\Webstore\ProductPage::class)->name('sytatsu.webstore.product');
 Route::get('/collections/{collection}', LivewireSytatsu\Webstore\CollectionPage::class)->name('sytatsu.webstore.collection');
 
@@ -29,9 +29,9 @@ Route::get('/cart', LivewireSytatsu\Webstore\CartPage::class)->name('sytatsu.web
 
 Route::middleware('disable.cart')->group(function () {
     Route::middleware('has.cart')->group(function () {
-        Route::get('/checkout/success', LivewireSytatsu\Webstore\CheckoutSuccessPage::class)->name('sytatsu.webstore.checkout.success');
+        // ... any other routes that might need a cart ...
     });
-
+    Route::get('/checkout/success', LivewireSytatsu\Webstore\CheckoutSuccessPage::class)->name('sytatsu.webstore.checkout.success');
     Route::get('/checkout', LivewireSytatsu\Webstore\CheckoutPage::class)->name('sytatsu.webstore.checkout');
 });
 

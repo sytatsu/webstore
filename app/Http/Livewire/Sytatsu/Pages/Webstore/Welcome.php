@@ -2,15 +2,18 @@
 
 namespace App\Http\Livewire\Sytatsu\Pages\Webstore;
 
-use App\Models\HomeSettings;
+use App\Models\WebstoreSetting;
 use App\DTOs\ProductCollectionDTO;
 use App\Http\Livewire\Sytatsu\SytatsuBasePage;
 use App\Services\StorefrontService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Collection as SupportCollection;
+use Lunar\Base\Traits\HasTranslations;
 
 class Welcome extends SytatsuBasePage
 {
+    use HasTranslations;
+
     protected string $view = 'sytatsu.webstore.welcome';
     protected ?string $title = 'Print & Shop';
 
@@ -34,16 +37,36 @@ class Welcome extends SytatsuBasePage
     public function mount(StorefrontService $storefrontService): void {
         $this->storefrontService = $storefrontService;
 
-        $settings = HomeSettings::with(['homeCollections.collection'])->where('is_active', true)->first();
-        if ($settings) {
-            $this->collectionIds = $settings->homeCollections->pluck('collection_id')->toArray();
-            if ($settings->title) {
-                $translatedTitle = $settings->translate('title');
-                $this->homeTitle = $translatedTitle;
-                $this->setTitle($translatedTitle);
-            }
-            $this->homeSubTitle = $settings->translate('sub_title');
+        $this->collectionIds = WebstoreSetting::getByKey('home_featured_collections', []);
+
+        $titleData = WebstoreSetting::getByKey('home_title');
+        if ($titleData) {
+            // Since WebstoreSetting doesn't have HasTranslations trait yet,
+            // we can either add it or handle it manually here.
+            // But we can use the trait on this component to translate the array.
+            $translatedTitle = $this->translateArray($titleData);
+            $this->homeTitle = $translatedTitle;
+            $this->setTitle($translatedTitle);
         }
+
+        $subTitleData = WebstoreSetting::getByKey('home_sub_title');
+        if ($subTitleData) {
+            $this->homeSubTitle = $this->translateArray($subTitleData);
+        }
+    }
+
+    /**
+     * Helper to translate an array of locales.
+     */
+    protected function translateArray(?array $values, ?string $locale = null): ?string
+    {
+        if (!$values) {
+            return null;
+        }
+
+        $locale = $locale ?: app()->getLocale();
+
+        return $values[$locale] ?? $values[config('app.fallback_locale', 'en')] ?? collect($values)->first();
     }
 
     public function render(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\Support\Htmlable|\Closure|string
