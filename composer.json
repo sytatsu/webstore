@@ -46,9 +46,7 @@
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
             "@php artisan filament:upgrade",
-            "@php artisan storage:link",
-            "ln -sfn /var/www/html/resources/images /var/www/html/public/images",
-            "ln -sfn /var/www/html/resources/files /var/www/html/public/files"
+            "@php artisan storage:link"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force",

@@ -38,8 +38,8 @@ class DatabaseSeeder extends Seeder
 
         // fill database with real data
         $this->call([
-//            \Database\Seeders\collections\CollectionPokeballSeeder::class,
-//            \Database\Seeders\collections\CollectionMiniFriendsSeeder::class,
+            \Database\Seeders\collections\CollectionPokeballSeeder::class,
+            \Database\Seeders\collections\CollectionMiniFriendsSeeder::class,
         ]);
     }
 }
