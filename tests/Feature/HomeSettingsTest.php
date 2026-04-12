@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\HomeSettings;
+use App\Models\WebstoreSetting;
 use App\Models\NotificationBanner;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
@@ -51,17 +51,9 @@ class HomeSettingsTest extends TestCase
             ]),
         ]);
 
-        $settings = HomeSettings::create([
-            'name' => 'Test Settings',
-            'title' => ['en' => 'Custom Welcome Title'],
-            'sub_title' => ['en' => 'Custom Subtitle Text'],
-            'is_active' => true,
-        ]);
-
-        $settings->homeCollections()->create([
-            'collection_id' => $collection->id,
-            'position' => 1,
-        ]);
+        WebstoreSetting::setByKey('home_title', ['en' => 'Custom Welcome Title']);
+        WebstoreSetting::setByKey('home_sub_title', ['en' => 'Custom Subtitle Text']);
+        WebstoreSetting::setByKey('home_featured_collections', [$collection->id]);
 
         $this->get(route('sytatsu.welcome'))
             ->assertStatus(200)
@@ -72,6 +64,8 @@ class HomeSettingsTest extends TestCase
     #[Test]
     public function welcome_page_uses_default_when_no_active_settings()
     {
+        WebstoreSetting::query()->whereIn('key', ['home_title', 'home_sub_title'])->delete();
+
         $this->get(route('sytatsu.welcome'))
             ->assertStatus(200)
             ->assertSee('Print & Shop'); // Default title in Welcome component
@@ -163,19 +157,13 @@ class HomeSettingsTest extends TestCase
     #[Test]
     public function home_settings_shows_translated_text()
     {
-        HomeSettings::query()->delete();
-
-        HomeSettings::create([
-            'name' => 'Home Settings',
-            'is_active' => true,
-            'title' => [
-                'en' => 'English Title',
-                'nl' => 'Nederlandse Titel',
-            ],
-            'sub_title' => [
-                'en' => 'English Subtitle',
-                'nl' => 'Nederlandse Ondertitel',
-            ],
+        WebstoreSetting::setByKey('home_title', [
+            'en' => 'English Title',
+            'nl' => 'Nederlandse Titel',
+        ]);
+        WebstoreSetting::setByKey('home_sub_title', [
+            'en' => 'English Subtitle',
+            'nl' => 'Nederlandse Ondertitel',
         ]);
 
         $this->withSession(['locale' => 'en'])

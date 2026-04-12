@@ -1,0 +1,132 @@
+<?php
+
+namespace Tests\Feature;
+
+use App\Models\WebstoreSetting;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
+use Lunar\Models\Collection;
+use Lunar\Models\CollectionGroup;
+use Lunar\Models\Language;
+use Lunar\Models\Currency;
+use Lunar\Models\Channel;
+use PHPUnit\Framework\Attributes\Test;
+use Tests\TestCase;
+
+class WebstoreSettingsTest extends TestCase
+{
+    use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Language::factory()->create([
+            'code' => 'en',
+            'default' => true,
+        ]);
+
+        Currency::factory()->create([
+            'code' => 'EUR',
+            'default' => true,
+            'decimal_places' => 2,
+        ]);
+
+        Channel::factory()->create([
+            'handle' => 'default',
+            'default' => true,
+            'name' => 'Default Channel',
+        ]);
+    }
+
+    #[Test]
+    public function navigation_filters_collections_by_configured_group_handles()
+    {
+        $groupPrinted = CollectionGroup::factory()->create(['handle' => 'printed', 'name' => 'Printed']);
+        $groupOther = CollectionGroup::factory()->create(['handle' => 'other', 'name' => 'Other']);
+
+        $collectionPrinted = Collection::factory()->create([
+            'collection_group_id' => $groupPrinted->id,
+            'attribute_data' => collect(['name' => new \Lunar\FieldTypes\Text('Printed Collection')]),
+        ]);
+
+        $collectionOther = Collection::factory()->create([
+            'collection_group_id' => $groupOther->id,
+            'attribute_data' => collect(['name' => new \Lunar\FieldTypes\Text('Other Collection')]),
+        ]);
+
+        // Default setting (should show "printed" only)
+        Livewire::test(\App\Http\Livewire\Sytatsu\Components\Navigation::class)
+            ->assertSee('Printed Collection')
+            ->assertDontSee('Other Collection');
+
+        // Configure to show "other" instead
+        WebstoreSetting::setByKey('navigation_collection_groups', ['other']);
+
+        Livewire::test(\App\Http\Livewire\Sytatsu\Components\Navigation::class)
+            ->assertSee('Other Collection')
+            ->assertDontSee('Printed Collection');
+
+        // Configure to show both
+        WebstoreSetting::setByKey('navigation_collection_groups', ['printed', 'other']);
+
+        Livewire::test(\App\Http\Livewire\Sytatsu\Components\Navigation::class)
+            ->assertSee('Printed Collection')
+            ->assertSee('Other Collection')
+            ->assertSee('data-group-handle="printed"', false)
+            ->assertSee('data-group-handle="other"', false)
+            ->assertDontSee('Printed</span>', false)
+            ->assertDontSee('Other</span>', false);
+    }
+
+    #[Test]
+    public function navigation_does_not_have_border_on_the_last_group()
+    {
+        $groupA = CollectionGroup::factory()->create(['handle' => 'a', 'name' => 'A']);
+        $groupB = CollectionGroup::factory()->create(['handle' => 'b', 'name' => 'B']);
+
+        Collection::factory()->create([
+            'collection_group_id' => $groupA->id,
+            'attribute_data' => collect(['name' => new \Lunar\FieldTypes\Text('Collection A')]),
+        ]);
+
+        Collection::factory()->create([
+            'collection_group_id' => $groupB->id,
+            'attribute_data' => collect(['name' => new \Lunar\FieldTypes\Text('Collection B')]),
+        ]);
+
+        WebstoreSetting::setByKey('navigation_collection_groups', ['a', 'b']);
+
+        $response = Livewire::test(\App\Http\Livewire\Sytatsu\Components\Navigation::class);
+        $html = $response->html();
+
+        // Group A should have the border classes
+        $this->assertStringContainsString('data-group-handle="a"', $html);
+        $this->assertStringContainsString('md:border-r', $html);
+        $this->assertTrue((bool) preg_match('/md:border-r([^>]*?)data-group-handle="a"/s', $html) || (bool) preg_match('/data-group-handle="a"([^>]*?)md:border-r/s', $html), 'Group A missing md:border-r');
+
+        // Group B (last) should NOT have the border classes
+        $this->assertStringContainsString('data-group-handle="b"', $html);
+        $this->assertFalse((bool) preg_match('/data-group-handle="b"([^>]*?)md:border-r/s', $html), 'Group B should not have md:border-r');
+    }
+
+    #[Test]
+    public function protected_settings_cannot_be_deleted()
+    {
+        $protectedKey = 'navigation_collection_groups';
+        $setting = WebstoreSetting::where('key', $protectedKey)->first();
+
+        if (!$setting) {
+             $setting = WebstoreSetting::create(['key' => $protectedKey, 'value' => ['printed']]);
+        }
+
+        $this->assertFalse($setting->delete());
+        $this->assertDatabaseHas('webstore_settings', ['key' => $protectedKey]);
+
+        $nonProtectedKey = 'some_random_setting';
+        $nonProtectedSetting = WebstoreSetting::create(['key' => $nonProtectedKey, 'value' => 'test']);
+
+        $this->assertTrue($nonProtectedSetting->delete());
+        $this->assertDatabaseMissing('webstore_settings', ['key' => $nonProtectedKey]);
+    }
+}

@@ -7,6 +7,7 @@ namespace App\Http\Livewire\Sytatsu\Pages\Webstore;
 use App\Services\CartService;
 use App\Http\Livewire\Sytatsu\SytatsuBasePage;
 use App\Services\CheckoutService;
+use Livewire\Features\SupportRedirects\Redirector;
 
 class CheckoutPage extends SytatsuBasePage
 {
@@ -37,7 +38,7 @@ class CheckoutPage extends SytatsuBasePage
         $this->checkoutService = $checkoutService;
     }
 
-    public function mount(): null|\Illuminate\Http\RedirectResponse
+    public function mount(): null|Redirector
     {
         if ($this->payment_intent) {
             $payment = $this->checkoutService->authorizePaymentIntent(
@@ -46,9 +47,26 @@ class CheckoutPage extends SytatsuBasePage
                 paymentIntentClientSecret: $this->payment_intent_client_secret,
             );
 
-            if ($payment->success) {
-                return redirect()->route('sytatsu.webstore.checkout.success', ['order_id' => $this->checkoutService->getFirstOrderForCart($this->cart)->id]);
+            if ($payment->success || $this->redirect_status === 'succeeded') {
+                $orderId = $payment->orderId
+                    ?: $this->checkoutService->getOrderIdByPaymentIntent($this->payment_intent)
+                    ?: $this->checkoutService->getFirstOrderForCart($this->cart)?->id;
+
+                if (! $orderId) {
+                    logger()->error('Order not found after successful payment, redirecting to success page anyway', [
+                        'payment_intent' => $this->payment_intent,
+                        'cart_id' => $this->cart?->id,
+                    ]);
+                }
+
+                session()->flash('checkout_success', true);
+
+                return redirect()->route('sytatsu.webstore.checkout.success', ['order_id' => $orderId]);
             }
+        }
+
+        if ($this->cart->lines->isEmpty()) {
+            return redirect()->route('sytatsu.webstore.welcome');
         }
 
         $this->mapLines();

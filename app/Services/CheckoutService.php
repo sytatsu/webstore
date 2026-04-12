@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use Lunar\Facades\Payments;
 use Lunar\Models\Cart;
 use Lunar\Models\Order;
+use Lunar\Stripe\Models\StripePaymentIntent;
 
 readonly class CheckoutService
 {
@@ -34,6 +35,11 @@ readonly class CheckoutService
             'payment_intent_client_secret' => $paymentIntentClientSecret,
             'payment_intent' => $paymentIntent
         ])->authorize();
+    }
+
+    public function getOrderIdByPaymentIntent(string $paymentIntent): ?int
+    {
+        return StripePaymentIntent::where('intent_id', $paymentIntent)->first()?->order_id;
     }
 
     public function updateCartAddress(int $id, array $data): bool

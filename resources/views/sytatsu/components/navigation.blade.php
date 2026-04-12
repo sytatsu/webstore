@@ -1,5 +1,5 @@
 <div class="bg-background-light dark:bg-slate-800 shadow-md dark:shadow-slate-700">
-    <div class="mx-auto xl:min-w-[80rem] max-w-[30rem] md:max-w-[85rem] w-full px-4 md:px-6 lg:px-8 py-2 flex justify-between">
+    <div class="mx-auto xl:min-w-[80rem] md:max-w-[85rem] w-full px-4 md:px-6 lg:px-8 py-2 flex justify-between">
         <header class="sticky top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 text-sm p-0 md:py-4" style="z-index: 60">
             <nav class="relative max-w-2xl w-full mx-2 py-2.5 md:flex md:items-center md:justify-between md:py-0 md:px-4 md:mx-auto">
                 <div class="md:hidden">
@@ -39,7 +39,7 @@
                             <div class="grow">
                                 <div class="flex flex-col md:flex-row md:justify-center md:items-center gap-1 md:gap-6">
                                     <a class="px-1 m-3 md:ml-0 md:mr-3 md:my-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent dark:text-neutral-200"
-                                       href="{{ route('sytatsu.welcome')  }}"
+                                       href="{{ route('sytatsu.webstore.welcome')  }}"
                                     >
                                         <img src="{{ Vite::asset('resources/images/brands/no_background_text_only.webp') }}" alt="brand" width="70"
                                              class="md:hidden">
@@ -48,21 +48,28 @@
                                         </span>
                                     </a>
 
-                                    @foreach($collections as $collection)
-                                        @if($collection->defaultUrl && Request::is('collections/' . $collection->defaultUrl->slug . '*'))
-                                            <button type="button"
-                                                    wire:click="$dispatch('filtersReset')"
-                                                    class="px-1 m-3 md:m-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent hover:!border-secondary dark:text-neutral-200 avenir-bold uppercase !border-primary"
-                                            >
-                                                {{ $collection->translateAttribute('name') }}
-                                            </button>
-                                        @else
-                                            <a class="px-1 m-3 md:m-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent hover:!border-secondary dark:text-neutral-200 avenir-bold uppercase"
-                                               href="{{ route('sytatsu.webstore.collection', $collection->defaultUrl?->slug ?? $collection->id) }}"
-                                            >
-                                                {{ $collection->translateAttribute('name') }}
-                                            </a>
-                                        @endif
+                                    @foreach($collections as $groupId => $groupCollections)
+                                        @php
+                                            $group = $groupCollections->first()->group;
+                                        @endphp
+                                        <div class="flex flex-col md:flex-row md:items-center gap-1 md:gap-6 border-b border-gray-100 dark:border-slate-700 last:border-b-0 last:md:border-b-1 last:mb-0" data-group-handle="{{ $group->handle }}">
+                                            @foreach($groupCollections as $collection)
+                                                @if($collection->defaultUrl && Request::is('collections/' . $collection->defaultUrl->slug . '*'))
+                                                    <button type="button"
+                                                            wire:click="$dispatch('filtersReset')"
+                                                            class="px-1 m-3 md:m-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent hover:border-secondary! dark:text-neutral-200 avenir-bold uppercase !border-primary"
+                                                    >
+                                                        {{ $collection->translateAttribute('name') }}
+                                                    </button>
+                                                @else
+                                                    <a class="px-1 m-3 md:m-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent hover:border-secondary! dark:text-neutral-200 avenir-bold uppercase"
+                                                       href="{{ route('sytatsu.webstore.collection', $collection->defaultUrl?->slug ?? $collection->id) }}"
+                                                    >
+                                                        {{ $collection->translateAttribute('name') }}
+                                                    </a>
+                                                @endif
+                                            @endforeach
+                                        </div>
                                     @endforeach
                                 </div>
                             </div>

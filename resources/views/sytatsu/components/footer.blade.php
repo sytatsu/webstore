@@ -3,7 +3,7 @@
         <div class=" py-8 md:py-12">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-18 sm:gap-12 md:gap-6 ">
                 <div class="col-span-full md:col-span-1">
-                    <a class="flex-none text-xl font-semibold text-white focus:outline-hidden focus:opacity-80" href="{{ route('sytatsu.welcome') }}" aria-label="Sytatsu">
+                    <a class="flex-none text-xl font-semibold text-white focus:outline-hidden focus:opacity-80" href="{{ route('sytatsu.webstore.welcome') }}" aria-label="Sytatsu">
                         <img src="{{ Vite::asset('resources/images/brands/no_background_text_only.webp') }}" alt="Sytatsu" width="150" class="ml-8 lg:ml-0">
                     </a>
                 </div>

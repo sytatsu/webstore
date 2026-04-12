@@ -54,4 +54,20 @@ readonly class CollectionRepository
             ->defaultOrder()
             ->get();
     }
+
+    /**
+     * @param array<string> $groupHandles
+     * @return Collection<LunarCollection>
+     */
+    public function getTreeByGroupHandles(array $groupHandles): Collection
+    {
+        return LunarCollection::query()
+            ->with(['children', 'defaultUrl', 'children.defaultUrl', 'group'])
+            ->whereHas('group', function ($query) use ($groupHandles) {
+                $query->whereIn('handle', $groupHandles);
+            })
+            ->whereIsRoot()
+            ->defaultOrder()
+            ->get();
+    }
 }

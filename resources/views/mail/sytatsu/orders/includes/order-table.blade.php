@@ -1,36 +1,58 @@
 @props(['order'])
 
-<table style="margin: 0 auto; margin-bottom: 20px;">
-    <tr style="background-color: #eeeeee;">
-        <th style="font-size:13px;font-weight:bold;text-align:left;padding: 3px 6px;" width="70%">Item</th>
-        <th style="font-size:13px;font-weight:bold;text-align:right;padding: 3px 6px;" width="30%" align="right">Amount</th>
-        <th style="font-size:13px;font-weight:bold;text-align:right;padding: 3px 6px;" width="30%" align="right">Total</th>
-    </tr>
-
-    @foreach($order->lines as $orderLine)
-        @if($orderLine->purchasable_type === 'product_variant')
-            <tr style="border-bottom: solid 1px #f7f7f7;">
-                <td style="font-size:13px;font-weight:normal;padding: 0px 6px;vertical-align:top;">{{ $orderLine->purchasable->product->translateAttribute('name') }}</td>
-                <td style="font-size:13px;font-weight:normal;padding: 0px 6px;vertical-align:top;" align="right">{{ $orderLine->quantity }}</td>
-                <td style="font-size:13px;font-weight:normal;padding: 0px 6px;vertical-align:top;" align="right">{{ $orderLine->sub_total->formatted() }}</td>
-            </tr>
-        @endif
-    @endforeach
-
-    {{-- @TODO; need to find a way to remove double foreach loop--}}
-    @foreach($order->lines as $orderLine)
-        @if($orderLine->purchasable_type === \Lunar\DataTypes\ShippingOption::class)
-            <tr style="border-bottom: solid 1px #f7f7f7;">
-                <td style="font-size:13px;font-weight:normal;padding: 0px 6px;vertical-align:top; text-align: right">{{ $orderLine->description}}</td>
-                <td style="font-size:13px;font-weight:normal;padding: 0px 6px;vertical-align:top;" align="right">{{ $orderLine->quantity }}</td>
-                <td style="font-size:13px;font-weight:normal;padding: 0px 6px;vertical-align:top;" align="right">{{ $orderLine->sub_total->formatted() }}</td>
-            </tr>
-        @endif
-    @endforeach
+<table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+    <thead>
+        <tr style="border-bottom: 2px solid #e2e8f0;">
+            <th style="text-align: left; padding: 12px 8px; font-size: 14px; text-transform: uppercase; color: #64748b;">Item</th>
+            <th style="text-align: center; padding: 12px 8px; font-size: 14px; text-transform: uppercase; color: #64748b;">Qty</th>
+            <th style="text-align: right; padding: 12px 8px; font-size: 14px; text-transform: uppercase; color: #64748b;">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($order->lines as $orderLine)
+            @if($orderLine->purchasable_type !== \Lunar\DataTypes\ShippingOption::class)
+                <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 12px 8px; vertical-align: middle;">
+                        <div style="font-weight: bold; color: #1e293b;">
+                            @if($orderLine->purchasable && $orderLine->purchasable->product)
+                                <a href="{{ route('sytatsu.webstore.product', $orderLine->purchasable->product->defaultUrl->slug) }}" style="color: #E14C04; text-decoration: none;">{{ $orderLine->description }}</a>
+                            @else
+                                {{ $orderLine->description }}
+                            @endif
+                        </div>
+                        @if($orderLine->option)
+                            <div style="font-size: 12px; color: #64748b; font-style: italic;">{{ $orderLine->option }}</div>
+                        @endif
+                    </td>
+                    <td style="padding: 12px 8px; text-align: center; color: #1e293b; vertical-align: middle;">{{ $orderLine->quantity }}</td>
+                    <td style="padding: 12px 8px; text-align: right; font-weight: bold; color: #1e293b; vertical-align: middle;">{{ $orderLine->sub_total->formatted() }}</td>
+                </tr>
+            @endif
+        @endforeach
+    </tbody>
 </table>
-<table style="width: 40%!important; margin-left: 60%; margin-bottom: 20px;">
-    <tr>
-        <td style="font-size:13px;font-weight:normal;padding: 0px 6px;vertical-align:top;" align="right">Order total:</td>
-        <td style="font-size:13px;font-weight:normal;padding: 0px 6px;vertical-align:top;" align="right">{{ $order->total->formatted() }}</td>
-    </tr>
-</table>
+
+<div style="margin-left: auto; width: 100%; max-width: 240px; border-top: 1px solid #e2e8f0; padding-top: 12px;">
+    <table style="width: 100%; border-collapse: collapse;">
+        <tr>
+            <td style="padding: 4px 8px; color: #64748b;">Subtotal</td>
+            <td style="padding: 4px 8px; text-align: right; color: #1e293b;">{{ $order->sub_total->formatted() }}</td>
+        </tr>
+        @foreach($order->lines as $orderLine)
+            @if($orderLine->purchasable_type === \Lunar\DataTypes\ShippingOption::class)
+                <tr>
+                    <td style="padding: 4px 8px; color: #64748b;">Shipping</td>
+                    <td style="padding: 4px 8px; text-align: right; color: #1e293b;">{{ $orderLine->sub_total->formatted() }}</td>
+                </tr>
+            @endif
+        @endforeach
+        <tr>
+            <td style="padding: 4px 8px; color: #64748b;">Tax</td>
+            <td style="padding: 4px 8px; text-align: right; color: #1e293b;">{{ $order->tax_total->formatted() }}</td>
+        </tr>
+        <tr style="font-size: 18px; font-weight: bold;">
+            <td style="padding: 12px 8px; color: #1C315E; text-transform: uppercase;">Total</td>
+            <td style="padding: 12px 8px; text-align: right; color: #1C315E;">{{ $order->total->formatted() }}</td>
+        </tr>
+    </table>
+</div>

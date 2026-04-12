@@ -1,12 +1,23 @@
 @extends('mail.sytatsu.base')
 
 @section('content')
-    <p style="margin-bottom: 10px; font-weight: normal; font-size:16px; color: #333333;">Order reference: #{{ $order->reference }}</p>
-    <p style="margin-bottom: 10px; font-weight: normal; font-size:16px; color: #333333;">Your order has been dispatched and is on it's way!</p>
+    <div style="text-align: center; margin-bottom: 24px;">
+        <h1 style="font-size: 24px; font-weight: bold; color: #1C315E; text-transform: uppercase; margin-top: 16px; margin-bottom: 0;">Order Dispatched</h1>
+    </div>
+
+    <p style="margin-bottom: 12px; font-weight: 500; font-size: 18px; color: #000000; text-align: center;">
+        Your order <strong style="text-decoration: underline;">#{{ $order->reference }}</strong> is on its way!
+    </p>
 
     @if ($content)
-        <p style="display: block; margin-bottom: 10px; font-weight: normal; font-size:16px; color: #333333;">Track & Trace: <b>{{ $content }}</b></p>
+        <div style="background-color: #f1f5f9; padding: 16px; border-radius: 8px; margin-bottom: 24px; text-align: center;">
+            <p style="margin: 0; font-size: 16px; color: #4b5563;">Track & Trace:</p>
+            <p style="margin: 8px 0 0 0; font-size: 18px; font-weight: bold; color: #E14C04;">{{ $content }}</p>
+        </div>
     @endif
 
-    @include('mail.sytatsu.orders.includes.order-table')
+    <div style="border-top: 1px solid #e2e8f0; padding-top: 24px;">
+        <h2 style="font-size: 20px; font-weight: bold; color: #1C315E; text-transform: uppercase; margin-bottom: 16px;">Order Summary</h2>
+        @include('mail.sytatsu.orders.includes.order-table')
+    </div>
 @endsection

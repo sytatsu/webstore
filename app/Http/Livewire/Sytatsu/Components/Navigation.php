@@ -2,21 +2,23 @@
 
 namespace App\Http\Livewire\Sytatsu\Components;
 
+use App\Models\WebstoreSetting;
 use App\Services\StorefrontService;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class Navigation extends Component
 {
-    public Collection $collections;
-
-    public function mount(StorefrontService $storefrontService): void
+    public function render(StorefrontService $storefrontService)
     {
-        $this->collections = $storefrontService->getCollectionTree();
-    }
+        $groupHandles = WebstoreSetting::getByKey('navigation_collection_groups', ['printed']);
 
-    public function render()
-    {
-        return view('sytatsu.components.navigation');
+        $collections = $storefrontService->getCollectionTreeByGroupHandles($groupHandles)
+            ->groupBy(fn ($collection) => $collection->group->id)
+            ->values();
+
+        return view('sytatsu.components.navigation', [
+            'collections' => $collections,
+        ]);
     }
 }

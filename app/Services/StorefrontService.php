@@ -118,6 +118,11 @@ readonly class StorefrontService
         return $this->collectionRepository->getTree();
     }
 
+    public function getCollectionTreeByGroupHandles(array $groupHandles): Collection
+    {
+        return $this->collectionRepository->getTreeByGroupHandles($groupHandles);
+    }
+
     public function findVariant(int|string $id): ?ProductVariant
     {
         return $this->productVariantRepository->find($id);
