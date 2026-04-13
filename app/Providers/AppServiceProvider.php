@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Modifiers\DHLShippingModifier;
 use App\Modifiers\PostNLShippingModifier;
 use App\Scopes\PublishedProductScope;
 use Illuminate\Support\ServiceProvider;
@@ -30,7 +31,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(ShippingModifiers $shippingModifiers): void
     {
-        $shippingModifiers->add(PostNLShippingModifier::class);
+//        $shippingModifiers->add(PostNLShippingModifier::class);
+        $shippingModifiers->add(DHLShippingModifier::class);
 
         Order::observe(\App\Observers\OrderObserver::class);
         ProductVariant::observe(\App\Observers\ProductVariantObserver::class);
