@@ -48,7 +48,7 @@
 
             <div class="grow">
                 <p class="text-sm text-gray-800 dark:text-neutral-200">
-                    {{ __('By browsing this website, you accept our') }} <button @click="openPolicy = true" class="inline-flex items-center gap-x-1.5 text-primary decoration-2 hover:underline focus:outline-hidden focus:underline font-medium cursor-pointer">{{ __('Cookies Policy') }}</button>
+                    {{ __('By browsing this website, you accept our') }} <button @click="openPolicy = true" class="inline-flex items-center gap-x-1.5 text-primary decoration-2 hover:underline focus:outline-hidden focus:underline font-medium cursor-pointer">{{ __('Cookie Policy') }}</button>
                 </p>
             </div>
 
@@ -112,7 +112,7 @@
                     </svg>
 
                     <div class="flex flex-col text-gray-800 dark:text-neutral-200 gap-4">
-                        <span>{{ __('We cookies on the website to make sure everything works like intended') }}.</span>
+                        <span>{{ __('We use cookies on the website to make sure everything works like intended') }}.</span>
                         <div class="flex flex-col">
                             <i><b>{{ __('Functional cookies') }}</b></i>
                             <span>{{ __('used to make your website function properly') }}</span>
