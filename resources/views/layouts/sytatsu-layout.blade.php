@@ -53,6 +53,8 @@
         </div>
 
         @include('sytatsu.components.footer')
+
+        <x-cookie-policy-popup />
     </body>
 
     @livewireScripts
