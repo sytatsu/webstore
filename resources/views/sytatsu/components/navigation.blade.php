@@ -53,6 +53,12 @@
                                             $group = $groupCollections->first()->group;
                                         @endphp
                                         <div class="flex flex-col md:flex-row md:items-center gap-1 md:gap-6 border-b border-gray-100 dark:border-slate-700 last:border-b-0 last:md:border-b-1 last:mb-0" data-group-handle="{{ $group->handle }}">
+
+                                            <a class="md:hidden px-1 m-3 md:m-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent hover:border-secondary! dark:text-neutral-200 avenir-bold uppercase"
+                                               href="{{ route('sytatsu.webstore.welcome') }}">
+                                                <i class="fa fa-sm fa-house pr-2"></i> {{ __('Homepage') }}
+                                            </a>
+
                                             @foreach($groupCollections as $collection)
                                                 @if($collection->defaultUrl && Request::is('collections/' . $collection->defaultUrl->slug . '*'))
                                                     <button type="button"
