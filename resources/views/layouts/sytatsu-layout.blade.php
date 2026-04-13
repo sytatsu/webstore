@@ -27,7 +27,6 @@
         ])
 
         @livewireStyles
-        @livewireScripts
 
         <script>
             const html = document.querySelector('html');
@@ -55,4 +54,6 @@
 
         @include('sytatsu.components.footer')
     </body>
+
+    @livewireScripts
 </html>
