@@ -51,10 +51,16 @@
             "Return conditions & registration": "Retourvoorwaarden & aanmelding",
 
         "Show more": "Meer",
+
+        "Show sorting": "Toon sortering",
+        "Hide sorting": "Verberg sortering",
         "Sort By": "Sorteren op",
             "Alphabetically": "Alfabetisch",
             "Newest to Oldest": "Nieuwste eerst",
             "Oldest to Newest": "Oudste eerst",
+
+        "Show filters": "Toon filters",
+        "Hide filters": "Verberg filters",
         "Filters": "Filters",
             "Sub-categories": "Sub-categorieën",
             "Availability": "Beschikbaarheid",
@@ -133,5 +139,11 @@
             "Size": "Groote",
                 "Small": "Klein",
                 "Large": "Groot",
-        "No products found": "Geen producten gevonden"
+        "No products found": "Geen producten gevonden",
+
+        "Basic Delivery - DHL": "Basis verzending - DHL",
+        "Tracked Delivery - DHL": "Tracked verzending - DHL",
+        "Free Tracked Delivery - DHL": "Gratis tracked verzending - DHL",
+        "Sending items in 1-2 business days without Track & Trace": "Versturen van items binnen 1-2 dagen zonder Track & Trace",
+        "Sending items within 1-2 business days with Track & Trace": "Versturen van items binnen 1-2 dagen met Track & Trace"
     }
