@@ -1,0 +1,140 @@
+{
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.ttf": {
+    "file": "assets/fa-brands-400-808443ae.ttf",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.ttf"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2": {
+    "file": "assets/fa-brands-400-d7236a19.woff2",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.ttf": {
+    "file": "assets/fa-regular-400-54cf6086.ttf",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.ttf"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.woff2": {
+    "file": "assets/fa-regular-400-e3456d12.woff2",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.woff2"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.ttf": {
+    "file": "assets/fa-solid-900-d2f05935.ttf",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.ttf"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2": {
+    "file": "assets/fa-solid-900-aa759986.woff2",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.ttf": {
+    "file": "assets/fa-v4compatibility-30f6abf6.ttf",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.ttf"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2": {
+    "file": "assets/fa-v4compatibility-0ce9033c.woff2",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2"
+  },
+  "resources/fonts/AvenirNextLTPro-Bold.otf": {
+    "file": "assets/AvenirNextLTPro-Bold-1b35300a.otf",
+    "src": "resources/fonts/AvenirNextLTPro-Bold.otf"
+  },
+  "resources/fonts/AvenirNextLTPro-MediumCn.otf": {
+    "file": "assets/AvenirNextLTPro-MediumCn-b02e7838.otf",
+    "src": "resources/fonts/AvenirNextLTPro-MediumCn.otf"
+  },
+  "resources/fonts/AvenirNextLTPro-Regular.otf": {
+    "file": "assets/AvenirNextLTPro-Regular-21d7fc50.otf",
+    "src": "resources/fonts/AvenirNextLTPro-Regular.otf"
+  },
+  "resources/images/brands/no_background_text_only.png": {
+    "file": "assets/no_background_text_only-f9781425.png",
+    "src": "resources/images/brands/no_background_text_only.png"
+  },
+  "resources/images/brands/no_background_text_only.webp": {
+    "file": "assets/no_background_text_only-b7e43e2f.webp",
+    "src": "resources/images/brands/no_background_text_only.webp"
+  },
+  "resources/images/countries/rounded/netherlands.png": {
+    "file": "assets/netherlands-40e5e147.png",
+    "src": "resources/images/countries/rounded/netherlands.png"
+  },
+  "resources/images/countries/rounded/united-kingdom.png": {
+    "file": "assets/united-kingdom-16d2af8d.png",
+    "src": "resources/images/countries/rounded/united-kingdom.png"
+  },
+  "resources/images/favicons/apple-touch-icon.png": {
+    "file": "assets/apple-touch-icon-ef7dedf4.png",
+    "src": "resources/images/favicons/apple-touch-icon.png"
+  },
+  "resources/images/favicons/favicon-96x96.png": {
+    "file": "assets/favicon-96x96-5046efac.png",
+    "src": "resources/images/favicons/favicon-96x96.png"
+  },
+  "resources/images/favicons/favicon.ico": {
+    "file": "assets/favicon-c8e07531.ico",
+    "src": "resources/images/favicons/favicon.ico"
+  },
+  "resources/images/favicons/favicon.svg": {
+    "file": "assets/favicon-f5e8c183.svg",
+    "src": "resources/images/favicons/favicon.svg"
+  },
+  "resources/images/favicons/web-app-manifest-192x192.png": {
+    "file": "assets/web-app-manifest-192x192-116eb42b.png",
+    "src": "resources/images/favicons/web-app-manifest-192x192.png"
+  },
+  "resources/images/favicons/web-app-manifest-512x512.png": {
+    "file": "assets/web-app-manifest-512x512-4e38b664.png",
+    "src": "resources/images/favicons/web-app-manifest-512x512.png"
+  },
+  "resources/images/partials/socials/Facebook_Logo_Primary.png": {
+    "file": "assets/Facebook_Logo_Primary-2adfd474.png",
+    "src": "resources/images/partials/socials/Facebook_Logo_Primary.png"
+  },
+  "resources/images/partials/socials/Facebook_Logo_Secondary.png": {
+    "file": "assets/Facebook_Logo_Secondary-eed4f69a.png",
+    "src": "resources/images/partials/socials/Facebook_Logo_Secondary.png"
+  },
+  "resources/images/partials/socials/Instagram_Glyph_Black.svg": {
+    "file": "assets/Instagram_Glyph_Black-a036f819.svg",
+    "src": "resources/images/partials/socials/Instagram_Glyph_Black.svg"
+  },
+  "resources/images/partials/socials/Instagram_Glyph_Gradient.png": {
+    "file": "assets/Instagram_Glyph_Gradient-3df44f28.png",
+    "src": "resources/images/partials/socials/Instagram_Glyph_Gradient.png"
+  },
+  "resources/images/partials/socials/Instagram_Glyph_Gradient.svg": {
+    "file": "assets/Instagram_Glyph_Gradient-d193889e.svg",
+    "src": "resources/images/partials/socials/Instagram_Glyph_Gradient.svg"
+  },
+  "resources/images/partials/socials/Instagram_Glyph_Gradient_big.png": {
+    "file": "assets/Instagram_Glyph_Gradient_big-21f86b55.png",
+    "src": "resources/images/partials/socials/Instagram_Glyph_Gradient_big.png"
+  },
+  "resources/images/partials/socials/Instagram_Glyph_Gradient_small.png": {
+    "file": "assets/Instagram_Glyph_Gradient_small-1503a453.png",
+    "src": "resources/images/partials/socials/Instagram_Glyph_Gradient_small.png"
+  },
+  "resources/images/partials/socials/Instagram_Glyph_White.svg": {
+    "file": "assets/Instagram_Glyph_White-3347813e.svg",
+    "src": "resources/images/partials/socials/Instagram_Glyph_White.svg"
+  },
+  "resources/images/partials/socials/x-logo-black.png": {
+    "file": "assets/x-logo-black-391a3a86.png",
+    "src": "resources/images/partials/socials/x-logo-black.png"
+  },
+  "resources/images/product_placeholder.jpg": {
+    "file": "assets/product_placeholder-63c37212.jpg",
+    "src": "resources/images/product_placeholder.jpg"
+  },
+  "resources/images/sytatsu_hero.jpg": {
+    "file": "assets/sytatsu_hero-0d455cc1.jpg",
+    "src": "resources/images/sytatsu_hero.jpg"
+  },
+  "resources/js/sytatsu.js": {
+    "file": "assets/sytatsu-63e494ca.js",
+    "isEntry": true,
+    "src": "resources/js/sytatsu.js"
+  },
+  "resources/scss/sytatsu.scss": {
+    "file": "assets/sytatsu-e83ce3f0.css",
+    "isEntry": true,
+    "src": "resources/scss/sytatsu.scss"
+  }
+}
