@@ -29,7 +29,7 @@ class Welcome extends SytatsuBasePage
 
     protected array $collectionIds = [];
 
-    public string $gridColumns = 'grid-cols-2 lg:grid-cols-4';
+    public string $gridColumns = 'grid-cols-2 md:grid-cols-4 ';
     public string $maxWidth = 'max-w-[85rem]';
 
     public function mount(StorefrontService $storefrontService): void {

@@ -1,14 +1,14 @@
-<div class="group flex flex-col gap-4">
+<div class="group flex flex-col gap-2 md:gap-4">
     <div class="relative" wire:key="product-carousel-{{ $this->product->id }}">
         <livewire:sytatsu.components.product.carousel :product="$this->product" :images="$this->product->images" :wire:key="'carousel-'.$this->product->id" />
 
-        <a class="flex flex-col" href="{{ \App\Services\WebstoreHelperService::getProductRoute($this->product) }}">
-            <div class="pt-4 [&>*]:hover:underline">
+        <a class="md:mt-4 flex flex-col gap-2" href="{{ \App\Services\WebstoreHelperService::getProductRoute($this->product) }}">
+            <div class="[&>*]:hover:underline">
                 <h3 class="text-sm font-bold text-black dark:text-white avenir-bold uppercase tracking-widest">
                     {{ $this->product->translateAttribute('name') }}
                 </h3>
 
-                <p class="mt-2 text-black dark:text-white avenir-bold uppercase">
+                <p class=" text-black dark:text-white avenir-bold uppercase">
                     {{ $this->getPriceRangeString() }}
                 </p>
             </div>
@@ -57,7 +57,7 @@
 {{--    </div>--}}
 
     {{-- @TODO; Should be converted to a livewire component --}}
-    <div class="flex gap-3 mt-auto">
+    <div class="flex mt-auto">
         @if ($this->product->variants->count() >= 2)
             <x-ui.button.outline.primary class="w-full" href="{{ \App\Services\WebstoreHelperService::getProductRoute($this->product) }}">
                 {{ $this->product->variants->count() }} {{ __('variants') }}
