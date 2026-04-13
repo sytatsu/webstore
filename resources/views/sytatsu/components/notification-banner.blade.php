@@ -2,7 +2,7 @@
     @if($banner)
         @if($banner->banner_url)
             <a href="{{ $banner->banner_url }}" class="block hover:opacity-90 transition-opacity">
-                <div class="bg-secondary px-4 py-2 text-white text-center text font-medium avenir-bold flex items-center justify-center gap-2">
+                <div class="bg-secondary px-4 py-2 text-xs md:text-sm text-white text-center text font-medium avenir-bold flex items-center justify-center gap-2">
                     @if($banner->banner_icon)
                         <x-filament::icon
                             :icon="$banner->banner_icon"
@@ -13,7 +13,7 @@
                 </div>
             </a>
         @else
-            <div class="bg-secondary px-4 py-2 text-white text-center text font-medium avenir-bold flex items-center justify-center gap-2">
+            <div class="bg-secondary px-4 py-2 text-xs md:text-sm text-white text-center text font-medium avenir-bold flex items-center justify-center gap-2">
                 @if($banner->banner_icon)
                     <x-filament::icon
                         :icon="$banner->banner_icon"
