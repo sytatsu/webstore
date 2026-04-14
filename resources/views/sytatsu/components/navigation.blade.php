@@ -34,7 +34,7 @@
                      role="dialog" tabindex="-1" aria-label="Sidebar"
                      data-hs-overlay-close-on-resize >
                     <div
-                        class="overflow-hidden overflow-y-auto max-h-[75vh] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-slate-800 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
+                        class="overflow-hidden overflow-y-auto md:overflow-visible max-h-[75vh] md:max-h-none [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-slate-800 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
                         <div class="py-2 md:py-0 px-2 md:px-0 flex flex-col md:flex-row md:items-center">
                             <div class="grow">
                                 <div class="flex flex-col md:flex-row md:justify-center md:items-center gap-1 md:gap-6">
@@ -42,41 +42,68 @@
                                        href="{{ route('sytatsu.webstore.welcome')  }}"
                                     >
                                         <img src="{{ Vite::asset('resources/images/brands/no_background_text_only.webp') }}" alt="brand" width="70"
-                                             class="md:hidden">
-                                        <span class="hidden md:block">
+                                             class="md:hidden min-w-[70px]">
+                                        <span class="hidden md:block min-w-[70px]">
                                             <img src="{{ Vite::asset('resources/images/brands/no_background_text_only.webp') }}" alt="brand" width="70">
                                         </span>
                                     </a>
 
-                                    @foreach($collections as $groupId => $groupCollections)
-                                        @php
-                                            $group = $groupCollections->first()->group;
-                                        @endphp
-                                        <div class="flex flex-col md:flex-row md:items-center gap-1 md:gap-6 border-b border-gray-100 dark:border-slate-700 last:border-b-0 last:md:border-b-1 last:mb-0" data-group-handle="{{ $group->handle }}">
+                                    <div class="flex flex-col md:flex-row md:items-center gap-1 md:gap-6 border-b border-gray-100 dark:border-slate-700 last:border-b-0 last:md:border-b-1 last:mb-0">
+                                        <a class="md:hidden px-1 m-3 md:m-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent hover:border-secondary! dark:text-neutral-200 avenir-bold uppercase"
+                                           href="{{ route('sytatsu.webstore.welcome') }}">
+                                            <i class="fa fa-sm fa-house pr-2"></i> {{ __('Homepage') }}
+                                        </a>
 
-                                            <a class="md:hidden px-1 m-3 md:m-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent hover:border-secondary! dark:text-neutral-200 avenir-bold uppercase"
-                                               href="{{ route('sytatsu.webstore.welcome') }}">
-                                                <i class="fa fa-sm fa-house pr-2"></i> {{ __('Homepage') }}
-                                            </a>
+                                        {{-- Collections Dropdown --}}
+                                        <div class="relative group">
+                                            <button type="button" class="px-1 m-3 md:m-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent hover:border-secondary! dark:text-neutral-200 avenir-bold uppercase text-nowrap">
+                                                {{ __('Products') }} <i class="fa fa-chevron-down ml-2 hidden md:inline-block text-[10px]"></i>
+                                            </button>
 
-                                            @foreach($groupCollections as $collection)
-                                                @if($collection->defaultUrl && Request::is('collections/' . $collection->defaultUrl->slug . '*'))
-                                                    <button type="button"
-                                                            wire:click="$dispatch('filtersReset')"
-                                                            class="px-1 m-3 md:m-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent hover:border-secondary! dark:text-neutral-200 avenir-bold uppercase !border-primary"
-                                                    >
-                                                        {{ $collection->translateAttribute('name') }}
-                                                    </button>
-                                                @else
-                                                    <a class="px-1 m-3 md:m-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent hover:border-secondary! dark:text-neutral-200 avenir-bold uppercase"
-                                                       href="{{ route('sytatsu.webstore.collection', $collection->defaultUrl?->slug ?? $collection->id) }}"
-                                                    >
-                                                        {{ $collection->translateAttribute('name') }}
-                                                    </a>
-                                                @endif
-                                            @endforeach
+                                            <div class="md:absolute md:hidden md:group-hover:block bg-white dark:bg-slate-800 md:shadow-lg md:min-w-[200px] z-50 md:mt-0 md:pt-2 md:pb-2 pl-4 md:pl-0 md:top-full md:left-0">
+                                                @foreach($collections as $groupId => $groupCollections)
+                                                    @foreach($groupCollections as $collection)
+                                                        @php
+                                                            $isActive = $collection->defaultUrl && Request::is('collections/' . $collection->defaultUrl->slug . '*');
+                                                        @endphp
+                                                        @if($isActive)
+                                                            <button type="button"
+                                                                    wire:click="$dispatch('filtersReset')"
+                                                                    class="block w-full text-left px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 dark:text-neutral-200 dark:hover:bg-slate-700 avenir-bold uppercase !text-primary"
+                                                            >
+                                                                {{ $collection->translateAttribute('name') }}
+                                                            </button>
+                                                        @else
+                                                            <a class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 dark:text-neutral-200 dark:hover:bg-slate-700 avenir-bold uppercase text-nowrap"
+                                                               href="{{ route('sytatsu.webstore.collection', $collection->defaultUrl?->slug ?? $collection->id) }}"
+                                                            >
+                                                                {{ $collection->translateAttribute('name') }}
+                                                            </a>
+                                                        @endif
+                                                    @endforeach
+                                                @endforeach
+                                            </div>
                                         </div>
-                                    @endforeach
+
+                                        {{-- Services Dropdown --}}
+                                        <div class="relative group">
+                                            <button type="button" class="px-1 m-3 md:m-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent hover:border-secondary! dark:text-neutral-200 avenir-bold uppercase text-nowrap">
+                                                {{ __('Services') }} <i class="fa fa-chevron-down ml-2 hidden md:inline-block text-[10px]"></i>
+                                            </button>
+
+                                            <div class="md:absolute md:hidden md:group-hover:block bg-white dark:bg-slate-800 md:shadow-lg md:min-w-[200px] z-50 md:mt-0 md:pt-2 md:pb-2 pl-4 md:pl-0 md:top-full md:left-0">
+                                                <a class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 dark:text-neutral-200 dark:hover:bg-slate-700 avenir-bold uppercase text-nowrap {{ Request::routeIs('sytatsu.custom-print') ? 'text-primary' : '' }}"
+                                                   href="{{ route('sytatsu.custom-print') }}">
+                                                    {{ __('Custom Print') }}
+                                                </a>
+
+                                                <a class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 dark:text-neutral-200 dark:hover:bg-slate-700 avenir-bold uppercase text-nowrap {{ Request::routeIs('sytatsu.maintenance-repair') ? 'text-primary' : '' }}"
+                                                   href="{{ route('sytatsu.maintenance-repair') }}">
+                                                    {{ __('Maintenance & Repairs') }}
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

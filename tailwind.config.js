@@ -18,6 +18,21 @@ module.exports = {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            keyframes: {
+                'fade-in-right': {
+                    '0%': {
+                        opacity: '0',
+                        transform: 'translateX(20px)'
+                    },
+                    '100%': {
+                        opacity: '1',
+                        transform: 'translateX(0)'
+                    },
+                }
+            },
+            animation: {
+                'fade-in-right': 'fade-in-right 0.8s ease-out forwards',
+            }
         },
     },
     plugins: [

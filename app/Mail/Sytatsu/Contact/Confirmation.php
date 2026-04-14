@@ -21,6 +21,14 @@ class Confirmation extends Mailable
 
     public function envelope(): Envelope
     {
+        $type = $this->data['service_type'] ?? 'contact';
+        $typeString = match($type) {
+            'custom_print' => 'Custom Print Request',
+            'maintenance' => 'Maintenance Request',
+            'repair' => 'Repair Request',
+            default => 'Contact form',
+        };
+
         return new Envelope(
             from: new Address(
                 address: config('mail.sytatsu.from.address'),
@@ -33,7 +41,7 @@ class Confirmation extends Mailable
                 )
             ],
             replyTo: $this->data['email'],
-            subject: "Sytatsu.nl | Contact form",
+            subject: "Sytatsu.nl | " . __($typeString),
         );
     }
 
@@ -42,10 +50,11 @@ class Confirmation extends Mailable
         return new Content(
             view: 'mail.sytatsu.contact.confirmation',
             with: [
-                'name'    => $this->data['name'],
-                'email'   => $this->data['email'],
-                'phone'   => $this->data['phone'] ?? '',
-                'details' => $this->data['details'],
+                'name'         => $this->data['name'],
+                'email'        => $this->data['email'],
+                'phone'        => $this->data['phone'] ?? '',
+                'details'      => $this->data['details'],
+                'service_type' => $this->data['service_type'] ?? 'contact',
             ]
         );
     }

@@ -19,6 +19,8 @@ use Lunar\Models\Product;
 
 //Route::get('/', LivewireSytatsu\Welcome::class)->name('sytatsu.welcome');
 Route::get('/about', LivewireSytatsu\About::class)->name('sytatsu.about');
+Route::get('/custom-print', LivewireSytatsu\CustomPrint::class)->name('sytatsu.custom-print');
+Route::get('/maintenance-repair', LivewireSytatsu\MaintenanceRepair::class)->name('sytatsu.maintenance-repair');
 Route::get('/contact', LivewireSytatsu\Contact::class)->name('sytatsu.contact');
 
 Route::get('/', LivewireSytatsu\Webstore\Welcome::class)->name('sytatsu.webstore.welcome');

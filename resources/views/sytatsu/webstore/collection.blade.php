@@ -1,4 +1,4 @@
-<div class="{{ $maxWidth ?? 'max-w-[85rem]' }} w-full mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="{{ $maxWidth ?? 'max-w-[85rem]' }} w-full mx-auto">
     <div class="flex flex-col @if($showFilters ?? false) md:grid md:grid-cols-6 xl:grid-cols-4 @endif gap-8">
         <!-- Filter Section -->
         @if($showFilters ?? false)

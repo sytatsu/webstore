@@ -73,51 +73,9 @@
         </div>
 
         <div class="md:col-span-1 flex flex-col gap-8">
-            <div class="shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 p-8 md:p-12 text-sm">
-                <h3 class="text-lg font-bold text-black dark:text-white mb-4 avenir-bold uppercase text-sm">
-                    {{ __('Get in touch') }}
-                </h3>
-
-                <hr class="mb-4 border-gray-200 dark:border-gray-500">
-
-                <p class="mb-6 text-gray-600 dark:text-neutral-400">
-                    {{ __('Got an idea or a question? We\'d love to hear from you!') }}
-                </p>
-
-                <x-ui.button.default.primary class="w-full text-center" href="{{ route('sytatsu.contact') }}">
-                    {{ __('Contact us') }} <i class="fa fa-paper-plane ml-2"></i>
-                </x-ui.button.default.primary>
-
-                <div class="flex flex-row justify-center gap-3 mt-8">
-                    @if (config('socials.sytatsu.instagram.enabled'))
-                        <livewire:sytatsu.components.social-tile
-                            config="socials.sytatsu.instagram"
-                            srcLight="{{ Vite::asset('resources/images/partials/socials/Instagram_Glyph_Gradient_small.png') }}"
-                            srcDark="{{ Vite::asset('resources/images/partials/socials/Instagram_Glyph_White.svg') }}"
-                            alt="Instagram" />
-                    @endif
-
-                    @if (config('socials.sytatsu.facebook.enabled'))
-                        <livewire:sytatsu.components.social-tile
-                            config="socials.sytatsu.facebook"
-                            srcLight="{{ Vite::asset('resources/images/partials/socials/Facebook_Logo_Primary.png') }}"
-                            srcDark="{{ Vite::asset('resources/images/partials/socials/Facebook_Logo_Secondary.png') }}"
-                            alt="Facebook" />
-                    @endif
-                </div>
-            </div>
-
-            <div class="shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 p-8 md:p-12 text-sm">
-                <h3 class="text-lg font-bold text-black dark:text-white mb-4 avenir-bold uppercase text-sm">
-                    {{ __('Need Help?') }}
-                </h3>
-
-                <hr class="mb-4 border-gray-200 dark:border-gray-500">
-
-                <p class="text-gray-600 dark:text-gray-400">
-                    {{ __('If you have any questions about our products or your order, please contact our support.') }}
-                </p>
-            </div>
+            <x-sytatsu.sidebar.services />
+            <x-sytatsu.sidebar.socials />
+            <x-sytatsu.sidebar.help />
         </div>
     </div>
 </div>

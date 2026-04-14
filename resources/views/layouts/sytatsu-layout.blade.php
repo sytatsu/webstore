@@ -46,7 +46,7 @@
             <livewire:sytatsu.components.notification-banner />
 
             <div class="flex flex-col grow">
-                <div class="flex flex-col justify-center content-center my-auto">
+                <div class="flex flex-col justify-center content-center my-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
                     {{ $slot }}
                 </div>
             </div>

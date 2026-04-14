@@ -10,10 +10,8 @@ use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
-class ContactForm extends Component
+class PrintRequestForm extends Component
 {
-
-    // --------------- [FORM VARIABLES & FUNCTIONS] --------------- //
     #[Validate('required')]
     public string $name = '';
 
@@ -26,6 +24,8 @@ class ContactForm extends Component
     #[Validate('required|min:30')]
     public string $details = '';
 
+    public bool $hasBeenSend = false;
+
     /**
      * @throws \Exception
      */
@@ -37,7 +37,8 @@ class ContactForm extends Component
             throw new \Exception('Something went wrong while validating the form, please try again.', 500);
         }
 
-        $validatedArray['service_type'] = 'contact';
+        $validatedArray['service_type'] = 'custom_print';
+        $validatedArray['priority'] = 'normal';
 
         Mail::to($this->email)
             ->send(mailable: new Contact\Confirmation(
@@ -47,11 +48,8 @@ class ContactForm extends Component
         $this->hasBeenSend = true;
     }
 
-    // --------------- [COMPONENT VARIABLES & FUNCTIONS] --------------- //
-    public bool $hasBeenSend = false;
-
     public function render(): View|Factory|Application
     {
-        return view('sytatsu.components.livewire.contact-form');
+        return view('sytatsu.components.livewire.print-request-form');
     }
 }
