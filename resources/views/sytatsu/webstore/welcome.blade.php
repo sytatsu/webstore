@@ -28,8 +28,8 @@
                         </div>
                     </div>
                     <div class="flex flex-wrap justify-start gap-4">
-                        <a href="#products" class="px-6 py-2.5 md:px-8 md:py-3 bg-white dark:bg-primary-dark text-primary dark:text-white avenir-bold hover:bg-gray-100 dark:hover:bg-primary font-bold rounded-lg transition-colors shadow-lg text-sm md:text-base">
-                            {{ __('Shop Collections') }}
+                        <a href="{{ route('sytatsu.webstore.collections') }}" class="px-6 py-2.5 md:px-8 md:py-3 bg-white dark:bg-primary-dark text-primary dark:text-white avenir-bold hover:bg-gray-100 dark:hover:bg-primary font-bold rounded-lg transition-colors shadow-lg text-sm md:text-base">
+                            {{ __('View Collections') }}
                         </a>
                         <a href="{{ route('sytatsu.about') }}" class="px-6 py-2.5 md:px-8 md:py-3 bg-white/10 hover:bg-white/20 text-white font-bold rounded-lg transition-colors backdrop-blur-sm border border-white/20 text-sm md:text-base">
                             {{ __('About Us') }}

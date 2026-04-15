@@ -1,15 +1,19 @@
 <div class="flex flex-col gap-8">
     @forelse ($this->activeCollections as $collection)
         <div class="shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 py-8 px-6 lg:p-12">
-            <div class="flex flex-row justify-between items-center mb-8">
-                <a class="text-2xl avenir-bold text-black dark:text-white hover:underline uppercase" href="{{ \App\Services\WebstoreHelperService::getCollectionRoute($collection->collection) }}">
-                    {{ $collection->getName() }}
-                </a>
+            <div class="group flex flex-row justify-between items-center mb-8 ">
                 @if($showMore)
-                    <a class="avenir-bold text-secondary hover:underline uppercase text-sm tracking-widest" href="{{ \App\Services\WebstoreHelperService::getCollectionRoute($collection->collection) }}">
-                        <span>{{ __('Show more') }}</span>
-                        <i class="fa fa-arrow-right ml-1"></i>
+                    <a class="text-2xl avenir-bold text-black dark:text-white hover:underline uppercase" href="{{ \App\Services\WebstoreHelperService::getCollectionRoute($collection->collection) }}">
+                        {{ $collection->getName() }}
                     </a>
+                    <a class="avenir-bold text-secondary uppercase text-sm tracking-widest" href="{{ \App\Services\WebstoreHelperService::getCollectionRoute($collection->collection) }}">
+                        <span>{{ __('Show more') }}</span>
+                        <i class="fa fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i>
+                    </a>
+                @else
+                    <span class="text-2xl avenir-bold text-black dark:text-white">
+                        {{ $collection->getName() }}
+                    </span>
                 @endif
             </div>
 

@@ -73,12 +73,7 @@ class WebstoreSettingResource extends Resource
                             ->dehydrateStateUsing(function ($state) {
                                 return collect($state)->pluck('collection_id')->toArray();
                             })
-                            ->visible(fn ($get) => $get('key') === 'home_featured_collections')
-                            ->required(),
-
-                        TextInput::make('value')
-                            ->label('Value')
-                            ->visible(fn ($get) => !in_array($get('key'), ['navigation_collection_groups', 'home_featured_collections']))
+                            ->visible(fn ($get) => in_array($get('key'), ['collections_page_collections', 'home_featured_collections']))
                             ->required(),
                     ])
             ]);

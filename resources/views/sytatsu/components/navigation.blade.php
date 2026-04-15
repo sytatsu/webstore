@@ -56,9 +56,9 @@
 
                                         {{-- Collections Dropdown --}}
                                         <div class="relative group">
-                                            <button type="button" class="px-1 m-3 md:m-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent hover:border-secondary! dark:text-neutral-200 avenir-bold uppercase text-nowrap">
-                                                {{ __('Products') }} <i class="fa fa-chevron-down ml-2 hidden md:inline-block text-[10px]"></i>
-                                            </button>
+                                            <a href="{{ route('sytatsu.webstore.collections') }}" class="px-1 m-3 md:m-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent hover:border-secondary! dark:text-neutral-200 avenir-bold uppercase text-nowrap">
+                                                {{ __('Collections') }} <i class="fa fa-chevron-down ml-2 hidden md:inline-block text-[10px]"></i>
+                                            </a>
 
                                             <div class="md:absolute md:hidden md:group-hover:block bg-white dark:bg-slate-800 md:shadow-lg md:min-w-[200px] z-50 md:mt-0 md:pt-2 md:pb-2 pl-4 md:pl-0 md:top-full md:left-0">
                                                 @foreach($collections as $groupId => $groupCollections)

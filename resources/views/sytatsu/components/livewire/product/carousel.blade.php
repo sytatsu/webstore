@@ -7,37 +7,39 @@
     <div class="hs-carousel relative overflow-x-hidden min-w-full bg-white mb-4 md:mb-0 shadow-lg dark:shadow-slate-700">
 
         @if ($this->carouselType === \App\Enums\CarouselTypeEnum::COMPACT)
-            <a class="flex flex-col aspect-square" href="{{ \App\Services\WebstoreHelperService::getProductRoute($this->product) }}">
+            <a class="flex flex-col aspect-square bg-gray-100 dark:bg-slate-700" href="{{ \App\Services\WebstoreHelperService::getProductRoute($this->product) }}">
                 <div class="hs-carousel-body absolute top-0 bottom-0 start-0 flex flex-nowrap transition-transform duration-700 min-w-full overflow-hidden opacity-0 hs-carousel-initialized:opacity-100">
                     @forelse($this->images as $image)
-                        <div class="hs-carousel-slide">
-                            <img class="size-full object-cover aspect-square transform transition-all scale-100 hover:scale-105"
-                                 src="{{ $image->getFullUrl() }}"
+                        <div class="hs-carousel-slide overflow-hidden">
+                            <img class="size-full object-cover aspect-square transform transition-all scale-101 hover:scale-105"
+                                 src="{{ $image->getUrl('medium') }}"
                                  alt="{{ $image->name }}">
                         </div>
                     @empty
                         <div class="hs-carousel-slide">
-                            <img class="size-full object-cover aspect-square transform transition-all scale-100 hover:scale-105"
-                                 src="{{ \App\Services\WebstoreHelperService::productPlaceholderImage() }}"
-                                 alt="product_placeholder">
+                            <div class="w-full h-full flex flex-col gap-2 items-center justify-center text-gray-400">
+                                <i class="fa fa-image text-4xl"></i>
+                                <span>{{ __('Image coming soon') }}</span>
+                            </div>
                         </div>
                     @endforelse
                 </div>
             </a>
         @else {{-- \App\Enums\CarouselTypeEnum::EXPANDED --}}
-            <div class="flex flex-col aspect-square">
+            <div class="flex flex-col aspect-square bg-gray-100 dark:bg-slate-700">
                 <div class="hs-carousel-body absolute top-0 bottom-0 start-0 flex flex-nowrap transition-transform duration-700 min-w-full overflow-hidden opacity-0 hs-carousel-initialized:opacity-100">
                     @forelse($this->images as $image)
-                        <div class="hs-carousel-slide">
-                            <img class="size-full object-cover aspect-square transform transition-all scale-100 hover:scale-105"
-                                 src="{{ $image->getFullUrl() }}"
+                        <div class="hs-carousel-slide overflow-hidden">
+                            <img class="size-full object-cover aspect-square transform transition-all scale-101 hover:scale-105"
+                                 src="{{ $image->getUrl('large') }}"
                                  alt="{{ $image->name }}">
                         </div>
                     @empty
                         <div class="hs-carousel-slide">
-                            <img class="size-full object-cover aspect-square transform transition-all scale-100 hover:scale-105"
-                                 src="{{ \App\Services\WebstoreHelperService::productPlaceholderImage() }}"
-                                 alt="product_placeholder">
+                            <div class="w-full h-full flex flex-col gap-2 items-center justify-center text-gray-400">
+                                <i class="fa fa-image text-4xl"></i>
+                                <span>{{ __('Image coming soon') }}</span>
+                            </div>
                         </div>
                     @endforelse
                 </div>
@@ -78,8 +80,8 @@
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-4">
                     @forelse($this->images as $image)
                         <div class="hs-carousel-pagination-item cursor-pointer hs-carousel-active:inset-ring-3 hs-carousel-active:inset-ring-secondary-light overflow-hidden rounded-lg">
-                            <img class="object-cover aspect-video rounded-lg hs-carousel-active:p-1"
-                                 src="{{ $image->getFullUrl() }}"
+                            <img class="object-cover aspect-video rounded-lg hs-carousel-active:p-1 scale-101"
+                                 src="{{ $image->getUrl('small') }}"
                                  alt="{{ $image->name }}">
                         </div>
                     @endforeach
