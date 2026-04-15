@@ -1,8 +1,7 @@
 <div class="flex flex-col gap-8">
+    <x-ui.spinner-overlay wire:loading.flex />
     @forelse ($this->activeCollections as $collection)
         <div class="shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 py-8 px-6 lg:p-12">
-            <x-ui.spinner-overlay wire:loading.flex />
-
             <div class="group flex flex-row justify-between items-center mb-8 ">
                 @if($showMore)
                     <a class="text-2xl avenir-bold text-black dark:text-white hover:underline uppercase" href="{{ \App\Services\WebstoreHelperService::getCollectionRoute($collection->collection) }}">
