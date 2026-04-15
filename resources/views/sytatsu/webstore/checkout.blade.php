@@ -24,14 +24,7 @@
                 <livewire:sytatsu.components.cart.details :checkout="true"/>
             </div>
 
-            <div class="shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 p-8 md:p-12 text-sm">
-                <h3 class="text-lg font-bold text-black dark:text-white mb-4 avenir-bold uppercase text-sm">
-                    {{ __('Need Help?') }}
-                </h3>
-                <p class="text-gray-600 dark:text-gray-400">
-                    {{ __('If you have any questions about your order, please contact our support.') }}
-                </p>
-            </div>
+            <x-sytatsu.sidebar.help />
         </div>
     </div>
 </div>
