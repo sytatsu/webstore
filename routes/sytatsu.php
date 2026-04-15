@@ -18,6 +18,7 @@ use Lunar\Models\Product;
 */
 
 //Route::get('/', LivewireSytatsu\Welcome::class)->name('sytatsu.welcome');
+//Route::middleware('enable.cart')->group(function () {
 Route::get('/about', LivewireSytatsu\About::class)->name('sytatsu.about');
 Route::get('/custom-print', LivewireSytatsu\CustomPrint::class)->name('sytatsu.custom-print');
 Route::get('/maintenance-repair', LivewireSytatsu\MaintenanceRepair::class)->name('sytatsu.maintenance-repair');
@@ -28,21 +29,13 @@ Route::get('/products/{product}', LivewireSytatsu\Webstore\ProductPage::class)->
 Route::get('/collections', LivewireSytatsu\Webstore\CollectionsPage::class)->name('sytatsu.webstore.collections');
 Route::get('/collections/{collection}', LivewireSytatsu\Webstore\CollectionPage::class)->name('sytatsu.webstore.collection');
 
-Route::get('/cart', LivewireSytatsu\Webstore\CartPage::class)->name('sytatsu.webstore.cart');
 
-Route::middleware('disable.cart')->group(function () {
-    Route::middleware('has.cart')->group(function () {
-        // ... any other routes that might need a cart ...
-    });
+Route::middleware('has.cart')->group(function () {
+    Route::get('/cart', LivewireSytatsu\Webstore\CartPage::class)->name('sytatsu.webstore.cart');
     Route::get('/checkout/success', LivewireSytatsu\Webstore\CheckoutSuccessPage::class)->name('sytatsu.webstore.checkout.success');
     Route::get('/checkout', LivewireSytatsu\Webstore\CheckoutPage::class)->name('sytatsu.webstore.checkout');
 });
 
-Route::get('/forget-cart', function () {
-    \Lunar\Facades\CartSession::forget();
-
-    return redirect()->route('sytatsu.webstore.welcome');
-});
 
 Route::model('product', Product::class, function (string $slug) {
     return ($element = Url::query()->where('slug', $slug)->firstOrFail()->element) instanceof Product ? $element : abort(404, 'Element not Product');

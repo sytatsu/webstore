@@ -1,15 +1,5 @@
 <div>
-    <div
-        wire:loading.flex
-        wire:target="incrementLine, decrementLine, removeLine, updateLines"
-        style="display: none;"
-        class="absolute inset-0 z-50 flex items-center justify-center bg-white/50 dark:bg-slate-800/50"
-    >
-        <svg class="w-12 h-12 text-primary animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-        </svg>
-    </div>
+    <x-ui.spinner-overlay wire:loading.flex wire:target="incrementLine, decrementLine, removeLine, updateLines" />
     <ul class="-mt-4 overflow-y-auto divide-y divide-gray-200 dark:divide-gray-500{{ ($this->checkout || Route::currentRouteName() === 'sytatsu.webstore.cart') ? "" : " max-h-96" }}">
         @foreach ($this->lines as $index => $line)
         <li class="relative">
@@ -63,7 +53,7 @@
                             @endif
                         </div>
 
-                        <p class="ml-2 text-xs text-place dark:text-white">
+                        <p class="ml-2 text-xs dark:text-white">
                             @ {{ $line['unit_price'] }}
                         </p>
 
@@ -87,14 +77,7 @@
                 </div>
             </div>
 
-            @if ($errors->get('lines.' . $index . '.quantity'))
-                <div class="p-2 mb-4 text-xs font-medium text-center text-red-700 rounded bg-red-50"
-                     role="alert">
-                    @foreach ($errors->get('lines.' . $index . '.quantity') as $error)
-                        {{ __($error) }}
-                    @endforeach
-                </div>
-            @endif
+            <x-ui.field-error :field="'lines.' . $index . '.quantity'" class="mb-4 mt-0" />
         </li>
     @endforeach
     </ul>

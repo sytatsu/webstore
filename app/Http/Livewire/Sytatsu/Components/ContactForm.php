@@ -14,16 +14,16 @@ class ContactForm extends Component
 {
 
     // --------------- [FORM VARIABLES & FUNCTIONS] --------------- //
-    #[Validate('required')]
+    #[Validate('required', as: 'name')]
     public string $name = '';
 
-    #[Validate('required|email')]
+    #[Validate('required|email', as: 'email address')]
     public string $email = '';
 
-    #[Validate('max:11')]
+    #[Validate('nullable|max:20', as: 'phone number')]
     public string $phone = '';
 
-    #[Validate('required|min:30')]
+    #[Validate('required|min:30', as: 'message')]
     public string $details = '';
 
     /**
@@ -32,10 +32,6 @@ class ContactForm extends Component
     public function send(): void
     {
         $validatedArray = $this->validate();
-
-        if (!$validatedArray) {
-            throw new \Exception('Something went wrong while validating the form, please try again.', 500);
-        }
 
         $validatedArray['service_type'] = 'contact';
 

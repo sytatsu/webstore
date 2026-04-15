@@ -12,19 +12,19 @@ use Livewire\Component;
 
 class MaintenanceRepairForm extends Component
 {
-    #[Validate('required')]
+    #[Validate('required', as: 'name')]
     public string $name = '';
 
-    #[Validate('required|email')]
+    #[Validate('required|email', as: 'email address')]
     public string $email = '';
 
-    #[Validate('max:11')]
+    #[Validate('nullable|max:20', as: 'phone number')]
     public string $phone = '';
 
-    #[Validate('required')]
+    #[Validate('required', as: 'service type')]
     public string $service_type = 'maintenance'; // maintenance, repair
 
-    #[Validate('required|min:30')]
+    #[Validate('required|min:30', as: 'details')]
     public string $details = '';
 
     public bool $hasBeenSend = false;
@@ -40,10 +40,6 @@ class MaintenanceRepairForm extends Component
     public function send(): void
     {
         $validatedArray = $this->validate();
-
-        if (!$validatedArray) {
-            throw new \Exception('Something went wrong while validating the form, please try again.', 500);
-        }
 
         $validatedArray['priority'] = 'normal';
 

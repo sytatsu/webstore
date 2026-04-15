@@ -140,28 +140,15 @@ readonly class CartService
 
     public function isCartDisabled(): bool
     {
-        // 1. Check for explicit disable flag (merged by middleware or manually)
-        if (request()->has('disable_cart')) {
-            return true;
-        }
-
-        // 2. Direct route check (works for initial load of checkout pages)
+        // Direct route check (works for initial load of checkout pages)
         if (request()->routeIs('sytatsu.webstore.checkout*')) {
             return true;
         }
 
-        // 3. Referer check for Livewire requests
-        $referer = request()->header('Referer');
-        if ($referer) {
-            $path = parse_url($referer, PHP_URL_PATH) ?? '';
-            // Robust check: match /checkout or /checkout/success (handling potential locale prefixes like /en/checkout)
-            // Matches any path that contains "/checkout" as a full segment
-            if (preg_match('/\/checkout(\/|$)/', $path)) {
-                return true;
-            }
-        }
-
-        return false;
+        // Session flag set by DisableCart middleware, cleared by EnableCart middleware.
+        // This also covers Livewire AJAX requests (/livewire/update) which bypass route middleware,
+        // since the session value carries over from the preceding full-page request.
+        return (bool) session('disable_cart');
     }
 
     public function getAvailableShippingOptions(LunarCart $cart): Collection

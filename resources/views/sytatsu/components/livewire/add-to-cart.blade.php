@@ -49,22 +49,13 @@
             <x-ui.button.default.primary class="w-full" type="submit" wire:click.prevent="addToCart()" wire:loading.attr="disabled">
                 <span wire:loading.remove wire:target="addToCart">{{ __('Add to shopping cart') }}</span>
                 <div wire:loading wire:target="addToCart" class="flex items-center justify-center flex-nowrap">
-                    <svg class="inline w-5 h-5 text-white animate-spin mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    <span class="inline">{{ __('Processing') }}</span>
+                    <x-ui.loader />
+                    <span>{{ __('Processing') }}</span>
                 </div>
             </x-ui.button.default.primary>
         </div>
 
-        @if ($errors->has('quantity'))
-            <div class="p-2 mt-4 text-xs font-medium text-center text-red-700 rounded bg-red-50" role="alert">
-                @foreach ($errors->get('quantity') as $error)
-                    {{ $error }}
-                @endforeach
-            </div>
-        @endif
+        <x-ui.field-error field="quantity" />
    @endif
 </div>
 

@@ -3,9 +3,7 @@
         <div class="md:col-span-2 shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 p-8 md:p-12 self-start w-full">
             <div class="space-y-5 md:space-y-8">
                 <div class="space-y-3">
-                    <h2 class="text-2xl font-bold text-black dark:text-white mb-8 avenir-bold uppercase">{{ __('About Us') }}</h2>
-
-                    <hr class="mb-8 border-gray-200 dark:border-gray-500">
+                    <x-ui.page-header title="{{ __('About Us') }}" />
 
                     <div class="space-y-4">
                         <p class="text-lg text-gray-800 dark:text-neutral-200">
@@ -23,9 +21,7 @@
                 </div>
 
                 <div class="space-y-3">
-                    <h2 class="text-2xl font-bold text-black dark:text-white mb-8 avenir-bold uppercase">{{ __('What we make & offer') }}</h2>
-
-                    <hr class="mb-8 border-gray-200 dark:border-gray-500">
+                    <x-ui.page-header title="{{ __('What we make & offer') }}" />
 
                     <div class="space-y-4">
                         <p class="text-lg text-gray-800 dark:text-neutral-200">

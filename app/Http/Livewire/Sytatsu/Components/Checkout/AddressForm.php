@@ -7,6 +7,7 @@ use App\Services\CartService;
 use App\Services\CheckoutService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Lunar\Models\Cart;
 
@@ -16,14 +17,10 @@ use Lunar\Models\Cart;
 class AddressForm extends Component
 {
     public string $addressType;
-    public  array $address = [];
+    public array $address = [];
 
     private CartService $cartService;
     private CheckoutService $checkoutService;
-
-    protected $listeners = [
-        'save-address' => 'saveAddress'
-    ];
 
     public function boot(
         CartService $cartService,
@@ -53,6 +50,22 @@ class AddressForm extends Component
         return $this->checkoutService->getAddressValidationRules();
     }
 
+    protected function validationAttributes(): array
+    {
+        return [
+            'address.first_name'    => 'first name',
+            'address.last_name'     => 'last name',
+            'address.line_one'      => 'street',
+            'address.line_two'      => 'house number',
+            'address.postcode'      => 'postal code',
+            'address.city'          => 'city',
+            'address.country_id'    => 'country',
+            'address.contact_email' => 'email',
+            'address.contact_phone' => 'phone number',
+        ];
+    }
+
+    #[On('save-address')]
     public function saveAddress(): void
     {
         try {
@@ -64,14 +77,14 @@ class AddressForm extends Component
 
         if (isset($this->address['id'])) {
             $this->checkoutService->updateCartAddress($this->address['id'], $this->cleanAddressArray($this->address));
+            $this->address = $this->cleanAddressArray($this->address);
+        } elseif ($this->addressType === AddressTypeEnum::SHIPPING->value) {
+            $this->address = $this->checkoutService->setShippingAddress($this->cart, $this->address);
+        } elseif ($this->addressType === AddressTypeEnum::BILLING->value) {
+            $this->address = $this->checkoutService->setBillingAddress($this->cart, $this->address);
         } else {
-            if ($this->addressType === AddressTypeEnum::SHIPPING->value) {
-                $this->address = $this->checkoutService->setShippingAddress($this->cart, $this->address);
-            }
-
-            if ($this->addressType === AddressTypeEnum::BILLING->value) {
-                $this->address = $this->checkoutService->setBillingAddress($this->cart, $this->address);
-            }
+            $this->dispatch('address-save-failed');
+            return;
         }
 
         $this->dispatch('address-updated');

@@ -29,20 +29,9 @@
             </p>
         </div>
     @else
-        <div class="flex flex-col gap-4 text-center px-4 py-6 bg-white/10 shadow-md">
-            <span class="my-auto text-4xl md:pr-4 text-gray-900 dark:text-white">
-                <i class="fa fa-paper-plane"></i>
-            </span>
-
-            <div class="flex flex-col gap-4 text-gray-900 dark:text-white">
-                <span class="text-gray-900 dark:text-white">
-                    {{ __('Thank you for your service request! We will get back to you as soon as possible.') }}
-                </span>
-
-                <span class="text-xs text-gray-700 dark:text-white">
-                    {{ __('A confirmation will be sent to your email as well.') }}
-                </span>
-            </div>
-        </div>
+        <x-ui.form-success
+            message="{{ __('Thank you for your service request! We will get back to you as soon as possible.') }}"
+            subtext="{{ __('A confirmation will be sent to your email as well.') }}"
+        />
     @endif
 </div>

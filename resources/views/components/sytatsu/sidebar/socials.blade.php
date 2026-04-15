@@ -1,10 +1,4 @@
-<div class="shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 p-8 md:p-12 text-sm">
-    <h3 class="text-lg font-bold text-black dark:text-white mb-4 avenir-bold uppercase text-sm">
-        {{ __('Follow Us') }}
-    </h3>
-
-    <hr class="mb-4 border-gray-200 dark:border-gray-500">
-
+<x-ui.card-box title="{{ __('Follow Us') }}" class="text-sm">
     <p class="mb-6 text-gray-600 dark:text-neutral-400">
         {{ __('Stay updated with our latest projects and creations by following us on social media.') }}
     </p>
@@ -28,4 +22,4 @@
             </a>
         @endif
     </div>
-</div>
+</x-ui.card-box>

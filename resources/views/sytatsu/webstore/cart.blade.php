@@ -2,11 +2,7 @@
     @if ($this->cart && count($this->cart->lines))
         <div class="flex flex-col md:grid md:grid-cols-3 gap-8 md:gap-12">
             <div class="md:col-span-2 shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 p-8 md:p-12 self-start w-full">
-                <h2 class="text-2xl font-bold text-black dark:text-white mb-8 avenir-bold uppercase">
-                    {{ __('Shopping Cart') }}
-                </h2>
-
-                <hr class="mb-8 border-gray-200 dark:border-gray-500">
+                <x-ui.page-header title="{{ __('Shopping Cart') }}" />
 
                 <livewire:sytatsu.components.cart.components.cart-items />
             </div>
@@ -28,14 +24,11 @@
                     </div>
                 </div>
 
-                <div class="shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 p-8 md:p-12">
-                    <h3 class="text-lg font-bold text-black dark:text-white mb-4 avenir-bold uppercase text-sm">
-                        {{ __('Need Help?') }}
-                    </h3>
+                <x-ui.card-box title="{{ __('Need Help?') }}">
                     <p class="text-sm text-gray-600 dark:text-gray-400">
                         {{ __('If you have any questions about your order, please contact our support.') }}
                     </p>
-                </div>
+                </x-ui.card-box>
             </div>
         </div>
     @else
