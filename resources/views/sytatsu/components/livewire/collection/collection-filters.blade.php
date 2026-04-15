@@ -1,14 +1,14 @@
-<div class="flex flex-col gap-8">
+<div class="flex flex-col gap-8" x-data x-init="HSCollapse.autoInit()">
     @if($showSorting)
         <div class="flex flex-col gap-6 shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 p-8">
 
-            <button type="button" class="hs-collapse-toggle md:hidden inline-flex items-center w-full justify-between gap-x-1 text-xs font-bold avenir-bold uppercase tracking-widest text-primary-dark decoration-2 hover:text-primary hover:underline focus:outline-hidden focus:underline focus:text-primary disabled:opacity-50 disabled:pointer-events-none dark:text-primary dark:hover:text-primary-light dark:focus:text-primary-light" id="hs-sorting-collapse" aria-expanded="false" aria-controls="hs-sorting-collapse-content" data-hs-collapse="#hs-sorting-collapse-content">
-                <span class="hs-collapse-open:hidden">{{ __('Show sorting') }}</span>
-                <span class="hs-collapse-open:block hidden">{{ __('Hide sorting') }}</span>
-                <svg class="hs-collapse-open:rotate-180 shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            <button wire:click="toggleSorting" type="button" class="hs-collapse-toggle md:hidden inline-flex items-center w-full justify-between gap-x-1 text-xs font-bold avenir-bold uppercase tracking-widest text-primary-dark decoration-2 hover:text-primary hover:underline focus:outline-hidden focus:underline focus:text-primary disabled:opacity-50 disabled:pointer-events-none dark:text-primary dark:hover:text-primary-light dark:focus:text-primary-light {{ $isSortingExpanded ? 'active' : '' }}" id="hs-sorting-collapse" aria-expanded="{{ $isSortingExpanded ? 'true' : 'false' }}" aria-controls="hs-sorting-collapse-content" data-hs-collapse="#hs-sorting-collapse-content">
+                <span class="{{ $isSortingExpanded ? 'hidden' : 'block' }}">{{ __('Show sorting') }}</span>
+                <span class="{{ $isSortingExpanded ? 'block' : 'hidden' }}">{{ __('Hide sorting') }}</span>
+                <svg class="{{ $isSortingExpanded ? 'rotate-180' : '' }} shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
             </button>
 
-            <div id="hs-sorting-collapse-content" class="hs-collapse hidden md:block w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-sorting-collapse">
+            <div id="hs-sorting-collapse-content" class="hs-collapse {{ $isSortingExpanded ? 'open' : 'hidden' }} md:block w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-sorting-collapse">
                 <div class="flex flex-col gap-6">
                         <div>
                             <h3 class="hidden md:inline-block text-xl font-bold text-black dark:text-white avenir-bold uppercase mb-3">{{ __('Sort By') }}</h3>
@@ -27,16 +27,16 @@
         <div class="flex items-center justify-between md:block">
             <h3 class="hidden md:inline text-lg font-bold text-black dark:text-white avenir-bold uppercase md:mb-4">{{ __('Filters') }}</h3>
 
-            <button type="button" class="hs-collapse-toggle md:hidden inline-flex items-center w-full justify-between gap-x-1 text-xs font-bold avenir-bold uppercase tracking-widest text-primary-dark decoration-2 hover:text-primary hover:underline focus:outline-hidden focus:underline focus:text-primary disabled:opacity-50 disabled:pointer-events-none dark:text-primary dark:hover:text-primary-light dark:focus:text-primary-light" id="hs-filters-collapse" aria-expanded="false" aria-controls="hs-filters-collapse-content" data-hs-collapse="#hs-filters-collapse-content">
-                <span class="hs-collapse-open:hidden">{{ __('Show filters') }}</span>
-                <span class="hs-collapse-open:block hidden">{{ __('Hide filters') }}</span>
-                <svg class="hs-collapse-open:rotate-180 shrink-0 size-4 block" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            <button wire:click="toggleFilters" type="button" class="hs-collapse-toggle md:hidden inline-flex items-center w-full justify-between gap-x-1 text-xs font-bold avenir-bold uppercase tracking-widest text-primary-dark decoration-2 hover:text-primary hover:underline focus:outline-hidden focus:underline focus:text-primary disabled:opacity-50 disabled:pointer-events-none dark:text-primary dark:hover:text-primary-light dark:focus:text-primary-light {{ $isFiltersExpanded ? 'active' : '' }}" id="hs-filters-collapse" aria-expanded="{{ $isFiltersExpanded ? 'true' : 'false' }}" aria-controls="hs-filters-collapse-content" data-hs-collapse="#hs-filters-collapse-content">
+                <span class="{{ $isFiltersExpanded ? 'hidden' : 'block' }}">{{ __('Show filters') }}</span>
+                <span class="{{ $isFiltersExpanded ? 'block' : 'hidden' }}">{{ __('Hide filters') }}</span>
+                <svg class="{{ $isFiltersExpanded ? 'rotate-180' : '' }} shrink-0 size-4 block" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
             </button>
         </div>
 
         <hr class="hidden md:block border-gray-200 dark:border-gray-500 mb-6">
 
-        <div id="hs-filters-collapse-content" class="hs-collapse hidden md:block w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-filters-collapse">
+        <div id="hs-filters-collapse-content" class="hs-collapse {{ $isFiltersExpanded ? 'open' : 'hidden' }} md:block w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-filters-collapse">
             <div class="flex flex-col gap-6">
                 <!-- Category/Sub-collection Filter -->
                 @if($showCategories && $subCollections->isNotEmpty())

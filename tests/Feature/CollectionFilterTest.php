@@ -48,6 +48,24 @@ class CollectionFilterTest extends TestCase
     }
 
     /** @test */
+    public function collection_filters_can_toggle_expansion_state()
+    {
+        $collection = \Lunar\Models\Collection::factory()->create();
+
+        Livewire::test(CollectionFilters::class, [
+            'collection' => $collection,
+        ])
+            ->assertSet('isFiltersExpanded', false)
+            ->call('toggleFilters')
+            ->assertSet('isFiltersExpanded', true)
+            ->call('toggleFilters')
+            ->assertSet('isFiltersExpanded', false)
+            ->assertSet('isSortingExpanded', false)
+            ->call('toggleSorting')
+            ->assertSet('isSortingExpanded', true);
+    }
+
+    /** @test */
     public function products_are_filtered_by_price_and_stock_on_the_same_variant()
     {
         $product = Product::factory()->create();

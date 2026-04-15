@@ -20,6 +20,8 @@ class CollectionFilters extends Component
     public bool $showPrice = true;
     public bool $showAvailability = true;
     public bool $showSorting = false;
+    public bool $isFiltersExpanded = false;
+    public bool $isSortingExpanded = false;
 
     public function mount(Collection $collection, array $initialFilters = [], bool $showCategories = true, bool $showPrice = true, bool $showAvailability = true, bool $showSorting = false): void
     {
@@ -31,6 +33,16 @@ class CollectionFilters extends Component
         $this->showSorting = $showSorting;
 
         $this->syncFromInitial();
+    }
+
+    public function toggleFilters(): void
+    {
+        $this->isFiltersExpanded = !$this->isFiltersExpanded;
+    }
+
+    public function toggleSorting(): void
+    {
+        $this->isSortingExpanded = !$this->isSortingExpanded;
     }
 
     public function updatedInitialFilters(): void
