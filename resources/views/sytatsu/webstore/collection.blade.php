@@ -17,7 +17,6 @@
 
         <!-- Product Grid Section -->
         <div class="@if($showFilters ?? false) md:col-span-4 xl:col-span-3 @endif relative">
-            <x-ui.spinner-overlay wire:loading.flex />
             @if(isset($collections) && $collections->isNotEmpty())
                 <livewire:sytatsu.components.collection.collection-cards :collections="$collections" :max-width="$maxWidth ?? 'max-w-[85rem]'" :grid-columns="$gridColumns" :wire:key="'collection-cards-'.count($collections)" />
             @elseif(isset($collection) && isset($products))

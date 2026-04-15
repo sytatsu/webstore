@@ -20,6 +20,7 @@
             <hr class="mb-8 border-gray-200 dark:border-gray-500">
 
             <div class="grid {{ $gridColumns }} gap-x-4 gap-y-6 md:gap-6 lg:gap-8 xl:gap-12">
+                <x-ui.spinner-overlay wire:loading.flex />
                 @foreach($collection->products as $product)
                     <livewire:sytatsu.components.product.product-tile :product="$product" :wire:key="'product-'.$product->id.'-'.md5($product->updated_at)" />
                 @endforeach
