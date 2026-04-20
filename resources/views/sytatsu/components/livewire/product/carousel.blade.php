@@ -12,6 +12,7 @@
                     @forelse($this->images as $image)
                         <div class="hs-carousel-slide overflow-hidden">
                             <img class="size-full object-cover aspect-square transform transition-all scale-101 hover:scale-105"
+                                 loading="lazy"
                                  src="{{ $image->getUrl('medium') }}"
                                  alt="{{ $image->name }}">
                         </div>
@@ -31,6 +32,7 @@
                     @forelse($this->images as $image)
                         <div class="hs-carousel-slide overflow-hidden">
                             <img class="size-full object-cover aspect-square transform transition-all scale-101 hover:scale-105"
+                                 loading="lazy"
                                  src="{{ $image->getUrl('large') }}"
                                  alt="{{ $image->name }}">
                         </div>
@@ -81,6 +83,7 @@
                     @forelse($this->images as $image)
                         <div class="hs-carousel-pagination-item cursor-pointer hs-carousel-active:inset-ring-3 hs-carousel-active:inset-ring-secondary-light overflow-hidden rounded-lg">
                             <img class="object-cover aspect-video rounded-lg hs-carousel-active:p-1 scale-101"
+                                 loading="lazy"
                                  src="{{ $image->getUrl('small') }}"
                                  alt="{{ $image->name }}">
                         </div>
