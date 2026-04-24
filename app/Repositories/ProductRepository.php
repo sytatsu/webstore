@@ -45,6 +45,9 @@ class ProductRepository
             });
         }
 
+        // Apply in-stock ordering as a primary sort criterion
+        $this->applyOrdering($query);
+
         $sort = $filters['sort'] ?? 'alphabetical';
 
         switch ($sort) {
@@ -65,9 +68,6 @@ class ProductRepository
                 )) ASC");
                 break;
         }
-
-        // Apply in-stock ordering as a secondary sort criterion
-        $this->applyOrdering($query);
 
         if ($limit) {
             $query->limit($limit);
