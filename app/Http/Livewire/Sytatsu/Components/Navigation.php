@@ -17,8 +17,13 @@ class Navigation extends Component
             ->groupBy(fn ($collection) => $collection->group->id)
             ->values();
 
+        $fdmPrintingSlugs = WebstoreSetting::getByKey('navigation_fdm_printing_handles', ['polymaker']);
+
+        $fdmPrintingCollections = $storefrontService->getCollectionsBySlugs($fdmPrintingSlugs);
+
         return view('sytatsu.components.navigation', [
             'collections' => $collections,
+            'fdmPrintingCollections' => $fdmPrintingCollections,
         ]);
     }
 }

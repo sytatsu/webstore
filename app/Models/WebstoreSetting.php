@@ -31,6 +31,7 @@ class WebstoreSetting extends Model
     {
         return in_array($key, [
             'navigation_collection_groups',
+            'navigation_fdm_printing_handles',
             'home_featured_collections',
             'collections_page_collections'
         ]);

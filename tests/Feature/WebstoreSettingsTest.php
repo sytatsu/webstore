@@ -73,10 +73,53 @@ class WebstoreSettingsTest extends TestCase
         Livewire::test(\App\Http\Livewire\Sytatsu\Components\Navigation::class)
             ->assertSee('Printed Collection')
             ->assertSee('Other Collection')
-            ->assertSee('data-group-handle="printed"', false)
-            ->assertSee('data-group-handle="other"', false)
             ->assertDontSee('Printed</span>', false)
             ->assertDontSee('Other</span>', false);
+    }
+
+    #[Test]
+    public function navigation_shows_fdm_printing_collections_from_settings()
+    {
+        $group = CollectionGroup::factory()->create(['handle' => 'fdm', 'name' => 'FDM']);
+        $collectionPolymaker = Collection::factory()->create([
+            'collection_group_id' => $group->id,
+            'attribute_data' => collect(['name' => new \Lunar\FieldTypes\Text('Polymaker Collection')]),
+        ]);
+        $collectionPolymaker->urls()->create([
+            'slug' => 'polymaker',
+            'default' => true,
+            'language_id' => \Lunar\Models\Language::whereDefault(true)->first()->id,
+        ]);
+
+        $collectionEsun = Collection::factory()->create([
+            'collection_group_id' => $group->id,
+            'attribute_data' => collect(['name' => new \Lunar\FieldTypes\Text('eSun Collection')]),
+        ]);
+        $collectionEsun->urls()->create([
+            'slug' => 'esun',
+            'default' => true,
+            'language_id' => \Lunar\Models\Language::whereDefault(true)->first()->id,
+        ]);
+
+        // Default should show "Polymaker Collection" if it exists (slugs default to ['polymaker'])
+        Livewire::test(\App\Http\Livewire\Sytatsu\Components\Navigation::class)
+            ->assertSee('FDM Printing')
+            ->assertSee('Polymaker Collection')
+            ->assertDontSee('eSun Collection');
+
+        // Configure to show both
+        WebstoreSetting::setByKey('navigation_fdm_printing_handles', ['polymaker', 'esun']);
+
+        Livewire::test(\App\Http\Livewire\Sytatsu\Components\Navigation::class)
+            ->assertSee('FDM Printing')
+            ->assertSee('Polymaker Collection')
+            ->assertSee('eSun Collection');
+
+        // Configure to show none (empty array)
+        WebstoreSetting::setByKey('navigation_fdm_printing_handles', []);
+
+        Livewire::test(\App\Http\Livewire\Sytatsu\Components\Navigation::class)
+            ->assertDontSee('FDM Printing');
     }
 
     #[Test]

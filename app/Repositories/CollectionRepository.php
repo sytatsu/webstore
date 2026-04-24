@@ -70,4 +70,18 @@ readonly class CollectionRepository
             ->defaultOrder()
             ->get();
     }
+    /**
+     * @param array<string> $slugs
+     * @return Collection<LunarCollection>
+     */
+    public function getBySlugs(array $slugs): Collection
+    {
+        return LunarCollection::query()
+            ->with(['children', 'defaultUrl', 'children.defaultUrl'])
+            ->whereHas('urls', function ($query) use ($slugs) {
+                $query->whereIn('slug', $slugs);
+            })
+            ->defaultOrder()
+            ->get();
+    }
 }
