@@ -28,20 +28,27 @@
             <div class="pb-4">
                 @php
                     $specifications = $product->attribute_data->except(['name', 'description'])->filter(fn($value, $handle) => $product->translateAttribute($handle));
+                    $brandLink = $product->brand?->translateAttribute('link');
                 @endphp
 
-                @if($specifications->isNotEmpty() || $product->brand)
+                @if($specifications->isNotEmpty() || $product->brand || $brandLink)
                     <div id="hs-show-hide-collapse-heading" class="hs-collapse hidden flex flex-col gap-2 mb-2 w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-show-hide-collapse">
                         @if($product->brand)
                             <hr class="border-gray-200 dark:border-gray-500"/>
                             <div class="grid grid-cols-2 gap-2">
                                 <span class="font-medium text-black dark:text-white">{{ ($product->brand->translateAttribute('brand_is_designer') ?? false) ? __('Designer') : __('Brand') }}:</span>
-                                <span class="text-end text-black dark:text-white">{{ $product->brand->name }}</span>
+                                <span class="text-end text-black dark:text-white">
+                                    @if($brandLink)
+                                        <a href="{{ $brandLink }}" target="_blank" class="hover:underline">{{ $product->brand->name }}</a>
+                                    @else
+                                        {{ $product->brand->name }}
+                                    @endif
+                                </span>
                             </div>
                         @endif
 
                         @foreach($specifications as $handle => $value)
-                            @continue(in_array($handle, ['brand_is_designer']))
+                            @continue(in_array($handle, ['brand_is_designer', 'link']))
                             <hr class="border-gray-200 dark:border-gray-500"/>
                             <div class="grid grid-cols-2 gap-2">
                                 <span class="font-medium text-black dark:text-white">{{ Str::headline($handle) }}:</span>
