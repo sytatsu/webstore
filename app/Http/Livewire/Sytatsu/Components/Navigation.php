@@ -11,7 +11,7 @@ class Navigation extends Component
 {
     public function render(StorefrontService $storefrontService)
     {
-        $groupHandles = WebstoreSetting::getByKey('navigation_collection_groups', ['printed']);
+        $groupHandles = WebstoreSetting::getByKey('navigation_collection_groups', ['printed', 'fdm-printing']);
 
         $collections = $storefrontService->getCollectionTreeByGroupHandles($groupHandles)
             ->groupBy(fn ($collection) => $collection->group->id)

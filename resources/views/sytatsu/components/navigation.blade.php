@@ -61,26 +61,51 @@
                                             </a>
 
                                             <div class="md:absolute md:hidden md:group-hover:block bg-white dark:bg-slate-800 md:shadow-lg md:min-w-[200px] z-50 md:mt-0 md:pt-2 md:pb-2 pl-4 md:pl-0 md:top-full md:left-0">
-                                                @foreach($collections as $groupId => $groupCollections)
-                                                    @foreach($groupCollections as $collection)
-                                                        @php
-                                                            $isActive = $collection->defaultUrl && Request::is('collections/' . $collection->defaultUrl->slug . '*');
-                                                        @endphp
-                                                        @if($isActive)
-                                                            <button type="button"
-                                                                    wire:click="$dispatch('filtersReset')"
-                                                                    class="block w-full text-left px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 dark:text-neutral-200 dark:hover:bg-slate-700 avenir-bold uppercase !text-primary"
-                                                            >
-                                                                {{ $collection->translateAttribute('name') }}
-                                                            </button>
-                                                        @else
+                                                @foreach($collections as $groupCollections)
+                                                    @if($groupCollections->first()?->group?->handle !== 'fdm-printing')
+                                                        <div data-group-handle="{{ $groupCollections->first()?->group?->handle }}">
+                                                            @foreach($groupCollections as $collection)
+                                                                @php
+                                                                    $isActive = $collection->defaultUrl && Request::is('collections/' . $collection->defaultUrl->slug . '*');
+                                                                @endphp
+                                                                @if($isActive)
+                                                                    <button type="button"
+                                                                            wire:click="$dispatch('filtersReset')"
+                                                                            class="block w-full text-left px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 dark:text-neutral-200 dark:hover:bg-slate-700 avenir-bold uppercase !text-primary"
+                                                                    >
+                                                                        {{ $collection->translateAttribute('name') }}
+                                                                    </button>
+                                                                @else
+                                                                    <a class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 dark:text-neutral-200 dark:hover:bg-slate-700 avenir-bold uppercase text-nowrap"
+                                                                       href="{{ route('sytatsu.webstore.collection', $collection->defaultUrl?->slug ?? $collection->id) }}"
+                                                                    >
+                                                                        {{ $collection->translateAttribute('name') }}
+                                                                    </a>
+                                                                @endif
+                                                            @endforeach
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            </div>
+                                        </div>
+
+                                        {{-- FDM Printing Dropdown --}}
+                                        <div class="relative group">
+                                            <button type="button" class="px-1 m-3 md:m-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent hover:border-secondary! dark:text-neutral-200 avenir-bold uppercase text-nowrap">
+                                                {{ __('FDM Printing') }} <i class="fa fa-chevron-down ml-2 hidden md:inline-block text-[10px]"></i>
+                                            </button>
+
+                                            <div class="md:absolute md:hidden md:group-hover:block bg-white dark:bg-slate-800 md:shadow-lg md:min-w-[200px] z-50 md:mt-0 md:pt-2 md:pb-2 pl-4 md:pl-0 md:top-full md:left-0">
+                                                @foreach($collections as $groupCollections)
+                                                    @if($groupCollections->first()?->group?->handle === 'fdm-printing')
+                                                        @foreach($groupCollections as $collection)
                                                             <a class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 dark:text-neutral-200 dark:hover:bg-slate-700 avenir-bold uppercase text-nowrap"
                                                                href="{{ route('sytatsu.webstore.collection', $collection->defaultUrl?->slug ?? $collection->id) }}"
                                                             >
                                                                 {{ $collection->translateAttribute('name') }}
                                                             </a>
-                                                        @endif
-                                                    @endforeach
+                                                        @endforeach
+                                                    @endif
                                                 @endforeach
                                             </div>
                                         </div>
