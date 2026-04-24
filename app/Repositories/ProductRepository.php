@@ -56,7 +56,13 @@ class ProductRepository
                 break;
             case 'alphabetical':
             default:
-                $query->orderByRaw("json_extract(lunar_products.attribute_data, '$.name.value') ASC");
+                $query->orderByRaw("LOWER(COALESCE(
+                    json_unquote(json_extract(lunar_products.attribute_data, '$.name.value')),
+                    json_unquote(json_extract(lunar_products.attribute_data, '$.name.en')),
+                    json_unquote(json_extract(lunar_products.attribute_data, '$.name.nl')),
+                    json_unquote(json_extract(lunar_products.attribute_data, '$.name')),
+                    ''
+                )) ASC");
                 break;
         }
 
