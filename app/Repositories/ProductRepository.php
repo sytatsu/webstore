@@ -56,8 +56,7 @@ class ProductRepository
                 break;
             case 'alphabetical':
             default:
-                $query->orderByRaw("json_extract(lunar_products.attribute_data, '$.name.value') ASC");
-                break;
+                $query->orderByRaw("json_extract(lunar_products.attribute_data, '$.name.value') DESC");                break;
         }
 
         if ($limit) {
