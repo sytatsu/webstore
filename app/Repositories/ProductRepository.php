@@ -20,7 +20,7 @@ class ProductRepository
     {
         $query = Product::query();
 
-        $this->applyOrdering($query)
+        $query->select('lunar_products.*')
             ->join('lunar_collection_product', 'lunar_products.id', '=', 'lunar_collection_product.product_id')
             ->whereIn('lunar_collection_product.collection_id', $collectionIds);
 
@@ -56,8 +56,12 @@ class ProductRepository
                 break;
             case 'alphabetical':
             default:
-                $query->orderByRaw("json_extract(lunar_products.attribute_data, '$.name.value') DESC");                break;
+                $query->orderByRaw("json_extract(lunar_products.attribute_data, '$.name.value') ASC");
+                break;
         }
+
+        // Apply in-stock ordering as a secondary sort criterion
+        $this->applyOrdering($query);
 
         if ($limit) {
             $query->limit($limit);
@@ -89,8 +93,7 @@ class ProductRepository
 
     public function applyOrdering(Builder $query): Builder
     {
-        return $query->select('lunar_products.*')
-            ->join('lunar_product_variants', 'lunar_products.id', '=', 'lunar_product_variants.product_id')
+        return $query->join('lunar_product_variants', 'lunar_products.id', '=', 'lunar_product_variants.product_id')
             ->groupBy('lunar_products.id')
             ->orderByRaw("MAX(CASE WHEN lunar_product_variants.purchasable = 'in_stock' AND lunar_product_variants.stock > 0 THEN 0 ELSE 1 END) ASC");
     }
