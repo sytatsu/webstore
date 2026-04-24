@@ -27,6 +27,8 @@ class ProductRepository
         if (!empty($filters['minPrice']) || !empty($filters['maxPrice']) || !empty($filters['inStock'])) {
             $query->whereHas('variants', function ($q) use ($filters) {
                 if (!empty($filters['minPrice']) || !empty($filters['maxPrice'])) {
+                    // Note: We use a subquery or different join if we needed to avoid groupBy here,
+                    // but whereHas already handles it correctly without affecting the main query's SELECT list.
                     $q->join('lunar_prices', 'lunar_product_variants.id', '=', 'lunar_prices.priceable_id')
                         ->where('lunar_prices.priceable_type', \Lunar\Models\ProductVariant::class);
 
@@ -80,9 +82,11 @@ class ProductRepository
     {
         $query = Product::query();
 
-        $this->applyOrdering($query)
+        $query->select('lunar_products.*')
             ->join('lunar_collection_product', 'lunar_products.id', '=', 'lunar_collection_product.product_id')
-            ->whereIn('lunar_collection_product.collection_id', $collectionIds)
+            ->whereIn('lunar_collection_product.collection_id', $collectionIds);
+
+        $this->applyOrdering($query)
             ->orderBy('lunar_products.created_at', 'desc');
 
         if ($limit) {
@@ -99,8 +103,11 @@ class ProductRepository
 
     public function applyOrdering(Builder $query): Builder
     {
-        return $query->join('lunar_product_variants', 'lunar_products.id', '=', 'lunar_product_variants.product_id')
-            ->groupBy('lunar_products.id')
-            ->orderByRaw("MAX(CASE WHEN lunar_product_variants.purchasable = 'in_stock' AND lunar_product_variants.stock > 0 THEN 0 ELSE 1 END) ASC");
+        return $query->addSelect([
+            'in_stock_order' => \Lunar\Models\ProductVariant::selectRaw("MIN(CASE WHEN purchasable = 'in_stock' AND stock > 0 THEN 0 ELSE 1 END)")
+                ->whereColumn('product_id', 'lunar_products.id')
+                ->limit(1)
+        ])
+            ->orderBy('in_stock_order', 'asc');
     }
 }
