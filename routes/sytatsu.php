@@ -38,9 +38,9 @@ Route::middleware('has.cart')->group(function () {
 
 
 Route::model('product', Product::class, function (string $slug) {
-    return ($element = Url::query()->where('slug', $slug)->firstOrFail()->element) instanceof Product ? $element : abort(404, 'Element not Product');
+    return ($element = Url::query()->where('slug', $slug)->where('element_type', (new Product)->getMorphClass())->orderBy('default', 'desc')->firstOrFail()->element) instanceof Product ? $element : abort(404, 'Element not Product');
 });
 
 Route::model('collection', Collection::class, function (string $slug) {
-    return ($element = Url::query()->where('slug', $slug)->firstOrFail()->element) instanceof Collection ? $element : abort(404, 'Element not Collection');
+    return ($element = Url::query()->where('slug', $slug)->where('element_type', (new Collection)->getMorphClass())->orderBy('default', 'desc')->firstOrFail()->element) instanceof Collection ? $element : abort(404, 'Element not Collection');
 });
