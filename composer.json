@@ -2,7 +2,7 @@
     "name": "sytatsu/webshop",
     "type": "project",
     "description": "Webshop Sytatsu",
-    "keywords": ["sytatsu", "webshoop", "framework", "laravel"],
+    "keywords": ["sytatsu", "webshop", "framework", "laravel"],
     "license": "MIT",
     "repositories": [
         {
