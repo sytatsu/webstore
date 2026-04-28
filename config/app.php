@@ -191,6 +191,7 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Sytatsu\PageVisits\Providers\PageVisitsServiceProvider::class,
 
     ],
 

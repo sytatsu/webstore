@@ -7,6 +7,8 @@ use App\Modifiers\PostNLShippingModifier;
 use App\Scopes\PublishedProductScope;
 use Illuminate\Support\ServiceProvider;
 use Lunar\Admin\Support\Facades\LunarPanel;
+use Sytatsu\PageVisits\Filament\Resources\PageVisitResource;
+use Sytatsu\PageVisits\Filament\Resources\VisitorResource;
 use Lunar\Base\ShippingModifiers;
 use Lunar\Models\Order;
 use Lunar\Models\Product;
@@ -22,6 +24,10 @@ class AppServiceProvider extends ServiceProvider
         LunarPanel::panel(fn ($panel) => $panel
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverClusters(in: app_path('Filament/Clusters'), for: 'App\\Filament\\Clusters')
+            ->resources([
+                PageVisitResource::class,
+                VisitorResource::class,
+            ])
         );
         LunarPanel::register();
     }
