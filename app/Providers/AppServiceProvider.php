@@ -9,6 +9,9 @@ use Illuminate\Support\ServiceProvider;
 use Lunar\Admin\Support\Facades\LunarPanel;
 use Sytatsu\PageVisits\Filament\Resources\PageVisitResource;
 use Sytatsu\PageVisits\Filament\Resources\VisitorResource;
+use Sytatsu\FilamentIssueTracker\Filament\Resources\ProjectResource;
+use Sytatsu\FilamentIssueTracker\Filament\Resources\TicketResource;
+use Sytatsu\FilamentIssueTracker\Filament\Pages\TicketSwimlanePage;
 use Lunar\Base\ShippingModifiers;
 use Lunar\Models\Order;
 use Lunar\Models\Product;
@@ -27,6 +30,11 @@ class AppServiceProvider extends ServiceProvider
             ->resources([
                 PageVisitResource::class,
                 VisitorResource::class,
+                ProjectResource::class,
+                TicketResource::class,
+            ])
+            ->pages([
+                TicketSwimlanePage::class,
             ])
         );
         LunarPanel::register();

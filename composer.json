@@ -5,9 +5,14 @@
     "keywords": ["sytatsu", "webshop", "framework", "laravel"],
     "license": "MIT",
     "repositories": [
+
         {
             "type": "vcs",
             "url":  "git@github.com:sytatsu/filamentphp-page-visits.git"
+        },
+        {
+            "type": "vcs",
+            "url":  "git@github.com:sytatsu/filamentphp-issue-tracker.git"
         }
     ],
     "require": {
@@ -21,7 +26,8 @@
         "lunarphp/lunar": "^1.3",
         "lunarphp/stripe": "^1.3",
         "symfony/yaml": "^7.1",
-        "sytatsu/filamentphp-page-visits": "^1.0"
+        "sytatsu/filamentphp-page-visits": "^1.0",
+        "sytatsu/filamentphp-issue-tracker": "^1.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.16",
