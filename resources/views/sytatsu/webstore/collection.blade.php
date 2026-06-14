@@ -1,3 +1,3 @@
-<div class="{{ $maxWidth ?? 'max-w-[85rem]' }} w-full mx-auto">
-    {{ $slot }}
+<div class="max-w-[85rem] w-full mx-auto">
+    @yield('content')
 </div>

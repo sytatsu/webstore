@@ -10,6 +10,8 @@ use Lunar\Models\Collection;
 class CollectionPage extends SytatsuBasePage
 {
     protected string $view = 'sytatsu.webstore.collection-pages.default';
+
+    private const VIEW_BASE = 'sytatsu.webstore.collection-pages.';
     public ?string $label;
 
     /** @var EloquentCollection $products */
@@ -73,6 +75,10 @@ class CollectionPage extends SytatsuBasePage
     {
         $this->collection = $collection;
         $this->storefrontService = $storefrontService;
+
+        $collectionView = $collection->translateAttribute('collection_view') ?: 'default';
+        $this->view = self::VIEW_BASE . $collectionView;
+
         $this->setTitle($collection->translateAttribute('name'));
         $this->label = sprintf('%s: %s', __('Collection'), $collection->translateAttribute('name'));
 
