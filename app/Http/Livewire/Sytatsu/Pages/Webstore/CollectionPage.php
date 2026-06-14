@@ -9,7 +9,7 @@ use Lunar\Models\Collection;
 
 class CollectionPage extends SytatsuBasePage
 {
-    protected string $view = 'sytatsu.webstore.collection';
+    protected string $view = 'sytatsu.webstore.collection-pages.default';
     public ?string $label;
 
     /** @var EloquentCollection $products */
