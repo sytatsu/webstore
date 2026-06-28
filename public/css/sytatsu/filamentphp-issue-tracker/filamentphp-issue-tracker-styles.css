@@ -1,0 +1,7 @@
+.issue-tracker-flagged-row {
+    background-color: rgba(239, 68, 68, 0.1) !important;
+}
+
+.dark .issue-tracker-flagged-row {
+    background-color: rgba(239, 68, 68, 0.2) !important;
+}
