@@ -10863,16 +10863,16 @@
         },
         {
             "name": "sytatsu/filamentphp-issue-tracker",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "git@github.com:sytatsu/filamentphp-issue-tracker.git",
-                "reference": "529aa9018d0868f8e5210f85df383402f4fe83f6"
+                "reference": "3ea7e3386f6bc0181bd386d08f6017a1f4f214b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sytatsu/filamentphp-issue-tracker/zipball/529aa9018d0868f8e5210f85df383402f4fe83f6",
-                "reference": "529aa9018d0868f8e5210f85df383402f4fe83f6",
+                "url": "https://api.github.com/repos/sytatsu/filamentphp-issue-tracker/zipball/3ea7e3386f6bc0181bd386d08f6017a1f4f214b0",
+                "reference": "3ea7e3386f6bc0181bd386d08f6017a1f4f214b0",
                 "shasum": ""
             },
             "require": {
@@ -10912,10 +10912,10 @@
                 "tracker"
             ],
             "support": {
-                "source": "https://github.com/sytatsu/filamentphp-issue-tracker/tree/v1.0.1",
+                "source": "https://github.com/sytatsu/filamentphp-issue-tracker/tree/v1.0.2",
                 "issues": "https://github.com/sytatsu/filamentphp-issue-tracker/issues"
             },
-            "time": "2026-06-28T22:00:05+00:00"
+            "time": "2026-06-28T22:08:25+00:00"
         },
         {
             "name": "sytatsu/filamentphp-page-visits",
