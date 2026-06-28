@@ -1,30 +1,25 @@
 @extends('sytatsu.webstore.collection')
 
 @section('content')
-    <div class="flex flex-col @if($showFilters ?? false) md:grid md:grid-cols-6 xl:grid-cols-4 @endif gap-8">
+    <div class="shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 py-8 px-6 lg:p-12">
+        <div id="bundle-panel-sentinel"></div>
 
-        <!-- Filter Section -->
-        @if($showFilters ?? false)
-            <div class="md:col-span-2 xl:col-span-1">
-                <livewire:sytatsu.components.collection.collection-filters
-                    :collection="$collection"
-                    :initial-filters="$filters"
-                    :show-categories="$showFilterCategories ?? false"
-                    :show-price="$showFilterPrice ?? false"
-                    :show-availability="$showFilterAvailability ?? false"
-                    :show-sorting="$showSorting ?? false"
+        <livewire:sytatsu.components.bundle.bundle-panel
+            :collection="$collection"
+            :wire:key="'bundle-panel-'.$collection->id"
+        />
+
+        <hr class="my-8 border-gray-200 dark:border-gray-500">
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-6 md:gap-6 lg:gap-8 xl:gap-12">
+            @foreach ($products as $product)
+                <livewire:sytatsu.components.bundle.bundle-tile
+                    :product="$product"
+                    :wire:key="'bundle-tile-'.$product->id"
                 />
-            </div>
-        @endif
-
-        <!-- Product Grid Section -->
-        <div class="@if($showFilters ?? false) md:col-span-4 xl:col-span-3 @endif relative">
-            <x-ui.spinner-overlay wire:loading.flex />
-            @if(isset($collections) && $collections->isNotEmpty())
-                <livewire:sytatsu.components.collection.collection-cards :collections="$collections" :max-width="$maxWidth ?? 'max-w-[85rem]'" :grid-columns="$gridColumns" :wire:key="'collection-cards-'.count($collections)" />
-            @elseif(isset($collection) && isset($products))
-                <livewire:sytatsu.components.collection.collection-cards :collections="new \App\DTOs\ProductCollectionDTO($collection, $products)" :show-more="false" :max-width="$maxWidth ?? 'max-w-[85rem]'" :grid-columns="$gridColumns" :wire:key="'collection-cards-'.$collection->id.'-'.count($products).'-'.md5(json_encode($filters))" />
-            @endif
+            @endforeach
         </div>
+
+        <livewire:sytatsu.components.bundle.bundle-product-modal />
     </div>
 @endsection

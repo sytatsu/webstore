@@ -21,44 +21,101 @@
         </p>
 
         @if($order)
+            @php
+                $productLines = $order->lines->filter(fn($l) => $l->purchasable_type !== \Lunar\DataTypes\ShippingOption::class);
+                $bundleGroups = $productLines->filter(fn($l) => !empty(data_get($l->meta, 'bundle_id')))->groupBy(fn($l) => data_get($l->meta, 'bundle_id'));
+                $regularLines = $productLines->filter(fn($l) => empty(data_get($l->meta, 'bundle_id')));
+
+                $bundleConfigIds = $bundleGroups->map(fn($g) => data_get($g->first()->meta, 'bundle_config_id'))->filter()->unique()->values();
+                $bundleConfigs = \App\Models\BundleConfig::findMany($bundleConfigIds)->keyBy('id');
+            @endphp
             <div class="mt-6 text-left border-t border-gray-200 dark:border-gray-500 pt-6">
                 <h2 class="text-xl font-bold text-black dark:text-white mb-4 uppercase avenir-bold">
                     {{ __('Order Details') }}
                 </h2>
-                <div class="space-y-4">
-                    @foreach($order->lines as $line)
-                        @if($line->purchasable_type !== \Lunar\DataTypes\ShippingOption::class)
-                            <div class="flex justify-between items-center">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-16 h-16 bg-gray-100 dark:bg-slate-700 flex-shrink-0 flex items-center justify-center overflow-hidden rounded">
-                                        @if($line->purchasable && method_exists($line->purchasable, 'getThumbnail') && $line->purchasable->getThumbnail())
-                                            <img src="{{ $line->purchasable->getThumbnail()->getUrl('small') }}" alt="{{ $line->description }}" class="object-cover w-full h-full">
-                                        @else
-                                            <span class="text-xs text-gray-400">No image</span>
-                                        @endif
+                <div class="space-y-6">
+
+                    {{-- Bundle groups --}}
+                    @foreach ($bundleGroups as $bundleId => $bundleLines)
+                        @php
+                            $firstMeta = $bundleLines->first()->meta;
+                            $discountPct = data_get($firstMeta, 'bundle_discount_pct', 0);
+                            $bundleConfigId = data_get($firstMeta, 'bundle_config_id');
+                            $bundleLabel = data_get($firstMeta, 'bundle_name')
+                                ?: (($bundleConfigId && $bundleConfigs->has($bundleConfigId))
+                                    ? ($bundleConfigs->get($bundleConfigId)->getTranslatedName() ?: __('Bundle'))
+                                    : __('Bundle'));
+                        @endphp
+                        <div class="border border-gray-200 dark:border-gray-600 rounded">
+                            <div class="flex items-center gap-2 px-3 py-2 bg-gray-50 dark:bg-slate-700 rounded-t border-b border-gray-200 dark:border-gray-600">
+                                <span class="text-xs font-bold uppercase tracking-widest text-black dark:text-white avenir-bold">{{ $bundleLabel }}</span>
+                                @if ($discountPct > 0)
+                                    <span class="bg-primary text-white text-[10px] px-1.5 py-0.5 rounded avenir-bold uppercase">-{{ number_format($discountPct, 0) }}%</span>
+                                @endif
+                            </div>
+                            <div class="divide-y divide-gray-100 dark:divide-gray-700">
+                                @foreach ($bundleLines as $line)
+                                    <div class="flex justify-between items-center px-3 py-3">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-12 h-12 bg-gray-100 dark:bg-slate-700 flex-shrink-0 flex items-center justify-center overflow-hidden rounded">
+                                                @if ($line->purchasable && method_exists($line->purchasable, 'getThumbnail') && $line->purchasable->getThumbnail())
+                                                    <img src="{{ $line->purchasable->getThumbnail()->getUrl('small') }}" alt="{{ $line->description }}" class="object-cover w-full h-full">
+                                                @else
+                                                    <span class="text-xs text-gray-400">{{ __('No image') }}</span>
+                                                @endif
+                                            </div>
+                                            <div>
+                                                <p class="font-bold text-black dark:text-white leading-tight text-left text-sm">
+                                                    @if ($line->purchasable && $line->purchasable->product)
+                                                        <a href="{{ route('sytatsu.webstore.product', $line->purchasable->product->defaultUrl->slug) }}" class="hover:underline">{{ $line->description }}</a>
+                                                    @else
+                                                        {{ $line->description }}
+                                                    @endif
+                                                </p>
+                                                @if ($line->option)
+                                                    <p class="text-xs text-slate-600 dark:text-gray-400 italic text-left">{{ $line->option }}</p>
+                                                @endif
+                                                <p class="text-xs text-slate-600 dark:text-gray-400 text-left">{{ __('Qty') }}: {{ $line->quantity }}</p>
+                                            </div>
+                                        </div>
+                                        <p class="font-bold text-black dark:text-white text-sm">{{ $line->sub_total->formatted }}</p>
                                     </div>
-                                    <div>
-                                        <p class="font-bold text-black dark:text-white leading-tight text-left">
-                                            @if($line->purchasable && $line->purchasable->product)
-                                                <a href="{{ route('sytatsu.webstore.product', $line->purchasable->product->defaultUrl->slug) }}" class="hover:underline text-primary">
-                                                    {{ $line->description }}
-                                                </a>
-                                            @else
-                                                {{ $line->description }}
-                                            @endif
-                                        </p>
-                                        @if($line->option)
-                                            <p class="text-sm text-slate-600 dark:text-gray-400 italic text-left">{{ $line->option }}</p>
-                                        @endif
-                                        <p class="text-sm text-slate-600 dark:text-gray-400 text-left">{{ __('Quantity') }}: {{ $line->quantity }}</p>
-                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endforeach
+
+                    {{-- Regular lines --}}
+                    @foreach ($regularLines as $line)
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-4">
+                                <div class="w-16 h-16 bg-gray-100 dark:bg-slate-700 flex-shrink-0 flex items-center justify-center overflow-hidden rounded">
+                                    @if ($line->purchasable && method_exists($line->purchasable, 'getThumbnail') && $line->purchasable->getThumbnail())
+                                        <img src="{{ $line->purchasable->getThumbnail()->getUrl('small') }}" alt="{{ $line->description }}" class="object-cover w-full h-full">
+                                    @else
+                                        <span class="text-xs text-gray-400">{{ __('No image') }}</span>
+                                    @endif
                                 </div>
-                                <div class="text-right">
-                                    <p class="font-bold text-black dark:text-white">{{ $line->sub_total->formatted }}</p>
+                                <div>
+                                    <p class="font-bold text-black dark:text-white leading-tight text-left">
+                                        @if ($line->purchasable && $line->purchasable->product)
+                                            <a href="{{ route('sytatsu.webstore.product', $line->purchasable->product->defaultUrl->slug) }}" class="hover:underline text-primary">{{ $line->description }}</a>
+                                        @else
+                                            {{ $line->description }}
+                                        @endif
+                                    </p>
+                                    @if ($line->option)
+                                        <p class="text-sm text-slate-600 dark:text-gray-400 italic text-left">{{ $line->option }}</p>
+                                    @endif
+                                    <p class="text-sm text-slate-600 dark:text-gray-400 text-left">{{ __('Quantity') }}: {{ $line->quantity }}</p>
                                 </div>
                             </div>
-                        @endif
+                            <div class="text-right">
+                                <p class="font-bold text-black dark:text-white">{{ $line->sub_total->formatted }}</p>
+                            </div>
+                        </div>
                     @endforeach
+
                 </div>
 
                 <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-500 space-y-2">

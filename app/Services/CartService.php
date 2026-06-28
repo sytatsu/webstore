@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Models\BundleConfig;
 use App\Repositories\TaxRepository;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Lunar\Base\Purchasable;
 use Lunar\DataTypes\ShippingOption;
 use Lunar\Facades\CartSession;
@@ -34,6 +36,17 @@ readonly class CartService
     public function addLine(Purchasable $purchasable, int $quantity): void
     {
         CartSession::manager()->add($purchasable, $quantity);
+    }
+
+    public function addBundleLine(Purchasable $purchasable, int $qty, string $bundleId, float $discountPct, ?int $bundleConfigId = null, string $bundleName = ''): void
+    {
+        CartSession::manager()->add($purchasable, $qty, [
+            'bundle_id' => $bundleId,
+            'bundle_config_id' => $bundleConfigId,
+            'bundle_name' => $bundleName,
+            'bundle_discount_pct' => $discountPct,
+            'bundle_line_uuid' => (string) Str::uuid(),
+        ]);
     }
 
     public function incrementLine(array $lines, string $index): array
@@ -78,6 +91,19 @@ readonly class CartService
         CartSession::remove($lineId);
     }
 
+    public function removeBundle(string $bundleId): void
+    {
+        $cart = $this->getCurrentCart();
+
+        $lineIds = $cart->lines
+            ->filter(fn (CartLine $line) => data_get($line->meta, 'bundle_id') === $bundleId)
+            ->pluck('id');
+
+        foreach ($lineIds as $lineId) {
+            CartSession::remove($lineId);
+        }
+    }
+
     public function mapCartLines(): array
     {
         $cart = $this->getCurrentCart()->refresh()->calculate();
@@ -87,28 +113,42 @@ readonly class CartService
             $cart->calculate();
         }
 
-        return $cart->lines
-            ->filter(fn (CartLine $line) => $line->purchasable_type !== \Lunar\DataTypes\ShippingOption::class)
-            ->map(function (CartLine $line) {
-                // If the product is not published (or missing due to scope), it might be null.
-                // We should handle this gracefully to avoid "translateAttribute() on null"
-                $product = $line->purchasable->product;
-                $description = $product ? $line->purchasable->getDescription() : ($line->purchasable->sku ?? 'Unknown Product');
+        $productLines = $cart->lines->filter(
+            fn (CartLine $line) => $line->purchasable_type !== \Lunar\DataTypes\ShippingOption::class
+        );
 
-                return [
-                    'id' => $line->id,
-                    'purchasable' => $line->purchasable,
-                    'product' => $product,
-                    'identifier' => $line->purchasable->getIdentifier(),
-                    'quantity' => $line->quantity,
-                    'description' => $description,
-                    'thumbnail' => $line->purchasable->getThumbnail()?->getUrl(),
-                    'option' => $line->purchasable->getOption(),
-                    'options' => $line->purchasable->getOptions()->map(fn (string $option) => __($option))->implode(' / '),
-                    'sub_total' => $line->subTotal->formatted(),
-                    'unit_price' => $line->unitPrice->formatted(),
-                ];
-            })->toArray();
+        $bundleConfigs = BundleConfig::findMany(
+            $productLines->map(fn ($l) => data_get($l->meta, 'bundle_config_id'))->filter()->unique()->values()
+        )->keyBy('id');
+
+        return $productLines->map(function (CartLine $line) use ($bundleConfigs) {
+            // If the product is not published (or missing due to scope), it might be null.
+            // We should handle this gracefully to avoid "translateAttribute() on null"
+            $product = $line->purchasable->product;
+            $description = $product ? $line->purchasable->getDescription() : ($line->purchasable->sku ?? 'Unknown Product');
+
+            $bundleConfigId = data_get($line->meta, 'bundle_config_id');
+            $bundleName = data_get($line->meta, 'bundle_name')
+                ?: ($bundleConfigId ? ($bundleConfigs->get($bundleConfigId)?->getTranslatedName() ?? '') : '');
+
+            return [
+                'id' => $line->id,
+                'purchasable' => $line->purchasable,
+                'product' => $product,
+                'identifier' => $line->purchasable->getIdentifier(),
+                'quantity' => $line->quantity,
+                'description' => $description,
+                'thumbnail' => $line->purchasable->getThumbnail()?->getUrl(),
+                'option' => $line->purchasable->getOption(),
+                'options' => $line->purchasable->getOptions()->map(fn (string $option) => __($option))->implode(' / '),
+                'sub_total' => $line->subTotal->formatted(),
+                'unit_price' => $line->unitPrice->formatted(),
+                'bundle_id' => data_get($line->meta, 'bundle_id'),
+                'bundle_config_id' => $bundleConfigId,
+                'bundle_name' => $bundleName,
+                'bundle_discount_pct' => data_get($line->meta, 'bundle_discount_pct'),
+            ];
+        })->toArray();
     }
 
     public function getTotalQuantity(): int
@@ -121,11 +161,11 @@ readonly class CartService
         );
     }
 
-    public function getAvailableStockProperty(Purchasable $purchasable): int
+    public function getAvailableStockProperty(Purchasable $purchasable, int $inBundleQuantity = 0): int
     {
-        $inCart = $this->getCurrentCart()->lines->first(fn($line) => $line->purchasable_id === $purchasable->id)?->quantity;
+        $inCart = $this->getCurrentCart()->lines->first(fn($line) => $line->purchasable_id === $purchasable->id)?->quantity ?? 0;
         $availableStock = $purchasable->stock;
-        return $availableStock - $inCart;
+        return $availableStock - $inCart - $inBundleQuantity;
     }
 
     public function getCurrentCart(): LunarCart

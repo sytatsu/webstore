@@ -54,6 +54,7 @@ return [
         */
         'cart_lines' => [
             Lunar\Pipelines\CartLine\GetUnitPrice::class,
+            App\Pipelines\Lunar\CartLine\ApplyBundleDiscount::class,
         ],
     ],
 

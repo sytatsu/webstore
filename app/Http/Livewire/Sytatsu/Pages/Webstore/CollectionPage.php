@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Sytatsu\Pages\Webstore;
 
 use App\Http\Livewire\Sytatsu\SytatsuBasePage;
+use App\Models\BundleConfig;
 use App\Services\StorefrontService;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Lunar\Models\Collection;
@@ -76,11 +77,11 @@ class CollectionPage extends SytatsuBasePage
         $this->collection = $collection;
         $this->storefrontService = $storefrontService;
 
-        $collectionView = $collection->translateAttribute('collection_view') ?: 'default';
-        $this->view = self::VIEW_BASE . $collectionView;
-
         $this->setTitle($collection->translateAttribute('name'));
         $this->label = sprintf('%s: %s', __('Collection'), $collection->translateAttribute('name'));
+
+        $collectionView = $collection->translateAttribute('collection_view') ?: 'default';
+        $this->view = self::VIEW_BASE . $collectionView;
 
         if (!$this->sort) {
             $this->sort = $this->collection->translateAttribute('default_sort');

@@ -15,6 +15,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class Carousel extends Component
 {
     public CarouselTypeEnum $carouselType;
+    public bool $disableLink = false;
 
     public Product|ProductVariant $product;
 
@@ -28,13 +29,14 @@ class Carousel extends Component
      *
      * @return void
      */
-    public function mount(Product|ProductVariant $product, Collection $images, $carouselType = null): void
+    public function mount(Product|ProductVariant $product, Collection $images, $carouselType = null, bool $disableLink = false): void
     {
         $this->product = $product;
         $this->images = $images->sortByDesc(fn (Media $image) => $image->custom_properties['primary']);
         $this->carouselType = $carouselType instanceof CarouselTypeEnum
             ? $carouselType
             : CarouselTypeEnum::COMPACT;
+        $this->disableLink = $disableLink;
     }
 
     public function render(): Factory|View|Application
@@ -43,6 +45,7 @@ class Carousel extends Component
             'product' => $this->product,
             'images' => $this->images,
             'carouselType' => $this->carouselType,
+            'disableLink' => $this->disableLink,
         ]);
     }
 }

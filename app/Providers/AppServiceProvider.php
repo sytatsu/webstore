@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
+use App\Filament\Extensions\OrderItemsTableExtension;
 use App\Modifiers\DHLShippingModifier;
 use App\Modifiers\PostNLShippingModifier;
+use App\Services\BundleSessionService;
+use Lunar\Admin\Filament\Resources\OrderResource\Pages\Components\OrderItemsTable;
 use App\Scopes\PublishedProductScope;
 use Illuminate\Support\ServiceProvider;
 use Lunar\Admin\Support\Facades\LunarPanel;
@@ -37,7 +40,13 @@ class AppServiceProvider extends ServiceProvider
                 TicketSwimlanePage::class,
             ])
         );
+        LunarPanel::extensions([
+            OrderItemsTable::class => OrderItemsTableExtension::class,
+        ]);
+
         LunarPanel::register();
+
+        $this->app->singleton(BundleSessionService::class);
     }
 
     /**

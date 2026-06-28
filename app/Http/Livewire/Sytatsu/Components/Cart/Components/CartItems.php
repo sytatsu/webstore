@@ -94,6 +94,12 @@ class CartItems extends Component
         $this->dispatch('cart-updated');
     }
 
+    public function removeBundle(string $bundleId): void
+    {
+        $this->cartService->removeBundle($bundleId);
+        $this->dispatch('cart-updated');
+    }
+
     public function updateLines(): void
     {
         $this->validate();

@@ -54,7 +54,7 @@ class AddToCart extends Component
 
     public function getAvailableStockProperty(): int
     {
-        return $this->cartService->getAvailableStockProperty($this->purchasable);
+        return $this->cartService->getAvailableStockProperty($this->purchasable, 0);
     }
 
     public function updatedQuantity($quantity): int
