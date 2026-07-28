@@ -75,9 +75,16 @@
 
                 @if(count($catalog['icons']))
                     <div class="mt-4" :class="!hasSelection && 'opacity-40 pointer-events-none'">
-                        <div class="font-mono text-[10px] tracking-[.16em] uppercase text-gray-500 dark:text-gray-400 mb-2">
+                        <div class="font-mono text-[10px] tracking-[.16em] uppercase text-gray-500 dark:text-gray-400 mb-2 flex items-center gap-2">
                             <span x-show="hasSelection">{{ __('Icons') }} &mdash; {{ __('applied to cap') }} <span x-text="selected + 1"></span></span>
                             <span x-show="!hasSelection">{{ __('Icons') }} &mdash; {{ __('select a cap first') }}</span>
+                            <template x-if="hasSelection && caps[selected]?.icon">
+                                <svg viewBox="0 0 100 100" width="16" height="16" class="text-black dark:text-white shrink-0" aria-hidden="true">
+                                    <g :transform="`translate(${(50 - caps[selected].icon.scale * caps[selected].icon.cx).toFixed(2)} ${(50 - caps[selected].icon.scale * caps[selected].icon.cy).toFixed(2)}) scale(${caps[selected].icon.scale})`">
+                                        <path :d="caps[selected].icon.path" fill="currentColor"></path>
+                                    </g>
+                                </svg>
+                            </template>
                         </div>
                         <div class="grid grid-cols-10 gap-1.5">
                             <template x-for="ic in ICONS" :key="ic.id">
@@ -86,7 +93,9 @@
                                         :disabled="!hasSelection" :title="ic.name" :aria-label="ic.name"
                                         @click="setIcon(selected, ic); next()">
                                     <svg viewBox="0 0 100 100" width="20" height="20" aria-hidden="true">
-                                        <path :d="ic.path" fill="currentColor"></path>
+                                        <g :transform="`translate(${(50 - ic.scale * ic.cx).toFixed(2)} ${(50 - ic.scale * ic.cy).toFixed(2)}) scale(${ic.scale})`">
+                                            <path :d="ic.path" fill="currentColor"></path>
+                                        </g>
                                     </svg>
                                 </button>
                             </template>

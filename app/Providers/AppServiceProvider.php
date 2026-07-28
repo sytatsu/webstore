@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Filament\Extensions\OrderItemsTableExtension;
 use App\Modifiers\DHLShippingModifier;
 use App\Modifiers\PostNLShippingModifier;
 use App\Scopes\PublishedProductScope;
 use Illuminate\Support\ServiceProvider;
+use Lunar\Admin\Filament\Resources\OrderResource\Pages\Components\OrderItemsTable;
 use Lunar\Admin\Support\Facades\LunarPanel;
 use Sytatsu\PageVisits\Filament\Resources\PageVisitResource;
 use Sytatsu\PageVisits\Filament\Resources\VisitorResource;
@@ -37,6 +39,11 @@ class AppServiceProvider extends ServiceProvider
                 TicketSwimlanePage::class,
             ])
         );
+        LunarPanel::extensions([
+            OrderItemsTable::class => [
+                OrderItemsTableExtension::class,
+            ],
+        ]);
         LunarPanel::register();
     }
 

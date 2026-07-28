@@ -27,6 +27,13 @@
                     <td style="padding: 12px 8px; text-align: center; color: #1e293b; vertical-align: middle;">{{ $orderLine->quantity }}</td>
                     <td style="padding: 12px 8px; text-align: right; font-weight: bold; color: #1e293b; vertical-align: middle;">{{ $orderLine->sub_total->formatted() }}</td>
                 </tr>
+                @if($barBuilder = ($orderLine->meta['bar_builder'] ?? null))
+                    <tr style="border-bottom: 1px solid #f1f5f9;">
+                        <td colspan="3" style="padding: 0 8px 12px 8px;">
+                            @include('mail.sytatsu.orders.includes.bar-builder-details', ['barBuilder' => $barBuilder])
+                        </td>
+                    </tr>
+                @endif
             @endif
         @endforeach
     </tbody>

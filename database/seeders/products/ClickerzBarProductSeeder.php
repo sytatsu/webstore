@@ -119,6 +119,49 @@ class ClickerzBarProductSeeder extends Seeder
                 'sort_order' => 0,
             ]
         );
+
+        BarBuilderIcon::firstOrCreate(
+            ['name' => 'Heart'],
+            [
+                'svg_paths' => [
+                    'M 50 82 L 20 52 A 18 18 0 1 1 50 34 A 18 18 0 1 1 80 52 Z',
+                ],
+                'cx' => 50,
+                'cy' => 58,
+                'scale' => 0.62,
+                'sort_order' => 1,
+            ]
+        );
+
+        BarBuilderIcon::firstOrCreate(
+            ['name' => 'Music note'],
+            [
+                'svg_paths' => [
+                    'M22 78 a13 10 0 1 0 26 0 a13 10 0 1 0 -26 0 Z',
+                    'M46 20 h6 v58 h-6 Z',
+                    'M52 20 C 75 25, 78 45, 60 55 C 68 45, 68 30, 52 30 Z',
+                ],
+                'cx' => 50,
+                'cy' => 50,
+                'scale' => 0.55,
+                'sort_order' => 2,
+            ]
+        );
+
+        BarBuilderIcon::firstOrCreate(
+            ['name' => 'Headset'],
+            [
+                'svg_paths' => [
+                    'M15 52 A35 35 0 0 1 85 52 L85 60 A35 35 0 0 0 15 60 Z',
+                    'M8 56 a9 16 0 1 0 18 0 a9 16 0 1 0 -18 0 Z',
+                    'M74 56 a9 16 0 1 0 18 0 a9 16 0 1 0 -18 0 Z',
+                ],
+                'cx' => 50,
+                'cy' => 62,
+                'scale' => 0.62,
+                'sort_order' => 3,
+            ]
+        );
     }
 
     private function seedProduct(): void
