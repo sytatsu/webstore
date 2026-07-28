@@ -26,6 +26,7 @@ Route::get('/contact', LivewireSytatsu\Contact::class)->name('sytatsu.contact');
 
 Route::get('/', LivewireSytatsu\Webstore\Welcome::class)->name('sytatsu.webstore.welcome');
 Route::get('/products/{product}', LivewireSytatsu\Webstore\ProductPage::class)->name('sytatsu.webstore.product');
+Route::get('/clickerz/builder', LivewireSytatsu\Webstore\ClickerzBarBuilderPage::class)->name('sytatsu.webstore.clickerz-bar-builder');
 Route::get('/collections', LivewireSytatsu\Webstore\CollectionsPage::class)->name('sytatsu.webstore.collections');
 Route::get('/collections/{collection}', LivewireSytatsu\Webstore\CollectionPage::class)->name('sytatsu.webstore.collection');
 

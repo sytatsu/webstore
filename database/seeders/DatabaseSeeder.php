@@ -40,6 +40,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             \Database\Seeders\collections\CollectionPokeballSeeder::class,
             \Database\Seeders\collections\CollectionMiniFriendsSeeder::class,
+            \Database\Seeders\products\ClickerzBarProductSeeder::class,
         ]);
     }
 }

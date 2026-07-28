@@ -31,9 +31,9 @@ readonly class CartService
         return $this->mapCartLines();
     }
 
-    public function addLine(Purchasable $purchasable, int $quantity): void
+    public function addLine(Purchasable $purchasable, int $quantity, array $meta = []): void
     {
-        CartSession::manager()->add($purchasable, $quantity);
+        CartSession::manager()->add($purchasable, $quantity, $meta);
     }
 
     public function incrementLine(array $lines, string $index): array
@@ -105,6 +105,7 @@ readonly class CartService
                     'thumbnail' => $line->purchasable->getThumbnail()?->getUrl(),
                     'option' => $line->purchasable->getOption(),
                     'options' => $line->purchasable->getOptions()->map(fn (string $option) => __($option))->implode(' / '),
+                    'meta' => $line->meta?->getArrayCopy() ?? [],
                     'sub_total' => $line->subTotal->formatted(),
                     'unit_price' => $line->unitPrice->formatted(),
                 ];

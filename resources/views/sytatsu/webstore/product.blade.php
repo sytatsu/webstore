@@ -1,3 +1,6 @@
+@if ($product->defaultUrl?->slug === 'clickerz-bar')
+    @include('sytatsu.webstore.partials.clickerz-bar-builder', ['product' => $product])
+@else
 <div class="mx-auto xl:min-w-[80rem] max-w-[30rem] md:max-w-[85rem] w-full flex flex-col gap-8">
     <div class="flex flex-col md:grid md:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-12 shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 p-8 md:p-12">
         <livewire:sytatsu.components.product.carousel :product="$product" :carouselType="\App\Enums\CarouselTypeEnum::EXPANDED" :images="$product->images" />
@@ -102,3 +105,4 @@
         </div>
     </div>
 </div>
+@endif

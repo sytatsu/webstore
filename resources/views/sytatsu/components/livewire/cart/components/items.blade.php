@@ -20,6 +20,12 @@
                         <span>{{ $line['sub_total'] }}</span>
                     </div>
 
+                    @if($barBuilder = ($line['meta']['bar_builder'] ?? null))
+                        <p class="-mt-1 text-xs text-gray-500 dark:text-gray-400 font-mono">
+                            &ldquo;{{ $barBuilder['text'] }}&rdquo; &middot; {{ $barBuilder['base_colour']['name'] }} &middot; {{ __('Ref') }} {{ $barBuilder['reference'] }}
+                        </p>
+                    @endif
+
                     <div class="flex items-center mt-2">
                         <div class="flex rounded-none bg-gray-50 dark:bg-slate-900">
                             @if (!$this->isCartDisabled())
