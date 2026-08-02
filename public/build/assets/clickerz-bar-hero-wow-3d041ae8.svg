@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-14 -16 302 138"
+                   role="img" aria-label="Clickerz Bar Builder">
+                <defs>
+          <linearGradient id="side0" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"   stop-color="#958ac3"/>
+            <stop offset=".12" stop-color="#7162ae"/>
+            <stop offset=".5"  stop-color="#534687"/>
+            <stop offset=".8"  stop-color="#403769"/>
+            <stop offset="1"   stop-color="#2f284c"/>
+          </linearGradient>
+          <linearGradient id="face0" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"   stop-color="#7c6eb4"/>
+            <stop offset=".5"  stop-color="#6858A9"/>
+            <stop offset="1"   stop-color="#5c4d95"/>
+          </linearGradient>
+          <linearGradient id="side1" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"   stop-color="#e79fd3"/>
+            <stop offset=".12" stop-color="#df7ec4"/>
+            <stop offset=".5"  stop-color="#b15e9a"/>
+            <stop offset=".8"  stop-color="#894977"/>
+            <stop offset="1"   stop-color="#633556"/>
+          </linearGradient>
+          <linearGradient id="face1" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"   stop-color="#e188c8"/>
+            <stop offset=".5"  stop-color="#DD76C0"/>
+            <stop offset="1"   stop-color="#c268a9"/>
+          </linearGradient>
+          <linearGradient id="side2" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"   stop-color="#bfdee9"/>
+            <stop offset=".12" stop-color="#a9d3e1"/>
+            <stop offset=".5"  stop-color="#83a6b2"/>
+            <stop offset=".8"  stop-color="#66818a"/>
+            <stop offset="1"   stop-color="#4a5e64"/>
+          </linearGradient>
+          <linearGradient id="face2" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"   stop-color="#b0d6e3"/>
+            <stop offset=".5"  stop-color="#A4D0DF"/>
+            <stop offset="1"   stop-color="#90b7c4"/>
+          </linearGradient></defs>
+        <path d="M 26 0 L 70 0 A 26 26 0 0 1 87.73 6.98 A 7 7 0 0 0 97.27 6.98 A 26 26 0 0 1 115 0 L 159 0 A 26 26 0 0 1 176.73 6.98 A 7 7 0 0 0 186.27 6.98 A 26 26 0 0 1 204 0 L 248 0 Q 274 0 274 26 L 274 75 Q 274 101 248 101 L 204 101 A 26 26 0 0 1 186.27 94.02 A 7 7 0 0 0 176.73 94.02 A 26 26 0 0 1 159 101 L 115 101 A 26 26 0 0 1 97.27 94.02 A 7 7 0 0 0 87.73 94.02 A 26 26 0 0 1 70 101 L 26 101 Q 0 101 0 75 L 0 26 Q 0 0 26 0 Z" fill="#aba7a5"/>
+        <path d="M 26 0 L 70 0 A 26 26 0 0 1 87.73 6.98 A 7 7 0 0 0 97.27 6.98 A 26 26 0 0 1 115 0 L 159 0 A 26 26 0 0 1 176.73 6.98 A 7 7 0 0 0 186.27 6.98 A 26 26 0 0 1 204 0 L 248 0 Q 274 0 274 26 L 274 70 Q 274 96 248 96 L 204 96 A 26 26 0 0 1 186.27 89.02 A 7 7 0 0 0 176.73 89.02 A 26 26 0 0 1 159 96 L 115 96 A 26 26 0 0 1 97.27 89.02 A 7 7 0 0 0 87.73 89.02 A 26 26 0 0 1 70 96 L 26 96 Q 0 96 0 70 L 0 26 Q 0 0 26 0 Z" fill="#F4EFEB"/>
+        <path d="M 26 0 L 70 0 A 26 26 0 0 1 87.73 6.98 A 7 7 0 0 0 97.27 6.98 A 26 26 0 0 1 115 0 L 159 0 A 26 26 0 0 1 176.73 6.98 A 7 7 0 0 0 186.27 6.98 A 26 26 0 0 1 204 0 L 248 0 Q 274 0 274 26 L 274 70 Q 274 96 248 96 L 204 96 A 26 26 0 0 1 186.27 89.02 A 7 7 0 0 0 176.73 89.02 A 26 26 0 0 1 159 96 L 115 96 A 26 26 0 0 1 97.27 89.02 A 7 7 0 0 0 87.73 89.02 A 26 26 0 0 1 70 96 L 26 96 Q 0 96 0 70 L 0 26 Q 0 0 26 0 Z" fill="none" stroke="#f6f2ee" stroke-width="1.5" opacity=".55"/>
+        <g class="cap-g" data-cap="0">
+          <rect x="7" y="10" width="82" height="82" rx="19" fill="rgba(0,0,0,.28)"/>
+          <rect x="7" y="7" width="82" height="82" rx="19" fill="url(#side0)"/>
+          <rect x="12" y="14.5" width="72" height="72" rx="15.5" fill="rgba(0,0,0,.16)"/>
+          <rect x="13" y="11" width="70" height="70" rx="14.5" fill="url(#face0)"/>
+          <ellipse cx="48" cy="28" rx="26" ry="9" fill="#fff" opacity=".40"/>
+          <text x="48" y="67.94800000000001" text-anchor="middle"
+                     font-family="'AvenirNextLTPro-Bold','IBM Plex Sans','Segoe UI Symbol',sans-serif" font-weight="700"
+                     font-size="62" fill="#FFFFFF"
+                     opacity=".95">W</text>
+        </g>
+        <g class="cap-g" data-cap="1">
+          <rect x="96" y="10" width="82" height="82" rx="19" fill="rgba(0,0,0,.28)"/>
+          <rect x="96" y="7" width="82" height="82" rx="19" fill="url(#side1)"/>
+          <rect x="101" y="14.5" width="72" height="72" rx="15.5" fill="rgba(0,0,0,.16)"/>
+          <rect x="102" y="11" width="70" height="70" rx="14.5" fill="url(#face1)"/>
+          <ellipse cx="137" cy="28" rx="26" ry="9" fill="#fff" opacity=".40"/>
+          <text x="137" y="67.94800000000001" text-anchor="middle"
+                     font-family="'AvenirNextLTPro-Bold','IBM Plex Sans','Segoe UI Symbol',sans-serif" font-weight="700"
+                     font-size="62" fill="#FFFFFF"
+                     opacity=".95">O</text>
+        </g>
+        <g class="cap-g" data-cap="2">
+          <rect x="185" y="10" width="82" height="82" rx="19" fill="rgba(0,0,0,.28)"/>
+          <rect x="185" y="7" width="82" height="82" rx="19" fill="url(#side2)"/>
+          <rect x="190" y="14.5" width="72" height="72" rx="15.5" fill="rgba(0,0,0,.16)"/>
+          <rect x="191" y="11" width="70" height="70" rx="14.5" fill="url(#face2)"/>
+          <ellipse cx="226" cy="28" rx="26" ry="9" fill="#fff" opacity=".40"/>
+          <text x="226" y="67.94800000000001" text-anchor="middle"
+                     font-family="'AvenirNextLTPro-Bold','IBM Plex Sans','Segoe UI Symbol',sans-serif" font-weight="700"
+                     font-size="62" fill="#FFFFFF"
+                     opacity=".95">W</text>
+        </g>
+              </svg>

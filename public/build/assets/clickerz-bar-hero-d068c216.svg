@@ -1,0 +1,191 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-14 -16 747 138"
+                   role="img" aria-label="Clickerz Bar Builder">
+                <defs>
+          <linearGradient id="side0" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"   stop-color="#f26d6d"/>
+            <stop offset=".12" stop-color="#ee3b3b"/>
+            <stop offset=".5"  stop-color="#be2625"/>
+            <stop offset=".8"  stop-color="#931d1d"/>
+            <stop offset="1"   stop-color="#6b1515"/>
+          </linearGradient>
+          <linearGradient id="face0" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"   stop-color="#ef4a49"/>
+            <stop offset=".5"  stop-color="#ED2F2E"/>
+            <stop offset="1"   stop-color="#d12928"/>
+          </linearGradient>
+          <linearGradient id="side1" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"   stop-color="#faae5d"/>
+            <stop offset=".12" stop-color="#f89225"/>
+            <stop offset=".5"  stop-color="#c66f12"/>
+            <stop offset=".8"  stop-color="#9a560e"/>
+            <stop offset="1"   stop-color="#703f0a"/>
+          </linearGradient>
+          <linearGradient id="face1" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"   stop-color="#f99a35"/>
+            <stop offset=".5"  stop-color="#F88B17"/>
+            <stop offset="1"   stop-color="#da7a14"/>
+          </linearGradient>
+          <linearGradient id="side2" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"   stop-color="#f7d670"/>
+            <stop offset=".12" stop-color="#f4c83e"/>
+            <stop offset=".5"  stop-color="#c29d28"/>
+            <stop offset=".8"  stop-color="#977a1f"/>
+            <stop offset="1"   stop-color="#6d5816"/>
+          </linearGradient>
+          <linearGradient id="face2" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"   stop-color="#f5cc4d"/>
+            <stop offset=".5"  stop-color="#F3C432"/>
+            <stop offset="1"   stop-color="#d6ac2c"/>
+          </linearGradient>
+          <linearGradient id="side3" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"   stop-color="#90c69b"/>
+            <stop offset=".12" stop-color="#6ab279"/>
+            <stop offset=".5"  stop-color="#4d8a5a"/>
+            <stop offset=".8"  stop-color="#3c6b45"/>
+            <stop offset="1"   stop-color="#2b4e32"/>
+          </linearGradient>
+          <linearGradient id="face3" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"   stop-color="#75b883"/>
+            <stop offset=".5"  stop-color="#60AD70"/>
+            <stop offset="1"   stop-color="#549863"/>
+          </linearGradient>
+          <linearGradient id="side4" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"   stop-color="#4d92c1"/>
+            <stop offset=".12" stop-color="#106cab"/>
+            <stop offset=".5"  stop-color="#014f85"/>
+            <stop offset=".8"  stop-color="#013d67"/>
+            <stop offset="1"   stop-color="#002d4b"/>
+          </linearGradient>
+          <linearGradient id="face4" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"   stop-color="#2277b2"/>
+            <stop offset=".5"  stop-color="#0163A6"/>
+            <stop offset="1"   stop-color="#015792"/>
+          </linearGradient>
+          <linearGradient id="side5" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"   stop-color="#958ac3"/>
+            <stop offset=".12" stop-color="#7162ae"/>
+            <stop offset=".5"  stop-color="#534687"/>
+            <stop offset=".8"  stop-color="#403769"/>
+            <stop offset="1"   stop-color="#2f284c"/>
+          </linearGradient>
+          <linearGradient id="face5" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"   stop-color="#7c6eb4"/>
+            <stop offset=".5"  stop-color="#6858A9"/>
+            <stop offset="1"   stop-color="#5c4d95"/>
+          </linearGradient>
+          <linearGradient id="side6" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"   stop-color="#e79fd3"/>
+            <stop offset=".12" stop-color="#df7ec4"/>
+            <stop offset=".5"  stop-color="#b15e9a"/>
+            <stop offset=".8"  stop-color="#894977"/>
+            <stop offset="1"   stop-color="#633556"/>
+          </linearGradient>
+          <linearGradient id="face6" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"   stop-color="#e188c8"/>
+            <stop offset=".5"  stop-color="#DD76C0"/>
+            <stop offset="1"   stop-color="#c268a9"/>
+          </linearGradient>
+          <linearGradient id="side7" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"   stop-color="#bfdee9"/>
+            <stop offset=".12" stop-color="#a9d3e1"/>
+            <stop offset=".5"  stop-color="#83a6b2"/>
+            <stop offset=".8"  stop-color="#66818a"/>
+            <stop offset="1"   stop-color="#4a5e64"/>
+          </linearGradient>
+          <linearGradient id="face7" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"   stop-color="#b0d6e3"/>
+            <stop offset=".5"  stop-color="#A4D0DF"/>
+            <stop offset="1"   stop-color="#90b7c4"/>
+          </linearGradient></defs>
+        <path d="M 26 0 L 70 0 A 26 26 0 0 1 87.73 6.98 A 7 7 0 0 0 97.27 6.98 A 26 26 0 0 1 115 0 L 159 0 A 26 26 0 0 1 176.73 6.98 A 7 7 0 0 0 186.27 6.98 A 26 26 0 0 1 204 0 L 248 0 A 26 26 0 0 1 265.73 6.98 A 7 7 0 0 0 275.27 6.98 A 26 26 0 0 1 293 0 L 337 0 A 26 26 0 0 1 354.73 6.98 A 7 7 0 0 0 364.27 6.98 A 26 26 0 0 1 382 0 L 426 0 A 26 26 0 0 1 443.73 6.98 A 7 7 0 0 0 453.27 6.98 A 26 26 0 0 1 471 0 L 515 0 A 26 26 0 0 1 532.73 6.98 A 7 7 0 0 0 542.27 6.98 A 26 26 0 0 1 560 0 L 604 0 A 26 26 0 0 1 621.73 6.98 A 7 7 0 0 0 631.27 6.98 A 26 26 0 0 1 649 0 L 693 0 Q 719 0 719 26 L 719 75 Q 719 101 693 101 L 649 101 A 26 26 0 0 1 631.27 94.02 A 7 7 0 0 0 621.73 94.02 A 26 26 0 0 1 604 101 L 560 101 A 26 26 0 0 1 542.27 94.02 A 7 7 0 0 0 532.73 94.02 A 26 26 0 0 1 515 101 L 471 101 A 26 26 0 0 1 453.27 94.02 A 7 7 0 0 0 443.73 94.02 A 26 26 0 0 1 426 101 L 382 101 A 26 26 0 0 1 364.27 94.02 A 7 7 0 0 0 354.73 94.02 A 26 26 0 0 1 337 101 L 293 101 A 26 26 0 0 1 275.27 94.02 A 7 7 0 0 0 265.73 94.02 A 26 26 0 0 1 248 101 L 204 101 A 26 26 0 0 1 186.27 94.02 A 7 7 0 0 0 176.73 94.02 A 26 26 0 0 1 159 101 L 115 101 A 26 26 0 0 1 97.27 94.02 A 7 7 0 0 0 87.73 94.02 A 26 26 0 0 1 70 101 L 26 101 Q 0 101 0 75 L 0 26 Q 0 0 26 0 Z" fill="#aba7a5"/>
+        <path d="M 26 0 L 70 0 A 26 26 0 0 1 87.73 6.98 A 7 7 0 0 0 97.27 6.98 A 26 26 0 0 1 115 0 L 159 0 A 26 26 0 0 1 176.73 6.98 A 7 7 0 0 0 186.27 6.98 A 26 26 0 0 1 204 0 L 248 0 A 26 26 0 0 1 265.73 6.98 A 7 7 0 0 0 275.27 6.98 A 26 26 0 0 1 293 0 L 337 0 A 26 26 0 0 1 354.73 6.98 A 7 7 0 0 0 364.27 6.98 A 26 26 0 0 1 382 0 L 426 0 A 26 26 0 0 1 443.73 6.98 A 7 7 0 0 0 453.27 6.98 A 26 26 0 0 1 471 0 L 515 0 A 26 26 0 0 1 532.73 6.98 A 7 7 0 0 0 542.27 6.98 A 26 26 0 0 1 560 0 L 604 0 A 26 26 0 0 1 621.73 6.98 A 7 7 0 0 0 631.27 6.98 A 26 26 0 0 1 649 0 L 693 0 Q 719 0 719 26 L 719 70 Q 719 96 693 96 L 649 96 A 26 26 0 0 1 631.27 89.02 A 7 7 0 0 0 621.73 89.02 A 26 26 0 0 1 604 96 L 560 96 A 26 26 0 0 1 542.27 89.02 A 7 7 0 0 0 532.73 89.02 A 26 26 0 0 1 515 96 L 471 96 A 26 26 0 0 1 453.27 89.02 A 7 7 0 0 0 443.73 89.02 A 26 26 0 0 1 426 96 L 382 96 A 26 26 0 0 1 364.27 89.02 A 7 7 0 0 0 354.73 89.02 A 26 26 0 0 1 337 96 L 293 96 A 26 26 0 0 1 275.27 89.02 A 7 7 0 0 0 265.73 89.02 A 26 26 0 0 1 248 96 L 204 96 A 26 26 0 0 1 186.27 89.02 A 7 7 0 0 0 176.73 89.02 A 26 26 0 0 1 159 96 L 115 96 A 26 26 0 0 1 97.27 89.02 A 7 7 0 0 0 87.73 89.02 A 26 26 0 0 1 70 96 L 26 96 Q 0 96 0 70 L 0 26 Q 0 0 26 0 Z" fill="#F4EFEB"/>
+        <path d="M 26 0 L 70 0 A 26 26 0 0 1 87.73 6.98 A 7 7 0 0 0 97.27 6.98 A 26 26 0 0 1 115 0 L 159 0 A 26 26 0 0 1 176.73 6.98 A 7 7 0 0 0 186.27 6.98 A 26 26 0 0 1 204 0 L 248 0 A 26 26 0 0 1 265.73 6.98 A 7 7 0 0 0 275.27 6.98 A 26 26 0 0 1 293 0 L 337 0 A 26 26 0 0 1 354.73 6.98 A 7 7 0 0 0 364.27 6.98 A 26 26 0 0 1 382 0 L 426 0 A 26 26 0 0 1 443.73 6.98 A 7 7 0 0 0 453.27 6.98 A 26 26 0 0 1 471 0 L 515 0 A 26 26 0 0 1 532.73 6.98 A 7 7 0 0 0 542.27 6.98 A 26 26 0 0 1 560 0 L 604 0 A 26 26 0 0 1 621.73 6.98 A 7 7 0 0 0 631.27 6.98 A 26 26 0 0 1 649 0 L 693 0 Q 719 0 719 26 L 719 70 Q 719 96 693 96 L 649 96 A 26 26 0 0 1 631.27 89.02 A 7 7 0 0 0 621.73 89.02 A 26 26 0 0 1 604 96 L 560 96 A 26 26 0 0 1 542.27 89.02 A 7 7 0 0 0 532.73 89.02 A 26 26 0 0 1 515 96 L 471 96 A 26 26 0 0 1 453.27 89.02 A 7 7 0 0 0 443.73 89.02 A 26 26 0 0 1 426 96 L 382 96 A 26 26 0 0 1 364.27 89.02 A 7 7 0 0 0 354.73 89.02 A 26 26 0 0 1 337 96 L 293 96 A 26 26 0 0 1 275.27 89.02 A 7 7 0 0 0 265.73 89.02 A 26 26 0 0 1 248 96 L 204 96 A 26 26 0 0 1 186.27 89.02 A 7 7 0 0 0 176.73 89.02 A 26 26 0 0 1 159 96 L 115 96 A 26 26 0 0 1 97.27 89.02 A 7 7 0 0 0 87.73 89.02 A 26 26 0 0 1 70 96 L 26 96 Q 0 96 0 70 L 0 26 Q 0 0 26 0 Z" fill="none" stroke="#f6f2ee" stroke-width="1.5" opacity=".55"/>
+        <g class="cap-g" data-cap="0">
+          <rect x="7" y="10" width="82" height="82" rx="19" fill="rgba(0,0,0,.28)"/>
+          <rect x="7" y="7" width="82" height="82" rx="19" fill="url(#side0)"/>
+          <rect x="12" y="14.5" width="72" height="72" rx="15.5" fill="rgba(0,0,0,.16)"/>
+          <rect x="13" y="11" width="70" height="70" rx="14.5" fill="url(#face0)"/>
+          <ellipse cx="48" cy="28" rx="26" ry="9" fill="#fff" opacity=".40"/>
+          <text x="48" y="67.94800000000001" text-anchor="middle"
+                     font-family="'AvenirNextLTPro-Bold','IBM Plex Sans','Segoe UI Symbol',sans-serif" font-weight="700"
+                     font-size="62" fill="#FFFFFF"
+                     opacity=".95">C</text>
+        </g>
+        <g class="cap-g" data-cap="1">
+          <rect x="96" y="10" width="82" height="82" rx="19" fill="rgba(0,0,0,.28)"/>
+          <rect x="96" y="7" width="82" height="82" rx="19" fill="url(#side1)"/>
+          <rect x="101" y="14.5" width="72" height="72" rx="15.5" fill="rgba(0,0,0,.16)"/>
+          <rect x="102" y="11" width="70" height="70" rx="14.5" fill="url(#face1)"/>
+          <ellipse cx="137" cy="28" rx="26" ry="9" fill="#fff" opacity=".40"/>
+          <text x="137" y="67.94800000000001" text-anchor="middle"
+                     font-family="'AvenirNextLTPro-Bold','IBM Plex Sans','Segoe UI Symbol',sans-serif" font-weight="700"
+                     font-size="62" fill="#FFFFFF"
+                     opacity=".95">L</text>
+        </g>
+        <g class="cap-g" data-cap="2">
+          <rect x="185" y="10" width="82" height="82" rx="19" fill="rgba(0,0,0,.28)"/>
+          <rect x="185" y="7" width="82" height="82" rx="19" fill="url(#side2)"/>
+          <rect x="190" y="14.5" width="72" height="72" rx="15.5" fill="rgba(0,0,0,.16)"/>
+          <rect x="191" y="11" width="70" height="70" rx="14.5" fill="url(#face2)"/>
+          <ellipse cx="226" cy="28" rx="26" ry="9" fill="#fff" opacity=".40"/>
+          <text x="226" y="67.94800000000001" text-anchor="middle"
+                     font-family="'AvenirNextLTPro-Bold','IBM Plex Sans','Segoe UI Symbol',sans-serif" font-weight="700"
+                     font-size="62" fill="#FFFFFF"
+                     opacity=".95">I</text>
+        </g>
+        <g class="cap-g" data-cap="3">
+          <rect x="274" y="10" width="82" height="82" rx="19" fill="rgba(0,0,0,.28)"/>
+          <rect x="274" y="7" width="82" height="82" rx="19" fill="url(#side3)"/>
+          <rect x="279" y="14.5" width="72" height="72" rx="15.5" fill="rgba(0,0,0,.16)"/>
+          <rect x="280" y="11" width="70" height="70" rx="14.5" fill="url(#face3)"/>
+          <ellipse cx="315" cy="28" rx="26" ry="9" fill="#fff" opacity=".40"/>
+          <text x="315" y="67.94800000000001" text-anchor="middle"
+                     font-family="'AvenirNextLTPro-Bold','IBM Plex Sans','Segoe UI Symbol',sans-serif" font-weight="700"
+                     font-size="62" fill="#FFFFFF"
+                     opacity=".95">C</text>
+        </g>
+        <g class="cap-g" data-cap="4">
+          <rect x="363" y="10" width="82" height="82" rx="19" fill="rgba(0,0,0,.28)"/>
+          <rect x="363" y="7" width="82" height="82" rx="19" fill="url(#side4)"/>
+          <rect x="368" y="14.5" width="72" height="72" rx="15.5" fill="rgba(0,0,0,.16)"/>
+          <rect x="369" y="11" width="70" height="70" rx="14.5" fill="url(#face4)"/>
+          <ellipse cx="404" cy="28" rx="26" ry="9" fill="#fff" opacity=".40"/>
+          <text x="404" y="67.94800000000001" text-anchor="middle"
+                     font-family="'AvenirNextLTPro-Bold','IBM Plex Sans','Segoe UI Symbol',sans-serif" font-weight="700"
+                     font-size="62" fill="#FFFFFF"
+                     opacity=".95">K</text>
+        </g>
+        <g class="cap-g" data-cap="5">
+          <rect x="452" y="10" width="82" height="82" rx="19" fill="rgba(0,0,0,.28)"/>
+          <rect x="452" y="7" width="82" height="82" rx="19" fill="url(#side5)"/>
+          <rect x="457" y="14.5" width="72" height="72" rx="15.5" fill="rgba(0,0,0,.16)"/>
+          <rect x="458" y="11" width="70" height="70" rx="14.5" fill="url(#face5)"/>
+          <ellipse cx="493" cy="28" rx="26" ry="9" fill="#fff" opacity=".40"/>
+          <text x="493" y="67.94800000000001" text-anchor="middle"
+                     font-family="'AvenirNextLTPro-Bold','IBM Plex Sans','Segoe UI Symbol',sans-serif" font-weight="700"
+                     font-size="62" fill="#FFFFFF"
+                     opacity=".95">E</text>
+        </g>
+        <g class="cap-g" data-cap="6">
+          <rect x="541" y="10" width="82" height="82" rx="19" fill="rgba(0,0,0,.28)"/>
+          <rect x="541" y="7" width="82" height="82" rx="19" fill="url(#side6)"/>
+          <rect x="546" y="14.5" width="72" height="72" rx="15.5" fill="rgba(0,0,0,.16)"/>
+          <rect x="547" y="11" width="70" height="70" rx="14.5" fill="url(#face6)"/>
+          <ellipse cx="582" cy="28" rx="26" ry="9" fill="#fff" opacity=".40"/>
+          <text x="582" y="67.94800000000001" text-anchor="middle"
+                     font-family="'AvenirNextLTPro-Bold','IBM Plex Sans','Segoe UI Symbol',sans-serif" font-weight="700"
+                     font-size="62" fill="#FFFFFF"
+                     opacity=".95">R</text>
+        </g>
+        <g class="cap-g" data-cap="7">
+          <rect x="630" y="10" width="82" height="82" rx="19" fill="rgba(0,0,0,.28)"/>
+          <rect x="630" y="7" width="82" height="82" rx="19" fill="url(#side7)"/>
+          <rect x="635" y="14.5" width="72" height="72" rx="15.5" fill="rgba(0,0,0,.16)"/>
+          <rect x="636" y="11" width="70" height="70" rx="14.5" fill="url(#face7)"/>
+          <ellipse cx="671" cy="28" rx="26" ry="9" fill="#fff" opacity=".40"/>
+          <text x="671" y="67.94800000000001" text-anchor="middle"
+                     font-family="'AvenirNextLTPro-Bold','IBM Plex Sans','Segoe UI Symbol',sans-serif" font-weight="700"
+                     font-size="62" fill="#FFFFFF"
+                     opacity=".95">Z</text>
+        </g>
+              </svg>
