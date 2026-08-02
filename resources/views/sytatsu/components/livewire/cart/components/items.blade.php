@@ -8,8 +8,15 @@
                      src="{{ $line['thumbnail'] ?? \App\Services\WebstoreHelperService::productPlaceholderImage() }}">
 
                 <div class="flex-1 ml-4">
+                    @php
+                        $barBuilder = $line['meta']['bar_builder'] ?? null;
+                        $productLink = $barBuilder
+                            ? route('sytatsu.webstore.clickerz-bar-builder')
+                            : \App\Services\WebstoreHelperService::getProductRoute($line['purchasable']->product, ['purchasable_id' => $line['purchasable']->id]);
+                    @endphp
+
                     <div class="flex flex-row justify-between text-sm font-medium text-black dark:text-white">
-                        <a href="{{ \App\Services\WebstoreHelperService::getProductRoute($line['purchasable']->product, ['purchasable_id' => $line['purchasable']->id]) }}" class="{{ Route::currentRouteName() === 'sytatsu.webstore.cart' ? 'max-w-[40ch]' : 'max-w-[20ch]' }} hover:underline">
+                        <a href="{{ $productLink }}" class="{{ Route::currentRouteName() === 'sytatsu.webstore.cart' ? 'max-w-[40ch]' : 'max-w-[20ch]' }} hover:underline">
                             <span class="font-bold">{{ $line['description'] }}</span>
 
                             @if($line['options'])
@@ -20,9 +27,9 @@
                         <span>{{ $line['sub_total'] }}</span>
                     </div>
 
-                    @if($barBuilder = ($line['meta']['bar_builder'] ?? null))
+                    @if($barBuilder)
                         <p class="-mt-1 text-xs text-gray-500 dark:text-gray-400 font-mono">
-                            &ldquo;{{ $barBuilder['text'] }}&rdquo; &middot; {{ $barBuilder['base_colour']['name'] }} &middot; {{ __('Ref') }} {{ $barBuilder['reference'] }}
+                            &ldquo;{{ $barBuilder['text'] }}&rdquo;
                         </p>
                     @endif
 
