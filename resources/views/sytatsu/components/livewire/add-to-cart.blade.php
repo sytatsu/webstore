@@ -6,12 +6,12 @@
                     {{ $this->purchasable->basePrices->first()->price->formatted() }}
                 </p>
 
-                <span class="text-xs font-bold avenir-bold uppercase tracking-widest text-gray-400">({{ __('Including Taxes') }})</span>
+                <span class="font-mono text-[10px] tracking-[.16em] uppercase text-gray-400">({{ __('Including Taxes') }})</span>
             @endif
 
             @if($this->purchasable && $this->purchasable->purchasable === 'in_stock')
                 @if ($this->availableStock !== 0)
-                    <span class="block mt-2 text-xs font-bold avenir-bold uppercase tracking-widest text-primary">{{ $this->availableStock }} {{ __('Available') }}</span>
+                    <span class="block mt-2 font-mono text-[10px] tracking-[.16em] uppercase text-primary">{{ $this->availableStock }} {{ __('Available') }}</span>
                 @endif
             @endif
         </div>
@@ -25,7 +25,7 @@
         <div class="flex flex-col sm:flex-row gap-4">
             @if (!$this->minimalistic)
                 <label for="quantity" class="sr-only">{{ __('Quantity') }}</label>
-                <div class="flex rounded-none bg-gray-50 dark:bg-slate-900">
+                <div class="flex rounded-xl overflow-hidden bg-gray-50 dark:bg-slate-900">
                     <button type="button" class="size-11.5 m-0 inline-flex justify-center items-center gap-x-2 text-sm font-semibold border border-transparent text-black dark:text-white bg-transparent hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
                             wire:loading.attr="disabled" wire:click.prevent="increment()" @disabled($this->purchasable && $this->purchasable->purchasable === 'in_stock' && $this->availableStock <= $quantity)>
                         <i class="fa fa-plus"></i>

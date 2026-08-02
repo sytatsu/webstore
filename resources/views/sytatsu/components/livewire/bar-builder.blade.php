@@ -189,7 +189,7 @@
                 </div>
 
                 <button type="button"
-                        class="w-full rounded-xl bg-black dark:bg-white text-white dark:text-black font-display avenir-bold tracking-wide py-3.5 text-sm hover:bg-secondary dark:hover:bg-secondary dark:hover:text-white transition-colors"
+                        class="w-full rounded-xl bg-secondary hover:bg-secondary-dark text-white avenir-bold uppercase tracking-widest py-3.5 text-sm shadow-sm hover:shadow-md active:shadow-inner active:translate-y-px transition-all duration-200 disabled:opacity-50 disabled:pointer-events-none"
                         @click="addToCart()" wire:loading.attr="disabled" wire:target="addToCart">
                     {{ __('ADD TO CART') }} &mdash; <span x-text="currentPrice"></span>
                 </button>

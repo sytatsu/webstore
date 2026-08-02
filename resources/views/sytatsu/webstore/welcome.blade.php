@@ -1,7 +1,7 @@
 <div class="{{ $maxWidth ?? 'max-w-[85rem]' }} w-full mx-auto">
     <!-- Hero Section -->
-    <div class="relative mb-8 overflow-hidden">
-        <div class="relative bg-linear-to-br from-primary to-primary-dark dark:from-slate-800 dark:to-slate-900 shadow-md dark:shadow-slate-700 ">
+    <div class="relative mb-8 rounded-2xl overflow-hidden">
+        <div class="relative rounded-2xl bg-linear-to-br from-primary to-primary-dark dark:from-slate-800 dark:to-slate-900 shadow-md dark:shadow-slate-700 ">
             <div class="relative z-20 px-6 pt-12 pb-12 md:px-12 md:py-20 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12 min-h-[400px] md:min-h-[500px]">
                 <div class="flex flex-col gap-8 w-full md:max-w-none">
                     <div class="flex flex-row items-center justify-between gap-4 md:block">
@@ -28,10 +28,10 @@
                         </div>
                     </div>
                     <div class="flex flex-wrap justify-start gap-4">
-                        <a href="{{ route('sytatsu.webstore.collections') }}" class="px-6 py-2.5 md:px-8 md:py-3 bg-white dark:bg-primary-dark text-primary dark:text-white avenir-bold hover:bg-gray-100 dark:hover:bg-primary font-bold rounded-lg transition-colors shadow-lg text-sm md:text-base">
+                        <a href="{{ route('sytatsu.webstore.collections') }}" class="px-6 py-2.5 md:px-8 md:py-3 bg-white dark:bg-primary-dark text-primary dark:text-white avenir-bold hover:bg-gray-100 dark:hover:bg-primary font-bold rounded-xl transition-colors shadow-lg text-sm md:text-base">
                             {{ __('View Collections') }}
                         </a>
-                        <a href="{{ route('sytatsu.about') }}" class="px-6 py-2.5 md:px-8 md:py-3 bg-white/10 hover:bg-white/20 text-white font-bold rounded-lg transition-colors backdrop-blur-sm border border-white/20 text-sm md:text-base">
+                        <a href="{{ route('sytatsu.about') }}" class="px-6 py-2.5 md:px-8 md:py-3 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl transition-colors backdrop-blur-sm border border-white/20 text-sm md:text-base">
                             {{ __('About Us') }}
                         </a>
                     </div>

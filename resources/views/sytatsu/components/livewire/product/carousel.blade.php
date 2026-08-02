@@ -4,7 +4,7 @@
     "isInfiniteLoop": true,
     "isDraggable": true
 }' class="relative">
-    <div class="hs-carousel relative overflow-x-hidden min-w-full bg-white mb-4 md:mb-0 shadow-lg dark:shadow-slate-700">
+    <div class="hs-carousel relative overflow-hidden rounded-2xl min-w-full bg-white mb-4 md:mb-0 shadow-lg dark:shadow-slate-700">
 
         @if ($this->carouselType === \App\Enums\CarouselTypeEnum::COMPACT)
             <a class="flex flex-col aspect-square bg-gray-100 dark:bg-slate-700" href="{{ \App\Services\WebstoreHelperService::getProductRoute($this->product) }}">
