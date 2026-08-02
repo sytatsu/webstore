@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Clusters\BarBuilder;
 use App\Filament\Resources\BarBuilderIconResource\Pages;
+use App\Filament\Resources\Concerns\HasTranslatableName;
 use App\Models\BarBuilderIcon;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -15,13 +16,14 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Support\Str;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class BarBuilderIconResource extends Resource
 {
+    use HasTranslatableName;
+
     protected static ?string $cluster = BarBuilder::class;
 
     protected static ?string $model = BarBuilderIcon::class;
@@ -69,9 +71,7 @@ class BarBuilderIconResource extends Resource
                                 $set('scale', $parsed['scale']);
                             })
                             ->columnSpanFull(),
-                        TextInput::make('name')
-                            ->placeholder('e.g. Dog paw')
-                            ->required(),
+                        static::nameFormFieldset('e.g. Dog paw', 'e.g. Hondenpoot'),
                         Textarea::make('svg_paths')
                             ->label('SVG path data')
                             ->helperText('One SVG "d" path per line, authored on a 0-100 canvas. Multiple lines are layered into one icon.')
@@ -121,9 +121,7 @@ class BarBuilderIconResource extends Resource
             ->reorderable('sort_order')
             ->defaultSort('sort_order')
             ->columns([
-                TextColumn::make('name')
-                    ->searchable()
-                    ->sortable(),
+                static::nameTableColumn(),
                 ToggleColumn::make('enabled'),
             ])
             ->actions([
@@ -133,7 +131,7 @@ class BarBuilderIconResource extends Resource
                     ->color('gray')
                     ->action(fn (BarBuilderIcon $record) => response()->streamDownload(
                         fn () => print (static::iconToSvgMarkup($record)),
-                        Str::slug($record->name).'.svg',
+                        Str::slug($record->translate('name')).'.svg',
                         ['Content-Type' => 'image/svg+xml']
                     )),
                 Tables\Actions\EditAction::make(),

@@ -1,7 +1,7 @@
 <div
     x-data="barBuilder(@js($catalog))"
     x-init="init()"
-    @bar-builder-added.window="flash(__('Added to cart') + ' &middot; ' + $event.detail.reference)"
+    @bar-builder-added.window="flash('{{ __('Added to cart') }}' + ' &middot; ' + $event.detail.reference)"
     @bar-builder-error.window="flash($event.detail.message)"
     class="rounded-2xl bg-white dark:bg-slate-800 shadow-md dark:shadow-slate-700"
 >
@@ -65,42 +65,63 @@
                 </div>
 
                 <label class="sr-only" for="bar-builder-word">{{ __('Bar text') }}</label>
-                <input id="bar-builder-word"
-                       class="w-full border border-gray-300 dark:border-gray-500 rounded-lg bg-white dark:bg-slate-900 px-3.5 py-3 font-mono text-lg tracking-[.22em] uppercase text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-secondary"
-                       :maxlength="MAX" autocomplete="off" spellcheck="false"
-                       :value="word" @input="setWord($event.target.value)" placeholder="{{ __('YOUR WORD') }}">
+                <div class="relative">
+                    <input id="bar-builder-word"
+                           class="w-full border border-gray-300 dark:border-gray-500 rounded-lg bg-white dark:bg-slate-900 px-3.5 py-3 font-mono text-lg tracking-[.22em] uppercase text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-secondary"
+                           :maxlength="MAX" autocomplete="off" spellcheck="false"
+                           :value="word"
+                           :placeholder="caps.some(c => c.icon) ? '' : '{{ __('YOUR WORD') }}'"
+                           @input="setWord($event.target.value); syncSelectionFromInput($event.target)"
+                           @click="syncSelectionFromInput($event.target)"
+                           @keyup="syncSelectionFromInput($event.target)"
+                           @focus="syncSelectionFromInput($event.target)">
+                    <template x-for="item in iconOverlays" :key="'icon-ovl-' + item.i">
+                        <svg viewBox="0 0 100 100" width="18" height="18"
+                             class="absolute top-1/2 -translate-y-1/2 text-black dark:text-white pointer-events-none"
+                             :style="`left: ${item.left}px`"
+                             aria-hidden="true">
+                            <g :transform="`translate(${(50 - item.icon.scale * item.icon.cx).toFixed(2)} ${(50 - item.icon.scale * item.icon.cy).toFixed(2)}) scale(${item.icon.scale})`">
+                                <path :d="item.icon.path" fill="currentColor"></path>
+                            </g>
+                        </svg>
+                    </template>
+                </div>
                 <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
                     {{ __('Letters, digits and symbols.') }} <span x-text="MIN"></span>&ndash;<span x-text="MAX"></span> {{ __('caps. Select a cap and type to change one at a time.') }}
                 </p>
 
                 @if(count($catalog['icons']))
                     <div class="mt-4" :class="!hasSelection && 'opacity-40 pointer-events-none'">
-                        <div class="font-mono text-[10px] tracking-[.16em] uppercase text-gray-500 dark:text-gray-400 mb-2 flex items-center gap-2">
+                        <div class="font-mono text-[10px] tracking-[.16em] uppercase text-gray-500 dark:text-gray-400 mb-2">
                             <span x-show="hasSelection">{{ __('Icons') }} &mdash; {{ __('applied to cap') }} <span x-text="selected + 1"></span></span>
                             <span x-show="!hasSelection">{{ __('Icons') }} &mdash; {{ __('select a cap first') }}</span>
-                            <template x-if="hasSelection && caps[selected]?.icon">
-                                <svg viewBox="0 0 100 100" width="16" height="16" class="text-black dark:text-white shrink-0" aria-hidden="true">
-                                    <g :transform="`translate(${(50 - caps[selected].icon.scale * caps[selected].icon.cx).toFixed(2)} ${(50 - caps[selected].icon.scale * caps[selected].icon.cy).toFixed(2)}) scale(${caps[selected].icon.scale})`">
-                                        <path :d="caps[selected].icon.path" fill="currentColor"></path>
-                                    </g>
-                                </svg>
-                            </template>
                         </div>
                         <div class="grid grid-cols-10 gap-1.5">
                             <template x-for="ic in ICONS" :key="ic.id">
-                                <button type="button"
-                                        class="aspect-square grid place-items-center rounded-lg bg-white dark:bg-slate-900 border border-gray-300 dark:border-gray-600 text-black dark:text-white hover:border-black dark:hover:border-white"
-                                        :disabled="!hasSelection" :title="ic.name" :aria-label="ic.name"
-                                        @click="setIcon(selected, ic); next()">
-                                    <svg viewBox="0 0 100 100" width="20" height="20" aria-hidden="true">
-                                        <g :transform="`translate(${(50 - ic.scale * ic.cx).toFixed(2)} ${(50 - ic.scale * ic.cy).toFixed(2)}) scale(${ic.scale})`">
-                                            <path :d="ic.path" fill="currentColor"></path>
-                                        </g>
-                                    </svg>
-                                </button>
+                                <div class="relative group">
+                                    <button type="button"
+                                            class="aspect-square w-full grid place-items-center rounded-lg bg-white dark:bg-slate-900 border border-gray-300 dark:border-gray-600 text-black dark:text-white hover:border-black dark:hover:border-white"
+                                            :disabled="!hasSelection" :aria-label="ic.name"
+                                            @click="chooseIcon(ic)">
+                                        <svg viewBox="0 0 100 100" width="20" height="20" aria-hidden="true">
+                                            <g :transform="`translate(${(50 - ic.scale * ic.cx).toFixed(2)} ${(50 - ic.scale * ic.cy).toFixed(2)}) scale(${ic.scale})`">
+                                                <path :d="ic.path" fill="currentColor"></path>
+                                            </g>
+                                        </svg>
+                                    </button>
+                                    <span class="pointer-events-none absolute left-1/2 bottom-full -translate-x-1/2 mb-1.5 whitespace-nowrap rounded-md bg-black dark:bg-white px-2 py-1 font-mono text-[10px] text-white dark:text-black opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                                          x-text="ic.name"></span>
+                                </div>
                             </template>
-                            <button type="button" class="aspect-square rounded-lg bg-white dark:bg-slate-900 border border-gray-300 dark:border-gray-600 text-[11px] text-gray-500 dark:text-gray-400 col-span-2"
-                                    :disabled="!hasSelection" @click="setChar(selected, ' ')">{{ __('blank') }}</button>
+                            <div class="relative group">
+                                <button type="button"
+                                        class="aspect-square w-full grid place-items-center rounded-lg bg-white dark:bg-slate-900 border border-gray-300 dark:border-gray-600 hover:border-black dark:hover:border-white"
+                                        :disabled="!hasSelection" aria-label="{{ __('Blank') }}"
+                                        @click="setChar(selected, ' ')">
+                                    <span class="block w-3.5 h-3.5 rounded-[3px] border border-dashed border-gray-400 dark:border-gray-500"></span>
+                                </button>
+                                <span class="pointer-events-none absolute left-1/2 bottom-full -translate-x-1/2 mb-1.5 whitespace-nowrap rounded-md bg-black dark:bg-white px-2 py-1 font-mono text-[10px] text-white dark:text-black opacity-0 group-hover:opacity-100 transition-opacity z-10">{{ __('Blank') }}</span>
+                            </div>
                         </div>
                     </div>
                 @endif
@@ -151,7 +172,7 @@
                                 :title="isAvail(c) ? c.name : c.name + ' &mdash; {{ __('unavailable') }}'"
                                 :disabled="!isAvail(c)"
                                 :aria-pressed="(baseHex === c.hex).toString()"
-                                @click="baseHex = c.hex">
+                                @click="setBaseColor(c.hex)">
                             <span x-show="baseHex === c.hex" class="absolute -inset-1 rounded-full ring-2 ring-secondary"></span>
                             <span x-show="!isAvail(c)" class="absolute inset-0 rounded-[inherit] pointer-events-none"
                                   style="background: linear-gradient(to top right, transparent calc(50% - 1.1px), rgba(0,0,0,.6) calc(50% - 1.1px), rgba(0,0,0,.6) calc(50% + 1.1px), transparent calc(50% + 1.1px));"></span>
@@ -201,17 +222,78 @@
         BASE_COLORS: catalog.baseColors,
         CAP_COMBOS: catalog.capCombos,
         ICONS: catalog.icons,
+        DEFAULTS: catalog.defaults,
+        DRAFT: catalog.draft,
 
         word: '',
         caps: [],
-        baseHex: catalog.baseColors.find(c => c.available)?.hex ?? catalog.baseColors[0]?.hex,
+        baseHex: catalog.defaults?.baseColorHex ?? (catalog.baseColors.find(c => c.available)?.hex ?? catalog.baseColors[0]?.hex),
         selected: 0,
         pressed: null,
         showPayload: false,
         toast: '',
 
         init() {
-            this.setWord('CLICKERZ'.slice(0, this.MAX));
+            if (window.barBuilderHydrated) return;
+            window.barBuilderHydrated = true;
+
+            if (this.DRAFT) {
+                this.loadFromMeta(this.DRAFT);
+                return;
+            }
+            this.initFromDefaults();
+        },
+        initFromDefaults() {
+            const defaults = this.DEFAULTS || {};
+            const word = (defaults.word || 'CLICKERZ').toUpperCase().slice(0, this.MAX);
+            // A trailing icon cap has no character, so defaults.caps can be
+            // longer than the (trimmed) word — don't lose those positions.
+            const length = Math.max(word.length, defaults.caps?.length ?? 0, this.MIN);
+            const chars = [...word];
+            while (chars.length < length) chars.push(' ');
+
+            this.caps = chars.map((ch, i) => {
+                const def = defaults.caps?.[i];
+                const combo = def ? {cap: def.cap, text: def.text} : pick(this.availableCombos);
+                const icon = def?.icon ?? null;
+                return {char: icon ? ' ' : ch, hex: combo.cap, textHex: combo.text, icon};
+            });
+
+            this.word = this.caps.map(c => c.char).join('').trimEnd();
+            this.selected = Math.min(this.selected, this.caps.length - 1);
+        },
+        // Restores a design previously saved via queueDraftSave(), which takes
+        // priority over the admin-configured defaults whenever both exist.
+        loadFromMeta(meta) {
+            const word = (meta.text || '').toUpperCase().slice(0, this.MAX);
+            // A trailing icon cap has no character, so meta.caps can be
+            // longer than the (trimmed) word — don't lose those positions.
+            const length = Math.max(word.length, meta.caps?.length ?? 0, this.MIN);
+            const chars = [...word];
+            while (chars.length < length) chars.push(' ');
+
+            this.caps = chars.map((ch, i) => {
+                const capMeta = meta.caps?.[i];
+                const fallback = pick(this.availableCombos);
+                const icon = capMeta?.icon ? (this.ICONS.find(ic => ic.id === capMeta.icon.id) ?? null) : null;
+
+                return {
+                    char: icon ? ' ' : ch,
+                    hex: capMeta?.colour?.hex ?? fallback.cap,
+                    textHex: capMeta?.text_colour?.hex ?? fallback.text,
+                    icon,
+                };
+            });
+
+            this.word = this.caps.map(c => c.char).join('').trimEnd();
+            this.baseHex = meta.base_colour?.hex ?? this.baseHex;
+            this.selected = Math.min(this.selected, this.caps.length - 1);
+        },
+        queueDraftSave() {
+            clearTimeout(this._draftSaveTimer);
+            this._draftSaveTimer = setTimeout(() => {
+                this.$wire.saveDraft(this.payload.meta);
+            }, 1800);
         },
 
         get availableCombos() {
@@ -311,6 +393,49 @@
               </svg>`;
         },
 
+        get iconOverlays() {
+            const inputEl = document.getElementById('bar-builder-word');
+            if (!inputEl) return [];
+
+            const style = getComputedStyle(inputEl);
+
+            if (!this._measureCanvas) this._measureCanvas = document.createElement('canvas');
+            const ctx = this._measureCanvas.getContext('2d');
+            ctx.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+            if ('letterSpacing' in ctx) ctx.letterSpacing = style.letterSpacing;
+
+            const paddingLeft = parseFloat(style.paddingLeft) || 0;
+            let acc = '';
+            const overlays = [];
+
+            this.caps.forEach((cap, i) => {
+                const left = paddingLeft + ctx.measureText(acc).width;
+
+                if (cap.icon) {
+                    overlays.push({i, left, icon: cap.icon});
+                }
+
+                acc += (cap.char ?? ' ');
+            });
+
+            return overlays;
+        },
+
+        syncSelectionFromInput(el) {
+            if (!this.caps.length) return;
+            const pos = el.selectionStart ?? 0;
+            this.selected = Math.min(pos, this.caps.length - 1);
+        },
+        focusWordInputAt(index) {
+            this.$nextTick(() => {
+                const el = document.getElementById('bar-builder-word');
+                if (!el) return;
+                el.focus();
+                el.setSelectionRange(index, index);
+                this.selected = index;
+            });
+        },
+
         get hasSelection() {
             return this.selected >= 0 && this.selected < this.caps.length;
         },
@@ -347,32 +472,62 @@
             });
             this.word = chars.join('').trimEnd();
             this.selected = Math.min(this.selected, this.caps.length - 1);
+            this.queueDraftSave();
         },
         setChar(i, ch) {
             this.caps[i].char = ch.toUpperCase();
             this.caps[i].icon = null;
             this.word = this.caps.map(c => c.char).join('').trimEnd();
+            this.queueDraftSave();
         },
         setIcon(i, icon) {
             this.caps[i].icon = icon;
             this.caps[i].char = ' ';
             this.word = this.caps.map(c => c.char).join('').trimEnd();
+            this.queueDraftSave();
+        },
+        // Picking an icon while the last cap is selected normally overwrites
+        // it and wraps back to cap 1 (via next()). If there's still room,
+        // grow the bar with a new icon cap instead so the existing last
+        // cap's content is preserved.
+        chooseIcon(icon) {
+            if (this.selected === this.caps.length - 1 && this.caps.length < this.MAX) {
+                this.addCapWithIcon(icon);
+                return;
+            }
+            this.setIcon(this.selected, icon);
+            this.next();
+            this.focusWordInputAt(this.selected);
+        },
+        addCapWithIcon(icon) {
+            const combo = pick(this.availableCombos);
+            this.caps.push({char: ' ', hex: combo.cap, textHex: combo.text, icon});
+            this.selected = this.caps.length - 1;
+            this.queueDraftSave();
+            this.focusWordInputAt(this.selected);
         },
         setCombo(i, combo) {
             this.caps[i].hex = combo.cap;
             this.caps[i].textHex = combo.text;
+            this.queueDraftSave();
+        },
+        setBaseColor(hex) {
+            this.baseHex = hex;
+            this.queueDraftSave();
         },
         addCap() {
             if (this.caps.length >= this.MAX) return;
             const combo = pick(this.availableCombos);
             this.caps.push({char: ' ', hex: combo.cap, textHex: combo.text, icon: null});
             this.selected = this.caps.length - 1;
+            this.queueDraftSave();
         },
         removeCap() {
             if (this.caps.length <= this.MIN) return;
             this.caps.pop();
             this.selected = Math.min(this.selected, this.caps.length - 1);
             this.word = this.caps.map(c => c.char).join('').trimEnd();
+            this.queueDraftSave();
         },
         applyToAll() {
             const src = this.caps[this.selected];
@@ -380,6 +535,7 @@
                 c.hex = src.hex;
                 c.textHex = src.textHex;
             });
+            this.queueDraftSave();
         },
 
         get currentPrice() {
@@ -416,7 +572,7 @@
         },
         comboName(cap) {
             if (!cap) return '—';
-            return this.CAP_COMBOS.find(c => this.isCombo(cap, c))?.name ?? 'Custom';
+            return this.CAP_COMBOS.find(c => this.isCombo(cap, c))?.name ?? '{{ __('Custom') }}';
         },
         capColorName(hex) {
             if (!hex) return '—';

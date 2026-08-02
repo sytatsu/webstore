@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Lunar\Base\Traits\HasTranslations;
 
 class BarBuilderBaseColor extends Model
 {
+    use HasTranslations;
+
     protected $fillable = [
         'name',
         'hex',
@@ -15,6 +18,7 @@ class BarBuilderBaseColor extends Model
     ];
 
     protected $casts = [
+        'name' => 'array',
         'enabled' => 'boolean',
         'sort_order' => 'integer',
     ];

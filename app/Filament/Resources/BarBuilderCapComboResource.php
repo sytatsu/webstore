@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Clusters\BarBuilder;
 use App\Filament\Resources\BarBuilderCapComboResource\Pages;
+use App\Filament\Resources\Concerns\HasTranslatableName;
 use App\Models\BarBuilderCapCombo;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -11,14 +12,14 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Forms\Components\ColorPicker;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\ColorColumn;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 
 class BarBuilderCapComboResource extends Resource
 {
+    use HasTranslatableName;
+
     protected static ?string $cluster = BarBuilder::class;
 
     protected static ?string $model = BarBuilderCapCombo::class;
@@ -36,9 +37,7 @@ class BarBuilderCapComboResource extends Resource
                 Forms\Components\Section::make('Cap colour combination')
                     ->description('A manufacturable cap + letter colour pairing customers can pick for each cap.')
                     ->schema([
-                        TextInput::make('name')
-                            ->placeholder('e.g. Ember')
-                            ->required(),
+                        static::nameFormFieldset('e.g. Ember', 'e.g. Gloed'),
                         ColorPicker::make('cap_hex')
                             ->label('Cap colour')
                             ->required(),
@@ -62,9 +61,7 @@ class BarBuilderCapComboResource extends Resource
                     ->label('Cap'),
                 ColorColumn::make('text_hex')
                     ->label('Letter'),
-                TextColumn::make('name')
-                    ->searchable()
-                    ->sortable(),
+                static::nameTableColumn(),
                 ToggleColumn::make('enabled'),
             ])
             ->actions([

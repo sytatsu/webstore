@@ -41,24 +41,42 @@ class ClickerzBarProductSeeder extends Seeder
     private function seedBaseColors(): void
     {
         $colors = [
-            ['name' => 'Jet', 'hex' => '#101216'],
-            ['name' => 'Graphite', 'hex' => '#3A3E45'],
-            ['name' => 'Chalk', 'hex' => '#E4E1D9'],
-            ['name' => 'Snow', 'hex' => '#FFFFFF'],
-            ['name' => 'Signal Red', 'hex' => '#E23127'],
-            ['name' => 'Ultramarine', 'hex' => '#2B44FF'],
-            ['name' => 'Pine', 'hex' => '#128A5B'],
-            ['name' => 'Sun', 'hex' => '#FFC61E', 'enabled' => false],
-            ['name' => 'Muted Red', 'hex' => '#A9564B'],
-            ['name' => 'Muted Blue', 'hex' => '#4E6F8A'],
-            ['name' => 'Muted Green', 'hex' => '#578052'],
-            ['name' => 'Muted Purple', 'hex' => '#786490'],
+            ['name' => 'Lava Red', 'name_nl' => 'Lava Rood', 'hex' => '#ED2F2E'],
+            ['name' => 'Army Red', 'name_nl' => 'Leger Rood', 'hex' => '#BF312E'],
+            ['name' => 'Muted Red', 'name_nl' => 'Gedempt Rood', 'hex' => '#A9564B'],
+            ['name' => 'Pastel Peach', 'name_nl' => 'Pastel Perzik', 'hex' => '#F6BF8B'],
+            ['name' => 'Sunrise Orange', 'name_nl' => 'Zonsopgang Oranje', 'hex' => '#F88B17'],
+            ['name' => 'Pastel Banana Yellow', 'name_nl' => 'Pastel Banaan Geel', 'hex' => '#F7D475'],
+            ['name' => 'Savannah Yellow', 'name_nl' => 'Savannah Geel', 'hex' => '#F3C432'],
+            ['name' => 'Army Dark Green', 'name_nl' => 'Leger Donkergroen', 'hex' => '#5F6244'],
+            ['name' => 'Pastel Mint', 'name_nl' => 'Pastel Mint', 'hex' => '#D2DEBB'],
+            ['name' => 'Muted Green', 'name_nl' => 'Gedempt Groen', 'hex' => '#578052'],
+            ['name' => 'Forest Green', 'name_nl' => 'Bosgroen', 'hex' => '#60AD70'],
+            ['name' => 'Pastel Ice', 'name_nl' => 'Pastel Ijs', 'hex' => '#A4D0DF'],
+            ['name' => 'Sapphire Blue', 'name_nl' => 'Sapphire Blauw', 'hex' => '#0163A6'],
+            ['name' => 'Muted Blue', 'name_nl' => 'Gedempt Blauw', 'hex' => '#4E6F8A'],
+            ['name' => 'Army Dark Blue', 'name_nl' => 'Leger Donkerblauw', 'hex' => '#2E4462'],
+            ['name' => 'Electric Indigo', 'name_nl' => 'Elektrisch Indigo', 'hex' => '#6858A9'],
+            ['name' => 'Lavender Purple', 'name_nl' => 'Lavendel Paars', 'hex' => '#9572BF'],
+            ['name' => 'Muted Purple', 'name_nl' => 'Gedempt Paars', 'hex' => '#786490'],
+            ['name' => 'Lotus Pink', 'name_nl' => 'Lotus Roze', 'hex' => '#DD76C0'],
+            ['name' => 'Sakura Pink', 'name_nl' => 'Sakura Roze', 'hex' => '#EAADBD'],
+
+            ['name' => 'Beige', 'name_nl' => 'Beige', 'hex' => '#DBBAA5'],
+            ['name' => 'Pastel Peanut', 'name_nl' => 'Pastel Pinda', 'hex' => '#BF9573'],
+
+            ['name' => 'Charcoal Black', 'name_nl' => 'Houtscool Zwart', 'hex' => '#2F2E30'],
+            ['name' => 'Ash Grey', 'name_nl' => 'As Grijs', 'hex' => '#485155'],
+            ['name' => 'Fossil Grey', 'name_nl' => 'Fossiel Grijs', 'hex' => '#8A8C94'],
+            ['name' => 'Muted White', 'name_nl' => 'Gedempt Wit', 'hex' => '#BBADA4'],
+            ['name' => 'Cotton White', 'name_nl' => 'Katoen Wit', 'hex' => '#F4EFEB'],
         ];
 
         foreach ($colors as $index => $color) {
             BarBuilderBaseColor::firstOrCreate(
-                ['name' => $color['name']],
+                ['name->en' => $color['name']],
                 [
+                    'name' => ['en' => $color['name'], 'nl' => $color['name_nl']],
                     'hex' => $color['hex'],
                     'enabled' => $color['enabled'] ?? true,
                     'sort_order' => $index,
@@ -69,31 +87,40 @@ class ClickerzBarProductSeeder extends Seeder
 
     private function seedCapCombos(): void
     {
+        // Mirrors the base colour palette (in the same rainbow order), so
+        // caps and the base share one consistent set of colours. White
+        // caps aren't offered here (beige, peanut, black through white are
+        // base-only), and muted colours are pulled to the end with the
+        // pairing flipped: a white cap with the muted colour as the letters.
         $combos = [
-            ['name' => 'Ember', 'cap_hex' => '#E23127', 'text_hex' => '#FFFFFF'],
-            ['name' => 'Coral Pop', 'cap_hex' => '#FF6B57', 'text_hex' => '#FFFFFF'],
-            ['name' => 'Tangerine', 'cap_hex' => '#FF8A1F', 'text_hex' => '#FFFFFF'],
-            ['name' => 'Sunburst', 'cap_hex' => '#FFC61E', 'text_hex' => '#FFFFFF'],
-            ['name' => 'Citrus', 'cap_hex' => '#9CD323', 'text_hex' => '#FFFFFF'],
-            ['name' => 'Forest', 'cap_hex' => '#128A5B', 'text_hex' => '#FFFFFF'],
-            ['name' => 'Lagoon', 'cap_hex' => '#00A6A6', 'text_hex' => '#FFFFFF'],
-            ['name' => 'Marine', 'cap_hex' => '#2FA8E0', 'text_hex' => '#FFFFFF'],
-            ['name' => 'Cobalt', 'cap_hex' => '#2B44FF', 'text_hex' => '#FFFFFF'],
-            ['name' => 'Grape', 'cap_hex' => '#7A3CF0', 'text_hex' => '#FFFFFF'],
-            ['name' => 'Fuchsia', 'cap_hex' => '#E0308F', 'text_hex' => '#FFFFFF'],
-            ['name' => 'Candy', 'cap_hex' => '#FF9FC4', 'text_hex' => '#E0308F', 'enabled' => false],
-            ['name' => 'Slate', 'cap_hex' => '#3A3E45', 'text_hex' => '#FFC61E'],
-            ['name' => 'Sandstone', 'cap_hex' => '#E4E1D9', 'text_hex' => '#E23127'],
-            ['name' => 'Muted Red', 'cap_hex' => '#E4E1D9', 'text_hex' => '#A9564B'],
-            ['name' => 'Muted Blue', 'cap_hex' => '#E4E1D9', 'text_hex' => '#4E6F8A'],
-            ['name' => 'Muted Green', 'cap_hex' => '#E4E1D9', 'text_hex' => '#578052'],
-            ['name' => 'Muted Purple', 'cap_hex' => '#E4E1D9', 'text_hex' => '#786490'],
+            ['name' => 'Lava Red | Cotton White', 'name_nl' => 'Lava Rood | Katoen Wit', 'cap_hex' => '#ED2F2E', 'text_hex' => '#FFFFFF'],
+            ['name' => 'Army Red | Cotton White', 'name_nl' => 'Leger Rood | Katoen Wit', 'cap_hex' => '#BF312E', 'text_hex' => '#FFFFFF'],
+            ['name' => 'Pastel Peach | Cotton White', 'name_nl' => 'Pastel Perzik | Katoen Wit', 'cap_hex' => '#F6BF8B', 'text_hex' => '#FFFFFF'],
+            ['name' => 'Sunrise Orange | Cotton White', 'name_nl' => 'Zonsopgang Oranje | Katoen Wit', 'cap_hex' => '#F88B17', 'text_hex' => '#FFFFFF'],
+            ['name' => 'Pastel Banana Yellow | Cotton White', 'name_nl' => 'Pastel Banaan Geel | Katoen Wit', 'cap_hex' => '#F7D475', 'text_hex' => '#FFFFFF'],
+            ['name' => 'Savannah Yellow | Cotton White', 'name_nl' => 'Savannah Geel | Katoen Wit', 'cap_hex' => '#F3C432', 'text_hex' => '#FFFFFF'],
+            ['name' => 'Army Dark Green | Cotton White', 'name_nl' => 'Leger Donkergroen | Katoen Wit', 'cap_hex' => '#5F6244', 'text_hex' => '#FFFFFF'],
+            ['name' => 'Pastel Mint | Cotton White', 'name_nl' => 'Pastel Mint | Katoen Wit', 'cap_hex' => '#D2DEBB', 'text_hex' => '#FFFFFF'],
+            ['name' => 'Forest Green | Cotton White', 'name_nl' => 'Bosgroen | Katoen Wit', 'cap_hex' => '#60AD70', 'text_hex' => '#FFFFFF'],
+            ['name' => 'Pastel Ice | Cotton White', 'name_nl' => 'Pastel Ijs | Katoen Wit', 'cap_hex' => '#A4D0DF', 'text_hex' => '#FFFFFF'],
+            ['name' => 'Sapphire Blue | Cotton White', 'name_nl' => 'Sapphire Blauw | Katoen Wit', 'cap_hex' => '#0163A6', 'text_hex' => '#FFFFFF'],
+            ['name' => 'Army Dark Blue | Cotton White', 'name_nl' => 'Leger Donkerblauw | Katoen Wit', 'cap_hex' => '#2E4462', 'text_hex' => '#FFFFFF'],
+            ['name' => 'Electric Indigo | Cotton White', 'name_nl' => 'Elektrisch Indigo | Katoen Wit', 'cap_hex' => '#6858A9', 'text_hex' => '#FFFFFF'],
+            ['name' => 'Lavender Purple | Cotton White', 'name_nl' => 'Lavendel Paars | Katoen Wit', 'cap_hex' => '#9572BF', 'text_hex' => '#FFFFFF'],
+            ['name' => 'Lotus Pink | Cotton White', 'name_nl' => 'Lotus Roze | Katoen Wit', 'cap_hex' => '#DD76C0', 'text_hex' => '#FFFFFF'],
+            ['name' => 'Sakura Pink | Cotton White', 'name_nl' => 'Sakura Roze | Katoen Wit', 'cap_hex' => '#EAADBD', 'text_hex' => '#FFFFFF'],
+
+            ['name' => 'Muted White | Muted Red', 'name_nl' => 'Gedempt Wit | Gedempt Rood', 'cap_hex' => '#FFFFFF', 'text_hex' => '#A9564B'],
+            ['name' => 'Muted White | Muted Green', 'name_nl' => 'Gedempt Wit | Gedempt Groen', 'cap_hex' => '#FFFFFF', 'text_hex' => '#578052'],
+            ['name' => 'Muted White | Muted Blue', 'name_nl' => 'Gedempt Wit | Gedempt Blauw', 'cap_hex' => '#FFFFFF', 'text_hex' => '#4E6F8A'],
+            ['name' => 'Muted White | Muted Purple', 'name_nl' => 'Gedempt Wit | Gedempt Paars', 'cap_hex' => '#FFFFFF', 'text_hex' => '#786490'],
         ];
 
         foreach ($combos as $index => $combo) {
             BarBuilderCapCombo::firstOrCreate(
-                ['name' => $combo['name'], 'cap_hex' => $combo['cap_hex'], 'text_hex' => $combo['text_hex']],
+                ['name->en' => $combo['name'], 'cap_hex' => $combo['cap_hex'], 'text_hex' => $combo['text_hex']],
                 [
+                    'name' => ['en' => $combo['name'], 'nl' => $combo['name_nl']],
                     'enabled' => $combo['enabled'] ?? true,
                     'sort_order' => $index,
                 ]
@@ -104,8 +131,9 @@ class ClickerzBarProductSeeder extends Seeder
     private function seedIcons(): void
     {
         BarBuilderIcon::firstOrCreate(
-            ['name' => 'Dog paw'],
+            ['name->en' => 'Dog paw'],
             [
+                'name' => ['en' => 'Dog paw', 'nl' => 'Hondenpoot'],
                 'svg_paths' => [
                     'M15 41 a9 12 0 1 0 18 0 a9 12 0 1 0 -18 0 Z',
                     'M32.5 26 a9.5 13 0 1 0 19 0 a9.5 13 0 1 0 -19 0 Z',
@@ -121,8 +149,9 @@ class ClickerzBarProductSeeder extends Seeder
         );
 
         BarBuilderIcon::firstOrCreate(
-            ['name' => 'Heart'],
+            ['name->en' => 'Heart'],
             [
+                'name' => ['en' => 'Heart', 'nl' => 'Hart'],
                 'svg_paths' => [
                     'M 50 82 L 20 52 A 18 18 0 1 1 50 34 A 18 18 0 1 1 80 52 Z',
                 ],
@@ -134,8 +163,9 @@ class ClickerzBarProductSeeder extends Seeder
         );
 
         BarBuilderIcon::firstOrCreate(
-            ['name' => 'Music note'],
+            ['name->en' => 'Music note'],
             [
+                'name' => ['en' => 'Music note', 'nl' => 'Muzieknoot'],
                 'svg_paths' => [
                     'M22 78 a13 10 0 1 0 26 0 a13 10 0 1 0 -26 0 Z',
                     'M46 20 h6 v58 h-6 Z',
@@ -149,8 +179,9 @@ class ClickerzBarProductSeeder extends Seeder
         );
 
         BarBuilderIcon::firstOrCreate(
-            ['name' => 'Headset'],
+            ['name->en' => 'Headset'],
             [
+                'name' => ['en' => 'Headset', 'nl' => 'Headset'],
                 'svg_paths' => [
                     'M15 52 A35 35 0 0 1 85 52 L85 60 A35 35 0 0 0 15 60 Z',
                     'M8 56 a9 16 0 1 0 18 0 a9 16 0 1 0 -18 0 Z',

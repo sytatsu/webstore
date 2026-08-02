@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Lunar\Base\Traits\HasTranslations;
 
 class BarBuilderIcon extends Model
 {
+    use HasTranslations;
+
     protected $fillable = [
         'name',
         'svg_paths',
@@ -18,6 +21,7 @@ class BarBuilderIcon extends Model
     ];
 
     protected $casts = [
+        'name' => 'array',
         'svg_paths' => 'array',
         'cx' => 'float',
         'cy' => 'float',

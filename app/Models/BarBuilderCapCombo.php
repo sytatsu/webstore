@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Lunar\Base\Traits\HasTranslations;
 
 class BarBuilderCapCombo extends Model
 {
+    use HasTranslations;
+
     protected $fillable = [
         'name',
         'cap_hex',
@@ -16,6 +19,7 @@ class BarBuilderCapCombo extends Model
     ];
 
     protected $casts = [
+        'name' => 'array',
         'enabled' => 'boolean',
         'sort_order' => 'integer',
     ];

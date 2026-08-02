@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Clusters\BarBuilder;
 use App\Filament\Resources\BarBuilderBaseColorResource\Pages;
+use App\Filament\Resources\Concerns\HasTranslatableName;
 use App\Models\BarBuilderBaseColor;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -11,7 +12,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Forms\Components\ColorPicker;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\ColorColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -19,6 +19,8 @@ use Filament\Tables\Columns\ToggleColumn;
 
 class BarBuilderBaseColorResource extends Resource
 {
+    use HasTranslatableName;
+
     protected static ?string $cluster = BarBuilder::class;
 
     protected static ?string $model = BarBuilderBaseColor::class;
@@ -36,9 +38,7 @@ class BarBuilderBaseColorResource extends Resource
                 Forms\Components\Section::make('Base colour')
                     ->description('The colour options for the bar itself (the base the caps sit in).')
                     ->schema([
-                        TextInput::make('name')
-                            ->placeholder('e.g. Jet')
-                            ->required(),
+                        static::nameFormFieldset('e.g. Jet', 'e.g. Gitzwart'),
                         ColorPicker::make('hex')
                             ->required(),
                         Toggle::make('enabled')
@@ -55,9 +55,7 @@ class BarBuilderBaseColorResource extends Resource
             ->defaultSort('sort_order')
             ->columns([
                 ColorColumn::make('hex'),
-                TextColumn::make('name')
-                    ->searchable()
-                    ->sortable(),
+                static::nameTableColumn(),
                 TextColumn::make('hex')
                     ->label('Hex')
                     ->fontFamily('mono'),
