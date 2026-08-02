@@ -1,18 +1,28 @@
 <div>
+
     <x-ui.spinner-overlay wire:loading.flex wire:target="incrementLine, decrementLine, removeLine, updateLines" />
     <ul class="-mt-4 overflow-y-auto divide-y divide-gray-200 dark:divide-gray-500{{ ($this->checkout || Route::currentRouteName() === 'sytatsu.webstore.cart') ? "" : " max-h-96" }}">
         @foreach ($this->lines as $index => $line)
+        @php $barBuilder = $line['meta']['bar_builder'] ?? null; @endphp
         <li class="relative">
             <div class="flex py-4" wire:key="line_{{ $line['id'] }}">
-                <img class="object-cover aspect-square {{ Route::currentRouteName() === 'sytatsu.webstore.cart' ? 'w-24 h-24' : 'w-16 h-16' }} rounded"
-                     src="{{ $line['thumbnail'] ?? \App\Services\WebstoreHelperService::productPlaceholderImage() }}">
+
+                @if (!$barBuilder)
+                    <img class="object-cover aspect-square {{ Route::currentRouteName() === 'sytatsu.webstore.cart' ? 'w-24 h-24' : 'w-16 h-16' }} rounded"
+                         src="{{ $line['thumbnail'] ?? \App\Services\WebstoreHelperService::productPlaceholderImage() }}">
+                @endif
 
                 <div class="flex-1 ml-4">
                     @php
-                        $barBuilder = $line['meta']['bar_builder'] ?? null;
                         $productLink = $barBuilder
                             ? route('sytatsu.webstore.clickerz-bar-builder')
                             : \App\Services\WebstoreHelperService::getProductRoute($line['purchasable']->product, ['purchasable_id' => $line['purchasable']->id]);
+                        $barBuilderIconIds = $barBuilder
+                            ? collect($barBuilder['caps'] ?? [])->pluck('icon.id')->filter()->unique()->values()
+                            : collect();
+                        $barBuilderIcons = $barBuilderIconIds->isNotEmpty()
+                            ? \App\Models\BarBuilderIcon::query()->whereIn('id', $barBuilderIconIds)->get()->keyBy('id')
+                            : collect();
                     @endphp
 
                     <div class="flex flex-row justify-between text-sm font-medium text-black dark:text-white">
@@ -28,9 +38,27 @@
                     </div>
 
                     @if($barBuilder)
-                        <p class="-mt-1 text-xs text-gray-500 dark:text-gray-400 font-mono">
-                            &ldquo;{{ $barBuilder['text'] }}&rdquo;
-                        </p>
+                        <div class="flex mr-auto">
+                            <div class="mt-1 mb-1 p-0.5 flex flex-wrap items-center gap-1 rounded-md mr-auto"
+                                 style="background:{{$barBuilder['base_colour']['hex']}}"
+                            >
+                                @foreach($barBuilder['caps'] ?? [] as $cap)
+                                    <span class="inline-flex items-center justify-center size-5 rounded-md text-[10px] avenir-bold leading-none"
+                                          style="background:{{ $cap['colour']['hex'] ?? '#e2e8f0' }};color:{{ $cap['text_colour']['hex'] ?? '#1e293b' }}">
+                                        @if($cap['icon'] ?? null)
+                                            @php $icon = $barBuilderIcons->get($cap['icon']['id']); @endphp
+                                            @if($icon)
+                                                <svg viewBox="0 0 100 100" width="12" height="12" aria-label="{{ $icon->translate('name') }}">
+                                                    <path d="{{ $icon->path }}" fill="currentColor"></path>
+                                                </svg>
+                                            @endif
+                                        @else
+                                            {{ $cap['character'] ?? '' }}
+                                        @endif
+                                    </span>
+                                @endforeach
+                            </div>
+                        </div>
                     @endif
 
                     <div class="flex items-center mt-2">

@@ -246,6 +246,14 @@ class ClickerzBarProductSeeder extends Seeder
             ]);
         }
 
+        if (!$product->thumbnail) {
+            $product->addMedia(resource_path('images/seeders/clickerz-bar-thumbnail.png'))
+                ->preservingOriginal()
+                ->usingFileName('clickerz-bar.png')
+                ->withCustomProperties(['primary' => true])
+                ->toMediaCollection(config('lunar.media.collection'));
+        }
+
         $capsOption = ProductOption::firstOrCreate(
             ['handle' => 'caps'],
             [
