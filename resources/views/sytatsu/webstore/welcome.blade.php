@@ -1,6 +1,8 @@
 <div class="{{ $maxWidth ?? 'max-w-[85rem]' }} w-full mx-auto">
-    @if(\App\Filament\Pages\BarBuilderSettingsPage::isEnabled())
+    @if(\App\Filament\Pages\HomepageHeroSettingsPage::current() === 'clickerz')
         <x-sytatsu.homepage.clickerz-hero />
+    @else
+        <x-sytatsu.homepage.main-hero />
     @endif
 
     <div id="products" class="flex flex-col @if($showFilters ?? false) md:grid md:grid-cols-4 @endif gap-8">
