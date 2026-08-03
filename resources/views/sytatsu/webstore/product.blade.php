@@ -1,4 +1,4 @@
-@if ($product->defaultUrl?->slug === 'clickerz-bar')
+@if ($product->defaultUrl?->slug === 'clickerz-bar' && \App\Filament\Pages\BarBuilderSettingsPage::isEnabled())
     @include('sytatsu.webstore.partials.clickerz-bar-builder', ['product' => $product])
 @else
 <div class="mx-auto xl:min-w-[80rem] max-w-[30rem] md:max-w-[85rem] w-full flex flex-col gap-8">

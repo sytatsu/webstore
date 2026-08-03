@@ -85,9 +85,11 @@
                                             </div>
                                         </div>
 
-                                        <a href="{{ route('sytatsu.webstore.clickerz-bar-builder') }}" class="px-1 m-3 md:m-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent hover:border-secondary! dark:text-neutral-200 avenir-bold uppercase text-nowrap {{ Request::routeIs('sytatsu.webstore.clickerz-bar-builder') ? 'text-primary' : '' }}">
-                                            {{ __('Clickerz Bar') }}
-                                        </a>
+                                        @if(\App\Filament\Pages\BarBuilderSettingsPage::isEnabled())
+                                            <a href="{{ route('sytatsu.webstore.clickerz-bar-builder') }}" class="px-1 m-3 md:m-0 flex items-center text-sm text-gray-800 border-b-2 border-transparent hover:border-secondary! dark:text-neutral-200 avenir-bold uppercase text-nowrap {{ Request::routeIs('sytatsu.webstore.clickerz-bar-builder') ? 'text-primary' : '' }}">
+                                                {{ __('Clickerz Bar') }}
+                                            </a>
+                                        @endif
 
                                         {{-- FDM Printing Dropdown --}}
                                         @if($fdmPrintingCollections->isNotEmpty())

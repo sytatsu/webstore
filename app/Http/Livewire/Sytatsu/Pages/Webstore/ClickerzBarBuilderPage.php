@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Sytatsu\Pages\Webstore;
 
+use App\Filament\Pages\BarBuilderSettingsPage;
 use App\Http\Livewire\Sytatsu\SytatsuBasePage;
 use Lunar\Models\Product;
 use Lunar\Models\Url;
@@ -14,6 +15,8 @@ class ClickerzBarBuilderPage extends SytatsuBasePage
 
     public function mount(): void
     {
+        abort_unless(BarBuilderSettingsPage::isEnabled(), 404);
+
         $this->product = Url::query()
             ->where('slug', 'clickerz-bar')
             ->whereIn('element_type', [

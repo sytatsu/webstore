@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Filament\Extensions\OrderItemsTableExtension;
 use App\Filament\Pages\BarBuilderDefaultArrangementPage;
+use App\Filament\Pages\BarBuilderSettingsPage;
 use App\Modifiers\DHLShippingModifier;
 use App\Modifiers\PostNLShippingModifier;
 use App\Scopes\PublishedProductScope;
@@ -39,6 +40,7 @@ class AppServiceProvider extends ServiceProvider
             ->pages([
                 TicketSwimlanePage::class,
                 BarBuilderDefaultArrangementPage::class,
+                BarBuilderSettingsPage::class,
             ])
         );
         LunarPanel::extensions([
