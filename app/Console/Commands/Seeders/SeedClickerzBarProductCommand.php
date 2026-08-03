@@ -1,11 +1,11 @@
 <?php
 
-namespace Database\Seeders\products;
+namespace App\Console\Commands\Seeders;
 
 use App\Models\BarBuilderBaseColor;
 use App\Models\BarBuilderCapCombo;
 use App\Models\BarBuilderIcon;
-use Illuminate\Database\Seeder;
+use Illuminate\Console\Command;
 use Lunar\FieldTypes\TranslatedText;
 use Lunar\Models\Channel;
 use Lunar\Models\Currency;
@@ -17,8 +17,12 @@ use Lunar\Models\ProductOptionValue;
 use Lunar\Models\ProductType;
 use Lunar\Models\TaxClass;
 
-class ClickerzBarProductSeeder extends Seeder
+class SeedClickerzBarProductCommand extends Command
 {
+    protected $signature = 'webstore:seed:clickerz-bar';
+
+    protected $description = 'Seed the Clickerz Bar product, its Bar Builder catalog (base colors, cap combos, icons), and its variants';
+
     /**
      * The number of caps the customer can choose from, and their all-in price.
      */
@@ -30,12 +34,14 @@ class ClickerzBarProductSeeder extends Seeder
 
     private const MAX_CAPS = 10;
 
-    public function run(): void
+    public function handle(): void
     {
         $this->seedBaseColors();
         $this->seedCapCombos();
         $this->seedIcons();
         $this->seedProduct();
+
+        $this->components->info('Clickerz Bar product seeded');
     }
 
     private function seedBaseColors(): void
