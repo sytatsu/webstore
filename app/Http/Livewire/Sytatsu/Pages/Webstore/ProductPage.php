@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Sytatsu\Pages\Webstore;
 
 use App\Services\StorefrontService;
 use App\Services\WebstoreHelperService;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Url;
 use Lunar\Models\Product;
 use App\Http\Livewire\Sytatsu\SytatsuBasePage;
@@ -31,6 +32,8 @@ class ProductPage extends SytatsuBasePage
     {
         $this->product = $product;
         $this->setTitle($product->translateAttribute('name'));
+        $this->setDescription(Str::limit(strip_tags($product->translateAttribute('description') ?: ''), 160));
+        $this->setImage($product->getThumbnailImage());
 
         $this->setViewAttributes([
             'product' => $this->product,

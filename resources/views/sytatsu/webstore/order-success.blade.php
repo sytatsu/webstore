@@ -40,7 +40,7 @@
                                     <div>
                                         <p class="font-bold text-black dark:text-white leading-tight text-left">
                                             @if($line->purchasable && $line->purchasable->product)
-                                                <a href="{{ route('sytatsu.webstore.product', $line->purchasable->product->defaultUrl->slug) }}" class="hover:underline text-primary">
+                                                <a href="{{ route('sytatsu.webstore.product', ['product' => $line->purchasable->product->defaultUrl->slug]) }}" class="hover:underline text-primary">
                                                     {{ $line->description }}
                                                 </a>
                                             @else

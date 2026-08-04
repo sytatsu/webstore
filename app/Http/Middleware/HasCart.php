@@ -17,7 +17,7 @@ class HasCart
     public function handle(Request $request, Closure $next): mixed
     {
         if (App::get(CartService::class)->getCurrentCart()->lines->isEmpty()) {
-            return Redirect::to('/');
+            return Redirect::route('sytatsu.webstore.welcome');
         }
 
         return $next($request);

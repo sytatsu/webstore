@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Sytatsu\Pages\Webstore;
 use App\Http\Livewire\Sytatsu\SytatsuBasePage;
 use App\Services\StorefrontService;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Support\Str;
 use Lunar\Models\Collection;
 
 class CollectionPage extends SytatsuBasePage
@@ -75,6 +76,12 @@ class CollectionPage extends SytatsuBasePage
         $this->storefrontService = $storefrontService;
         $this->setTitle($collection->translateAttribute('name'));
         $this->label = sprintf('%s: %s', __('Collection'), $collection->translateAttribute('name'));
+
+        $collectionDescription = strip_tags($collection->translateAttribute('description') ?: '');
+        $this->setDescription($collectionDescription
+            ? Str::limit($collectionDescription, 160)
+            : sprintf(__('Shop the %s collection at Sytatsu.'), $collection->translateAttribute('name')));
+        $this->setImage($collection->getThumbnailImage());
 
         if (!$this->sort) {
             $this->sort = $this->collection->translateAttribute('default_sort');

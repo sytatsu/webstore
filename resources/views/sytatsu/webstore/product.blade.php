@@ -1,3 +1,65 @@
+@push('head')
+    @php
+        $variant = $this->variant ?? null;
+        $price = $variant?->basePrices->first()?->price;
+
+        $availabilityMap = [
+            'in_stock' => 'https://schema.org/InStock',
+            'always_in_stock' => 'https://schema.org/InStock',
+            'out_of_stock' => 'https://schema.org/OutOfStock',
+            'backorder' => 'https://schema.org/BackOrder',
+        ];
+
+        $productSchema = array_filter([
+            '@' . 'context' => 'https://schema.org',
+            '@' . 'type' => 'Product',
+            'name' => $product->translateAttribute('name'),
+            'description' => strip_tags($product->translateAttribute('description') ?: ''),
+            'image' => $product->getThumbnailImage() ?: null,
+            'sku' => $variant?->sku,
+            'brand' => $product->brand ? [
+                '@' . 'type' => 'Brand',
+                'name' => $product->brand->name,
+            ] : null,
+            'url' => url()->current(),
+            'offers' => $variant ? array_filter([
+                '@' . 'type' => 'Offer',
+                'url' => url()->current(),
+                'priceCurrency' => $price?->currency->code,
+                'price' => $price?->decimal(),
+                'availability' => $availabilityMap[$variant->purchasable] ?? 'https://schema.org/InStock',
+            ]) : null,
+        ]);
+
+        $breadcrumbItems = [
+            ['name' => __('Homepage'), 'item' => route('sytatsu.webstore.welcome')],
+        ];
+
+        $primaryCollection = $product->collections->first();
+        if ($primaryCollection) {
+            $breadcrumbItems[] = [
+                'name' => $primaryCollection->translateAttribute('name'),
+                'item' => \App\Services\WebstoreHelperService::getCollectionRoute($primaryCollection),
+            ];
+        }
+
+        $breadcrumbItems[] = ['name' => $product->translateAttribute('name'), 'item' => url()->current()];
+
+        $breadcrumbSchema = [
+            '@' . 'context' => 'https://schema.org',
+            '@' . 'type' => 'BreadcrumbList',
+            'itemListElement' => collect($breadcrumbItems)->values()->map(fn ($crumb, $index) => [
+                '@' . 'type' => 'ListItem',
+                'position' => $index + 1,
+                'name' => $crumb['name'],
+                'item' => $crumb['item'],
+            ])->all(),
+        ];
+    @endphp
+    <script type="application/ld+json">{!! json_encode($productSchema, JSON_UNESCAPED_SLASHES) !!}</script>
+    <script type="application/ld+json">{!! json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES) !!}</script>
+@endpush
+
 @if ($product->defaultUrl?->slug === 'clickerz-bar' && \App\Filament\Pages\BarBuilderSettingsPage::isEnabled())
     @include('sytatsu.webstore.partials.clickerz-bar-builder', ['product' => $product])
 @else

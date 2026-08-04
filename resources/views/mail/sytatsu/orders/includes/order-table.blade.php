@@ -22,7 +22,7 @@
                     $itemLink = $barBuilder
                         ? route('sytatsu.webstore.clickerz-bar-builder')
                         : (($orderLine->purchasable && $orderLine->purchasable->product)
-                            ? route('sytatsu.webstore.product', $orderLine->purchasable->product->defaultUrl->slug)
+                            ? route('sytatsu.webstore.product', ['product' => $orderLine->purchasable->product->defaultUrl->slug])
                             : null);
                 @endphp
                 <tr style="border-bottom: 1px solid #f1f5f9;">

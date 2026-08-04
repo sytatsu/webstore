@@ -1,3 +1,34 @@
+@if(isset($collection))
+    @push('head')
+        @php
+            $breadcrumbItems = [
+                ['name' => __('Homepage'), 'item' => route('sytatsu.webstore.welcome')],
+            ];
+
+            if ($collection->parent) {
+                $breadcrumbItems[] = [
+                    'name' => $collection->parent->translateAttribute('name'),
+                    'item' => \App\Services\WebstoreHelperService::getCollectionRoute($collection->parent),
+                ];
+            }
+
+            $breadcrumbItems[] = ['name' => $collection->translateAttribute('name'), 'item' => url()->current()];
+
+            $breadcrumbSchema = [
+                '@' . 'context' => 'https://schema.org',
+                '@' . 'type' => 'BreadcrumbList',
+                'itemListElement' => collect($breadcrumbItems)->values()->map(fn ($crumb, $index) => [
+                    '@' . 'type' => 'ListItem',
+                    'position' => $index + 1,
+                    'name' => $crumb['name'],
+                    'item' => $crumb['item'],
+                ])->all(),
+            ];
+        @endphp
+        <script type="application/ld+json">{!! json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES) !!}</script>
+    @endpush
+@endif
+
 <div class="{{ $maxWidth ?? 'max-w-[85rem]' }} w-full mx-auto">
     <div class="flex flex-col @if($showFilters ?? false) md:grid md:grid-cols-6 xl:grid-cols-4 @endif gap-8">
 

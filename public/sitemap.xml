@@ -1,18 +1,291 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <url>
-        <loc>https://sytatsu.nl/</loc>
-        <lastmod>2025-06-15T14:58:01+01:00</lastmod>
-        <priority>1.0</priority>
-    </url>
-        <url>
-            <loc>https://sytatsu.nl/about</loc>
-            <lastmod>2025-06-15T14:58:01+01:00</lastmod>
-            <priority>1.0</priority>
-        </url>
-    <url>
-        <loc>https://sytatsu.nl/contact</loc>
-        <lastmod>2025-06-15T14:58:01+01:00</lastmod>
-        <priority>1.0</priority>
-    </url>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>http://sytatsu.local</loc>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/en</loc>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/about</loc>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/about"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/about"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/en/about</loc>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/about"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/about"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/contact</loc>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/contact"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/contact"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/en/contact</loc>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/contact"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/contact"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/custom-print</loc>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/custom-print"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/custom-print"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/en/custom-print</loc>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/custom-print"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/custom-print"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/maintenance-repair</loc>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/maintenance-repair"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/maintenance-repair"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/en/maintenance-repair</loc>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/maintenance-repair"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/maintenance-repair"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/collections</loc>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/en/collections</loc>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/products/clickerz-bar</loc>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/products/clickerz-bar"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/products/clickerz-bar"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/en/products/clickerz-bar</loc>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/products/clickerz-bar"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/products/clickerz-bar"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/collections/pokeballs</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/pokeballs"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/pokeballs"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/en/collections/pokeballs</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/pokeballs"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/pokeballs"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/collections/generation-1</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/generation-1"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/generation-1"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/en/collections/generation-1</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/generation-1"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/generation-1"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/collections/generation-2</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/generation-2"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/generation-2"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/en/collections/generation-2</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/generation-2"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/generation-2"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/collections/generation-3</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/generation-3"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/generation-3"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/en/collections/generation-3</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/generation-3"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/generation-3"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/collections/generation-4</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/generation-4"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/generation-4"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/en/collections/generation-4</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/generation-4"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/generation-4"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/collections/generation-5</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/generation-5"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/generation-5"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/en/collections/generation-5</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/generation-5"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/generation-5"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/collections/generation-6</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/generation-6"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/generation-6"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/en/collections/generation-6</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/generation-6"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/generation-6"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/collections/generation-7</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/generation-7"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/generation-7"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/en/collections/generation-7</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/generation-7"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/generation-7"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/collections/generation-8</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/generation-8"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/generation-8"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/en/collections/generation-8</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/generation-8"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/generation-8"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/collections/generation-9</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/generation-9"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/generation-9"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/en/collections/generation-9</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/generation-9"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/generation-9"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/collections/mini-friends</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/mini-friends"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/mini-friends"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/en/collections/mini-friends</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/mini-friends"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/mini-friends"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/collections/fantasy</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/fantasy"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/fantasy"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/en/collections/fantasy</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/fantasy"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/fantasy"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/collections/safari</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/safari"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/safari"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/en/collections/safari</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/safari"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/safari"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/collections/pets</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/pets"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/pets"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/en/collections/pets</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/pets"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/pets"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/collections/ocean</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/ocean"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/ocean"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/en/collections/ocean</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/ocean"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/ocean"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/collections/birds</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/birds"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/birds"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/en/collections/birds</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/birds"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/birds"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/collections/dinosaurs</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/dinosaurs"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/dinosaurs"/>
+  </url>
+  <url>
+    <loc>http://sytatsu.local/en/collections/dinosaurs</loc>
+    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections/dinosaurs"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections/dinosaurs"/>
+  </url>
 </urlset>

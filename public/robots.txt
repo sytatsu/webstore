@@ -1,2 +1,7 @@
 User-agent: *
-Disallow:
+Disallow: /lunar
+Disallow: /cart
+Disallow: /checkout
+Disallow: /livewire
+
+Sitemap: https://sytatsu.nl/sitemap.xml
