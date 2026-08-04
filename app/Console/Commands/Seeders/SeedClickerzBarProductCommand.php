@@ -116,10 +116,10 @@ class SeedClickerzBarProductCommand extends Command
             ['name' => 'Lotus Pink | Cotton White', 'name_nl' => 'Lotus Roze | Katoen Wit', 'cap_hex' => '#DD76C0', 'text_hex' => '#FFFFFF'],
             ['name' => 'Sakura Pink | Cotton White', 'name_nl' => 'Sakura Roze | Katoen Wit', 'cap_hex' => '#EAADBD', 'text_hex' => '#FFFFFF'],
 
-            ['name' => 'Muted White | Muted Red', 'name_nl' => 'Gedempt Wit | Gedempt Rood', 'cap_hex' => '#FFFFFF', 'text_hex' => '#A9564B'],
-            ['name' => 'Muted White | Muted Green', 'name_nl' => 'Gedempt Wit | Gedempt Groen', 'cap_hex' => '#FFFFFF', 'text_hex' => '#578052'],
-            ['name' => 'Muted White | Muted Blue', 'name_nl' => 'Gedempt Wit | Gedempt Blauw', 'cap_hex' => '#FFFFFF', 'text_hex' => '#4E6F8A'],
-            ['name' => 'Muted White | Muted Purple', 'name_nl' => 'Gedempt Wit | Gedempt Paars', 'cap_hex' => '#FFFFFF', 'text_hex' => '#786490'],
+            ['name' => 'Muted White | Muted Red', 'name_nl' => 'Gedempt Wit | Gedempt Rood', 'cap_hex' => '#BBADA4', 'text_hex' => '#A9564B'],
+            ['name' => 'Muted White | Muted Green', 'name_nl' => 'Gedempt Wit | Gedempt Groen', 'cap_hex' => '#BBADA4', 'text_hex' => '#578052'],
+            ['name' => 'Muted White | Muted Blue', 'name_nl' => 'Gedempt Wit | Gedempt Blauw', 'cap_hex' => '#BBADA4', 'text_hex' => '#4E6F8A'],
+            ['name' => 'Muted White | Muted Purple', 'name_nl' => 'Gedempt Wit | Gedempt Paars', 'cap_hex' => '#BBADA4', 'text_hex' => '#786490'],
         ];
 
         foreach ($combos as $index => $combo) {
