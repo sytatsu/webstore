@@ -2,85 +2,85 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>http://sytatsu.local</loc>
-    <lastmod>2026-08-04T13:14:43+00:00</lastmod>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
     <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local"/>
     <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en"/>
   </url>
   <url>
     <loc>http://sytatsu.local/en</loc>
-    <lastmod>2026-08-04T13:14:43+00:00</lastmod>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
     <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local"/>
     <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en"/>
   </url>
   <url>
     <loc>http://sytatsu.local/about</loc>
-    <lastmod>2026-08-04T13:14:43+00:00</lastmod>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
     <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/about"/>
     <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/about"/>
   </url>
   <url>
     <loc>http://sytatsu.local/en/about</loc>
-    <lastmod>2026-08-04T13:14:43+00:00</lastmod>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
     <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/about"/>
     <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/about"/>
   </url>
   <url>
     <loc>http://sytatsu.local/contact</loc>
-    <lastmod>2026-08-04T13:14:43+00:00</lastmod>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
     <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/contact"/>
     <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/contact"/>
   </url>
   <url>
     <loc>http://sytatsu.local/en/contact</loc>
-    <lastmod>2026-08-04T13:14:43+00:00</lastmod>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
     <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/contact"/>
     <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/contact"/>
   </url>
   <url>
     <loc>http://sytatsu.local/custom-print</loc>
-    <lastmod>2026-08-04T13:14:43+00:00</lastmod>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
     <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/custom-print"/>
     <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/custom-print"/>
   </url>
   <url>
     <loc>http://sytatsu.local/en/custom-print</loc>
-    <lastmod>2026-08-04T13:14:43+00:00</lastmod>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
     <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/custom-print"/>
     <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/custom-print"/>
   </url>
   <url>
     <loc>http://sytatsu.local/maintenance-repair</loc>
-    <lastmod>2026-08-04T13:14:43+00:00</lastmod>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
     <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/maintenance-repair"/>
     <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/maintenance-repair"/>
   </url>
   <url>
     <loc>http://sytatsu.local/en/maintenance-repair</loc>
-    <lastmod>2026-08-04T13:14:43+00:00</lastmod>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
     <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/maintenance-repair"/>
     <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/maintenance-repair"/>
   </url>
   <url>
     <loc>http://sytatsu.local/collections</loc>
-    <lastmod>2026-08-04T13:14:43+00:00</lastmod>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
     <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections"/>
     <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections"/>
   </url>
   <url>
     <loc>http://sytatsu.local/en/collections</loc>
-    <lastmod>2026-08-04T13:14:43+00:00</lastmod>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
     <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/collections"/>
     <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/collections"/>
   </url>
   <url>
     <loc>http://sytatsu.local/products/clickerz-bar</loc>
-    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
     <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/products/clickerz-bar"/>
     <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/products/clickerz-bar"/>
   </url>
   <url>
     <loc>http://sytatsu.local/en/products/clickerz-bar</loc>
-    <lastmod>2026-08-03T08:11:17+00:00</lastmod>
+    <lastmod>2026-08-04T14:37:50+00:00</lastmod>
     <xhtml:link rel="alternate" hreflang="nl" href="http://sytatsu.local/products/clickerz-bar"/>
     <xhtml:link rel="alternate" hreflang="en" href="http://sytatsu.local/en/products/clickerz-bar"/>
   </url>

@@ -17,6 +17,10 @@
             'description' => strip_tags($product->translateAttribute('description') ?: ''),
             'image' => $product->getThumbnailImage() ?: null,
             'sku' => $variant?->sku,
+            'brand' => $product->brand ? [
+                '@' . 'type' => 'Brand',
+                'name' => $product->brand->name,
+            ] : null,
             'url' => url()->current(),
             'offers' => $variant ? array_filter([
                 '@' . 'type' => 'Offer',

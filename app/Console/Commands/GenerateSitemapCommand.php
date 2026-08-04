@@ -61,11 +61,15 @@ class GenerateSitemapCommand extends Command
                 (new $modelClass)->getMorphClass(),
                 $modelClass,
             ])
-            ->get(['slug', 'updated_at'])
+            // lastmod should reflect when the product/collection's own content last changed,
+            // not when this Url row was last touched (slugs rarely change, so that would
+            // almost never update).
+            ->with('element:id,updated_at')
+            ->get(['id', 'slug', 'element_type', 'element_id'])
             ->map(fn (Url $url) => [
                 'route' => $routeName,
                 'params' => [$parameterKey => $url->slug],
-                'lastmod' => $url->updated_at ?? now(),
+                'lastmod' => $url->element?->updated_at ?? now(),
             ]);
     }
 
