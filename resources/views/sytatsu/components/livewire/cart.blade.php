@@ -12,7 +12,7 @@
         <div class="place-self-center">
             <i class="fa fa-cart-shopping text-size-lg text-slate-800 dark:text-white"></i>
             @if ($this->cartTotalQuantity > 0)
-                <div class="absolute py-0.5 px-1 top-2 right-2 text-size-sm bg-secondary rounded-full aspect-square text-white">
+                <div class="absolute flex items-center justify-center min-w-5 h-5 px-1 top-2 right-2 text-size-sm bg-secondary rounded-full text-white">
                     {{ $this->cartTotalQuantity }}
                 </div>
             @endif

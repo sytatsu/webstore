@@ -26,13 +26,15 @@ Route::get('/contact', LivewireSytatsu\Contact::class)->name('sytatsu.contact');
 
 Route::get('/', LivewireSytatsu\Webstore\Welcome::class)->name('sytatsu.webstore.welcome');
 Route::get('/products/{product}', LivewireSytatsu\Webstore\ProductPage::class)->name('sytatsu.webstore.product');
+Route::get('/clickerz/builder', LivewireSytatsu\Webstore\ClickerzBarBuilderPage::class)->name('sytatsu.webstore.clickerz-bar-builder');
 Route::get('/collections', LivewireSytatsu\Webstore\CollectionsPage::class)->name('sytatsu.webstore.collections');
 Route::get('/collections/{collection}', LivewireSytatsu\Webstore\CollectionPage::class)->name('sytatsu.webstore.collection');
 
 
+Route::get('/checkout/success', LivewireSytatsu\Webstore\CheckoutSuccessPage::class)->name('sytatsu.webstore.checkout.success');
+
 Route::middleware('has.cart')->group(function () {
     Route::get('/cart', LivewireSytatsu\Webstore\CartPage::class)->name('sytatsu.webstore.cart');
-    Route::get('/checkout/success', LivewireSytatsu\Webstore\CheckoutSuccessPage::class)->name('sytatsu.webstore.checkout.success');
     Route::get('/checkout', LivewireSytatsu\Webstore\CheckoutPage::class)->name('sytatsu.webstore.checkout');
 });
 

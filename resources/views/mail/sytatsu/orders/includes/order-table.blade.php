@@ -11,22 +11,52 @@
     <tbody>
         @foreach($order->lines as $orderLine)
             @if($orderLine->purchasable_type !== \Lunar\DataTypes\ShippingOption::class)
+                @php
+                    $barBuilder = $orderLine->meta['bar_builder'] ?? null;
+                    // Media URLs can be relative (depends on APP_URL); emails have no
+                    // browsing context to resolve those against, so always make it absolute.
+                    $thumbnailUrl = url($orderLine->purchasable?->getThumbnail()?->getUrl('small')
+                        ?? \App\Services\WebstoreHelperService::productPlaceholderImage());
+                    // The Clickerz Bar builder isn't a normal product page — it must be
+                    // linked to directly, without a purchasable_id, or the builder breaks.
+                    $itemLink = $barBuilder
+                        ? route('sytatsu.webstore.clickerz-bar-builder')
+                        : (($orderLine->purchasable && $orderLine->purchasable->product)
+                            ? route('sytatsu.webstore.product', $orderLine->purchasable->product->defaultUrl->slug)
+                            : null);
+                @endphp
                 <tr style="border-bottom: 1px solid #f1f5f9;">
                     <td style="padding: 12px 8px; vertical-align: middle;">
-                        <div style="font-weight: bold; color: #1e293b;">
-                            @if($orderLine->purchasable && $orderLine->purchasable->product)
-                                <a href="{{ route('sytatsu.webstore.product', $orderLine->purchasable->product->defaultUrl->slug) }}" style="color: #E14C04; text-decoration: none;">{{ $orderLine->description }}</a>
-                            @else
-                                {{ $orderLine->description }}
-                            @endif
-                        </div>
-                        @if($orderLine->option)
-                            <div style="font-size: 12px; color: #64748b; font-style: italic;">{{ $orderLine->option }}</div>
-                        @endif
+                        <table style="border-collapse: collapse;" role="presentation">
+                            <tr>
+                                <td style="padding: 0; vertical-align: middle;">
+                                    <img src="{{ $thumbnailUrl }}" width="48" height="48" alt="" style="width: 48px; height: 48px; object-fit: cover; border-radius: 6px; display: block;">
+                                </td>
+                                <td style="padding: 0 0 0 12px; vertical-align: middle;">
+                                    <div style="font-weight: bold; color: #1e293b;">
+                                        @if($itemLink)
+                                            <a href="{{ $itemLink }}" style="color: #E14C04; text-decoration: none;">{{ $orderLine->description }}</a>
+                                        @else
+                                            {{ $orderLine->description }}
+                                        @endif
+                                    </div>
+                                    @if($orderLine->option)
+                                        <div style="font-size: 12px; color: #64748b; font-style: italic;">{{ $orderLine->option }}</div>
+                                    @endif
+                                </td>
+                            </tr>
+                        </table>
                     </td>
                     <td style="padding: 12px 8px; text-align: center; color: #1e293b; vertical-align: middle;">{{ $orderLine->quantity }}</td>
                     <td style="padding: 12px 8px; text-align: right; font-weight: bold; color: #1e293b; vertical-align: middle;">{{ $orderLine->sub_total->formatted() }}</td>
                 </tr>
+                @if($barBuilder)
+                    <tr style="border-bottom: 1px solid #f1f5f9;">
+                        <td colspan="3" style="padding: 0 8px 12px 8px;">
+                            @include('mail.sytatsu.orders.includes.bar-builder-details', ['barBuilder' => $barBuilder])
+                        </td>
+                    </tr>
+                @endif
             @endif
         @endforeach
     </tbody>

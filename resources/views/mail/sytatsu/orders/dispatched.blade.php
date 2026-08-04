@@ -16,7 +16,28 @@
         </div>
     @endif
 
-    <div style="border-top: 1px solid #e2e8f0; padding-top: 24px;">
+    @if($order->shippingAddress)
+        @php
+            $shippingAddress = $order->shippingAddress;
+            $billingAddress = $order->billingAddress;
+        @endphp
+
+        <div style="border-top: 1px solid #e2e8f0; padding-top: 24px; margin-top: 24px;">
+            <h2 style="font-size: 20px; font-weight: bold; color: #1C315E; text-transform: uppercase; margin-bottom: 16px;">Delivery Address</h2>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td style="vertical-align: top; padding-right: 16px;">
+                        @include('mail.sytatsu.orders.includes.address', ['address' => $shippingAddress, 'label' => 'Shipping Address'])
+                    </td>
+                    <td style="vertical-align: top;">
+                        @include('mail.sytatsu.orders.includes.address', ['address' => $billingAddress, 'label' => 'Billing Address'])
+                    </td>
+                </tr>
+            </table>
+        </div>
+    @endif
+
+    <div style="border-top: 1px solid #e2e8f0; padding-top: 24px; margin-top: 24px;">
         <h2 style="font-size: 20px; font-weight: bold; color: #1C315E; text-transform: uppercase; margin-bottom: 16px;">Order Summary</h2>
         @include('mail.sytatsu.orders.includes.order-table')
     </div>

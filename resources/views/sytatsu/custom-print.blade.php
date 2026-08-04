@@ -1,6 +1,6 @@
 <div class="mx-auto xl:min-w-[80rem] max-w-[30rem] md:max-w-[85rem] w-full flex flex-col gap-8">
     <div class="flex flex-col md:grid md:grid-cols-3 gap-8 md:gap-12">
-        <div class="md:col-span-2 shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 p-8 md:p-12 self-start w-full">
+        <div class="md:col-span-2 rounded-2xl shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 p-8 md:p-12 self-start w-full">
             <x-ui.page-header tag="h1" title="{{ __('Custom Print Request') }}" />
 
             <p class="mb-8 text-gray-600 dark:text-neutral-400">

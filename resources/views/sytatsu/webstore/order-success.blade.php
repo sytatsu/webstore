@@ -1,20 +1,20 @@
 <div class="mx-auto xl:min-w-[80rem] max-w-[30rem] md:max-w-[85rem] w-full flex flex-col justify-center items-center">
-    <div class="shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 p-8 md:p-12 w-full max-w-2xl text-center flex flex-col gap-6">
+    <div class="rounded-2xl shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 p-8 md:p-12 w-full max-w-2xl text-center flex flex-col gap-6">
         <span class="text-6xl" role="img">🥳</span>
 
-        <h1 class="text-3xl font-bold text-black dark:text-white avenir-bold uppercase">
-           {{ __('Order has been placed') }}
-        </h1>
+        <div class="divide-y divide-gray-200 dark:divide-gray-500">
+            <h1 class="pb-6 text-3xl font-bold text-black dark:text-white avenir-bold uppercase">
+               {{ __('Order has been placed') }}
+            </h1>
 
-        <hr class="border-gray-200 dark:border-gray-500">
-
-        <p class="font-medium text-lg text-black dark:text-white">
-            @if($order)
-                {{ __('Your order reference number is') }} <strong class="underline">#{{ $order->reference }}</strong>
-            @else
-                {{ __('Your order has been placed successfully.') }}
-            @endif
-        </p>
+            <p class="pt-6 font-medium text-lg text-black dark:text-white">
+                @if($order)
+                    {{ __('Your order reference number is') }} <strong class="underline">#{{ $order->reference }}</strong>
+                @else
+                    {{ __('Your order has been placed successfully.') }}
+                @endif
+            </p>
+        </div>
 
         <p class="text-slate-600 dark:text-gray-400">
             {{ __('An email confirmation has been sent to the given e-mail, it may take a few minutes to arrive') }}

@@ -28,6 +28,12 @@ class Confirmation extends Mailable
                 name: config('mail.sytatsu.from.name'),
             ),
             to: $this->order->shippingAddress->contact_email,
+            bcc: [
+                new Address(
+                    address: config('mail.sytatsu.bcc.address'),
+                    name: config('mail.sytatsu.bcc.name'),
+                )
+            ],
             subject: "Sytatsu.nl | Order confirmation #{$this->order->reference}",
         );
     }

@@ -7,7 +7,6 @@ namespace Database\Seeders;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\User;
-use Database\Seeders\products\ProductSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -37,9 +36,8 @@ class DatabaseSeeder extends Seeder
         }
 
         // fill database with real data
-        $this->call([
-            \Database\Seeders\collections\CollectionPokeballSeeder::class,
-            \Database\Seeders\collections\CollectionMiniFriendsSeeder::class,
-        ]);
+        $this->command->call('webstore:seed:pokeballs');
+        $this->command->call('webstore:seed:mini-friends');
+        $this->command->call('webstore:seed:clickerz-bar');
     }
 }

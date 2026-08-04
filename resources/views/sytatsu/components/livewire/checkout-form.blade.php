@@ -115,7 +115,7 @@
                     <div
                         wire:key="shipping_option_{{ $option->getIdentifier() }}"
                         wire:click="$set('chosenShipping', '{{ $option->getIdentifier() }}')"
-                        class="relative flex flex-col h-full p-6 text-sm font-medium rounded-lg border-2 cursor-pointer transition-all {{ $this->chosenShipping === $option->getIdentifier() ? 'border-secondary ring-1 ring-secondary bg-secondary/5 dark:bg-secondary/10' : 'border-gray-100 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-primary/50' }} text-slate-800 dark:text-white"
+                        class="relative flex flex-col h-full p-6 text-sm font-medium rounded-xl border-2 cursor-pointer transition-all {{ $this->chosenShipping === $option->getIdentifier() ? 'border-secondary ring-1 ring-secondary bg-secondary/5 dark:bg-secondary/10' : 'border-gray-100 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-primary/50' }} text-slate-800 dark:text-white"
                     >
                         <div class="flex justify-between items-start mb-2">
                             <span class="avenir-bold text-lg">{{ __($option->getName()) }}</span>

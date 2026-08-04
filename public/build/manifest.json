@@ -131,6 +131,22 @@
     "file": "assets/product_placeholder-63c37212.jpg",
     "src": "resources/images/product_placeholder.jpg"
   },
+  "resources/images/seeders/clickerz-bar-hero-game.svg": {
+    "file": "assets/clickerz-bar-hero-game-bb9725f9.svg",
+    "src": "resources/images/seeders/clickerz-bar-hero-game.svg"
+  },
+  "resources/images/seeders/clickerz-bar-hero-wow.svg": {
+    "file": "assets/clickerz-bar-hero-wow-3d041ae8.svg",
+    "src": "resources/images/seeders/clickerz-bar-hero-wow.svg"
+  },
+  "resources/images/seeders/clickerz-bar-hero.svg": {
+    "file": "assets/clickerz-bar-hero-d068c216.svg",
+    "src": "resources/images/seeders/clickerz-bar-hero.svg"
+  },
+  "resources/images/seeders/clickerz-bar-thumbnail.png": {
+    "file": "assets/clickerz-bar-thumbnail-802af3bf.png",
+    "src": "resources/images/seeders/clickerz-bar-thumbnail.png"
+  },
   "resources/images/sytatsu_hero.jpg": {
     "file": "assets/sytatsu_hero-0d455cc1.jpg",
     "src": "resources/images/sytatsu_hero.jpg"
@@ -141,7 +157,7 @@
     "src": "resources/js/sytatsu.js"
   },
   "resources/scss/sytatsu.scss": {
-    "file": "assets/sytatsu-1edf97a9.css",
+    "file": "assets/sytatsu-9b153549.css",
     "isEntry": true,
     "src": "resources/scss/sytatsu.scss"
   }

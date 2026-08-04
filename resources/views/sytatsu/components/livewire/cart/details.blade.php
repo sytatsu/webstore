@@ -1,18 +1,20 @@
 <div class="flex-grow">
     @if ($this->cart && $this->lines)
-        <h3 class="text-xl font-bold text-black dark:text-white mb-6 avenir-bold uppercase">
-            {{ $checkout ? __('Order Summary') : __('Shopping Cart') }}
-        </h3>
+        <div class="divide-y divide-gray-200 dark:divide-gray-600">
+            <div class="pb-6">
+                <h3 class="text-xl font-bold text-black dark:text-white avenir-bold uppercase">
+                    {{ $checkout ? __('Order Summary') : __('Shopping Cart') }}
+                </h3>
+            </div>
 
-        <hr class="mb-6 border-gray-200 dark:border-gray-500">
+            <div class="py-6 flow-root">
+                <livewire:sytatsu.components.cart.components.cart-items :checkout="$checkout" />
+            </div>
 
-        <div class="flow-root mb-6">
-            <livewire:sytatsu.components.cart.components.cart-items :checkout="$checkout" />
+            <div class="pt-6">
+                <livewire:sytatsu.components.cart.components.cart-totals :checkout="$checkout" />
+            </div>
         </div>
-
-        <hr class="mb-6 border-gray-200 dark:border-gray-500">
-
-        <livewire:sytatsu.components.cart.components.cart-totals :checkout="$checkout" />
     @else
         <p class="py-4 text-sm font-medium text-center text-gray-500 dark:text-gray-300">
             {{ __('Your cart is empty') }}

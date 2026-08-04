@@ -1,6 +1,7 @@
 <div class="flex-grow">
     @if ($this->cart && $this->lines)
-        <div class="flow-root">
+        <div class="divide-y divide-gray-200 dark:divide-gray-500">
+        <div class="flow-root pb-4">
             <ul class="-mt-4 overflow-y-auto divide-y divide-gray-200 dark:divide-gray-500{{ $this->checkout ? "" : " max-h-96" }}">
                 @foreach ($this->lines as $index => $line)
                     <li>
@@ -84,9 +85,7 @@
             </ul>
         </div>
 
-        <hr class="text-gray-300 dark:text-gray-400">
-
-        <div class="divide-y divide-gray-200 dark:divide-gray-500">
+        <div class="pt-4 divide-y divide-gray-200 dark:divide-gray-500">
             @if ($this->checkout)
                 <dl class="flex flex-wrap py-2 text-sm">
                     <dt class="w-1/2 font-medium text-black dark:text-white">
@@ -133,6 +132,7 @@
                     {{ $this->cart->total->formatted() }}
                 </dd>
             </dl>
+        </div>
         </div>
     @else
         <p class="py-4 text-sm font-medium text-center text-gray-500 dark:text-gray-300">

@@ -8,14 +8,12 @@
                     </a>
                 </div>
 
-                <div class="col-span-1">
-                    <h4 class="text-lg font-bold text-black dark:text-white mb-4 avenir-bold uppercase">
+                <div class="col-span-1 divide-y divide-gray-200 dark:divide-gray-500">
+                    <h4 class="pb-4 text-lg font-bold text-black dark:text-white avenir-bold uppercase">
                         {{ __('About Sytatsu') }}
                     </h4>
 
-                    <hr class="mb-4 border-gray-200 dark:border-gray-500">
-
-                    <div class="mt-3 grid space-y-3">
+                    <div class="pt-4 mt-3 grid space-y-3">
                         <p>
                             <a class="inline-flex gap-x-2 text-gray-500 hover:text-gray-700 focus:outline-hidden focus:text-gray-700 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
                                href="{{ route('sytatsu.about') }}">{{ __("About us") }}</a></p>
@@ -31,14 +29,12 @@
                     </div>
                 </div>
 
-                <div class="col-span-1">
-                    <h4 class="text-lg font-bold text-black dark:text-white mb-4 avenir-bold uppercase">
+                <div class="col-span-1 divide-y divide-gray-200 dark:divide-gray-500">
+                    <h4 class="pb-4 text-lg font-bold text-black dark:text-white avenir-bold uppercase">
                         {{ __('Customer service') }}
                     </h4>
 
-                    <hr class="mb-4 border-gray-200 dark:border-gray-500">
-
-                    <div class="mt-3 grid space-y-3">
+                    <div class="pt-4 mt-3 grid space-y-3">
                         <p>
                             <a class="inline-flex gap-x-2 text-gray-500 hover:text-gray-700 focus:outline-hidden focus:text-gray-700 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
                                href="{{ route('sytatsu.contact') }}">{{ __("Contact") }}</a></p>

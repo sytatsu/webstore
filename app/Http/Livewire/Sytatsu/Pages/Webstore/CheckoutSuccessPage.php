@@ -13,7 +13,7 @@ class CheckoutSuccessPage extends SytatsuBasePage
     protected string $view = 'sytatsu.webstore.order-success';
     protected ?string $title = 'Order Successful';
 
-    public string $order_id;
+    public string $order_id = '';
     public ?Order $order = null;
 
     protected array $queryString = ['order_id'];
