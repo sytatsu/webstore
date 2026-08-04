@@ -75,7 +75,7 @@
                                                             </button>
                                                         @else
                                                             <a class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 dark:text-neutral-200 dark:hover:bg-slate-700 avenir-bold uppercase text-nowrap"
-                                                               href="{{ route('sytatsu.webstore.collection', $collection->defaultUrl?->slug ?? $collection->id) }}"
+                                                               href="{{ route('sytatsu.webstore.collection', ['collection' => $collection->defaultUrl?->slug ?? $collection->id]) }}"
                                                             >
                                                                 {{ $collection->translateAttribute('name') }}
                                                             </a>
@@ -112,7 +112,7 @@
                                                             </button>
                                                         @else
                                                             <a class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 dark:text-neutral-200 dark:hover:bg-slate-700 avenir-bold uppercase text-nowrap"
-                                                               href="{{ route('sytatsu.webstore.collection', $collection->defaultUrl?->slug ?? $collection->id) }}"
+                                                               href="{{ route('sytatsu.webstore.collection', ['collection' => $collection->defaultUrl?->slug ?? $collection->id]) }}"
                                                             >
                                                                 {{ $collection->translateAttribute('name') }}
                                                             </a>

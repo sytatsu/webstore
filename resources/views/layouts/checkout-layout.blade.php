@@ -15,10 +15,39 @@
         <meta name="apple-mobile-web-app-title" content="Sytatsu" />
         <link rel="manifest" href="{{ asset('resources/site.webmanifest') }}" />
 
-        <meta name="description" content="Print & Shop by Sytatsu. We create models & brind them to life!">
-        <meta name="keywords" content="HTML,CSS,JavaScript,PHP,React,Laravel,Symphony,Scss,Sass,Illustrator,Git,Github,Gitlab,Bootstrap,StPronk,Steve,Pronk,Developer,Designer,Develop,Design,Web,Website,Zuid,Holland,Zuid-Holland,Zoetermeer,Nederland,Maatwerk,3D,Print,Printing,3dprint,3dprinting,Model,Modeling,Tatsugiri,Dondozo,Sytatsu,Syaritatsu,Tatsu">
+        @php
+            $seoDescription = $description ?? config('seo.default_description');
+            $seoImage = $image ?? Vite::asset(config('seo.default_image'));
+        @endphp
+
+        <meta name="description" content="{{ $seoDescription }}">
+        <meta name="keywords" content="{{ config('seo.default_keywords') }}">
         <meta name="author" content="Sytatsu">
         <meta name="google-site-verification" content="{{ config('seo.google-site-verification') }}"/>
+
+        <link rel="canonical" href="{{ url()->current() }}" />
+
+        @php $localeAlternates = \App\Support\LocaleAwareUrlGenerator::alternatesForCurrentRoute(); @endphp
+        @foreach($localeAlternates as $altLocale => $altUrl)
+            <link rel="alternate" hreflang="{{ $altLocale }}" href="{{ $altUrl }}" />
+        @endforeach
+        @if(isset($localeAlternates['nl']))
+            <link rel="alternate" hreflang="x-default" href="{{ $localeAlternates['nl'] }}" />
+        @endif
+
+        <meta property="og:site_name" content="Sytatsu">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="{{ $title }}">
+        <meta property="og:description" content="{{ $seoDescription }}">
+        <meta property="og:url" content="{{ url()->current() }}">
+        <meta property="og:image" content="{{ $seoImage }}">
+
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="{{ $title }}">
+        <meta name="twitter:description" content="{{ $seoDescription }}">
+        <meta name="twitter:image" content="{{ $seoImage }}">
+
+        @stack('head')
 
         <!-- Vite -->
         @vite([

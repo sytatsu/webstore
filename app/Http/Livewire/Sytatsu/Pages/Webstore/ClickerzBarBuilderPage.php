@@ -30,6 +30,8 @@ class ClickerzBarBuilderPage extends SytatsuBasePage
             ->element;
 
         $this->setTitle($this->product->translateAttribute('name'));
+        $this->setDescription('Build your own custom Clickerz Bar. Pick your colours, add your icons, and spell out your own word.');
+        $this->setImage($this->product->getThumbnailImage());
 
         $this->setViewAttributes([
             'product' => $this->product,
