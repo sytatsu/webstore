@@ -1,10 +1,10 @@
 <!-- Clickerz Bar Builder Hero -->
 <div class="relative mb-8 rounded-2xl overflow-hidden">
-    <div class="relative rounded-2xl bg-linear-to-br from-slate-800 to-slate-950 dark:from-slate-900 dark:to-black shadow-md dark:shadow-slate-700">
+    <div class="relative rounded-2xl bg-linear-to-br from-primary to-primary-dark dark:from-slate-900 dark:to-black shadow-md dark:shadow-slate-700">
         <div class="relative z-20 px-6 pt-12 pb-12 md:px-12 md:py-20 flex flex-col md:flex-row items-center justify-between gap-10 md:gap-12 min-h-[350px] md:min-h-[420px]">
             <div class="flex flex-col gap-6 w-full md:max-w-none md:w-3/5">
                 <div class="inline-flex items-center gap-2 w-fit px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white/90 text-xs font-bold uppercase tracking-wide avenir-bold">
-                    <i class="fa fa-star fa-sm text-secondary"></i> <span class="mt-1">{{ __('New') }}</span>
+                    <i class="fa fa-star fa-sm"></i> <span class="mt-1">{{ __('New') }}</span>
                 </div>
 
                 <div class="max-w-xl text-left">
@@ -25,7 +25,7 @@
 
             <!-- Mobile: single contained example -->
             <div class="relative md:hidden w-4/5 max-w-[280px] flex items-center justify-center animate-fade-in-right" style="animation-delay: 200ms;">
-                <div class="absolute inset-0 bg-linear-to-br from-red-500/50 via-amber-400/40 to-blue-500/50 rounded-full blur-3xl scale-125"></div>
+                <div class="absolute inset-0 bg-white/60 dark:bg-white/20 rounded-full blur-3xl scale-125"></div>
                 <img src="{{ Vite::asset('resources/images/seeders/clickerz-bar-hero.svg') }}"
                      alt="{{ __('Clickerz Bar Builder') }}"
                      class="relative z-10 w-full drop-shadow-2xl -rotate-3"
@@ -38,8 +38,8 @@
         </div>
 
         <!-- Desktop: fanned, overlapping examples bleeding off the edge -->
-        <div class="hidden md:block absolute top-5/8 md:-right-24 -translate-y-1/2 z-30 w-[380px] lg:w-[460px]">
-            <div class="absolute inset-0 bg-linear-to-br from-red-500/50 via-amber-400/40 to-blue-500/50 rounded-full blur-3xl scale-125"></div>
+        <div class="hidden md:block absolute top-1/2 md:-right-24 -translate-y-1/2 z-30 w-[380px] lg:w-[460px]">
+            <div class="absolute inset-0 bg-linear-to-br bg-white/60 dark:bg-white/20 rounded-full blur-3xl h-[110%] lg:h-[135%] aspect-square"></div>
 
             <div class="relative flex flex-col items-end">
                 <img src="{{ Vite::asset('resources/images/seeders/clickerz-bar-hero-wow.svg') }}"
@@ -54,7 +54,7 @@
                 >
                 <img src="{{ Vite::asset('resources/images/seeders/clickerz-bar-hero.svg') }}"
                      alt="{{ __('Clickerz Bar Builder') }}"
-                     class="relative z-30 w-full rotate-[6deg] scale-150 drop-shadow-2xl hover:rotate-0 transition-transform duration-500 animate-fade-in-right"
+                     class="relative z-30 w-full rotate-[6deg] scale-150 drop-shadow-2xl hover:rotate-0 translate-y-1/2 transition-transform duration-500 animate-fade-in-right"
                      style="animation-delay: 450ms;"
                 >
             </div>
