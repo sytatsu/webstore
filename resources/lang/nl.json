@@ -240,5 +240,9 @@
     "Hide configuration payload": "Configuratiegegevens verbergen",
     "Preview of the clicker bar": "Voorbeeld van de clicker bar",
     "Added to cart": "Toegevoegd aan winkelwagen",
-    "Custom": "Aangepast"
+    "Custom": "Aangepast",
+
+    "Error": "Foutmelding",
+    "The page you're looking for doesn't exist or is temporarily unavailable.": "De pagina die u zoekt bestaat niet of is tijdelijk niet beschikbaar.",
+    "Back to home": "Terug naar home"
 }

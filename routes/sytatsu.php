@@ -66,3 +66,9 @@ Route::model('collection', Collection::class, function (string $slug) {
         ->firstOrFail()
         ->element;
 });
+
+// Ensures unmatched URLs still run through the `web` middleware group (session + Locale)
+// before falling through to the 404 handler, so the visitor's selected locale is honoured.
+Route::fallback(function () {
+    abort(404);
+});
