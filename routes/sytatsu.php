@@ -25,6 +25,7 @@ use Lunar\Models\Product;
 // route($name, ...) call in the app keeps working unchanged because App\Support\
 // LocaleAwareUrlGenerator (bound in AppServiceProvider) transparently resolves to the
 // ".en" variant when the current locale is English — see that class for details.
+if (! function_exists('registerWebstoreRoutes')) {
 function registerWebstoreRoutes(?string $nameSuffix = null): void
 {
     Route::get('/about', LivewireSytatsu\About::class)->name("sytatsu.about{$nameSuffix}");
@@ -44,6 +45,7 @@ function registerWebstoreRoutes(?string $nameSuffix = null): void
         Route::get('/cart', LivewireSytatsu\Webstore\CartPage::class)->name("sytatsu.webstore.cart{$nameSuffix}");
         Route::get('/checkout', LivewireSytatsu\Webstore\CheckoutPage::class)->name("sytatsu.webstore.checkout{$nameSuffix}");
     });
+}
 }
 
 registerWebstoreRoutes();
@@ -89,6 +91,7 @@ Route::model('collection', Collection::class, function (string $slug) {
 
 // When a product/collection is resolved via a historical (non-default) slug, 301 redirect
 // to the current canonical URL so search engines consolidate link equity onto one URL.
+if (! function_exists('redirectToDefaultUrlIfStale')) {
 function redirectToDefaultUrlIfStale(Url $url, string $routeName, string $parameterKey): void
 {
     if ($url->default) {
@@ -111,6 +114,7 @@ function redirectToDefaultUrlIfStale(Url $url, string $routeName, string $parame
     throw new \Illuminate\Http\Exceptions\HttpResponseException(
         redirect($queryString ? "{$redirectUrl}?{$queryString}" : $redirectUrl, 301)
     );
+}
 }
 
 // Ensures unmatched URLs still run through the `web` middleware group (session + Locale)
