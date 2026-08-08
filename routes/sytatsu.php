@@ -2,9 +2,6 @@
 
 use App\Http\Livewire\Sytatsu\Pages as LivewireSytatsu;
 use Illuminate\Support\Facades\Route;
-use Lunar\Models\Url;
-use Lunar\Models\Collection;
-use Lunar\Models\Product;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,67 +52,14 @@ Route::prefix('en')->group(function () {
 });
 
 
-Route::model('product', Product::class, function (string $slug) {
-    $url = Url::query()
-        ->where('slug', $slug)
-        ->whereIn('element_type', [
-            (new Product)->getMorphClass(),
-            Product::class,
-            'product',
-        ])
-        ->orderBy('default', 'desc')
-        ->orderBy('id', 'desc')
-        ->firstOrFail();
-
-    redirectToDefaultUrlIfStale($url, 'sytatsu.webstore.product', 'product');
-
-    return $url->element;
-});
-
-Route::model('collection', Collection::class, function (string $slug) {
-    $url = Url::query()
-        ->where('slug', $slug)
-        ->whereIn('element_type', [
-            (new Collection)->getMorphClass(),
-            Collection::class,
-            'collection',
-        ])
-        ->orderBy('default', 'desc')
-        ->orderBy('id', 'desc')
-        ->firstOrFail();
-
-    redirectToDefaultUrlIfStale($url, 'sytatsu.webstore.collection', 'collection');
-
-    return $url->element;
-});
-
-// When a product/collection is resolved via a historical (non-default) slug, 301 redirect
-// to the current canonical URL so search engines consolidate link equity onto one URL.
-if (! function_exists('redirectToDefaultUrlIfStale')) {
-function redirectToDefaultUrlIfStale(Url $url, string $routeName, string $parameterKey): void
-{
-    if ($url->default) {
-        return;
-    }
-
-    $defaultSlug = Url::query()
-        ->where('element_type', $url->element_type)
-        ->where('element_id', $url->element_id)
-        ->where('default', true)
-        ->value('slug');
-
-    if (! $defaultSlug || $defaultSlug === $url->slug) {
-        return;
-    }
-
-    $redirectUrl = route($routeName, [$parameterKey => $defaultSlug]);
-    $queryString = request()->getQueryString();
-
-    throw new \Illuminate\Http\Exceptions\HttpResponseException(
-        redirect($queryString ? "{$redirectUrl}?{$queryString}" : $redirectUrl, 301)
-    );
-}
-}
+// The 'product'/'collection' route-model bindings (slug lookup via the Lunar Url table,
+// with a 301 redirect off stale slugs) live in App\Providers\AppServiceProvider instead of
+// here. Route::model() calls in this file only run when routes are NOT cached — Laravel
+// skips re-executing routes/*.php entirely once `route:cache` has run, loading the compiled
+// route table instead — while Lunar's ModelManifest registers its own plain-Eloquent
+// 'product'/'collection' binders unconditionally on every request. With the override sitting
+// here, a cached-routes production deploy would silently fall back to Lunar's default binder
+// (lookup by id, not slug) and 404 every product/collection page. See AppServiceProvider.
 
 // Ensures unmatched URLs still run through the `web` middleware group (session + Locale)
 // before falling through to the 404 handler, so the visitor's selected locale is honoured.
