@@ -17,7 +17,8 @@ RUN composer install \
     --optimize-autoloader \
     --prefer-dist \
     --no-interaction \
-    --ignore-platform-reqs
+    --ignore-platform-reqs \
+    --no-scripts
 
 ########################################
 # 2. Frontend assets (vite build)
