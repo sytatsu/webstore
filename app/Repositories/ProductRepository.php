@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Lunar\Models\Product;
 
 class ProductRepository
 {
+    // The Clickerz Bar product exists only to back the interactive builder at
+    // /clickerz/builder (see ClickerzBarBuilderPage); it shouldn't surface as a
+    // regular product search result, but the builder page itself should.
+    private const array SEARCH_EXCLUDED_SLUGS = ['clickerz-bar'];
 
     /**
      * @param array<int>|Collection<int> $collectionIds
@@ -17,6 +22,30 @@ class ProductRepository
      * @return Collection<Product>
      */
     public function getFilteredProducts(array|Collection $collectionIds, ?int $limit = null, array $filters = []): Collection
+    {
+        $query = $this->buildFilteredQuery($collectionIds, $filters);
+
+        if ($limit) {
+            $query->limit($limit);
+        }
+
+        return $query->get();
+    }
+
+    /**
+     * @param array<int>|Collection<int> $collectionIds
+     * @param array $filters
+     */
+    public function paginateFilteredProducts(array|Collection $collectionIds, int $perPage, array $filters = []): LengthAwarePaginator
+    {
+        return $this->buildFilteredQuery($collectionIds, $filters)->paginate($perPage);
+    }
+
+    /**
+     * @param array<int>|Collection<int> $collectionIds
+     * @param array $filters
+     */
+    private function buildFilteredQuery(array|Collection $collectionIds, array $filters = []): Builder
     {
         $query = Product::query();
 
@@ -71,11 +100,7 @@ class ProductRepository
                 break;
         }
 
-        if ($limit) {
-            $query->limit($limit);
-        }
-
-        return $query->get();
+        return $query;
     }
 
     public function getOrderedByCreatedAt(array|Collection $collectionIds, ?int $limit = null): Collection
@@ -99,6 +124,28 @@ class ProductRepository
     public function getByIds(array $ids): Collection
     {
         return Product::whereIn('id', $ids)->get();
+    }
+
+    public function search(string $term, ?int $limit = null): Collection
+    {
+        $term = trim($term);
+
+        if ($term === '') {
+            return collect();
+        }
+
+        // The 'collection' Scout driver loads every published product before filtering
+        // in PHP, so eager-loading here avoids an N+1 across the whole catalog on every search.
+        $builder = Product::search($term)
+            ->query(fn (Builder $query) => $query
+                ->with(['variants.prices', 'thumbnail', 'productType', 'brand'])
+                ->whereDoesntHave('urls', fn ($q) => $q->whereIn('slug', self::SEARCH_EXCLUDED_SLUGS)));
+
+        if ($limit) {
+            $builder->take($limit);
+        }
+
+        return $builder->get();
     }
 
     public function applyOrdering(Builder $query): Builder

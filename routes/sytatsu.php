@@ -35,6 +35,7 @@ function registerWebstoreRoutes(?string $nameSuffix = null): void
     Route::get('/clickerz/builder', LivewireSytatsu\Webstore\ClickerzBarBuilderPage::class)->name("sytatsu.webstore.clickerz-bar-builder{$nameSuffix}");
     Route::get('/collections', LivewireSytatsu\Webstore\CollectionsPage::class)->name("sytatsu.webstore.collections{$nameSuffix}");
     Route::get('/collections/{collection}', LivewireSytatsu\Webstore\CollectionPage::class)->name("sytatsu.webstore.collection{$nameSuffix}");
+    Route::get('/search', LivewireSytatsu\Webstore\SearchPage::class)->name("sytatsu.webstore.search{$nameSuffix}");
 
     Route::get('/checkout/success', LivewireSytatsu\Webstore\CheckoutSuccessPage::class)->name("sytatsu.webstore.checkout.success{$nameSuffix}");
 

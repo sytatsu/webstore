@@ -52,7 +52,37 @@
             @if(isset($collections) && $collections->isNotEmpty())
                 <livewire:sytatsu.components.collection.collection-cards :collections="$collections" :max-width="$maxWidth ?? 'max-w-[85rem]'" :grid-columns="$gridColumns" :wire:key="'collection-cards-'.count($collections)" />
             @elseif(isset($collection) && isset($products))
-                <livewire:sytatsu.components.collection.collection-cards :collections="new \App\DTOs\ProductCollectionDTO($collection, $products)" :show-more="false" :max-width="$maxWidth ?? 'max-w-[85rem]'" :grid-columns="$gridColumns" :wire:key="'collection-cards-'.$collection->id.'-'.count($products).'-'.md5(json_encode($filters))" />
+                <div class="flex flex-col gap-8">
+                    @if($products->isNotEmpty())
+                        <div class="rounded-2xl shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 py-8 px-6 lg:p-12">
+                            <div class="divide-y divide-gray-200 dark:divide-gray-500">
+                                <div class="flex flex-row justify-between items-center pb-8">
+                                    <span class="text-2xl avenir-bold text-black dark:text-white">
+                                        {{ $collection->translateAttribute('name') }}
+                                    </span>
+                                </div>
+
+                                <div class="pt-8 grid {{ $gridColumns }} gap-x-4 gap-y-6 md:gap-6 lg:gap-8 xl:gap-12">
+                                    @foreach($products as $product)
+                                        <livewire:sytatsu.components.product.product-tile :product="$product" :wire:key="'product-'.$product->id.'-'.md5($product->updated_at)" />
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <div class="rounded-2xl shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 p-8 md:p-12 text-center">
+                            <p class="text-gray-600 dark:text-gray-400 avenir-bold uppercase">
+                                {{ __('No products found') }}
+                            </p>
+                        </div>
+                    @endif
+
+                    @if($products->hasPages())
+                        <div class="flex justify-center">
+                            {{ $products->links() }}
+                        </div>
+                    @endif
+                </div>
             @endif
         </div>
     </div>

@@ -4,20 +4,22 @@ namespace App\Http\Livewire\Sytatsu\Pages\Webstore;
 
 use App\Http\Livewire\Sytatsu\SytatsuBasePage;
 use App\Services\StorefrontService;
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
+use Livewire\WithPagination;
 use Lunar\Models\Collection;
 
 class CollectionPage extends SytatsuBasePage
 {
+    use WithPagination;
+
     protected string $view = 'sytatsu.webstore.collection';
     public ?string $label;
 
-    /** @var EloquentCollection $products */
-    public EloquentCollection $products;
-
     public Collection $collection;
     public string $maxWidth = 'max-w-[85rem]';
+
+    protected int $perPage = 24;
 
     public array $subCollections = [];
     public ?float $minPrice = null;
@@ -35,13 +37,12 @@ class CollectionPage extends SytatsuBasePage
 
     public array $filters = [];
 
-    protected StorefrontService $storefrontService;
-
     protected $listeners = ['filtersUpdated' => 'updateFilters'];
 
     public function updated($name): void
     {
         if (in_array($name, ['subCollections', 'minPrice', 'maxPrice', 'inStock', 'sort'])) {
+            $this->resetPage();
             $this->syncFilters();
         }
     }
@@ -54,6 +55,7 @@ class CollectionPage extends SytatsuBasePage
         $this->inStock = $filters['inStock'] ?? false;
         $this->sort = $filters['sort'] ?? $this->collection->translateAttribute('default_sort');
 
+        $this->resetPage();
         $this->syncFilters();
     }
 
@@ -66,14 +68,11 @@ class CollectionPage extends SytatsuBasePage
             'inStock' => $this->inStock,
             'sort' => $this->sort,
         ];
-
-        $this->getProductsAttribute(resetProducts: true);
     }
 
     public function mount(Collection $collection, StorefrontService $storefrontService): void
     {
         $this->collection = $collection;
-        $this->storefrontService = $storefrontService;
         $this->setTitle($collection->translateAttribute('name'));
         $this->label = sprintf('%s: %s', __('Collection'), $collection->translateAttribute('name'));
 
@@ -90,12 +89,8 @@ class CollectionPage extends SytatsuBasePage
         $this->syncFilters();
     }
 
-    public function getProductsAttribute(bool $resetProducts = false): EloquentCollection
+    public function getProducts(): LengthAwarePaginator
     {
-        if (!isset($this->products) && !$resetProducts) {
-            return $this->products;
-        }
-
         $storefrontService = app(StorefrontService::class);
 
         if (!empty($this->filters['subCollections'])) {
@@ -105,10 +100,7 @@ class CollectionPage extends SytatsuBasePage
             $collectionIds = $collections->pluck('id');
         }
 
-        // Get all products from given collections with filters
-        $this->products = $storefrontService->getProductsForCollections($collectionIds, null, $this->filters);
-
-        return $this->products;
+        return $storefrontService->paginateProductsForCollections($collectionIds, $this->perPage, $this->filters);
     }
 
     public function resetFilters(): void
@@ -119,9 +111,15 @@ class CollectionPage extends SytatsuBasePage
         $this->inStock = false;
         $this->sort = $this->collection->translateAttribute('default_sort');
 
+        $this->resetPage();
         $this->syncFilters();
 
         $this->dispatch('filtersReset');
+    }
+
+    public function paginationView(): string
+    {
+        return 'vendor.pagination.sytatsu';
     }
 
     public function render(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\Support\Htmlable|\Closure|string
@@ -134,7 +132,7 @@ class CollectionPage extends SytatsuBasePage
         $showFilters = $showFilterCategories || $showFilterPrice || $showFilterAvailability || $showSorting;
 
         $this->setViewAttributes([
-            'products' => $this->getProductsAttribute(),
+            'products' => $this->getProducts(),
             'gridColumns' => $showFilters ? 'grid-cols-2 xl:grid-cols-3' : 'grid-cols-2 lg:grid-cols-4',
             'maxWidth' => $this->maxWidth,
             'showFilters' => $showFilters,

@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\DTOs\ProductCollectionDTO;
+use App\Filament\Pages\BarBuilderSettingsPage;
 use App\Repositories\CollectionRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\ProductVariantRepository;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Lunar\Models\Collection as LunarCollection;
 use Lunar\Models\Product;
 use Lunar\Models\ProductVariant;
@@ -25,6 +28,43 @@ readonly class StorefrontService
     public function getProductsForCollections(Collection|array $collectionIds, ?int $limit = null, array $filters = []): Collection
     {
         return $this->productRepository->getFilteredProducts($collectionIds, $limit, $filters);
+    }
+
+    public function searchProducts(string $term, ?int $limit = null): Collection
+    {
+        return $this->productRepository->search($term, $limit);
+    }
+
+    public function paginateProductsForCollections(Collection|array $collectionIds, int $perPage, array $filters = []): LengthAwarePaginator
+    {
+        return $this->productRepository->paginateFilteredProducts($collectionIds, $perPage, $filters);
+    }
+
+    /**
+     * Static/utility pages (as opposed to products) that should surface in search results.
+     * The Clickerz Bar product itself is excluded from product search (see
+     * ProductRepository::SEARCH_EXCLUDED_SLUGS) in favour of linking here to the builder.
+     *
+     * @return Collection<int, array{title: string, url: string}>
+     */
+    public function searchPages(string $term): Collection
+    {
+        $term = Str::lower(trim($term));
+        $pages = collect();
+
+        if ($term === '') {
+            return $pages;
+        }
+
+        if (BarBuilderSettingsPage::isEnabled()
+            && Str::contains(Str::lower(__('Clickerz Bar Builder').' clickerz bar builder'), $term)) {
+            $pages->push([
+                'title' => __('Clickerz Bar Builder'),
+                'url' => route('sytatsu.webstore.clickerz-bar-builder'),
+            ]);
+        }
+
+        return $pages;
     }
 
     public function findVariantByOptions(Product $product, array $selectedOptionValues): ?ProductVariant

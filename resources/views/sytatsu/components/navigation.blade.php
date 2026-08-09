@@ -1,6 +1,11 @@
-<div class="bg-background-light dark:bg-slate-800 shadow-md dark:shadow-slate-700">
-    <div class="mx-auto xl:min-w-[80rem] md:max-w-[85rem] w-full px-4 md:px-6 lg:px-8 py-2 flex justify-between">
-        <header class="sticky top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 text-sm p-0 md:py-4" style="z-index: 60">
+<div class="sticky top-0 z-50 bg-background-light dark:bg-slate-800 shadow-md dark:shadow-slate-700"
+     x-data="{ scrolled: false }"
+     x-init="scrolled = window.scrollY > 20; window.addEventListener('scroll', () => { scrolled = window.scrollY > 20 })"
+>
+    <div class="mx-auto xl:min-w-[80rem] md:max-w-[85rem] w-full px-4 md:px-6 lg:px-8 flex justify-between py-2 transition-[padding] duration-200"
+         :class="{ 'py-1': scrolled, 'py-2': !scrolled }"
+    >
+        <header class="flex flex-wrap md:justify-start md:flex-nowrap z-50 text-sm p-0 md:py-4 transition-[padding] duration-200" :class="{ 'md:py-1': scrolled, 'md:py-4': !scrolled }" style="z-index: 60">
             <nav class="relative max-w-2xl w-full mx-2 py-2.5 md:flex md:items-center md:justify-between md:py-0 md:px-4 md:mx-auto">
                 <div class="md:hidden">
                     <!-- Toggle Button -->
@@ -185,6 +190,8 @@
                 </button>
 
                 <livewire:sytatsu.components.cart />
+
+                <livewire:sytatsu.components.search-box />
             </div>
         </div>
     </div>
