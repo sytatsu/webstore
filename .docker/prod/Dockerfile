@@ -25,6 +25,12 @@ RUN composer install \
 ########################################
 FROM node:22-alpine AS assets
 WORKDIR /app
+# Forces this stage to wait for the vendor stage instead of running
+# alongside it: BuildKit builds independent stages concurrently by default,
+# and composer install + npm ci/vite build running at once exhausted memory
+# and hung the build on the production host. The copied file itself is
+# unused -- this COPY exists only to create that dependency edge.
+COPY --from=vendor /var/www/html/composer.lock /tmp/vendor-built.lock
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
