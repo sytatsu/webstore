@@ -11,9 +11,19 @@
                 <livewire:sytatsu.components.cart.components.cart-items :checkout="$checkout" />
             </div>
 
+            <div class="py-6">
+                <livewire:sytatsu.components.cart.components.voucher />
+            </div>
+
             <div class="pt-6">
                 <livewire:sytatsu.components.cart.components.cart-totals :checkout="$checkout" />
             </div>
+
+            @if ($checkout)
+                <div class="pt-6">
+                    <livewire:sytatsu.components.cart.components.order-notes />
+                </div>
+            @endif
         </div>
     @else
         <p class="py-4 text-sm font-medium text-center text-gray-500 dark:text-gray-300">

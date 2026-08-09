@@ -26,12 +26,19 @@ class Locale {
         // Livewire's own "/livewire/update" AJAX endpoint has no locale segment of its own,
         // so it falls back to the session value set by the last page that was loaded,
         // keeping those requests in sync with the page that made them.
+        $previousLocale = session('locale');
+
         $locale = $request->is('livewire/*')
             ? session('locale', 'nl')
             : ($request->segment(1) === 'en' ? 'en' : 'nl');
 
         App::setLocale($locale);
         session(['locale' => $locale]);
+
+        // Stashed for RedirectToPreferredLocale, which runs later in the `web` group (after
+        // route model binding) and needs to know what locale was in effect before this
+        // request overwrote the session value above.
+        $request->attributes->set('locale.previous', $previousLocale);
 
         return $next($request);
     }

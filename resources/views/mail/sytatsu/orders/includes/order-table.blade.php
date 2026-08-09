@@ -68,6 +68,17 @@
             <td style="padding: 4px 8px; color: #64748b;">Subtotal</td>
             <td style="padding: 4px 8px; text-align: right; color: #1e293b;">{{ $order->sub_total->formatted() }}</td>
         </tr>
+        @if($order->discount_total?->value > 0)
+            <tr>
+                <td style="padding: 4px 8px; color: #64748b;">
+                    Discount
+                    @if($order->cart?->coupon_code)
+                        ({{ $order->cart->coupon_code }})
+                    @endif
+                </td>
+                <td style="padding: 4px 8px; text-align: right; color: #1e293b;">-{{ $order->discount_total->formatted() }}</td>
+            </tr>
+        @endif
         @foreach($order->lines as $orderLine)
             @if($orderLine->purchasable_type === \Lunar\DataTypes\ShippingOption::class)
                 <tr>

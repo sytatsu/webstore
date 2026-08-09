@@ -39,4 +39,6 @@
         <h2 style="font-size: 20px; font-weight: bold; color: #1C315E; text-transform: uppercase; margin-bottom: 16px;">Order Details</h2>
         @include('mail.sytatsu.orders.includes.order-table')
     </div>
+
+    @include('mail.sytatsu.orders.includes.notes')
 @endsection

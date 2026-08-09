@@ -14,6 +14,10 @@
                             {{ __('Order Summary') }}
                         </h3>
 
+                        <div class="py-6">
+                            <livewire:sytatsu.components.cart.components.voucher />
+                        </div>
+
                         <div class="pt-6">
                             <livewire:sytatsu.components.cart.components.cart-totals />
                         </div>
