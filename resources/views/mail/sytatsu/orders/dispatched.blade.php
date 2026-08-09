@@ -9,6 +9,22 @@
         Your order <strong style="text-decoration: underline;">#{{ $order->reference }}</strong> is on its way!
     </p>
 
+    @if ($order->carrier && $order->tracking_number)
+        @php
+            $carrier = \App\Enums\ShippingCarrierEnum::tryFrom($order->carrier);
+        @endphp
+        <div style="background-color: #f1f5f9; padding: 16px; border-radius: 8px; margin-bottom: 24px; text-align: center;">
+            <p style="margin: 0; font-size: 16px; color: #4b5563;">Shipment Tracking ({{ $carrier?->label() ?? $order->carrier }}):</p>
+            @if ($carrier)
+                <p style="margin: 8px 0 0 0; font-size: 18px; font-weight: bold;">
+                    <a href="{{ $carrier->trackingUrl($order->tracking_number) }}" style="color: #E14C04; text-decoration: none;">{{ $order->tracking_number }}</a>
+                </p>
+            @else
+                <p style="margin: 8px 0 0 0; font-size: 18px; font-weight: bold; color: #E14C04;">{{ $order->tracking_number }}</p>
+            @endif
+        </div>
+    @endif
+
     @if ($content)
         <div style="background-color: #f1f5f9; padding: 16px; border-radius: 8px; margin-bottom: 24px; text-align: center;">
             <p style="margin: 0; font-size: 16px; color: #4b5563;">Track & Trace:</p>
