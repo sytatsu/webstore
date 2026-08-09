@@ -1,4 +1,4 @@
-<div class="sticky top-0 z-50 bg-background-light dark:bg-slate-800 shadow-md dark:shadow-slate-700"
+<div class="sticky top-0 z-[60] bg-background-light dark:bg-slate-800 shadow-md dark:shadow-slate-700"
      x-data="{ scrolled: false }"
      x-init="scrolled = window.scrollY > 20; window.addEventListener('scroll', () => { scrolled = window.scrollY > 20 })"
 >
