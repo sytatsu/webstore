@@ -100,7 +100,7 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
-//        $shippingModifiers->add(PostNLShippingModifier::class);
+        $shippingModifiers->add(PostNLShippingModifier::class);
         $shippingModifiers->add(DHLShippingModifier::class);
 
         Order::observe(\App\Observers\OrderObserver::class);
