@@ -19,7 +19,7 @@
         </div>
     </button>
 
-    <div class="absolute inset-x-0 top-auto z-50 w-screen max-w-sm px-6 py-8 mx-auto mt-8 bg-white dark:bg-slate-800 border-none shadow-md dark:shadow-slate-700 sm:left-auto rounded-none"
+    <div class="absolute inset-x-0 top-auto z-50 w-screen max-w-sm px-6 py-8 mx-auto mt-8 bg-white dark:bg-slate-800 border-none shadow-md dark:shadow-slate-700 sm:left-auto rounded-none max-h-[calc(100vh-6rem)] overflow-y-auto"
          x-show="cartOpen"
          x-on:click.away="cartOpen = false"
          x-transition

@@ -1,7 +1,7 @@
 <div>
 
     <x-ui.spinner-overlay wire:loading.flex wire:target="incrementLine, decrementLine, removeLine, updateLines" />
-    <ul class="-mt-4 overflow-y-auto divide-y divide-gray-200 dark:divide-gray-500{{ ($this->checkout || Route::currentRouteName() === 'sytatsu.webstore.cart') ? "" : " max-h-96" }}">
+    <ul class="-mt-4 divide-y divide-gray-200 dark:divide-gray-500">
         @foreach ($this->lines as $index => $line)
         @php $barBuilder = $line['meta']['bar_builder'] ?? null; @endphp
         <li class="relative">
