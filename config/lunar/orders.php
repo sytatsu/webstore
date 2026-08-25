@@ -97,6 +97,16 @@ return [
             'favourite' => true,
         ],
 
+        'ready-for-pickup' => [
+            'label' => 'Ready for Pickup',
+            'color' => '#0f9d58',
+            'mailers' => [
+                App\Mail\Sytatsu\Orders\ReadyForPickup::class,
+            ],
+            'notifications' => [],
+            'favourite' => true,
+        ],
+
         'cancelled' => [
             'label' => 'Cancelled',
             'mailers' => [

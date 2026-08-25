@@ -155,6 +155,10 @@ readonly class CartService
     public function getAvailableShippingOptions(LunarCart $cart): Collection
     {
         return ShippingManifest::getOptions($cart)->filter(function (ShippingOption $shippingOption) use ($cart) {
+            if ($shippingOption->collect) {
+                return true;
+            }
+
             $isFreeOption = str_ends_with($shippingOption->identifier, 'FREETARDEL');
             if ($this->canHaveFreeShipping($cart)) {
                 return $isFreeOption;

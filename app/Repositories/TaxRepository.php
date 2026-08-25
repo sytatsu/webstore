@@ -8,9 +8,11 @@ use Lunar\Models\TaxClass;
 
 class TaxRepository
 {
+    private static ?TaxClass $defaultShippingTaxClass = null;
+
     public function getDefaultShippingTaxClass(): TaxClass
     {
-        return TaxClass::query()
+        return self::$defaultShippingTaxClass ??= TaxClass::query()
             ->where('name', 'Shipping')
             ->first() ?? TaxClass::query()
             ->where('default', true)

@@ -48,7 +48,9 @@
 
     <x-ui.spinner-overlay wire:loading.flex x-show="$wire.isProcessing" wire:target="saveAddresses, toggleIsShippingSameAsBilling, refreshAddresses, saveShippingOption, setCheckoutStep" />
 
-    <script src="https://js.stripe.com/v3/stripe.js"></script>
+    @once
+        <script src="https://js.stripe.com/v3/stripe.js" defer></script>
+    @endonce
 
     @if ($this->currentStep === \App\Enums\CheckoutStepEnum::ADDRESS->value)
         <div class="flex flex-col w-full gap-12 ">

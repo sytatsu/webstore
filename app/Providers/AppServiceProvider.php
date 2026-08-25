@@ -9,6 +9,7 @@ use App\Filament\Pages\BarBuilderDefaultArrangementPage;
 use App\Filament\Pages\BarBuilderSettingsPage;
 use App\Filament\Pages\HomepageHeroSettingsPage;
 use App\Modifiers\DHLShippingModifier;
+use App\Modifiers\PickupShippingModifier;
 use App\Modifiers\PostNLShippingModifier;
 use App\Scopes\PublishedProductScope;
 use App\Support\LocaleAwareUrlGenerator;
@@ -109,6 +110,7 @@ class AppServiceProvider extends ServiceProvider
 
         $shippingModifiers->add(PostNLShippingModifier::class);
         $shippingModifiers->add(DHLShippingModifier::class);
+        $shippingModifiers->add(PickupShippingModifier::class);
 
         Order::observe(\App\Observers\OrderObserver::class);
         ProductVariant::observe(\App\Observers\ProductVariantObserver::class);
