@@ -11,17 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pickup_locations', function (Blueprint $table) {
+        Schema::create('delivery_options', function (Blueprint $table) {
             $table->id();
+            $table->string('carrier');
             $table->string('name');
+            $table->text('description')->nullable();
             $table->string('identifier')->unique();
-            $table->string('address_line_1');
-            $table->string('address_line_2')->nullable();
-            $table->string('postcode');
-            $table->string('city');
-            $table->string('country')->default('Netherlands');
-            $table->json('availability_note')->nullable();
             $table->unsignedInteger('price')->default(0);
+            $table->boolean('free_shipping')->default(false);
             $table->boolean('enabled')->default(true);
             $table->unsignedInteger('sort_order')->default(0);
             $table->timestamps();
@@ -33,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pickup_locations');
+        Schema::dropIfExists('delivery_options');
     }
 };

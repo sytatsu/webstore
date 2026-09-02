@@ -12,7 +12,7 @@ return new class extends Migration
     {
         DB::table('pickup_locations')->insert([
             'name' => 'JouwPlekje',
-            'slug' => 'jouwplekje',
+            'identifier' => 'PICKUP_JOUWPLEKJE',
             'address_line_1' => 'Dorpsstraat 75',
             'address_line_2' => null,
             'postcode' => '2712 AD',
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::table('pickup_locations')->where('slug', 'jouwplekje')->delete();
+        DB::table('pickup_locations')->where('identifier', 'PICKUP_JOUWPLEKJE')->delete();
     }
 };

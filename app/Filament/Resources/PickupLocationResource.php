@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Clusters\ShippingOptions;
 use App\Filament\Resources\PickupLocationResource\Pages;
 use App\Models\PickupLocation;
 use Filament\Forms;
@@ -14,6 +15,8 @@ use Illuminate\Support\Str;
 class PickupLocationResource extends Resource
 {
     protected static ?string $model = PickupLocation::class;
+
+    protected static ?string $cluster = ShippingOptions::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-map-pin';
 
@@ -34,10 +37,10 @@ class PickupLocationResource extends Resource
                             ->live(onBlur: true)
                             ->afterStateUpdated(function (string $state, Forms\Set $set, ?PickupLocation $record) {
                                 if (! $record) {
-                                    $set('slug', Str::slug($state));
+                                    $set('identifier', 'PICKUP_'.Str::upper(Str::slug($state, '_')));
                                 }
                             }),
-                        Forms\Components\TextInput::make('slug')
+                        Forms\Components\TextInput::make('identifier')
                             ->label('Identifier')
                             ->helperText('Used internally to identify this location. Cannot be changed after creation.')
                             ->required()

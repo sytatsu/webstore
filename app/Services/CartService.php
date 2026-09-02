@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Models\WebstoreSetting;
 use App\Repositories\TaxRepository;
 use Illuminate\Support\Collection;
 use Lunar\Base\Purchasable;
@@ -159,7 +160,7 @@ readonly class CartService
                 return true;
             }
 
-            $isFreeOption = str_ends_with($shippingOption->identifier, 'FREETARDEL');
+            $isFreeOption = (bool) ($shippingOption->meta['free_shipping'] ?? false);
             if ($this->canHaveFreeShipping($cart)) {
                 return $isFreeOption;
             }
@@ -202,7 +203,7 @@ readonly class CartService
 
     private function canHaveFreeShipping (LunarCart $cart): bool
     {
-        return $cart->subTotalDiscounted->value > config('lunar.shipping.free_delivery_threshold', 7000);
+        return $cart->subTotalDiscounted->value > (int) WebstoreSetting::getByKey('free_shipping_threshold', 8000);
     }
 
     private function normalizeQuantities(array $lines): array

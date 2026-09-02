@@ -7,7 +7,6 @@ namespace App\Modifiers;
 use App\Models\PickupLocation;
 use App\Traits\TaxTrait;
 use Closure;
-use Illuminate\Support\Str;
 use Lunar\Base\ShippingModifier;
 use Lunar\DataTypes\Price;
 use Lunar\DataTypes\ShippingOption;
@@ -24,7 +23,7 @@ class PickupShippingModifier extends ShippingModifier
             fn (PickupLocation $location) => new ShippingOption(
                 name: "Pick-up – {$location->name}",
                 description: trim("{$location->full_address}. {$location->translate('availability_note')}"),
-                identifier: 'PICKUP_'.Str::upper($location->slug),
+                identifier: $location->identifier,
                 price: new Price($location->price, $cart->currency, 1),
                 taxClass: $this->getDefaultTaxClass(),
                 collect: true,

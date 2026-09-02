@@ -4,31 +4,27 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\ShippingCarrierEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Lunar\Base\Traits\HasTranslations;
 
-class PickupLocation extends Model
+class DeliveryOption extends Model
 {
-    use HasTranslations;
-
     protected $fillable = [
+        'carrier',
         'name',
+        'description',
         'identifier',
-        'address_line_1',
-        'address_line_2',
-        'postcode',
-        'city',
-        'country',
-        'availability_note',
         'price',
+        'free_shipping',
         'enabled',
         'sort_order',
     ];
 
     protected $casts = [
-        'availability_note' => 'array',
+        'carrier' => ShippingCarrierEnum::class,
         'price' => 'integer',
+        'free_shipping' => 'boolean',
         'enabled' => 'boolean',
         'sort_order' => 'integer',
     ];
@@ -43,13 +39,8 @@ class PickupLocation extends Model
         return $query->orderBy('sort_order')->orderBy('id');
     }
 
-    public function getFullAddressAttribute(): string
+    public function scopeForCarrier(Builder $query, ShippingCarrierEnum $carrier): Builder
     {
-        return collect([
-            $this->address_line_1,
-            $this->address_line_2,
-            trim("{$this->postcode} {$this->city}"),
-            $this->country,
-        ])->filter()->implode(', ');
+        return $query->where('carrier', $carrier);
     }
 }

@@ -8,9 +8,8 @@ use App\Filament\Extensions\OrderShippingInfolistExtension;
 use App\Filament\Pages\BarBuilderDefaultArrangementPage;
 use App\Filament\Pages\BarBuilderSettingsPage;
 use App\Filament\Pages\HomepageHeroSettingsPage;
-use App\Modifiers\DHLShippingModifier;
+use App\Modifiers\DeliveryOptionShippingModifier;
 use App\Modifiers\PickupShippingModifier;
-use App\Modifiers\PostNLShippingModifier;
 use App\Scopes\PublishedProductScope;
 use App\Support\LocaleAwareUrlGenerator;
 use Illuminate\Support\ServiceProvider;
@@ -108,8 +107,7 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
-        $shippingModifiers->add(PostNLShippingModifier::class);
-        $shippingModifiers->add(DHLShippingModifier::class);
+        $shippingModifiers->add(DeliveryOptionShippingModifier::class);
         $shippingModifiers->add(PickupShippingModifier::class);
 
         Order::observe(\App\Observers\OrderObserver::class);

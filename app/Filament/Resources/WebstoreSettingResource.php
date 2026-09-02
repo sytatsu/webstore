@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Clusters\WebstoreSettings;
+use App\Filament\Resources\DeliveryOptionResource\Pages\ManageDeliveryOptions;
 use App\Filament\Resources\WebstoreSettingResource\Pages;
 use App\Models\WebstoreSetting;
 use Filament\Forms;
@@ -43,6 +44,13 @@ class WebstoreSettingResource extends Resource
                             ->label('Value(s)')
                             ->helperText('Add one or more values for this setting (e.g. collection group handles).')
                             ->visible(fn ($get) => in_array($get('key'), ['navigation_collection_groups']))
+                            ->required(),
+
+                        TextInput::make('value')
+                            ->label('Value')
+                            ->helperText('Once a cart\'s total (in cents) passes this amount, delivery options marked "Free shipping option" are shown instead of the paid options. Also editable via the popup on the Delivery Options overview.')
+                            ->numeric()
+                            ->visible(fn ($get) => $get('key') === ManageDeliveryOptions::FREE_SHIPPING_THRESHOLD_KEY)
                             ->required(),
 
                         TranslatedText::make('value')
