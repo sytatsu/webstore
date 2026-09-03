@@ -3,32 +3,53 @@
         $variant = $this->variant ?? null;
         $price = $variant?->basePrices->first()?->price;
 
-        $availabilityMap = [
-            'in_stock' => 'https://schema.org/InStock',
-            'always_in_stock' => 'https://schema.org/InStock',
-            'out_of_stock' => 'https://schema.org/OutOfStock',
-            'backorder' => 'https://schema.org/BackOrder',
-        ];
+        // 'purchasable' is either 'in_stock' (respects $variant->stock) or 'always'
+        // (unlimited/backorder-style) — see App\Observers\ProductVariantObserver
+        // and App\Services\CartService for the same two values in use elsewhere.
+        $availabilityFor = fn (?\Lunar\Models\ProductVariant $variant): string => match (true) {
+            ! $variant => 'https://schema.org/OutOfStock',
+            $variant->purchasable === 'in_stock' && $variant->stock <= 0 => 'https://schema.org/OutOfStock',
+            default => 'https://schema.org/InStock',
+        };
+
+        $variantPrices = $product->prices->unique('price');
+        $hasSingleVariant = $product->variants->count() <= 1;
+
+        $offers = $variantPrices->count() > 1
+            ? array_filter([
+                '@' . 'type' => 'AggregateOffer',
+                'url' => url()->current(),
+                'priceCurrency' => $variantPrices->first()->price->currency->code,
+                'lowPrice' => $variantPrices->sortBy(fn ($p) => $p->price->decimal())->first()->price->decimal(),
+                'highPrice' => $variantPrices->sortBy(fn ($p) => $p->price->decimal())->last()->price->decimal(),
+                'offerCount' => $product->variants->count(),
+                'availability' => $availabilityFor($variant),
+            ])
+            : ($variant ? array_filter([
+                '@' . 'type' => 'Offer',
+                'url' => url()->current(),
+                'priceCurrency' => $price?->currency->code,
+                'price' => $price?->decimal(),
+                'availability' => $availabilityFor($variant),
+            ]) : null);
+
+        $images = $product->images->map(fn ($media) => $media->getUrl('large'))->filter()->values();
 
         $productSchema = array_filter([
             '@' . 'context' => 'https://schema.org',
             '@' . 'type' => 'Product',
             'name' => $product->translateAttribute('name'),
             'description' => strip_tags($product->translateAttribute('description') ?: ''),
-            'image' => $product->getThumbnailImage() ?: null,
-            'sku' => $variant?->sku,
+            'image' => $images->isNotEmpty() ? $images->all() : ($product->getThumbnailImage() ?: null),
+            'sku' => $hasSingleVariant ? $variant?->sku : null,
+            'mpn' => $hasSingleVariant ? $variant?->mpn : null,
+            'gtin' => $hasSingleVariant ? $variant?->gtin : null,
             'brand' => $product->brand ? [
                 '@' . 'type' => 'Brand',
                 'name' => $product->brand->name,
             ] : null,
             'url' => url()->current(),
-            'offers' => $variant ? array_filter([
-                '@' . 'type' => 'Offer',
-                'url' => url()->current(),
-                'priceCurrency' => $price?->currency->code,
-                'price' => $price?->decimal(),
-                'availability' => $availabilityMap[$variant->purchasable] ?? 'https://schema.org/InStock',
-            ]) : null,
+            'offers' => $offers,
         ]);
 
         $breadcrumbItems = [
