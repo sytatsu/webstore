@@ -12,7 +12,7 @@ class GenerateSitemapCommand extends Command
 {
     protected $signature = 'webstore:generate-sitemap';
 
-    protected $description = 'Generate public/sitemap.xml from static pages, products and collections, in both locales';
+    protected $description = 'Generate public/sitemap.xml (static pages) and public/sitemap-catalog.xml (products and collections), in both locales';
 
     /**
      * The locale-switcher config (used to render the language picker) is the source of
@@ -28,7 +28,7 @@ class GenerateSitemapCommand extends Command
 
     public function handle(): int
     {
-        $routes = collect([
+        $staticRoutes = collect([
             ['route' => 'sytatsu.webstore.welcome', 'params' => [], 'lastmod' => now()],
             ['route' => 'sytatsu.about', 'params' => [], 'lastmod' => now()],
             ['route' => 'sytatsu.contact', 'params' => [], 'lastmod' => now()],
@@ -37,15 +37,17 @@ class GenerateSitemapCommand extends Command
             ['route' => 'sytatsu.webstore.collections', 'params' => [], 'lastmod' => now()],
         ]);
 
-        $routes = $routes
-            ->merge($this->urlEntries(Product::class, 'sytatsu.webstore.product', 'product'))
+        $catalogRoutes = $this->urlEntries(Product::class, 'sytatsu.webstore.product', 'product')
             ->merge($this->urlEntries(Collection::class, 'sytatsu.webstore.collection', 'collection'));
 
-        $entries = $this->expandToLocales($routes);
+        $staticEntries = $this->expandToLocales($staticRoutes);
+        $catalogEntries = $this->expandToLocales($catalogRoutes);
 
-        $this->writeSitemap($entries);
+        $this->writeSitemap($staticEntries, 'sitemap.xml');
+        $this->writeSitemap($catalogEntries, 'sitemap-catalog.xml');
 
-        $this->info("Sitemap generated with {$entries->count()} URLs at " . public_path('sitemap.xml'));
+        $this->info("Sitemap generated with {$staticEntries->count()} static URLs at " . public_path('sitemap.xml'));
+        $this->info("Sitemap generated with {$catalogEntries->count()} product/collection URLs at " . public_path('sitemap-catalog.xml'));
 
         return self::SUCCESS;
     }
@@ -106,7 +108,7 @@ class GenerateSitemapCommand extends Command
         return $expanded;
     }
 
-    protected function writeSitemap(\Illuminate\Support\Collection $entries): void
+    protected function writeSitemap(\Illuminate\Support\Collection $entries, string $filename): void
     {
         $document = new \DOMDocument('1.0', 'UTF-8');
         $document->formatOutput = true;
@@ -132,6 +134,6 @@ class GenerateSitemapCommand extends Command
             $urlset->appendChild($url);
         }
 
-        $document->save(public_path('sitemap.xml'));
+        $document->save(public_path($filename));
     }
 }

@@ -5,3 +5,4 @@ Disallow: /checkout
 Disallow: /livewire
 
 Sitemap: https://sytatsu.nl/sitemap.xml
+Sitemap: https://sytatsu.nl/sitemap-catalog.xml

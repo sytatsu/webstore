@@ -23,9 +23,14 @@
                         <p>
                             <a class="inline-flex gap-x-2 text-gray-500 hover:text-gray-700 focus:outline-hidden focus:text-gray-700 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
                                href="{{ asset('files/Privacy Policy v1.pdf') }}" target="_blank">{{ __("Privacy statement") }}</a></p>
-                        <p>
+                        <p class="flex gap-x-2 text-gray-500">
                             <a class="inline-flex gap-x-2 text-gray-500 hover:text-gray-700 focus:outline-hidden focus:text-gray-700 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
-                               href="{{ asset('sitemap.xml') }}" target="_blank">{{ __("Sitemap") }}</a></p>
+                               href="{{ asset('sitemap.xml') }}" target="_blank">{{ __("Sitemap") }}</a>
+                            |
+                            <a class="inline-flex gap-x-2 text-gray-500 hover:text-gray-700 focus:outline-hidden focus:text-gray-700 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
+                               href="{{ asset('sitemap-catalog.xml') }}" target="_blank">{{ __("Catalog") }}</a>
+
+                        </p>
                     </div>
                 </div>
 
