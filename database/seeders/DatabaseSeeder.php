@@ -39,5 +39,7 @@ class DatabaseSeeder extends Seeder
         $this->command->call('webstore:seed:pokeballs');
         $this->command->call('webstore:seed:mini-friends');
         $this->command->call('webstore:seed:clickerz-bar');
+        $this->command->call('webstore:seed:delivery-options');
+        $this->command->call('webstore:seed:pickup-locations');
     }
 }

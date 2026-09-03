@@ -1,19 +1,20 @@
 <?php
 
+namespace App\Console\Commands\Seeders;
+
 use App\Enums\ShippingCarrierEnum;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\DB;
+use App\Models\DeliveryOption;
+use Illuminate\Console\Command;
 
-return new class extends Migration
+class SeedDeliveryOptionsCommand extends Command
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
-        $now = now();
+    protected $signature = 'webstore:seed:delivery-options';
 
-        DB::table('delivery_options')->insert([
+    protected $description = 'Seed the default delivery options';
+
+    public function handle(): void
+    {
+        $options = [
             [
                 'carrier' => ShippingCarrierEnum::POSTNL->value,
                 'name' => 'Basic Delivery - PostNL',
@@ -23,8 +24,6 @@ return new class extends Migration
                 'free_shipping' => false,
                 'enabled' => true,
                 'sort_order' => 0,
-                'created_at' => $now,
-                'updated_at' => $now,
             ],
             [
                 'carrier' => ShippingCarrierEnum::POSTNL->value,
@@ -35,8 +34,6 @@ return new class extends Migration
                 'free_shipping' => true,
                 'enabled' => true,
                 'sort_order' => 1,
-                'created_at' => $now,
-                'updated_at' => $now,
             ],
             [
                 'carrier' => ShippingCarrierEnum::DHL->value,
@@ -47,8 +44,6 @@ return new class extends Migration
                 'free_shipping' => false,
                 'enabled' => true,
                 'sort_order' => 0,
-                'created_at' => $now,
-                'updated_at' => $now,
             ],
             [
                 'carrier' => ShippingCarrierEnum::DHL->value,
@@ -59,19 +54,16 @@ return new class extends Migration
                 'free_shipping' => true,
                 'enabled' => true,
                 'sort_order' => 1,
-                'created_at' => $now,
-                'updated_at' => $now,
             ],
-        ]);
-    }
+        ];
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        DB::table('delivery_options')->whereIn('identifier', [
-            'NLD_BASDEL', 'NLD_FREETARDEL', 'DHL_BASDEL', 'DHL_FREETARDEL',
-        ])->delete();
+        foreach ($options as $option) {
+            DeliveryOption::updateOrCreate(
+                ['identifier' => $option['identifier']],
+                $option,
+            );
+        }
+
+        $this->components->info('Delivery options seeded');
     }
-};
+}
