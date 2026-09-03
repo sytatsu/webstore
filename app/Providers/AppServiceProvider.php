@@ -18,9 +18,10 @@ use Lunar\Admin\Filament\Resources\OrderResource\Pages\ManageOrder;
 use Lunar\Admin\Support\Facades\LunarPanel;
 use Sytatsu\PageVisits\Filament\Resources\PageVisitResource;
 use Sytatsu\PageVisits\Filament\Resources\VisitorResource;
-use Sytatsu\FilamentIssueTracker\Filament\Resources\ProjectResource;
+use Sytatsu\FilamentIssueTracker\Filament\Resources\WorkspaceResource;
 use Sytatsu\FilamentIssueTracker\Filament\Resources\TicketResource;
 use Sytatsu\FilamentIssueTracker\Filament\Pages\TicketSwimlanePage;
+use Filament\Navigation\NavigationGroup;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 use Lunar\Base\ShippingModifiers;
@@ -76,7 +77,7 @@ class AppServiceProvider extends ServiceProvider
             ->resources([
                 PageVisitResource::class,
                 VisitorResource::class,
-                ProjectResource::class,
+                WorkspaceResource::class,
                 TicketResource::class,
             ])
             ->pages([
@@ -84,6 +85,9 @@ class AppServiceProvider extends ServiceProvider
                 BarBuilderDefaultArrangementPage::class,
                 BarBuilderSettingsPage::class,
                 HomepageHeroSettingsPage::class,
+            ])
+            ->navigationGroups([
+                NavigationGroup::make('Ticket Tracker')->collapsible(),
             ])
         );
         LunarPanel::extensions([
