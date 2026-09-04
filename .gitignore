@@ -7,7 +7,6 @@
 /public/sitemap-catalog.xml
 /storage/*.key
 /storage/debugbar
-/packages
 /vendor
 .env
 .env.backup
