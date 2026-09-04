@@ -5,3 +5,159 @@
 .dark .issue-tracker-flagged-row {
     background-color: rgba(239, 68, 68, 0.2) !important;
 }
+
+/*
+ * Ticket table column sizing, shared by the swimlane board and the ticket
+ * list's hierarchy table. Both render real <table>/<tr>/<th>/<td> markup
+ * (kept for SortableJS + semantics/a11y), but table-layout:fixed can only
+ * ever do one of two things once the row is narrower than the sum of its
+ * columns: leave every column at its declared width (causing horizontal
+ * scroll) or shrink ALL columns proportionally together (what actually
+ * happened — badges got clipped to a sliver on a narrow screen, because
+ * .col-title has no floor of its own to give up first). Neither is what
+ * we want: .col-title should absorb a narrowing screen on its own, down
+ * to a ~10-character floor, and only past that point should the other
+ * columns start giving up space too. CSS tables have no such priority
+ * concept — flexbox's shrink weights do — so every row is flipped to
+ * flex via display overrides below, and sized with flex-basis/shrink
+ * instead of `width`.
+ */
+.issue-tracker-ticket-table,
+.issue-tracker-ticket-table thead,
+.issue-tracker-ticket-table tbody {
+    display: block;
+    width: 100%;
+}
+.issue-tracker-ticket-table tr {
+    display: flex;
+    align-items: stretch;
+}
+.issue-tracker-ticket-table th,
+.issue-tracker-ticket-table td {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+/* Each .col-* rule below supplies its own min-width (or, for the
+ * icon-only columns, relies on flex-shrink:0 never asking for one) —
+ * deliberately no blanket `min-width: 0` reset here: `.col-title` (a
+ * single class, lower specificity than "table th") would lose that fight
+ * and silently get min-width:0 instead of its ~10-character floor. */
+/* Icon-only columns: nothing in them degrades gracefully, so they never
+ * shrink, in either phase. */
+.col-checkbox, .col-drag, .col-actions, .col-type, .col-type-tree {
+    flex: 0 0 auto;
+}
+.col-checkbox, .col-drag, .col-actions { width: 2.5rem; justify-content: center; }
+.col-type { width: 3.5rem; justify-content: center; }
+/* Wider than .col-type: the hierarchy table also carries the row's
+ * expand/collapse chevron and depth indent in this column. */
+.col-type-tree { width: 9rem; }
+
+/*
+ * .col-title's shrink/grow factor is ~100x any other column's, scaled by
+ * its own flex-basis — flexbox distributes a shrinking (or growing)
+ * container in proportion to shrink-factor × basis, so at this ratio
+ * title absorbs essentially all of it first, and the rest lose no
+ * visible width. Only once title is pinned at its min-width (~10
+ * characters) does the flexbox algorithm's standard behavior — freeze
+ * the maxed-out item, redistribute the remainder among what's left —
+ * kick in and hand shrinkage to the phase-2 columns below.
+ */
+.col-title {
+    flex: 500 500 250px;
+    min-width: 10ch;
+}
+
+/* Phase 2: each has its own floor — short of that, .col-title keeps
+ * absorbing the narrowing screen alone. */
+.col-number { flex: 0 1 120px; min-width: 70px; }
+.col-parent { flex: 0 1 200px; min-width: 60px; }
+.col-status { flex: 0 1 160px; min-width: 70px; }
+.col-deadline { flex: 0 1 90px; min-width: 55px; }
+.col-assignee { flex: 0 1 140px; min-width: 60px; justify-content: flex-end; }
+
+/*
+ * Filament's badge component hardcodes text-xs and fairly tight padding
+ * regardless of the `size` prop, so the swimlane's parent/status badges
+ * read as too small next to the rest of the row (which is text-sm). Bump
+ * font size and padding to match.
+ */
+.issue-tracker-swimlane-badge {
+    font-size: 0.875rem !important;
+    line-height: 1.25rem !important;
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+    padding-left: 0.625rem !important;
+    padding-right: 0.625rem !important;
+}
+.issue-tracker-swimlane-badge svg {
+    width: 1rem !important;
+    height: 1rem !important;
+}
+
+/*
+ * Inline-editable ticket fields: fields look like plain text ("view state")
+ * until hovered or focused (reveals the real input chrome so it can be
+ * edited). Autosave is wired up per-field in PHP.
+ *
+ * The hover highlight is applied to the control container only (the last
+ * child of the field wrapper's inner grid) so it never bleeds onto the
+ * field's label / hint row above it.
+ */
+.issue-tracker-inline-field > div > div:last-child {
+    border-radius: 0.5rem;
+    transition: background-color 0.15s ease;
+}
+
+.issue-tracker-inline-field:hover:not(:focus-within) > div > div:last-child {
+    background-color: rgba(0, 0, 0, 0.035);
+}
+
+.dark .issue-tracker-inline-field:hover:not(:focus-within) > div > div:last-child {
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
+.issue-tracker-inline-field:not(:focus-within) .fi-input-wrp {
+    box-shadow: none !important;
+    background-color: transparent !important;
+    transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* Ticket title: the most prominent thing on the detail view. */
+input.issue-tracker-title-input {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 700;
+}
+
+/* The ticket number sits in the title field's prefix, reading as a quiet
+ * mono label next to the title rather than a page-level heading. */
+.issue-tracker-title-field .fi-input-wrp-prefix .fi-input-wrp-label {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+/* Item count pill appended to a collapsible section heading. */
+.issue-tracker-section-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.25rem;
+    height: 1.25rem;
+    margin-left: 0.5rem;
+    padding: 0 0.375rem;
+    border-radius: 0.375rem;
+    background-color: rgba(0, 0, 0, 0.06);
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1;
+    color: rgb(107 114 128);
+}
+
+.dark .issue-tracker-section-count {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: rgb(209 213 219);
+}
