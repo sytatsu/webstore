@@ -62,7 +62,14 @@
 /* Points is just a number (or "-") in a small badge, so 2 digits' worth of
  * width (plus the badge's own padding) covers almost every case. */
 .col-points { flex: 0 0 2.5rem; justify-content: center; }
-.col-assignee { flex: 0 0 6rem; min-width: 0; justify-content: flex-end; }
+/* Shared by both overview screens (ticket list + swimlane board): just the
+ * avatar + dropdown chevron, no name — the name is available as a tooltip
+ * on the avatar instead. Same fix as .col-status above: without pinning
+ * .fi-dropdown's own width, the dropdown trigger sizes to its content
+ * instead of the column and overflows underneath the Actions column. */
+.col-assignee-icon { flex: 0 0 3.5rem; min-width: 0; justify-content: center; }
+.col-assignee-icon .fi-dropdown { width: 3.5rem; min-width: 0; }
+.col-assignee-icon .fi-dropdown-trigger { min-width: 0; justify-content: center; }
 
 /* The one flexible column: grows to fill whatever space the fixed columns
  * above leave behind, and shrinks (down to a ~10-character floor) before
@@ -185,6 +192,40 @@ input.issue-tracker-title-input {
     flex-shrink: 0;
     width: 0.875rem;
     height: 0.875rem;
+}
+
+/*
+ * Variant of .issue-tracker-select-badge for the Assigned Staff select
+ * (TicketAssignment::htmlLabel()) — there's no per-assignment color, so it
+ * falls back to plain text instead of a colored fill.
+ */
+.issue-tracker-select-badge--assignee {
+    color: rgb(75 85 99);
+}
+
+.dark .issue-tracker-select-badge--assignee {
+    color: rgb(209 213 219);
+}
+
+/* Initials avatar used for assigned staff (select options, ticket list, board, comments). */
+.issue-tracker-avatar {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 9999px;
+    background-color: rgb(229 231 235);
+    color: rgb(75 85 99);
+    font-size: 0.625rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.dark .issue-tracker-avatar {
+    background-color: rgb(55 65 81);
+    color: rgb(209 213 219);
 }
 
 /* Groups fields within the Details section (see TicketResource::detailsDivider()). */

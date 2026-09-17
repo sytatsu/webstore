@@ -45,7 +45,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "Tests\\": "tests/",
+            "Sytatsu\\FilamentIssueTracker\\Tests\\": "packages/sytatsu/filamentphp-issue-tracker/tests/"
         }
     },
     "scripts": {
