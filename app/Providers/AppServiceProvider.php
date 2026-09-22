@@ -24,6 +24,7 @@ use Sytatsu\FilamentIssueTracker\Filament\Pages\TicketSwimlanePage;
 use Filament\Navigation\NavigationGroup;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Vite;
 use Lunar\Base\ShippingModifiers;
 use Lunar\Models\Collection;
 use Lunar\Models\Order;
@@ -72,6 +73,13 @@ class AppServiceProvider extends ServiceProvider
         });
 
         LunarPanel::panel(fn ($panel) => $panel
+            // Replace Lunar's default branding (login screen, navigation and favicon) with our own.
+            // Closures defer Vite::asset() until render time, when the build manifest is available.
+            ->brandName('Sytatsu')
+            ->brandLogo(fn () => Vite::asset('resources/images/brands/no_background_text_only.webp'))
+            ->darkModeBrandLogo(fn () => Vite::asset('resources/images/brands/no_background_text_only.webp'))
+            ->brandLogoHeight('3rem')
+            ->favicon(fn () => Vite::asset('resources/images/favicons/favicon.svg'))
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverClusters(in: app_path('Filament/Clusters'), for: 'App\\Filament\\Clusters')
             ->resources([
