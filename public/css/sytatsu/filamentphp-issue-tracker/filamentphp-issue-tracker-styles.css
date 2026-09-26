@@ -62,6 +62,8 @@
 /* Points is just a number (or "-") in a small badge, so 2 digits' worth of
  * width (plus the badge's own padding) covers almost every case. */
 .col-points { flex: 0 0 2.5rem; justify-content: center; }
+/* Just the priority icon (no label, no badge) — as narrow as .col-type. */
+.col-priority { flex: 0 0 2.25rem; justify-content: center; }
 /* Shared by both overview screens (ticket list + swimlane board): just the
  * avatar + dropdown chevron, no name — the name is available as a tooltip
  * on the avatar instead. Same fix as .col-status above: without pinning
@@ -146,28 +148,6 @@ input.issue-tracker-title-input {
     letter-spacing: 0.02em;
 }
 
-/* Item count pill appended to a collapsible section heading. */
-.issue-tracker-section-count {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 1.25rem;
-    height: 1.25rem;
-    margin-left: 0.5rem;
-    padding: 0 0.375rem;
-    border-radius: 0.375rem;
-    background-color: rgba(0, 0, 0, 0.06);
-    font-size: 0.75rem;
-    font-weight: 600;
-    line-height: 1;
-    color: rgb(107 114 128);
-}
-
-.dark .issue-tracker-section-count {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: rgb(209 213 219);
-}
-
 /*
  * Colored badge rendered for the Type/Topic/Status selects' options (and
  * currently-selected value — Choices.js reuses the same item markup for
@@ -204,6 +184,21 @@ input.issue-tracker-title-input {
 }
 
 .dark .issue-tracker-select-badge--assignee {
+    color: rgb(209 213 219);
+}
+
+/*
+ * Variant of .issue-tracker-select-badge for the Priority select
+ * (TicketPriority::htmlLabel()) — no colored fill (the icon itself already
+ * carries the priority's color), just plain text next to it.
+ */
+.issue-tracker-select-badge--priority {
+    padding-left: 0;
+    padding-right: 0;
+    color: rgb(75 85 99);
+}
+
+.dark .issue-tracker-select-badge--priority {
     color: rgb(209 213 219);
 }
 
