@@ -20,6 +20,7 @@ use Sytatsu\PageVisits\Filament\Resources\PageVisitResource;
 use Sytatsu\PageVisits\Filament\Resources\VisitorResource;
 use Sytatsu\FilamentIssueTracker\Filament\Resources\WorkspaceResource;
 use Sytatsu\FilamentIssueTracker\Filament\Resources\TicketResource;
+use Sytatsu\FilamentIssueTracker\Filament\Pages\TicketCollectionsPage;
 use Sytatsu\FilamentIssueTracker\Filament\Pages\TicketSwimlanePage;
 use Filament\Navigation\NavigationGroup;
 use Illuminate\Support\Facades\Route;
@@ -89,6 +90,7 @@ class AppServiceProvider extends ServiceProvider
                 TicketResource::class,
             ])
             ->pages([
+                TicketCollectionsPage::class,
                 TicketSwimlanePage::class,
                 BarBuilderDefaultArrangementPage::class,
                 BarBuilderSettingsPage::class,
