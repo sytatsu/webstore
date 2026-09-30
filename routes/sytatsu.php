@@ -52,6 +52,12 @@ Route::prefix('en')->group(function () {
     registerWebstoreRoutes('.en');
 });
 
+// Standalone single-pager for the QR code on our physical/print banners — deliberately
+// outside registerWebstoreRoutes() (no locale variant needed) and outside the normal
+// webshop layout (see layouts.sytatsu-linktree-layout). Kept out of search engines via
+// meta robots on that layout and the Disallow rule in public/robots.txt.
+Route::get('/linktree', LivewireSytatsu\Linktree::class)->name('sytatsu.linktree');
+
 
 // The 'product'/'collection' route-model bindings (slug lookup via the Lunar Url table,
 // with a 301 redirect off stale slugs) live in App\Providers\AppServiceProvider instead of

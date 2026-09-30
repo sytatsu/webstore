@@ -3,6 +3,7 @@ Disallow: /lunar
 Disallow: /cart
 Disallow: /checkout
 Disallow: /livewire
+Disallow: /linktree
 
 Sitemap: https://sytatsu.nl/sitemap.xml
 Sitemap: https://sytatsu.nl/sitemap-catalog.xml
