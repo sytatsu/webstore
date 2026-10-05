@@ -3,11 +3,15 @@
     <x-ui.spinner-overlay wire:loading.flex wire:target="incrementLine, decrementLine, removeLine, updateLines" />
     <ul class="-mt-4 divide-y divide-gray-200 dark:divide-gray-500">
         @foreach ($this->lines as $index => $line)
-        @php $barBuilder = $line['meta']['bar_builder'] ?? null; @endphp
+        @php
+            $barBuilder = $line['meta']['bar_builder'] ?? null;
+            $bundle = $line['meta']['bundle'] ?? null;
+            $bundleCollection = $bundle ? \Lunar\Models\Collection::find($bundle['collection_id']) : null;
+        @endphp
         <li class="relative">
             <div class="flex py-4" wire:key="line_{{ $line['id'] }}">
 
-                @if (!$barBuilder)
+                @if (!$barBuilder && !$bundle)
                     <img class="object-cover aspect-square {{ Route::currentRouteName() === 'sytatsu.webstore.cart' ? 'w-24 h-24' : 'w-16 h-16' }} rounded"
                          src="{{ $line['thumbnail'] ?? \App\Services\WebstoreHelperService::productPlaceholderImage() }}">
                 @endif
@@ -16,7 +20,9 @@
                     @php
                         $productLink = $barBuilder
                             ? route('sytatsu.webstore.clickerz-bar-builder')
-                            : \App\Services\WebstoreHelperService::getProductRoute($line['purchasable']->product, ['purchasable_id' => $line['purchasable']->id]);
+                            : ($bundle && $bundleCollection
+                                ? \App\Services\WebstoreHelperService::getCollectionRoute($bundleCollection)
+                                : \App\Services\WebstoreHelperService::getProductRoute($line['purchasable']->product, ['purchasable_id' => $line['purchasable']->id]));
                         $barBuilderIconIds = $barBuilder
                             ? collect($barBuilder['caps'] ?? [])->pluck('icon.id')->filter()->unique()->values()
                             : collect();
@@ -27,7 +33,7 @@
 
                     <div class="flex flex-row justify-between text-sm font-medium text-black dark:text-white">
                         <a href="{{ $productLink }}" class="{{ Route::currentRouteName() === 'sytatsu.webstore.cart' ? 'max-w-[40ch]' : 'max-w-[20ch]' }} hover:underline">
-                            <span class="font-bold">{{ $line['description'] }}</span>
+                            <span class="font-bold">{{ $bundle ? ($bundle['name'] ?? $line['description']) : $line['description'] }}</span>
 
                             @if($line['options'])
                                 <span> - {{ __($line['options']) }}</span>
@@ -61,9 +67,39 @@
                         </div>
                     @endif
 
+                    @if($bundle)
+                        <div class="flex items-center gap-2 mt-1 mb-1">
+                            <div class="flex flex-wrap items-center gap-1">
+                                @foreach($bundle['items'] ?? [] as $item)
+                                    <div class="relative size-8 rounded-md overflow-hidden border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-900"
+                                         title="{{ $item['name'] ?? '' }}"
+                                    >
+                                        <img class="object-cover w-full h-full"
+                                             src="{{ $item['thumbnail'] ?? \App\Services\WebstoreHelperService::productPlaceholderImage() }}"
+                                             alt="{{ $item['name'] ?? '' }}">
+                                        <span class="absolute -top-1 -right-1 bg-primary text-white text-[9px] font-bold size-4 rounded-full flex items-center justify-center avenir-bold leading-none">
+                                            {{ $item['quantity'] ?? 1 }}
+                                        </span>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            @if (!$this->isCartDisabled() && $bundleCollection)
+                                <a href="{{ \App\Services\WebstoreHelperService::getCollectionRoute($bundleCollection, ['edit_bundle_line' => $line['id']]) }}"
+                                   class="ml-auto text-xs font-semibold text-primary hover:underline whitespace-nowrap"
+                                >
+                                    {{ __('Edit') }}
+                                </a>
+                            @endif
+                        </div>
+                    @endif
+
                     <div class="flex items-center mt-2">
                         <div class="flex rounded-none bg-gray-50 dark:bg-slate-900">
-                            @if (!$this->isCartDisabled())
+                            {{-- A bundle's quantity is the sum of its picked items — it must stay in
+                                 lock-step with meta['bundle']['items'], so it can only change via the
+                                 Edit flow above, never the generic +/- stepper. --}}
+                            @if (!$this->isCartDisabled() && !$bundle)
                                 @php
                                     $isIncrementDisabled = ($line['purchasable']->purchasable === 'in_stock' && $line['purchasable']->stock <= $line['quantity']);
                                 @endphp
@@ -82,10 +118,10 @@
                                    wire:model.debounce="lines.{{ $index }}.quantity"
                                    wire:change="updateLines"
                                    wire:loading.attr="disabled"
-                                   {{ $this->isCartDisabled() ? 'disabled' : '' }}
+                                   {{ ($this->isCartDisabled() || $bundle) ? 'disabled' : '' }}
                             />
 
-                            @if (!$this->isCartDisabled())
+                            @if (!$this->isCartDisabled() && !$bundle)
                                 <button type="button" class="size-8 m-0 inline-flex justify-center items-center gap-x-2 text-xs font-semibold border border-transparent text-black dark:text-white bg-transparent hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
                                         wire:click.prevent="decrementLine('{{ $index }}')"
                                         {{ $line['quantity'] <= 1 ? 'disabled' : '' }}>

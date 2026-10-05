@@ -28,6 +28,17 @@ class OrderItemsTableExtension extends BaseExtension
                         ->get()
                         ->keyBy('id'),
                 ])),
+            Action::make('bundleContentsPreview')
+                ->label(__('Bundle contents'))
+                ->icon('heroicon-o-gift-top')
+                ->color('gray')
+                ->visible(fn (OrderLine $record) => filled($record->meta['bundle'] ?? null))
+                ->modalHeading(__('Bundle contents'))
+                ->modalSubmitAction(false)
+                ->modalCancelActionLabel(__('Close'))
+                ->modalContent(fn (OrderLine $record) => view('filament.orders.bundle-preview', [
+                    'bundle' => $record->meta['bundle'],
+                ])),
         ]);
     }
 

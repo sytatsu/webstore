@@ -3,6 +3,8 @@
 namespace App\Http\Livewire\Sytatsu\Pages\Webstore;
 
 use App\Http\Livewire\Sytatsu\SytatsuBasePage;
+use App\Models\Bundle;
+use App\Services\BundleService;
 use App\Services\StorefrontService;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
@@ -37,6 +39,8 @@ class CollectionPage extends SytatsuBasePage
 
     public array $filters = [];
 
+    public ?Bundle $bundle = null;
+
     protected $listeners = ['filtersUpdated' => 'updateFilters'];
 
     public function updated($name): void
@@ -70,9 +74,10 @@ class CollectionPage extends SytatsuBasePage
         ];
     }
 
-    public function mount(Collection $collection, StorefrontService $storefrontService): void
+    public function mount(Collection $collection, StorefrontService $storefrontService, BundleService $bundleService): void
     {
         $this->collection = $collection;
+        $this->bundle = $bundleService->findActiveForCollection($collection);
         $this->setTitle($collection->translateAttribute('name'));
         $this->label = sprintf('%s: %s', __('Collection'), $collection->translateAttribute('name'));
 
@@ -131,8 +136,19 @@ class CollectionPage extends SytatsuBasePage
 
         $showFilters = $showFilterCategories || $showFilterPrice || $showFilterAvailability || $showSorting;
 
+        $editLineId = request()->integer('edit_bundle_line') ?: null;
+        $bundleService = app(BundleService::class);
+
         $this->setViewAttributes([
             'products' => $this->getProducts(),
+            'bundle' => $this->bundle,
+            'bundleEditLineId' => $editLineId,
+            'bundleEditSelection' => $this->bundle
+                ? $bundleService->selectionForCartLine($editLineId, $this->bundle)
+                : [],
+            'bundleEligibleProductIds' => $this->bundle
+                ? $bundleService->eligibleProducts($this->bundle)->pluck('id')
+                : collect(),
             'gridColumns' => $showFilters ? 'grid-cols-2 xl:grid-cols-3' : 'grid-cols-2 lg:grid-cols-4',
             'maxWidth' => $this->maxWidth,
             'showFilters' => $showFilters,

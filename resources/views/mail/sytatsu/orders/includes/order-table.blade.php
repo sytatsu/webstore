@@ -13,6 +13,7 @@
             @if($orderLine->purchasable_type !== \Lunar\DataTypes\ShippingOption::class)
                 @php
                     $barBuilder = $orderLine->meta['bar_builder'] ?? null;
+                    $bundle = $orderLine->meta['bundle'] ?? null;
                     // Media URLs can be relative (depends on APP_URL); emails have no
                     // browsing context to resolve those against, so always make it absolute.
                     $thumbnailUrl = url($orderLine->purchasable?->getThumbnail()?->getUrl('small')
@@ -21,9 +22,10 @@
                     // linked to directly, without a purchasable_id, or the builder breaks.
                     $itemLink = $barBuilder
                         ? route('sytatsu.webstore.clickerz-bar-builder')
-                        : (($orderLine->purchasable && $orderLine->purchasable->product)
+                        : ((!$bundle && $orderLine->purchasable && $orderLine->purchasable->product)
                             ? route('sytatsu.webstore.product', ['product' => $orderLine->purchasable->product->defaultUrl->slug])
                             : null);
+                    $description = $bundle ? ($bundle['name'] ?? $orderLine->description) : $orderLine->description;
                 @endphp
                 <tr style="border-bottom: 1px solid #f1f5f9;">
                     <td style="padding: 12px 8px; vertical-align: middle;">
@@ -35,9 +37,9 @@
                                 <td style="padding: 0 0 0 12px; vertical-align: middle;">
                                     <div style="font-weight: bold; color: #1e293b;">
                                         @if($itemLink)
-                                            <a href="{{ $itemLink }}" style="color: #E14C04; text-decoration: none;">{{ $orderLine->description }}</a>
+                                            <a href="{{ $itemLink }}" style="color: #E14C04; text-decoration: none;">{{ $description }}</a>
                                         @else
-                                            {{ $orderLine->description }}
+                                            {{ $description }}
                                         @endif
                                     </div>
                                     @if($orderLine->option)
@@ -54,6 +56,13 @@
                     <tr style="border-bottom: 1px solid #f1f5f9;">
                         <td colspan="3" style="padding: 0 8px 12px 8px;">
                             @include('mail.sytatsu.orders.includes.bar-builder-details', ['barBuilder' => $barBuilder])
+                        </td>
+                    </tr>
+                @endif
+                @if($bundle)
+                    <tr style="border-bottom: 1px solid #f1f5f9;">
+                        <td colspan="3" style="padding: 0 8px 12px 8px;">
+                            @include('mail.sytatsu.orders.includes.bundle-details', ['bundle' => $bundle])
                         </td>
                     </tr>
                 @endif
