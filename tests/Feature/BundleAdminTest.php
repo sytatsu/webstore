@@ -133,6 +133,30 @@ class BundleAdminTest extends TestCase
     }
 
     /** @test */
+    public function the_form_rejects_tiers_with_no_base_price_at_quantity_one()
+    {
+        $staff = Staff::factory()->create(['admin' => true]);
+        $this->actingAs($staff, 'staff');
+        Filament::setCurrentPanel(Filament::getPanel('lunar'));
+
+        $collection = Collection::factory()->create();
+
+        Livewire::test(ManageBundles::class)
+            ->mountAction('create')
+            ->set('mountedActionsData.0.collection_id', $collection->id)
+            ->set('mountedActionsData.0.name.en', 'Test bundle')
+            ->set('mountedActionsData.0.enabled', true)
+            ->set('mountedActionsData.0.tiers', [
+                // No min_quantity = 1 row — the required base price.
+                ['min_quantity' => 4, 'price' => 1.25],
+            ])
+            ->callMountedAction()
+            ->assertHasActionErrors();
+
+        $this->assertDatabaseMissing('bundles', ['collection_id' => $collection->id]);
+    }
+
+    /** @test */
     public function editing_a_bundle_through_the_real_admin_page_hydrates_and_resyncs_tiers()
     {
         $staff = Staff::factory()->create(['admin' => true]);

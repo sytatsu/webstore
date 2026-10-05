@@ -190,7 +190,7 @@ feature, so a future rewrite doesn't reintroduce them:
 
 ## Tests
 
-26 tests, `tests/Feature/Bundle{Pricing,Eligibility,Cart,Admin,AdminHttp,BuilderComponent,OrderRendering}Test.php`:
+27 tests, `tests/Feature/Bundle{Pricing,Eligibility,Cart,Admin,AdminHttp,BuilderComponent,OrderRendering}Test.php`:
 
 - **Pricing** — tier resolution at/between thresholds, re-saving tiers
   replaces rather than duplicates `Price` rows.
