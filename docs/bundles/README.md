@@ -190,7 +190,7 @@ feature, so a future rewrite doesn't reintroduce them:
 
 ## Tests
 
-23 tests, `tests/Feature/Bundle{Pricing,Eligibility,Cart,Admin,AdminHttp,BuilderComponent}Test.php`:
+26 tests, `tests/Feature/Bundle{Pricing,Eligibility,Cart,Admin,AdminHttp,BuilderComponent,OrderRendering}Test.php`:
 
 - **Pricing** — tier resolution at/between thresholds, re-saving tiers
   replaces rather than duplicates `Price` rows.
@@ -220,6 +220,13 @@ feature, so a future rewrite doesn't reintroduce them:
   item behind and fails its own validation. Replace the whole array with
   one `->set('mountedActionsData.0.tiers', [...])` (or
   `mountedTableActionsData.0.tiers` for the edit table action) instead.
+- **OrderRendering** — actually renders (not just reads) the three
+  Blade/mail surfaces that carry bundle data: the order confirmation
+  email's `order-table` partial, the admin `bundle-preview` modal, and the
+  cart's `CartItems` Livewire component with a real bundle line in
+  session. These exist because this feature's bugs kept showing up only
+  on execution, not on review — the `draft`-status product crash and the
+  Repeater UUID gotcha above were both missed by reading the code first.
 
 Run with `php artisan test --filter=Bundle`. Needs a real MySQL
 connection (`DB_HOST`/`DB_PORT` env overrides work fine if the app's
