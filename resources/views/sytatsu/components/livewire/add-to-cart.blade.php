@@ -39,7 +39,7 @@
                      request, makes "it's working" obvious immediately. --}}
                 <x-ui.button.default.primary class="w-full" type="button" x-ref="bundleAddTrigger" wire:click.prevent="addToBundle()" wire:loading.attr="disabled">
                     <span wire:loading.remove wire:target="addToBundle">{{ __('Add to bundle') }}</span>
-                    <div wire:loading wire:target="addToBundle" class="flex items-center justify-center flex-nowrap">
+                    <div wire:loading.flex wire:target="addToBundle" class="items-center justify-center flex-nowrap">
                         <x-ui.loader />
                         <span>{{ __('Adding') }}</span>
                     </div>
@@ -124,7 +124,7 @@
 
                 <x-ui.button.default.primary class="w-full" type="submit" wire:click.prevent="addToCart()" wire:loading.attr="disabled">
                     <span wire:loading.remove wire:target="addToCart">{{ __('Add to shopping cart') }}</span>
-                    <div wire:loading wire:target="addToCart" class="flex items-center justify-center flex-nowrap">
+                    <div wire:loading.flex wire:target="addToCart" class="items-center justify-center flex-nowrap">
                         <x-ui.loader />
                         <span>{{ __('Processing') }}</span>
                     </div>
