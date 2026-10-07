@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Filament\Clusters\WebstoreSettings;
+use App\Models\Bundle;
 use App\Models\WebstoreSetting;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
@@ -50,8 +51,9 @@ class HomepageHeroSettingsPage extends Page
                     ->options([
                         'main' => 'Sytatsu general hero',
                         'clickerz' => 'Clickerz Bar Builder hero',
+                        'mini-friends' => 'Mini-Friends Bundle hero',
                     ])
-                    ->helperText('If the Clickerz Bar hero is selected while the Bar Builder is disabled, the general hero is shown instead.')
+                    ->helperText('If the Clickerz Bar hero is selected while the Bar Builder is disabled, or the Mini-Friends hero is selected while no bundle is enabled, the general hero is shown instead.')
                     ->native(false)
                     ->required(),
             ])
@@ -86,14 +88,22 @@ class HomepageHeroSettingsPage extends Page
 
     /**
      * The hero that should actually be rendered, accounting for the
-     * Clickerz hero not being available when the Bar Builder is disabled.
+     * Clickerz hero not being available when the Bar Builder is disabled,
+     * and the Mini-Friends hero not being available once no bundle is
+     * left enabled.
      */
     public static function current(): string
     {
-        if (static::stored() === 'clickerz' && ! BarBuilderSettingsPage::isEnabled()) {
+        $stored = static::stored();
+
+        if ($stored === 'clickerz' && ! BarBuilderSettingsPage::isEnabled()) {
             return 'main';
         }
 
-        return static::stored();
+        if ($stored === 'mini-friends' && ! Bundle::query()->enabled()->exists()) {
+            return 'main';
+        }
+
+        return $stored;
     }
 }

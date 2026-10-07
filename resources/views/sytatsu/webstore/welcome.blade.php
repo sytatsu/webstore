@@ -1,6 +1,8 @@
 <div class="{{ $maxWidth ?? 'max-w-[85rem]' }} w-full mx-auto">
     @if(\App\Filament\Pages\HomepageHeroSettingsPage::current() === 'clickerz')
         <x-sytatsu.homepage.clickerz-hero />
+    @elseif(\App\Filament\Pages\HomepageHeroSettingsPage::current() === 'mini-friends')
+        <x-sytatsu.homepage.mini-friends-hero />
     @else
         <x-sytatsu.homepage.main-hero />
     @endif

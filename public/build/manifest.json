@@ -43,6 +43,10 @@
     "file": "assets/AvenirNextLTPro-Regular-21d7fc50.otf",
     "src": "resources/fonts/AvenirNextLTPro-Regular.otf"
   },
+  "resources/images/banners/P1020940_square.jpg": {
+    "file": "assets/P1020940_square-acbaedf5.jpg",
+    "src": "resources/images/banners/P1020940_square.jpg"
+  },
   "resources/images/brands/no_background_text_only.png": {
     "file": "assets/no_background_text_only-f9781425.png",
     "src": "resources/images/brands/no_background_text_only.png"
@@ -157,7 +161,7 @@
     "src": "resources/js/sytatsu.js"
   },
   "resources/scss/sytatsu.scss": {
-    "file": "assets/sytatsu-23cc4bc7.css",
+    "file": "assets/sytatsu-282910ad.css",
     "isEntry": true,
     "src": "resources/scss/sytatsu.scss"
   }
