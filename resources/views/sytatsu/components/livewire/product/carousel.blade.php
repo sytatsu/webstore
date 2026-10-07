@@ -7,25 +7,55 @@
     <div class="hs-carousel relative overflow-hidden rounded-2xl min-w-full bg-white mb-4 md:mb-0 shadow-lg dark:shadow-slate-700">
 
         @if ($this->carouselType === \App\Enums\CarouselTypeEnum::COMPACT)
-            <a class="flex flex-col aspect-square bg-gray-100 dark:bg-slate-700" href="{{ \App\Services\WebstoreHelperService::getProductRoute($this->product) }}">
-                <div class="hs-carousel-body absolute top-0 bottom-0 start-0 flex flex-nowrap transition-transform duration-700 min-w-full overflow-hidden opacity-0 hs-carousel-initialized:opacity-100">
-                    @forelse($this->images as $image)
-                        <div class="hs-carousel-slide overflow-hidden">
-                            <img class="size-full object-cover aspect-square transform transition-all scale-101 hover:scale-105"
-                                 loading="lazy"
-                                 src="{{ $image->getUrl('medium') }}"
-                                 alt="{{ $image->name }}">
-                        </div>
-                    @empty
-                        <div class="hs-carousel-slide">
-                            <div class="w-full h-full flex flex-col gap-2 items-center justify-center text-gray-400">
-                                <i class="fa fa-image text-4xl"></i>
-                                <span>{{ __('Image coming soon') }}</span>
+            {{-- `linkToProduct` is false for a bundle-eligible tile — the
+                 whole tile is one big "add to bundle" click target there
+                 (product-tile.blade.php), so this image doesn't also
+                 navigate away; only the title below it still does. Two
+                 near-identical branches rather than one dynamic tag,
+                 matching this file's own existing COMPACT/EXPANDED split
+                 just below — Blade has no clean way to swap only the
+                 wrapping tag (`a` vs `div`) around one shared slot. --}}
+            @if ($linkToProduct)
+                <a class="flex flex-col aspect-square bg-gray-100 dark:bg-slate-700" href="{{ \App\Services\WebstoreHelperService::getProductRoute($this->product) }}">
+                    <div class="hs-carousel-body absolute top-0 bottom-0 start-0 flex flex-nowrap transition-transform duration-700 min-w-full overflow-hidden opacity-0 hs-carousel-initialized:opacity-100">
+                        @forelse($this->images as $image)
+                            <div class="hs-carousel-slide overflow-hidden">
+                                <img class="size-full object-cover aspect-square transform transition-all scale-101 hover:scale-105"
+                                     loading="lazy"
+                                     src="{{ $image->getUrl('medium') }}"
+                                     alt="{{ $image->name }}">
                             </div>
-                        </div>
-                    @endforelse
+                        @empty
+                            <div class="hs-carousel-slide">
+                                <div class="w-full h-full flex flex-col gap-2 items-center justify-center text-gray-400">
+                                    <i class="fa fa-image text-4xl"></i>
+                                    <span>{{ __('Image coming soon') }}</span>
+                                </div>
+                            </div>
+                        @endforelse
+                    </div>
+                </a>
+            @else
+                <div class="flex flex-col aspect-square bg-gray-100 dark:bg-slate-700">
+                    <div class="hs-carousel-body absolute top-0 bottom-0 start-0 flex flex-nowrap transition-transform duration-700 min-w-full overflow-hidden opacity-0 hs-carousel-initialized:opacity-100">
+                        @forelse($this->images as $image)
+                            <div class="hs-carousel-slide overflow-hidden">
+                                <img class="size-full object-cover aspect-square transform transition-all scale-101 hover:scale-105"
+                                     loading="lazy"
+                                     src="{{ $image->getUrl('medium') }}"
+                                     alt="{{ $image->name }}">
+                            </div>
+                        @empty
+                            <div class="hs-carousel-slide">
+                                <div class="w-full h-full flex flex-col gap-2 items-center justify-center text-gray-400">
+                                    <i class="fa fa-image text-4xl"></i>
+                                    <span>{{ __('Image coming soon') }}</span>
+                                </div>
+                            </div>
+                        @endforelse
+                    </div>
                 </div>
-            </a>
+            @endif
         @else {{-- \App\Enums\CarouselTypeEnum::EXPANDED --}}
             <div class="flex flex-col aspect-square bg-gray-100 dark:bg-slate-700">
                 <div class="hs-carousel-body absolute top-0 bottom-0 start-0 flex flex-nowrap transition-transform duration-700 min-w-full overflow-hidden opacity-0 hs-carousel-initialized:opacity-100">

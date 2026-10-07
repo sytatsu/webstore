@@ -332,6 +332,38 @@ class BundleBuilderComponentTest extends TestCase
     }
 
     /** @test */
+    public function a_bundle_eligible_tiles_whole_card_is_an_add_to_bundle_click_target()
+    {
+        $bundle = $this->makeBundle();
+        $fox = $this->makeVariant(inBundle: $bundle);
+
+        $html = Livewire::test(ProductTile::class, ['product' => $fox->product])->html();
+
+        // The forwarding click handler (product-tile.blade.php) and its
+        // target (add-to-cart.blade.php's own addToBundle() button/stepper)
+        // — can't drive an actual click from a server-rendered-HTML
+        // assertion, but this at least catches the markup regressing
+        // (e.g. the ref name drifting out of sync between the two files).
+        $this->assertStringContainsString('x-ref="bundleAddTrigger"', $html);
+        $this->assertStringContainsString("querySelector('[x-ref=bundleAddTrigger]')", $html);
+        $this->assertStringContainsString('cursor-pointer', $html);
+    }
+
+    /** @test */
+    public function a_tile_outside_any_bundle_is_not_a_click_target_and_its_image_still_links_to_the_product()
+    {
+        $fox = $this->makeVariant();
+
+        $html = Livewire::test(ProductTile::class, ['product' => $fox->product])->html();
+
+        $this->assertStringNotContainsString('bundleAddTrigger', $html);
+        $this->assertStringContainsString(
+            \App\Services\WebstoreHelperService::getProductRoute($fox->product),
+            $html
+        );
+    }
+
+    /** @test */
     public function the_products_own_detail_page_also_shows_the_tray_and_the_add_to_bundle_button()
     {
         $bundle = $this->makeBundle();

@@ -10,8 +10,13 @@
         @endif
 
         <div class="flex items-center gap-2">
+            {{-- `x-ref="bundleAddTrigger"` on both of this button's states (here,
+                 and the stepper's own "+" below) — product-tile.blade.php makes
+                 the *whole* tile clickable to add one, by forwarding a click to
+                 whichever of these two is actually showing, rather than
+                 duplicating the addToBundle() call outside this component. --}}
             @if ($this->bundleQuantity <= 0)
-                <x-ui.button.default.primary class="w-full" type="button" wire:click.prevent="addToBundle()" wire:loading.attr="disabled">
+                <x-ui.button.default.primary class="w-full" type="button" x-ref="bundleAddTrigger" wire:click.prevent="addToBundle()" wire:loading.attr="disabled">
                     {{ __('Add to bundle') }}
                 </x-ui.button.default.primary>
             @else
@@ -26,7 +31,7 @@
                     </span>
 
                     <button type="button" class="size-11.5 m-0 inline-flex justify-center items-center gap-x-2 text-sm font-semibold border border-transparent text-black dark:text-white bg-transparent hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
-                            wire:loading.attr="disabled" wire:click.prevent="addToBundle()" @disabled($this->bundleQuantity >= $this->bundleAvailable)>
+                            x-ref="bundleAddTrigger" wire:loading.attr="disabled" wire:click.prevent="addToBundle()" @disabled($this->bundleQuantity >= $this->bundleAvailable)>
                         <i class="fa fa-plus"></i>
                     </button>
                 </div>

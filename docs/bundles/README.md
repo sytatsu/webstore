@@ -257,6 +257,24 @@ with each other — the session is what makes the picture consistent
   uses, resolved independently by `ProductTile::mount()`. The product's own
   price is meaningless once the bundle is the only way to buy it; what the
   customer actually pays is the tier price shown in the tray.
+- A bundle-eligible tile is one big "add to bundle" click target, not just
+  the explicit button at the bottom — product-tile.blade.php's root div
+  gets an Alpine `@click` that forwards to whichever control
+  add-to-cart.blade.php is currently showing (the initial "Add to bundle"
+  button, or the stepper's "+" once something's picked; both carry
+  `x-ref="bundleAddTrigger"`), guarded so clicking an actual `a`/`button`/
+  `input` (the title, the stepper itself) does its own thing instead. This
+  has to be `$el.querySelector('[x-ref=bundleAddTrigger]')`, not Alpine's
+  `$refs` magic: add-to-cart is a *separate* Livewire component, and every
+  Livewire v3 component root is itself an implicit Alpine scope, so a ref
+  inside it is invisible to `$refs` from an ancestor outside that
+  component (confirmed empirically — `$refs` came back `undefined` for an
+  element that was a plain DOM descendant). The carousel's own image also
+  used to link to the product page in this state; that's now
+  conditional too (`Carousel::$linkToProduct`, off when
+  `ProductTile::$activeBundle` is set) so clicking the image adds to the
+  bundle instead of navigating away — the title link is untouched either
+  way, and is the only thing that still goes to the detail page.
 - The tray has a "How does this work?" button (plain Alpine `x-data`
   modal, matching `components/cookie-policy-popup.blade.php`'s pattern —
   no Livewire round-trip needed) that lists `$bundle->tiers()` with their
