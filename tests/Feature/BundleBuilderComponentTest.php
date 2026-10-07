@@ -408,4 +408,37 @@ class BundleBuilderComponentTest extends TestCase
             ->assertSee(__('Back to :name', ['name' => $bundle->getTranslatedName()]))
             ->assertSeeHtml(\App\Services\WebstoreHelperService::getCollectionRoute($bundle->collection));
     }
+
+    /** @test */
+    public function a_bundle_collection_gets_a_thin_cta_instead_of_its_product_grid_on_the_homepage()
+    {
+        $bundle = $this->makeBundle();
+        $fox = $this->makeVariant(inBundle: $bundle);
+
+        $dto = new \App\DTOs\ProductCollectionDTO($bundle->collection, collect([$fox->product]));
+
+        \Livewire\Livewire::test(\App\Http\Livewire\Sytatsu\Components\Collection\CollectionCards::class, ['collections' => $dto])
+            ->assertSee(__('Bundle deal'))
+            ->assertSee(__('Create your bundle'))
+            ->assertSeeHtml(\App\Services\WebstoreHelperService::getCollectionRoute($bundle->collection))
+            // The product tile itself (its own "add to bundle" button) must
+            // not render here — there's no bundle tray on this page to add
+            // to, only a link onward to the collection's own page.
+            ->assertDontSee(__('Add to bundle'));
+    }
+
+    /** @test */
+    public function a_non_bundle_collection_still_gets_its_normal_product_grid_on_the_homepage()
+    {
+        $collection = Collection::factory()->create();
+        $product = Product::factory()->create();
+        ProductVariant::factory()->create(['product_id' => $product->id, 'purchasable' => 'in_stock', 'stock' => 10]);
+        $collection->products()->attach($product->id);
+
+        $dto = new \App\DTOs\ProductCollectionDTO($collection, collect([$product]));
+
+        \Livewire\Livewire::test(\App\Http\Livewire\Sytatsu\Components\Collection\CollectionCards::class, ['collections' => $dto])
+            ->assertDontSee(__('Bundle deal'))
+            ->assertDontSee(__('Create your bundle'));
+    }
 }

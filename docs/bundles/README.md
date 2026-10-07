@@ -292,6 +292,13 @@ with each other — the session is what makes the picture consistent
   the first pulse is still playing actually restarts the animation
   instead of silently no-op'ing (Alpine's `:class` binding doesn't
   re-trigger a CSS animation from a value that doesn't change).
+- A bundle collection listed on the homepage (`collection-cards.blade.php`,
+  shared with the parent-collection sub-collection listing) gets a thin,
+  one-row CTA instead of its usual product grid — `BundleService::findActiveForCollection()`
+  per listed collection decides which. There's no single "add to cart" for
+  any one of a bundle's products from that far away (no tray mounted on
+  this page), so a grid of tiles that can't really be bought would be
+  misleading; a link back to the bundle's own collection page instead.
 
 ### Why not the old `feature/bundles` branch
 
