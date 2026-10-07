@@ -87,6 +87,7 @@
                     @endforeach
 
                     @foreach($results as $product)
+                        @php($activeBundle = $this->activeBundleFor($product))
                         <a href="{{ \App\Services\WebstoreHelperService::getProductRoute($product) }}"
                            wire:key="search-result-{{ $product->id }}"
                            class="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 dark:hover:bg-slate-700 border-b border-gray-100 dark:border-slate-700 last:border-b-0"
@@ -97,7 +98,17 @@
                             />
                             <div class="flex flex-col overflow-hidden">
                                 <span class="text-sm avenir-bold uppercase text-black dark:text-white truncate">{{ $product->translateAttribute('name') }}</span>
-                                <span class="text-xs text-gray-500 dark:text-gray-400">{{ \App\Services\WebstoreHelperService::priceRangeString($product->prices) }}</span>
+                                @if($activeBundle)
+                                    {{-- Its own price is meaningless once a bundle is the
+                                         only way to buy it — show the bundle's own
+                                         (lowest-tier) price instead, same as everywhere
+                                         else this check applies. --}}
+                                    <span class="text-xs text-primary">
+                                        {{ __(':price each', ['price' => $this->formatPrice($activeBundle->priceForQuantity(1)->price->value)]) }}
+                                    </span>
+                                @else
+                                    <span class="text-xs text-gray-500 dark:text-gray-400">{{ \App\Services\WebstoreHelperService::priceRangeString($product->prices) }}</span>
+                                @endif
                             </div>
                         </a>
                     @endforeach

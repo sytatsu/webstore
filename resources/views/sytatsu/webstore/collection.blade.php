@@ -33,10 +33,29 @@
     {{-- The page's own title, not squeezed in above the product grid
          (where it used to sit, competing for attention with the grid
          directly below it — and, once a bundle applies, with the
-         tray's own name label too). --}}
-    <h1 class="text-2xl md:text-3xl avenir-bold text-black dark:text-white uppercase">
-        {{ $collection->translateAttribute('name') }}
-    </h1>
+         tray's own name label too) — and in a card like every other
+         section on this page (filters, sort, the grid itself), rather
+         than sitting bare on the page background. The breadcrumb reuses
+         $breadcrumbItems, already built above for the JSON-LD schema
+         but never otherwise rendered for a visitor to actually see. --}}
+    <div class="rounded-2xl shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 py-6 px-6 lg:px-12">
+        @isset($breadcrumbItems)
+            <nav aria-label="{{ __('Breadcrumb') }}" class="mb-2 font-mono text-[10px] tracking-[.16em] uppercase text-gray-400 dark:text-neutral-500">
+                @foreach($breadcrumbItems as $crumb)
+                    @if(!$loop->first) <span class="px-1">/</span> @endif
+                    @if($loop->last)
+                        <span class="text-gray-600 dark:text-neutral-300">{{ $crumb['name'] }}</span>
+                    @else
+                        <a href="{{ $crumb['item'] }}" class="hover:underline hover:text-primary">{{ $crumb['name'] }}</a>
+                    @endif
+                @endforeach
+            </nav>
+        @endisset
+
+        <h1 class="text-2xl md:text-3xl avenir-bold text-black dark:text-white uppercase">
+            {{ $collection->translateAttribute('name') }}
+        </h1>
+    </div>
 
     @if($bundle ?? null)
         {{-- Spans the full container width — both the filter/sort sidebar

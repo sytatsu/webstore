@@ -37,11 +37,13 @@
     "
     :style="`top: ${top}px`"
 >
-    {{-- A solid, fully opaque fill — a gradient through a translucent
-         primary tint used to sit here, which let the page's own
-         background bleed through at the tinted edge instead of reading
-         as one consistently-coloured card. --}}
-    <div class="mx-auto rounded-2xl shadow-lg border-2 border-primary/40 bg-orange-50 dark:bg-slate-800 p-4 transition-[max-width] duration-300"
+    {{-- A solid, fully opaque fill matching every other section on the
+         page (the filter/sort cards, the product grid card) — a
+         gradient through a translucent primary tint used to sit here,
+         which both let the page's own background bleed through at the
+         tinted edge, and looked inconsistent with those other white
+         cards. The border carries the "this is different" cue instead. --}}
+    <div class="mx-auto rounded-2xl shadow-lg border-2 border-primary/40 bg-white dark:bg-slate-800 p-4 transition-[max-width] duration-300"
          :class="stuck ? 'max-w-[85rem]' : 'max-w-[95rem]'"
          x-data="{ infoOpen: false }"
     >

@@ -181,7 +181,10 @@ with each other — the session is what makes the picture consistent
   `dark:bg-slate-800`), not a translucent gradient — a gradient through a
   primary-tinted alpha stop used to sit here, which let the page's own
   background bleed through at that edge instead of reading as one
-  consistently-coloured card.
+  consistently-coloured card. It's since moved from a light orange tint
+  to plain white/`dark:slate-800` — the same fill every other card on
+  the page (filters, sort, the grid itself) uses — so the border is what
+  marks it as different, not a competing background colour.
 - The tray shows the **total** cost of what's picked so far (tier price
   × quantity), not just the per-item price — rendered next to the
   "Add bundle to cart" button, computed inline from `$this->currentTier`
@@ -191,6 +194,19 @@ with each other — the session is what makes the picture consistent
   (including the tray) — it used to sit squeezed directly above the
   product grid instead, which started competing with the grid for
   attention once the tray's own name label landed right above *that*.
+  It's in its own card too (matching every other section), with a
+  visible breadcrumb trail above it built from `$breadcrumbItems` —
+  previously computed only for the page's JSON-LD schema, never
+  actually rendered for a visitor to see.
+- `components/livewire/search-box.blade.php` (the header's live search
+  dropdown) has its own hand-rolled product row — it doesn't go through
+  `ProductTile`/`AddToCart` — so it needed its own
+  `BundleService::findActiveBundleForProduct()` check
+  (`SearchBox::activeBundleFor()`) to swap in the bundle's own
+  lowest-tier price instead of the product's normal one. Easy to miss
+  since it's a separate code path from every other price-hiding fix in
+  this feature; if another storefront surface ever renders its own
+  product price outside those two components, check it here too.
 - Each eligible tile's own price (`ProductTile::getPriceRangeString()`) is
   hidden once the product has an active bundle — same
   `BundleService::findActiveBundleForProduct()` check `AddToCart` already
