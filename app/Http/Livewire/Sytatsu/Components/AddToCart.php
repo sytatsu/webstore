@@ -166,6 +166,12 @@ class AddToCart extends Component
         $this->bundleQuantity++;
         $this->bundleService->updateSessionSelectionItem($this->activeBundle, $this->purchasable->id, $this->bundleQuantity);
         $this->dispatch('bundle-item-picked', variantId: $this->purchasable->id, quantity: $this->bundleQuantity);
+
+        // A separate, payload-less event from `bundle-item-picked` above —
+        // that one also fires on every decrement/removal (same method
+        // handles all three), and the tray's own pulse should only play
+        // when something was actually added, not taken out.
+        $this->dispatch('bundle-item-added');
     }
 
     public function removeFromBundleOne(): void

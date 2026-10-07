@@ -53,8 +53,17 @@
          tinted edge, and looked inconsistent with those other white
          cards. The border carries the "this is different" cue instead. --}}
     <div class="mx-auto rounded-2xl shadow-lg border-2 border-primary/40 bg-white dark:bg-slate-800 p-4 transition-[max-width] duration-300"
-         :class="stuck ? 'max-w-[85rem]' : 'max-w-[95rem]'"
-         x-data="{ infoOpen: false }"
+         :class="`${stuck ? 'max-w-[85rem]' : 'max-w-[95rem]'} ${pulsing ? 'animate-bundle-pulse' : ''}`"
+         x-data="{ infoOpen: false, pulsing: false }"
+         {{-- One-shot feedback that something was actually added — see
+              AddToCart::addToBundle()'s own dedicated `bundle-item-added`
+              event (deliberately separate from `bundle-item-picked`,
+              which also fires on every decrement/removal). Re-triggering
+              the animation on a quick double-pick needs the class
+              removed and re-added on the next tick, not just left at
+              `true` — toggling a CSS class that's already applied does
+              nothing, it has to actually change. --}}
+         x-on:bundle-item-added.window="pulsing = false; $nextTick(() => { pulsing = true; setTimeout(() => pulsing = false, 700); })"
     >
         <x-ui.spinner-overlay wire:loading.flex wire:target="addToCart, removeItem" />
 

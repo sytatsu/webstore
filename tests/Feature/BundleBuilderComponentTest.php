@@ -139,12 +139,35 @@ class BundleBuilderComponentTest extends TestCase
             ->call('addToBundle')
             ->assertSet('bundleQuantity', 1)
             ->assertDispatched('bundle-item-picked', variantId: $fox->id, quantity: 1)
+            // The tray's own "pulse" animation (bundle-builder.blade.php)
+            // listens for this, separate from bundle-item-picked above
+            // since that one also fires on a decrement/removal.
+            ->assertDispatched('bundle-item-added')
             ->call('addToBundle')
             ->assertSet('bundleQuantity', 2)
+            ->assertDispatched('bundle-item-added')
             ->call('addToBundle')
-            ->assertSet('bundleQuantity', 2, 'must not exceed available stock');
+            ->assertSet('bundleQuantity', 2, 'must not exceed available stock')
+            ->assertNotDispatched('bundle-item-added', 'the stock-capped call added nothing, so no pulse');
 
         $this->assertSame([$fox->id => 2], app(BundleService::class)->getSessionSelection($bundle));
+    }
+
+    /** @test */
+    public function removing_from_the_bundle_does_not_trigger_the_trays_added_pulse()
+    {
+        $bundle = $this->makeBundle();
+        $fox = $this->makeVariant(inBundle: $bundle);
+
+        Livewire::test(AddToCart::class, ['purchasable' => $fox])
+            ->call('addToBundle')
+            ->assertDispatched('bundle-item-added')
+            ->call('removeFromBundleOne')
+            ->assertNotDispatched('bundle-item-added')
+            ->call('addToBundle')
+            ->assertDispatched('bundle-item-added')
+            ->call('removeFromBundle')
+            ->assertNotDispatched('bundle-item-added');
     }
 
     /** @test */

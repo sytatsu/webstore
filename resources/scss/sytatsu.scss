@@ -44,6 +44,28 @@
     }
 
     --animate-fade-in-right: fade-in-right 0.8s ease-out both;
+
+    /* A brief scale-up + expanding ring, not Tailwind's built-in
+       `animate-pulse` (a continuous opacity fade meant for loading
+       skeletons) — this one-shot "something just happened here" flash
+       is for the bundle tray, played once whenever a product is actually
+       added to the bundle (see bundle-builder.blade.php). */
+    @keyframes bundle-pulse {
+        0% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-primary) 60%, transparent);
+        }
+        40% {
+            transform: scale(1.015);
+            box-shadow: 0 0 0 14px color-mix(in srgb, var(--color-primary) 0%, transparent);
+        }
+        100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-primary) 0%, transparent);
+        }
+    }
+
+    --animate-bundle-pulse: bundle-pulse 0.7s ease-out;
 }
 
 html {

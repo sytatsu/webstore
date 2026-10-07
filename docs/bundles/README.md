@@ -263,6 +263,17 @@ with each other — the session is what makes the picture consistent
   prices. This can never drift from what checkout actually charges because
   it reads the same `Price` rows `BundleService::syncPurchasable()` keeps
   in sync, not a separate copy.
+- The tray plays a brief pulse (scale + expanding ring, `--animate-bundle-pulse`
+  in `resources/scss/sytatsu.scss`) whenever a product is actually added.
+  `AddToCart::addToBundle()` dispatches a dedicated, payload-less
+  `bundle-item-added` browser event for this — deliberately separate from
+  `bundle-item-picked`, which also fires on every decrement/removal (same
+  method handles all three), so a removal doesn't also pulse. The tray's
+  own Alpine listener resets `pulsing` to `false` and back to `true` on a
+  `$nextTick` rather than just setting it `true`, so a second add while
+  the first pulse is still playing actually restarts the animation
+  instead of silently no-op'ing (Alpine's `:class` binding doesn't
+  re-trigger a CSS animation from a value that doesn't change).
 
 ### Why not the old `feature/bundles` branch
 
