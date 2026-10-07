@@ -207,10 +207,23 @@ with each other — the session is what makes the picture consistent
   since it's a separate code path from every other price-hiding fix in
   this feature; if another storefront surface ever renders its own
   product price outside those two components, check it here too.
-- The page's title card, the tray and the filter/grid row stack with
-  `gap-4`, not the `gap-8` the rest of the page uses — with the title
-  card now its own section, `gap-8` added up to a lot of dead space
-  between the header and anything actually actionable.
+- The page's title card, the tray and the filter/grid row all stack with
+  the page's usual `gap-8` — shrinking that to `gap-4` (and the title
+  card's own `py-6` to `py-4`) was tried first to close up what looked
+  like extra space above the tray, but that tightened every section's
+  spacing page-wide, not just the one that actually had a problem, and
+  was reverted. The real surplus was the tray's own flat `pt-4`
+  stacking on top of that `gap-8` (see the next point) — fixing that
+  instead left every section-to-section gap on the page, including the
+  one above the tray, matching.
+- The tray's top padding (`pt-4`) is conditional on its own `stuck`
+  state (`:class="stuck ? 'pt-4' : ''"`), not a flat class. It exists to
+  keep the tray from touching the site header once scrolling has pinned
+  the two together — it has no reason to also apply while the tray is
+  resting in its normal position right below the title card, where the
+  page's own `gap-8` already provides the right amount of space. Left
+  flat, it stacked on top of that `gap-8`, making the gap above the
+  tray bigger than every other section-to-section gap on the page.
 - The tray's picked-items row needs `pt-2`, not `py-1`: `overflow-x-auto`
   (for horizontal scrolling when there are more picks than fit) forces
   the paired `overflow-y` to compute as `auto` too — you can't mix

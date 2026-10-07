@@ -29,7 +29,7 @@
     @endpush
 @endif
 
-<div class="{{ $maxWidth ?? 'max-w-[85rem]' }} w-full mx-auto flex flex-col gap-4">
+<div class="{{ $maxWidth ?? 'max-w-[85rem]' }} w-full mx-auto flex flex-col gap-8">
     {{-- The page's own title, not squeezed in above the product grid
          (where it used to sit, competing for attention with the grid
          directly below it — and, once a bundle applies, with the
@@ -39,11 +39,14 @@
          $breadcrumbItems, already built above for the JSON-LD schema
          but never otherwise rendered for a visitor to actually see.
 
-         gap-4 here (not the gap-8 the rest of the page uses) — with the
-         title card, the tray and the grid all stacking in one column,
-         gap-8 added up to a lot of dead space between the header and
-         anything actually actionable. --}}
-    <div class="rounded-2xl shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 py-4 px-6 lg:px-12">
+         gap-8 here, same as every other section-to-section gap on this
+         page — a tighter gap was tried here (shrinking this to gap-4 and
+         this card's own py-6 to py-4) to close up what looked like extra
+         space above the tray, but that tightened every section's spacing
+         page-wide instead of just the one that actually had a problem.
+         The real surplus was inside the tray itself — see
+         bundle-builder.blade.php's own top-padding note. --}}
+    <div class="rounded-2xl shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 py-6 px-6 lg:px-12">
         @isset($breadcrumbItems)
             <nav aria-label="{{ __('Breadcrumb') }}" class="mb-2 font-mono text-[10px] tracking-[.16em] uppercase text-gray-400 dark:text-neutral-500">
                 @foreach($breadcrumbItems as $crumb)

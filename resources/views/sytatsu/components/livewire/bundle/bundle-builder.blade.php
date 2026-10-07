@@ -17,9 +17,17 @@
      No horizontal padding here — the page layout (sytatsu-layout.blade.php)
      already pads its whole $slot, same as the filter/grid row below this
      one; adding more here on top of that made this narrower than that
-     row instead of matching it. --}}
+     row instead of matching it.
+
+     The top padding is conditional on `stuck`, not a flat `pt-4`: it's
+     breathing room between this and the site header once scrolling has
+     actually pinned the two together, not extra space above the title
+     card above it — the page's own `gap-8` between sections already
+     covers that, and stacking this padding on top of it made the gap
+     above the tray bigger than every other section-to-section gap on
+     the page. --}}
 <div
-    class="sticky z-40 pt-4"
+    class="sticky z-40"
     x-data="{ top: 0, stuck: false }"
     x-init="
         const header = document.getElementById('site-header');
@@ -36,6 +44,7 @@
         window.addEventListener('scroll', update, { passive: true });
     "
     :style="`top: ${top}px`"
+    :class="stuck ? 'pt-4' : ''"
 >
     {{-- A solid, fully opaque fill matching every other section on the
          page (the filter/sort cards, the product grid card) — a
