@@ -47,6 +47,10 @@
     "file": "assets/P1020940_square-acbaedf5.jpg",
     "src": "resources/images/banners/P1020940_square.jpg"
   },
+  "resources/images/banners/p1020972-clickerz-keycaps.jpg": {
+    "file": "assets/p1020972-clickerz-keycaps-48589ae1.jpg",
+    "src": "resources/images/banners/p1020972-clickerz-keycaps.jpg"
+  },
   "resources/images/brands/no_background_text_only.png": {
     "file": "assets/no_background_text_only-f9781425.png",
     "src": "resources/images/brands/no_background_text_only.png"
@@ -161,7 +165,7 @@
     "src": "resources/js/sytatsu.js"
   },
   "resources/scss/sytatsu.scss": {
-    "file": "assets/sytatsu-0d7a4fc8.css",
+    "file": "assets/sytatsu-7d67e9ec.css",
     "isEntry": true,
     "src": "resources/scss/sytatsu.scss"
   }

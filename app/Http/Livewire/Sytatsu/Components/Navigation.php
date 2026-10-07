@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Sytatsu\Components;
 
+use App\Filament\Pages\BarBuilderSettingsPage;
+use App\Filament\Pages\NavigationSettingsPage;
 use App\Models\WebstoreSetting;
 use App\Services\StorefrontService;
 use Illuminate\Support\Collection;
@@ -39,9 +41,24 @@ class Navigation extends Component
             ->filter()
             ->values();
 
+        // "Which top-level items, in what order" — gated per-type (Clickerz
+        // on the Bar Builder being enabled, FDM Printing on actually having
+        // collections) rather than baked into the stored order itself, so
+        // enabling the Bar Builder later doesn't require re-saving
+        // NavigationSettingsPage just to make a previously-saved "clickerz"
+        // entry start rendering.
+        $topLevelOrder = NavigationSettingsPage::normalizedTopLevelOrder(
+            WebstoreSetting::getByKey(NavigationSettingsPage::TOP_LEVEL_ORDER_KEY, NavigationSettingsPage::DEFAULT_TOP_LEVEL_ORDER)
+        )->filter(fn ($type) => match ($type) {
+            'clickerz' => BarBuilderSettingsPage::isEnabled(),
+            'fdm_printing' => $fdmPrintingCollections->isNotEmpty(),
+            default => true,
+        });
+
         return view('sytatsu.components.navigation', [
             'collections' => $collections,
             'fdmPrintingCollections' => $fdmPrintingCollections,
+            'topLevelOrder' => $topLevelOrder,
         ]);
     }
 }

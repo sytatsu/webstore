@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Sytatsu\Pages\Webstore;
 
+use App\Filament\Pages\HomeFeaturedCollectionsSettingsPage;
 use App\Models\WebstoreSetting;
 use App\DTOs\ProductCollectionDTO;
 use App\Http\Livewire\Sytatsu\SytatsuBasePage;
@@ -29,18 +30,31 @@ class Welcome extends SytatsuBasePage
 
     protected array $collectionIds = [];
 
+    /**
+     * The admin-configured order of homepage elements — a mix of
+     * `{"type": "collection", "collection_id": ...}` and
+     * `{"type": "clickerz"}` rows (HomeFeaturedCollectionsSettingsPage).
+     * Kept separately from $collectionIds so the Clickerz Bar CTA's
+     * position among the featured collections survives into the view
+     * instead of always rendering in one fixed spot.
+     *
+     * @var array<int, array<string, mixed>>
+     */
+    protected array $elements = [];
+
     public string $gridColumns = 'grid-cols-2 md:grid-cols-4 ';
     public string $maxWidth = 'max-w-[85rem]';
 
     public function mount(StorefrontService $storefrontService): void {
         $this->storefrontService = $storefrontService;
 
-        $this->collectionIds = WebstoreSetting::getByKey('home_featured_collections', []);
+        $stored = WebstoreSetting::getByKey('home_featured_collections', []);
+        $this->elements = HomeFeaturedCollectionsSettingsPage::normalizedElements($stored)->all();
 
-        // Ensure collectionIds is an array
-        if (!is_array($this->collectionIds)) {
-            $this->collectionIds = [];
-        }
+        $this->collectionIds = collect($this->elements)
+            ->where('type', HomeFeaturedCollectionsSettingsPage::TYPE_COLLECTION)
+            ->pluck('collection_id')
+            ->all();
     }
 
     /**
@@ -69,7 +83,7 @@ class Welcome extends SytatsuBasePage
     public function render(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\Support\Htmlable|\Closure|string
     {
         $this->setViewAttributes([
-            'collections' => $this->getCollectionsAttribute(),
+            'homepageElements' => $this->getHomepageElementsAttribute(),
             'gridColumns' => 'grid-cols-2 lg:grid-cols-4',
             'maxWidth' => $this->maxWidth,
             'showFilters' => false,
@@ -89,5 +103,41 @@ class Welcome extends SytatsuBasePage
         }
 
         return $this->collections;
+    }
+
+    /**
+     * $this->elements in admin-chosen order, with each `collection` row
+     * resolved to its ProductCollectionDTO (dropped if the collection no
+     * longer exists) and each `clickerz` row kept as a bare marker —
+     * welcome.blade.php renders the CTA for the latter and delegates to
+     * collection-cards.blade.php for the former, one collection at a
+     * time so the Clickerz CTA can sit between any two of them.
+     *
+     * @return SupportCollection<int, array{type: string, dto?: ProductCollectionDTO}>
+     */
+    public function getHomepageElementsAttribute(): SupportCollection
+    {
+        $dtosByCollectionId = $this->getCollectionsAttribute()->keyBy(fn (ProductCollectionDTO $dto) => $dto->collection->id);
+
+        // A Clickerz row is dropped here rather than in welcome.blade.php
+        // so both gates — Bar Builder disabled, and the hero already
+        // being the Clickerz hero (two Clickerz promos stacked directly
+        // on top of each other would be redundant) — live in one place
+        // next to the rest of the list-building logic.
+        $clickerzAllowed = \App\Filament\Pages\BarBuilderSettingsPage::isEnabled()
+            && \App\Filament\Pages\HomepageHeroSettingsPage::current() !== 'clickerz';
+
+        return collect($this->elements)
+            ->map(function (array $element) use ($dtosByCollectionId, $clickerzAllowed) {
+                if ($element['type'] === HomeFeaturedCollectionsSettingsPage::TYPE_CLICKERZ) {
+                    return $clickerzAllowed ? ['type' => HomeFeaturedCollectionsSettingsPage::TYPE_CLICKERZ] : null;
+                }
+
+                $dto = $dtosByCollectionId->get($element['collection_id']);
+
+                return $dto ? ['type' => HomeFeaturedCollectionsSettingsPage::TYPE_COLLECTION, 'dto' => $dto] : null;
+            })
+            ->filter()
+            ->values();
     }
 }

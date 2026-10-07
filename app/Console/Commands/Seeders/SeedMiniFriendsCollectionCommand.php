@@ -121,8 +121,18 @@ class SeedMiniFriendsCollectionCommand extends Command
             $featured = [];
         }
 
-        if (!in_array($collectionId, $featured)) {
-            $featured[] = $collectionId;
+        // Rows are typed (`{"type": "collection", "collection_id": ...}`)
+        // since HomeFeaturedCollectionsSettingsPage grew a second row type
+        // (the Clickerz Bar CTA) — matching against a bare int would never
+        // find an existing entry and re-add this collection on every run.
+        $alreadyFeatured = collect($featured)->contains(function ($entry) use ($collectionId) {
+            $id = is_array($entry) ? ($entry['collection_id'] ?? null) : $entry;
+
+            return (int) $id === $collectionId;
+        });
+
+        if (!$alreadyFeatured) {
+            $featured[] = ['type' => 'collection', 'collection_id' => $collectionId];
             WebstoreSetting::setByKey('home_featured_collections', $featured);
         }
     }

@@ -301,13 +301,18 @@ with each other — the session is what makes the picture consistent
   misleading; a link back to the bundle's own collection page instead.
   The collection's own image (the same `collection_image` attribute /
   thumbnail fallback used by `collections.blade.php`) sits in the middle
-  of that row with an angled, ticket-stub clip-path and a soft glow —
-  hidden below `sm` where the row already stacks label-above-button, so
-  a third element would only crowd it. A Blade comment on this partial
-  must never spell out a literal `@directive(...)`-looking token (even
-  just to describe one in prose) — Blade's compiler matches those inside
-  `{{-- --}}` comments too, which silently corrupts everything compiled
-  after it; confirmed the hard way while building this.
+  of that row, flush with the card's own top/bottom edges — `self-stretch`
+  + `-my-6` cancel the row's own vertical padding so the image has no
+  margin/padding of its own, clipped to the card's rounded corners by the
+  card's `overflow-hidden`, with an angled clip-path on the inner edge
+  only (ticket-stub style; the outer edge is already the card's own
+  boundary) — hidden below `sm` where the row already stacks
+  label-above-button, so a third element would only crowd it. A Blade
+  comment on this partial must never spell out a literal
+  `@directive(...)`-looking token (even just to describe one in prose) —
+  Blade's compiler matches those inside `{{-- --}}` comments too, which
+  silently corrupts everything compiled after it; confirmed the hard way
+  while building this.
 - The shared page header (`x-sytatsu.page-header`, breadcrumb + title in
   its own card) started on the product collection page and now also
   covers the collections listing, product detail, custom print,
@@ -317,12 +322,19 @@ with each other — the session is what makes the picture consistent
 - The Clickerz Bar Builder gets the same thin one-row CTA treatment on
   the homepage (`x-sytatsu.homepage.clickerz-cta`), even though it isn't
   a collection and so never passes through `collection-cards.blade.php`
-  — it's its own component with the identical markup, shown in
-  `welcome.blade.php` whenever `BarBuilderSettingsPage::isEnabled()`,
-  except when the homepage hero is already the Clickerz hero (stacking
-  two Clickerz promos back-to-back would be redundant in a way the
-  bundle hero + bundle CTA pairing isn't, since those sit much further
-  apart on the page).
+  — it's its own component with the identical full-bleed-image markup
+  (now a real photo, `resources/images/banners/p1020972-clickerz-keycaps.jpg`,
+  not the SVG logo it started with). Unlike the bundle CTA it's not tied
+  to any one collection, so where it sits is admin-configured directly:
+  it's one more row an admin can drag into
+  `HomeFeaturedCollectionsSettingsPage`'s ("Homepage Elements") ordered
+  list, dropped at render time (`Welcome.php::getHomepageElementsAttribute()`)
+  whenever `BarBuilderSettingsPage::isEnabled()` is false or the homepage
+  hero is already the Clickerz hero — stacking two Clickerz promos
+  back-to-back would be redundant in a way the bundle hero + bundle CTA
+  pairing isn't, since those sit much further apart on the page. See
+  `docs/webstore-settings/README.md` for the rest of that page's typed-row
+  shape.
 
 ### Why not the old `feature/bundles` branch
 

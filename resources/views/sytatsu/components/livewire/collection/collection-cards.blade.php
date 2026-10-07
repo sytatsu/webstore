@@ -32,18 +32,24 @@
                     @if($bundleCollectionImageUrl)
                         {{-- The collection's own image, worked into the middle
                              of this thin CTA row rather than left out
-                             entirely — angled on both sides (ticket-stub
-                             style) so it reads as a deliberate accent
-                             rather than a stray product photo bleeding
-                             into the gradient. Hidden on mobile, where
+                             entirely — angled on the inner edge only
+                             (ticket-stub style) so it reads as a
+                             deliberate accent rather than a stray product
+                             photo bleeding into the gradient. `-my-6`
+                             cancels the row's own vertical padding and
+                             `self-stretch` fills whatever height that
+                             leaves, so the image runs flush to the
+                             card's own top/bottom edges with no
+                             margin/padding of its own — the outer card's
+                             `overflow-hidden` + `rounded-2xl` then clips
+                             its corners to match. Hidden on mobile, where
                              the row already stacks label-above-button;
                              a third stacked element pushed the button
                              down further than this banner's "thin"
                              purpose intends — same call made for the
                              image on mini-friends-hero.blade.php there. --}}
-                        <div class="hidden sm:block relative shrink-0 w-24 h-16 lg:w-28 lg:h-20">
-                            <div class="absolute inset-0 bg-white/25 blur-xl rounded-full"></div>
-                            <img src="{{ $bundleCollectionImageUrl }}" alt="{{ $collection->getName() }}" class="relative z-10 w-full h-full object-cover rounded-sm" style="clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%); filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.35));">
+                        <div class="hidden sm:block relative shrink-0 self-stretch -my-6 w-24 lg:w-28">
+                            <img src="{{ $bundleCollectionImageUrl }}" alt="{{ $collection->getName() }}" class="relative z-10 w-full h-full object-cover" style="clip-path: polygon(12% 0%, 100% 0%, 100% 100%, 0% 100%);">
                         </div>
                     @endif
 

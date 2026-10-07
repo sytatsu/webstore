@@ -93,6 +93,54 @@ Verified live: setting `navigation_collection_groups` to
 `NavigationSettingsPage` is what the storefront actually renders now,
 not just what the admin form displays.
 
+## Follow-up: the Clickerz Bar CTA became a configurable element, not an automatic one
+
+The Clickerz Bar CTA (homepage promo banner, nav link) used to render
+automatically in one fixed spot whenever `BarBuilderSettingsPage::isEnabled()`
+was true — invisible from both `HomeFeaturedCollectionsSettingsPage` (then
+still named "Homepage Collections") and `NavigationSettingsPage`, so there
+was no way to see or change where it sat relative to the featured
+collections or the other nav items. Both pages now treat it as one more
+row an admin places explicitly:
+
+- **`HomeFeaturedCollectionsSettingsPage`** (renamed **"Homepage Elements"**
+  to match) — its `elements` Repeater rows are now typed
+  (`{"type": "collection", "collection_id": ...}` or `{"type": "clickerz"}`),
+  picked via a `type` Select per row (`->live()`, toggles which sibling
+  field shows). `Welcome.php::getHomepageElementsAttribute()` resolves
+  collection rows to their `ProductCollectionDTO` (dropping any whose
+  collection no longer exists) and drops a `clickerz` row entirely when
+  the Bar Builder is disabled or the hero is already the Clickerz hero —
+  both gates live together in that one method now, not split between
+  `welcome.blade.php`'s old fixed `@if` and the CTA component's own
+  comment. `welcome.blade.php` renders one Livewire `collection-cards`
+  instance per collection row (it already accepted a single
+  `ProductCollectionDTO`) interleaved with `<x-sytatsu.homepage.clickerz-cta>`,
+  wrapped in one shared `gap-8` flex container for spacing, instead of a
+  single instance handling every collection at once.
+- **`NavigationSettingsPage`** gained a fourth Repeater, `top_level_order`
+  (setting key `navigation_top_level_order`), reordering/toggling the nav
+  bar's four top-level entries themselves — `collections`, `clickerz`,
+  `fdm_printing`, `services` — independently of the `groups` and
+  `fdm_printing_collections` Repeaters below it, which still only control
+  *what's inside* the Collections/FDM Printing dropdowns, not whether or
+  where those dropdowns themselves appear. `Navigation.php` reads the
+  stored order, filters it to known types
+  (`NavigationSettingsPage::normalizedTopLevelOrder()`), and further drops
+  `clickerz` (Bar Builder disabled) or `fdm_printing` (no FDM collections
+  configured) per-render rather than baking those gates into the stored
+  value — so enabling the Bar Builder later doesn't require re-saving this
+  page just to make an already-stored `clickerz` entry start rendering.
+  `navigation.blade.php`'s old fixed sequence of markup blocks became one
+  `@foreach` + `@switch`, each `@case` holding exactly the markup that
+  item already had.
+
+Both changes needed `home_featured_collections`'s two seeder commands
+(`SeedPokeballCollectionCommand`, `SeedMiniFriendsCollectionCommand`)
+updated too — they used to check `in_array($collectionId, $featured)`
+against a flat array of ints, which would never match the new typed-row
+shape and re-add the same collection on every re-run.
+
 ## Scope note: navigation stays a group/slug picker, not a free nav editor
 
 The user was asked directly whether "rearranging... navigation items"

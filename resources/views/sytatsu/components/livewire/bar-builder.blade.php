@@ -16,13 +16,17 @@
              tray (bundle-builder.blade.php): track the header's real
              height via a ResizeObserver (it also changes on scroll — see
              navigation.blade.php's `scrolled` state) and stick this
-             exactly flush under it instead of at a hardcoded offset. --}}
+             under it instead of at a hardcoded offset. The extra +16 is
+             breathing room once actually pinned — `top` only takes
+             effect while stuck, so it adds nothing in normal flow;
+             without it the stage sat flush against the header's bottom
+             edge with no gap at all. --}}
         <section
             class="rounded-2xl overflow-hidden ring-1 ring-black/10 z-20 lg:sticky lg:self-start"
-            x-data="{ top: 16 }"
+            x-data="{ top: 32 }"
             x-init="
                 const header = document.getElementById('site-header');
-                const update = () => { top = header ? header.offsetHeight : 16 };
+                const update = () => { top = (header ? header.offsetHeight : 16) + 16 };
                 update();
                 if (header && window.ResizeObserver) {
                     new ResizeObserver(update).observe(header);
