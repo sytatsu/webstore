@@ -4,23 +4,38 @@
      `sticky` needs an explicit `top` matching the header's *current*
      height (it changes as the header shrinks on scroll — see
      navigation.blade.php's `scrolled` state), so a ResizeObserver on
-     #site-header keeps this in sync instead of a hardcoded pixel value. --}}
+     #site-header keeps this in sync instead of a hardcoded pixel value.
+
+     It's also wider than the page's own content width while sitting in
+     its normal (non-stuck) position, then eases down to that same width
+     once scrolling has actually pinned it under the header. "Stuck" is
+     read from the element's own bounding box rather than a separate
+     sentinel: wrapping this in one more plain ancestor div to host that
+     state broke native `position: sticky` outright (confirmed by testing
+     it), so the state lives on this element itself instead. --}}
 <div
     class="sticky z-40 px-4 pt-4"
-    x-data="{ top: 0 }"
+    x-data="{ top: 0, stuck: false }"
     x-init="
         const header = document.getElementById('site-header');
-        const update = () => { top = header ? header.offsetHeight : 0 };
+        const update = () => {
+            top = header ? header.offsetHeight : 0;
+            stuck = $el.getBoundingClientRect().top <= top;
+        };
         update();
         if (header && window.ResizeObserver) {
             new ResizeObserver(update).observe(header);
         } else {
             window.addEventListener('resize', update);
         }
+        window.addEventListener('scroll', update, { passive: true });
     "
     :style="`top: ${top}px`"
 >
-    <div class="max-w-[85rem] mx-auto rounded-2xl shadow-lg border-2 border-primary/40 bg-gradient-to-br from-primary/10 via-white to-white dark:from-primary/20 dark:via-slate-800 dark:to-slate-800 p-4" x-data="{ infoOpen: false }">
+    <div class="mx-auto rounded-2xl shadow-lg border-2 border-primary/40 bg-gradient-to-br from-primary/10 via-white to-white dark:from-primary/20 dark:via-slate-800 dark:to-slate-800 p-4 transition-[max-width] duration-300"
+         :class="stuck ? 'max-w-[85rem]' : 'max-w-[95rem]'"
+         x-data="{ infoOpen: false }"
+    >
         <x-ui.spinner-overlay wire:loading.flex wire:target="addToCart, removeItem" />
 
         <div class="flex items-center justify-between gap-2 mb-2">
