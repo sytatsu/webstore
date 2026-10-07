@@ -207,6 +207,20 @@ with each other — the session is what makes the picture consistent
   since it's a separate code path from every other price-hiding fix in
   this feature; if another storefront surface ever renders its own
   product price outside those two components, check it here too.
+- The page's title card, the tray and the filter/grid row stack with
+  `gap-4`, not the `gap-8` the rest of the page uses — with the title
+  card now its own section, `gap-8` added up to a lot of dead space
+  between the header and anything actually actionable.
+- The tray's picked-items row needs `pt-2`, not `py-1`: `overflow-x-auto`
+  (for horizontal scrolling when there are more picks than fit) forces
+  the paired `overflow-y` to compute as `auto` too — you can't mix
+  `auto` on one axis with `visible` on the other — so that row clips
+  anything poking outside it, and the quantity badge deliberately sits
+  `-top-1.5` above its own thumbnail. Same root cause as the cart's own
+  badge-clipping fix above, different element.
+- A sticky filter/sort sidebar (desktop only, docking below the tray
+  when one applies, below just the header otherwise) was tried and
+  reverted at the user's request — not a bug, just not wanted here.
 - Each eligible tile's own price (`ProductTile::getPriceRangeString()`) is
   hidden once the product has an active bundle — same
   `BundleService::findActiveBundleForProduct()` check `AddToCart` already

@@ -83,7 +83,14 @@
                             {{ __('Pick products below to start your bundle.') }}
                         </p>
                     @else
-                        <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+                        {{-- pt-2 (not py-1) — overflow-x-auto forces the
+                             paired overflow-y to compute as auto too (per
+                             spec, you can't mix auto on one axis with
+                             visible on the other), so this row clips
+                             anything that pokes outside it; the quantity
+                             badge below deliberately sits -top-1.5 above
+                             its own thumbnail and needs the room. --}}
+                        <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pt-2 pb-1">
                             @foreach($this->selectedItems as $item)
                                 <div class="group relative size-14 rounded-md flex-shrink-0 border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900"
                                      title="{{ $item['name'] }}"
