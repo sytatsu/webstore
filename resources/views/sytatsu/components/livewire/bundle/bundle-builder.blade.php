@@ -1,6 +1,11 @@
-<div class="sticky bottom-4 z-20 mt-2">
-    <div class="rounded-2xl shadow-lg border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-800 p-4">
-        <x-ui.spinner-overlay wire:loading.flex wire:target="addToCart, increment, decrement, removeItem" />
+{{-- Pinned to the bottom of the viewport, not just the page flow — this
+     is the only place a bundle can be reviewed/completed/edited, so it
+     must always be on screen, not just "while scrolled to the right
+     spot" (which `sticky` alone wouldn't guarantee here, since it's not
+     the last element in a container that fills the viewport height). --}}
+<div class="fixed bottom-0 inset-x-0 z-50 px-4 pb-4 pointer-events-none">
+    <div class="max-w-[85rem] mx-auto pointer-events-auto rounded-2xl shadow-lg border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-800 p-4">
+        <x-ui.spinner-overlay wire:loading.flex wire:target="addToCart, removeItem" />
 
         @if($added)
             <div class="flex items-center justify-center py-2">

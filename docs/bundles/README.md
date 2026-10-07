@@ -74,8 +74,8 @@ picked products happens in `BundleService`:
 - `validateSelection()` — re-checks every picked item's stock and clamps
   anything that's gone stale, called both before adding to the cart and
   before saving an edit (picks can go stale between page load and submit).
-- The storefront picker (`BundlePickControl`) also disables "+" once a
-  tile's own available stock is reached, so the common case never even
+- `AddToCart`'s "Add to bundle" button also disables itself once a
+  product's own available stock is reached, so the common case never even
   reaches the server-side check.
 
 If you extend this feature, **don't assume Lunar's `CartLineQuantity`
@@ -98,11 +98,40 @@ The storefront flow: the cart's "Edit" button
 (`resources/views/sytatsu/components/livewire/cart/components/items.blade.php`)
 links to the bundle's own collection page with `?edit_bundle_line={id}`.
 `App\Http\Livewire\Sytatsu\Components\Bundle\BundleBuilder::mount()` reads
-that, seeds `$selection` from `BundleService::selectionForCartLine()`, and
-`addToCart()` becomes an edit (`updateCartLine()`) for that line id.
-`BundlePickControl` instances on the grid get the same seeded selection via
-`$bundleEditSelection` (computed once in `CollectionPage::render()`) so the
-tiles show the right starting quantities too.
+that, seeds the **session** selection from `BundleService::selectionForCartLine()`
+(overwriting whatever was already queued there), and `addToCart()` becomes
+an edit (`updateCartLine()`) for that line id.
+
+## The bundle builder is the only way to acquire these products
+
+A bundle-eligible product cannot be added to the cart on its own, from
+anywhere — not the collection grid, not the product's own detail page.
+`App\Http\Livewire\Sytatsu\Components\AddToCart` (the one component both
+`product-tile.blade.php` and `product.blade.php` already used for the
+normal "Add to shopping cart" button) resolves
+`BundleService::findActiveBundleForProduct()` on `mount()`; when that
+returns a `Bundle`, its Blade renders an "Add to bundle" / stepper /
+"Remove" control instead of the normal price+quantity+add-to-cart UI, and
+`addToCart()` itself refuses to run even if called directly (defence in
+depth beyond just hiding the button — never trust the client alone to
+enforce "this product can't be bought on its own").
+
+### Why the in-progress selection lives in the session, not a component
+
+`AddToCart` on a product's own detail page and the `BundleBuilder` tray on
+the collection page are **separate Livewire components mounted on
+separate page loads** — there's no shared PHP object between them. So the
+"what's queued right now for this bundle" state can't live in either
+component's own properties; it's kept in
+`BundleService::getSessionSelection()` / `updateSessionSelectionItem()`
+instead (keyed `bundle_selection_{id}`), which every bundle-aware
+component reads from and writes through on every page load. Livewire's
+cross-component events
+(`bundle-item-picked` dispatched by `AddToCart::addToBundle()`/
+`removeFromBundle()`, `bundle-selection-updated` broadcast back by
+`BundleBuilder`) only keep controls *on the same page* instantly in sync
+with each other — the session is what makes the picture consistent
+*across* pages.
 
 ## Storefront pieces (and why the collection page itself barely changed)
 
@@ -113,22 +142,26 @@ tiles show the right starting quantities too.
   eligible product set is always the *whole* bundle collection's tree
   (`eligibleProducts()`), not just the sub-collection being browsed. That's
   what lets a bundle mix items across sibling sub-collections.
-- `resources/views/sytatsu/webstore/collection.blade.php` gained one
-  **additive** block: a toggle banner + the `BundleBuilder` tray, both
-  gated behind `@if($bundle ?? null)`. The existing filters/grid/pagination
-  markup is untouched — when there's no bundle for a collection, this file
-  renders byte-for-byte what it did before.
-- Each product tile stays the single-line `<livewire:...product-tile>` it
-  always was. Only when a bundle applies AND that specific product is
-  eligible does it get wrapped in a `position: relative` div with a small
-  `BundlePickControl` overlay (`+`/qty/`-`) absolutely positioned on top —
-  `ProductTile.php` itself is never touched.
-- `BundleBuilder` (one instance, page-scoped) and `BundlePickControl` (one
-  per eligible tile) talk to each other only through Livewire's
-  cross-component events — `bundle-item-picked` (tile → builder) and
-  `bundle-selection-updated` (builder → every tile, keeps counts in sync
-  when the tray removes an item or an edit seeds the selection). Neither
-  touches the other's PHP state directly.
+- `resources/views/sytatsu/webstore/collection.blade.php` gained exactly
+  **one additive line**: `<livewire:...bundle-builder>`, gated behind
+  `@if($bundle ?? null)`. The filters/grid/pagination markup, and every
+  product tile (`<livewire:...product-tile>`), are completely untouched —
+  when there's no bundle for a collection, this file renders byte-for-byte
+  what it did before. There is no toggle to reveal the tray or the pick
+  controls — both are simply always there when a bundle applies, because
+  "the bundle builder is the only way to pick products" means there's
+  nothing to toggle *into*.
+- `App\Http\Livewire\Sytatsu\Pages\Webstore\ProductPage` resolves the same
+  active bundle for whatever product it's showing and renders the same
+  `BundleBuilder` tray there too, so picking from a product's own page
+  still shows the running total.
+- The tray (`bundle-builder.blade.php`) is `fixed bottom-0 inset-x-0`, not
+  `sticky` — `sticky` only keeps an element on screen while its own
+  scrolling container is taller than the viewport and still has room to
+  stick within; `fixed` is what actually guarantees "always on screen"
+  regardless of where you've scrolled on the page. The page content gets a
+  `pb-28` bottom-padding bump (only when a bundle applies) so the fixed
+  tray doesn't cover the last grid row.
 
 ### Why not the old `feature/bundles` branch
 
@@ -173,11 +206,6 @@ feature, so a future rewrite doesn't reintroduce them:
 
 ## Known v1 scope limits (left for whoever picks this up next)
 
-- **One variant per product.** Bundle items are picked at the product
-  level (`BundleService::pickableVariant()` just takes
-  `$product->variants->first()`). If a bundle-eligible product ever needs
-  real option variants (size/colour), the picker will need a variant
-  selector, not just a product tile.
 - **No live auto-hide on "Bundle added!".** The success state in
   `bundle-builder.blade.php` stays until the next pick; the old branch had
   a 3-second `setTimeout` auto-hide (Alpine `x-data` + `x-on:bundle-added-success.window`)
@@ -187,10 +215,15 @@ feature, so a future rewrite doesn't reintroduce them:
   load (`mount()`/the first `render()`), which is correct for the "click
   Edit in the cart" flow, but don't expect it to survive being manually
   edited mid-session via a Livewire AJAX update.
+- **The in-progress selection lives in the PHP session**, same as a
+  guest's cart in general — it doesn't follow a customer across browsers
+  or devices, and clearing cookies loses it. That's an accepted trade-off
+  for "works across separate page loads without a shared Livewire
+  component," not something to fix.
 
 ## Tests
 
-27 tests, `tests/Feature/Bundle{Pricing,Eligibility,Cart,Admin,AdminHttp,BuilderComponent,OrderRendering}Test.php`:
+32 tests, `tests/Feature/Bundle{Pricing,Eligibility,Cart,Admin,AdminHttp,BuilderComponent,OrderRendering}Test.php`:
 
 - **Pricing** — tier resolution at/between thresholds, re-saving tiers
   replaces rather than duplicates `Price` rows.
@@ -200,16 +233,28 @@ feature, so a future rewrite doesn't reintroduce them:
 - **Cart** — adding a bundle produces exactly one cart line with the
   matched tier price and a full item list in `meta`; stock is clamped and
   reported; editing a line replaces it rather than duplicating it.
-- **BuilderComponent** — `BundleBuilder`/`BundlePickControl` as real
-  Livewire components: the cross-component event handshake
-  (`bundle-item-picked` / `bundle-selection-updated`), the pick control's
-  own stock cap, and — the one bug this caught — that a stock-clamped
-  selection still counts as `added` (the cart line *was* created, just
-  smaller than asked), so the tray must key off the `added` flag
-  `BundleService::addToCart()`/`updateCartLine()` return, never
-  `empty($bundleErrors)`. Getting that backwards risks a double-add: the
-  UI would look like nothing happened and let the customer submit again
-  while the first (successful) line sits in the cart.
+- **BuilderComponent** — the real `AddToCart`/`BundleBuilder` Livewire
+  components, not just `BundleService` directly:
+  - `AddToCart` swaps to "add to bundle" / stepper / "remove" for an
+    eligible product, caps at stock, and — proven with an explicit test —
+    its `addToCart()` *server action* refuses to run even when called
+    directly, not just hidden in the Blade.
+  - the cross-page session handshake: picking via `AddToCart` on one
+    simulated "page" (one `Livewire::test()` instance) and reading it
+    back via `BundleService::getSessionSelection()` or a *different*
+    component instance proves state really does survive across separate
+    mounts, which is the entire point of storing it in the session rather
+    than on either component.
+  - the collection page and a product's own detail page both render the
+    always-on tray and an "Add to bundle" button, never "Add to shopping
+    cart" or a "Start building" toggle.
+  - the one real bug this caught: a stock-clamped selection still counts
+    as `added` (the cart line *was* created, just smaller than asked), so
+    `BundleBuilder` must key off the `added` flag
+    `BundleService::addToCart()`/`updateCartLine()` return, never
+    `empty($bundleErrors)`. Getting that backwards risks a double-add: the
+    UI would look like nothing happened and let the customer submit again
+    while the first (successful) line sits in the cart.
 - **Admin** — the `OrderItemsTableExtension` regression test (both preview
   actions present), plus real end-to-end `Livewire::test()` runs through
   `ManageBundles`' actual `CreateAction`/`EditAction` closures (not just

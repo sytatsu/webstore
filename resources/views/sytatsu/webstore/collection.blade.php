@@ -29,7 +29,7 @@
     @endpush
 @endif
 
-<div class="{{ $maxWidth ?? 'max-w-[85rem]' }} w-full mx-auto">
+<div class="{{ $maxWidth ?? 'max-w-[85rem]' }} w-full mx-auto {{ ($bundle ?? null) ? 'pb-28' : '' }}">
     <div class="flex flex-col @if($showFilters ?? false) md:grid md:grid-cols-6 xl:grid-cols-4 @endif gap-8">
 
         <!-- Filter Section -->
@@ -52,38 +52,21 @@
             @if(isset($collections) && $collections->isNotEmpty())
                 <livewire:sytatsu.components.collection.collection-cards :collections="$collections" :max-width="$maxWidth ?? 'max-w-[85rem]'" :grid-columns="$gridColumns" :wire:key="'collection-cards-'.count($collections)" />
             @elseif(isset($collection) && isset($products))
-                <div class="flex flex-col gap-8"
-                     @if($bundle ?? null)
-                         x-data="{ pickModeOn: {{ ($bundleEditLineId ?? null) ? 'true' : 'false' }} }"
-                     @endif
-                >
+                <div class="flex flex-col gap-8">
                     @if($bundle ?? null)
-                        {{-- Additive entry point only — nothing below this changes when it's off. --}}
-                        <div class="rounded-2xl shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 py-4 px-6 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
-                            <div class="flex-1">
-                                <p class="avenir-bold text-black dark:text-white">
-                                    {{ __('Build your own :name & save', ['name' => $bundle->getTranslatedName()]) }}
-                                </p>
-                                <p class="text-xs text-gray-500 dark:text-gray-400">
-                                    {{ __('Mix and match products from this collection at a price that drops the more you pick.') }}
-                                </p>
-                            </div>
-                            <button type="button"
-                                    x-on:click="pickModeOn = !pickModeOn"
-                                    class="shrink-0 px-4 py-2 rounded-lg text-sm font-semibold text-white bg-primary hover:opacity-90 transition-opacity"
-                            >
-                                <span x-show="!pickModeOn">{{ __('Start building') }}</span>
-                                <span x-show="pickModeOn" x-cloak>{{ __('Stop building') }}</span>
-                            </button>
-                        </div>
-
-                        <div x-show="pickModeOn" x-cloak>
-                            <livewire:sytatsu.components.bundle.bundle-builder
-                                :bundle="$bundle"
-                                :edit-line-id="$bundleEditLineId ?? null"
-                                :wire:key="'bundle-builder-'.$bundle->id"
-                            />
-                        </div>
+                        {{-- Additive: the collection grid below is completely
+                             unchanged — AddToCart on each eligible tile is
+                             what swaps to "Add to bundle" (see
+                             App\Http\Livewire\Sytatsu\Components\AddToCart),
+                             not a separate overlay. This tray is the only
+                             way to review/complete/edit the picks, and it's
+                             always visible (fixed to the bottom), not
+                             behind a toggle — see docs/bundles/README.md. --}}
+                        <livewire:sytatsu.components.bundle.bundle-builder
+                            :bundle="$bundle"
+                            :edit-line-id="$bundleEditLineId ?? null"
+                            :wire:key="'bundle-builder-'.$bundle->id"
+                        />
                     @endif
 
                     @if($products->isNotEmpty())
@@ -97,21 +80,7 @@
 
                                 <div class="pt-8 grid {{ $gridColumns }} gap-x-4 gap-y-6 md:gap-6 lg:gap-8 xl:gap-12">
                                     @foreach($products as $product)
-                                        @if(($bundle ?? null) && ($bundleEligibleProductIds ?? collect())->contains($product->id))
-                                            <div class="relative" wire:key="tile-wrap-{{ $product->id }}">
-                                                <livewire:sytatsu.components.product.product-tile :product="$product" :wire:key="'product-'.$product->id.'-'.md5($product->updated_at)" />
-
-                                                <div class="absolute top-2 right-2" x-show="pickModeOn" x-cloak>
-                                                    <livewire:sytatsu.components.bundle.bundle-pick-control
-                                                        :product="$product"
-                                                        :initial-selection="$bundleEditSelection ?? []"
-                                                        :wire:key="'bundle-pick-'.$bundle->id.'-'.$product->id"
-                                                    />
-                                                </div>
-                                            </div>
-                                        @else
-                                            <livewire:sytatsu.components.product.product-tile :product="$product" :wire:key="'product-'.$product->id.'-'.md5($product->updated_at)" />
-                                        @endif
+                                        <livewire:sytatsu.components.product.product-tile :product="$product" :wire:key="'product-'.$product->id.'-'.md5($product->updated_at)" />
                                     @endforeach
                                 </div>
                             </div>

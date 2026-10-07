@@ -136,19 +136,13 @@ class CollectionPage extends SytatsuBasePage
 
         $showFilters = $showFilterCategories || $showFilterPrice || $showFilterAvailability || $showSorting;
 
-        $editLineId = request()->integer('edit_bundle_line') ?: null;
-        $bundleService = app(BundleService::class);
-
         $this->setViewAttributes([
             'products' => $this->getProducts(),
             'bundle' => $this->bundle,
-            'bundleEditLineId' => $editLineId,
-            'bundleEditSelection' => $this->bundle
-                ? $bundleService->selectionForCartLine($editLineId, $this->bundle)
-                : [],
-            'bundleEligibleProductIds' => $this->bundle
-                ? $bundleService->eligibleProducts($this->bundle)->pluck('id')
-                : collect(),
+            // BundleBuilder resolves its own selection (session-backed, see
+            // BundleService::getSessionSelection()) — this is only here so
+            // the "Edit" link from the cart can seed it on arrival.
+            'bundleEditLineId' => request()->integer('edit_bundle_line') ?: null,
             'gridColumns' => $showFilters ? 'grid-cols-2 xl:grid-cols-3' : 'grid-cols-2 lg:grid-cols-4',
             'maxWidth' => $this->maxWidth,
             'showFilters' => $showFilters,

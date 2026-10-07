@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Sytatsu\Pages\Webstore;
 
+use App\Services\BundleService;
 use App\Services\StorefrontService;
 use App\Services\WebstoreHelperService;
 use Illuminate\Support\Str;
@@ -28,7 +29,7 @@ class ProductPage extends SytatsuBasePage
         $this->storefrontService = $storefrontService;
     }
 
-    public function mount(Product $product): void
+    public function mount(Product $product, BundleService $bundleService): void
     {
         $this->product = $product;
         $this->setTitle($product->translateAttribute('name'));
@@ -37,6 +38,10 @@ class ProductPage extends SytatsuBasePage
 
         $this->setViewAttributes([
             'product' => $this->product,
+            // Keeps the always-on-screen bundle tray visible here too —
+            // AddToCart resolves this independently for its own button
+            // swap, this is purely for whether the tray itself renders.
+            'activeBundle' => $bundleService->findActiveBundleForProduct($product),
         ]);
 
         if ($this->purchasableId) {

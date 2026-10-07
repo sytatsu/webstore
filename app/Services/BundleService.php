@@ -51,6 +51,79 @@ readonly class BundleService
     }
 
     /**
+     * The active bundle (if any) that locks this product out of being
+     * added to the cart on its own — found by walking every collection the
+     * product belongs to, and each of those collections' own ancestors.
+     * Used by AddToCart to decide whether to show its normal "add to
+     * cart" controls or the "add to bundle" / "remove" ones instead.
+     */
+    public function findActiveBundleForProduct(Product $product): ?Bundle
+    {
+        $collectionIds = $product->collections
+            ->flatMap(fn (LunarCollection $collection) => $collection->ancestors->pluck('id')->push($collection->id))
+            ->unique()
+            ->values();
+
+        if ($collectionIds->isEmpty()) {
+            return null;
+        }
+
+        return Bundle::enabled()
+            ->whereIn('collection_id', $collectionIds)
+            ->with('variant.prices')
+            ->first();
+    }
+
+    /**
+     * The in-progress selection for a bundle that hasn't been added to the
+     * cart yet, kept in the session (not a Livewire component's own
+     * state) specifically so it survives across separate page loads —
+     * the collection page's picker, a product's own detail page, and the
+     * always-visible BundleBuilder tray on either all need to agree on
+     * the same "what's queued right now" without a shared component.
+     *
+     * @return array<int, int> product_variant_id => quantity
+     */
+    public function getSessionSelection(Bundle $bundle): array
+    {
+        return session()->get($this->sessionKey($bundle), []);
+    }
+
+    /**
+     * @param array<int, int> $selection product_variant_id => quantity
+     */
+    public function setSessionSelection(Bundle $bundle, array $selection): void
+    {
+        session()->put($this->sessionKey($bundle), array_filter($selection, fn (int $qty) => $qty > 0));
+    }
+
+    /**
+     * Adds/updates/removes (quantity <= 0) one item in the session
+     * selection and returns the resulting selection.
+     *
+     * @return array<int, int>
+     */
+    public function updateSessionSelectionItem(Bundle $bundle, int $variantId, int $quantity): array
+    {
+        $selection = $this->getSessionSelection($bundle);
+
+        if ($quantity <= 0) {
+            unset($selection[$variantId]);
+        } else {
+            $selection[$variantId] = $quantity;
+        }
+
+        $this->setSessionSelection($bundle, $selection);
+
+        return $selection;
+    }
+
+    private function sessionKey(Bundle $bundle): string
+    {
+        return "bundle_selection_{$bundle->id}";
+    }
+
+    /**
      * Products a bundle can be built from: everything in the bundle's own
      * collection and all of its descendants (so picking can mix items from
      * any sub-collection), published, with at least one variant that can
@@ -78,16 +151,6 @@ readonly class BundleService
             }))
             ->with(['variants.prices', 'thumbnail'])
             ->get();
-    }
-
-    /**
-     * The single representative variant for a product within the picker.
-     * Bundle items are picked at the product level (one variant each) —
-     * see docs/bundles/README.md for why that's the chosen scope for v1.
-     */
-    public function pickableVariant(Product $product): ?ProductVariant
-    {
-        return $product->variants->first();
     }
 
     /**

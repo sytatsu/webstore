@@ -2,18 +2,24 @@
 
 namespace App\Http\Livewire\Sytatsu\Components;
 
+use App\Models\Bundle;
+use App\Services\BundleService;
 use App\Services\CartService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Lunar\Base\Purchasable;
 use Lunar\Facades\CartSession;
 use Lunar\Models\Cart as LunarCart;
+use Lunar\Models\ProductVariant;
 
 class AddToCart extends Component
 {
     private readonly CartService $cartService;
+
+    private readonly BundleService $bundleService;
 
     /**
      * The purchasable model we want to add to the cart.
@@ -31,13 +37,43 @@ class AddToCart extends Component
      */
     public int $quantity = 1;
 
+    /**
+     * Set on mount whenever this purchasable's product belongs to an
+     * enabled Bundle (see BundleService::findActiveBundleForProduct()).
+     * While set, the normal add-to-cart UI/action is replaced entirely by
+     * an "add to bundle" / "remove" control — the bundle builder is the
+     * only way to acquire this product, never a standalone cart line.
+     */
+    public ?Bundle $activeBundle = null;
+
+    public int $bundleQuantity = 0;
+
+    public int $bundleAvailable = 0;
+
     public $listeners = [
         'cart-updated' => '$refresh',
     ];
 
-    public function boot(CartService $cartService): void
+    public function boot(CartService $cartService, BundleService $bundleService): void
     {
         $this->cartService = $cartService;
+        $this->bundleService = $bundleService;
+    }
+
+    public function mount(): void
+    {
+        $product = $this->purchasable instanceof ProductVariant ? $this->purchasable->product : null;
+
+        if (!$product) {
+            return;
+        }
+
+        $this->activeBundle = $this->bundleService->findActiveBundleForProduct($product);
+
+        if ($this->activeBundle) {
+            $this->bundleAvailable = $this->bundleService->availableStock($this->purchasable);
+            $this->bundleQuantity = $this->bundleService->getSessionSelection($this->activeBundle)[$this->purchasable->id] ?? 0;
+        }
     }
 
     public function rules(): array
@@ -88,6 +124,14 @@ class AddToCart extends Component
 
     public function addToCart(): void
     {
+        // Defence in depth: the Blade only ever shows this action when
+        // activeBundle is null, but the Livewire action itself must also
+        // refuse — a bundle-locked product must never become a standalone
+        // cart line, however the request got here.
+        if ($this->activeBundle) {
+            return;
+        }
+
         $this->validate();
 
         if ($this->purchasable->purchasable === 'in_stock' && $this->purchasable->stock < $this->quantity) {
@@ -98,6 +142,52 @@ class AddToCart extends Component
         $this->cartService->addLine($this->purchasable, $this->quantity);
         $this->dispatch('cart-updated');
         $this->dispatch('add-to-cart');
+    }
+
+    /**
+     * Picks up changes made elsewhere on the same page (the tray's own
+     * remove button, or another AddToCart instance for this same
+     * product) — cross-page sync is the session, this is just same-page.
+     */
+    #[On('bundle-selection-updated')]
+    public function syncBundleSelection(array $selection): void
+    {
+        if ($this->activeBundle) {
+            $this->bundleQuantity = $selection[$this->purchasable->id] ?? 0;
+        }
+    }
+
+    public function addToBundle(): void
+    {
+        if (!$this->activeBundle || $this->bundleQuantity >= $this->bundleAvailable) {
+            return;
+        }
+
+        $this->bundleQuantity++;
+        $this->bundleService->updateSessionSelectionItem($this->activeBundle, $this->purchasable->id, $this->bundleQuantity);
+        $this->dispatch('bundle-item-picked', variantId: $this->purchasable->id, quantity: $this->bundleQuantity);
+    }
+
+    public function removeFromBundleOne(): void
+    {
+        if (!$this->activeBundle || $this->bundleQuantity <= 0) {
+            return;
+        }
+
+        $this->bundleQuantity--;
+        $this->bundleService->updateSessionSelectionItem($this->activeBundle, $this->purchasable->id, $this->bundleQuantity);
+        $this->dispatch('bundle-item-picked', variantId: $this->purchasable->id, quantity: $this->bundleQuantity);
+    }
+
+    public function removeFromBundle(): void
+    {
+        if (!$this->activeBundle) {
+            return;
+        }
+
+        $this->bundleQuantity = 0;
+        $this->bundleService->updateSessionSelectionItem($this->activeBundle, $this->purchasable->id, 0);
+        $this->dispatch('bundle-item-picked', variantId: $this->purchasable->id, quantity: 0);
     }
 
     public function render(): View|Factory|Application

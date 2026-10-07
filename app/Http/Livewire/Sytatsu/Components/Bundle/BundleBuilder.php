@@ -15,14 +15,20 @@ use Lunar\Models\Price;
 use Lunar\Models\ProductVariant;
 
 /**
- * Page-scoped bundle picker for a collection. Owns the live selection
- * (product_variant_id => quantity), the sticky summary tray, and
- * add-to-cart / edit submission. Individual tiles never talk to this
- * directly — they dispatch `bundle-item-picked` (see
- * App\Http\Livewire\Sytatsu\Components\Bundle\BundlePickControl), and this
- * broadcasts `bundle-selection-updated` back out so every tile's own
- * control stays in sync (including when the tray removes an item, or when
- * an edit seeds the initial selection).
+ * Always-visible bundle tray — mounted on every page that's relevant to a
+ * bundle (the collection page, and any eligible product's own detail
+ * page), pinned to the bottom of the screen. Its selection
+ * (product_variant_id => quantity) is NOT private component state: it's
+ * read from and written straight through to
+ * App\Services\BundleService::getSessionSelection()/updateSessionSelectionItem(),
+ * because this component and every `AddToCart` instance on a completely
+ * different page load all need to agree on "what's queued right now"
+ * without a shared Livewire component to hold it. `AddToCart` dispatches
+ * `bundle-item-picked` (handled here) when its own page happens to have a
+ * tray mounted too, and this broadcasts `bundle-selection-updated` back
+ * out so every other bundle-aware control on the SAME page stays in sync
+ * (e.g. the tray's own remove button, or another AddToCart instance for
+ * the same product). Cross-page sync is the session, not these events.
  *
  * See docs/bundles/README.md for the overall design.
  */
@@ -57,18 +63,24 @@ class BundleBuilder extends Component
     public function mount(Bundle $bundle, ?int $editLineId = null): void
     {
         $this->bundle = $bundle;
-        $this->selection = $this->bundleService->selectionForCartLine($editLineId, $bundle);
-        $this->editingLineId = $this->selection ? $editLineId : null;
+
+        $editSelection = $this->bundleService->selectionForCartLine($editLineId, $bundle);
+
+        if ($editSelection) {
+            // Editing an existing line always wins over whatever happened
+            // to already be queued in the session, and becomes the new
+            // session state so every other control agrees with it too.
+            $this->bundleService->setSessionSelection($bundle, $editSelection);
+            $this->editingLineId = $editLineId;
+        }
+
+        $this->selection = $this->bundleService->getSessionSelection($bundle);
     }
 
     #[On('bundle-item-picked')]
     public function updateSelection(int $variantId, int $quantity): void
     {
-        if ($quantity <= 0) {
-            unset($this->selection[$variantId]);
-        } else {
-            $this->selection[$variantId] = $quantity;
-        }
+        $this->selection = $this->bundleService->updateSessionSelectionItem($this->bundle, $variantId, $quantity);
 
         $this->added = false;
         $this->addedWasEdit = false;
@@ -156,6 +168,7 @@ class BundleBuilder extends Component
             $this->editingLineId = null;
             $this->added = true;
             $this->addedWasEdit = $wasEditing;
+            $this->bundleService->setSessionSelection($this->bundle, []);
 
             $this->dispatch('bundle-selection-updated', selection: $this->selection);
             $this->dispatch('cart-updated');

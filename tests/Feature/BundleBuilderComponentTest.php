@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Http\Livewire\Sytatsu\Components\AddToCart;
 use App\Http\Livewire\Sytatsu\Components\Bundle\BundleBuilder;
-use App\Http\Livewire\Sytatsu\Components\Bundle\BundlePickControl;
 use App\Models\Bundle;
 use App\Services\BundleService;
 use App\Services\CartService;
@@ -51,15 +51,21 @@ class BundleBuilderComponentTest extends TestCase
         return $bundle;
     }
 
-    private function makeVariant(int $stock = 10): ProductVariant
+    private function makeVariant(int $stock = 10, ?Bundle $inBundle = null): ProductVariant
     {
         $product = Product::factory()->create();
 
-        return ProductVariant::factory()->create([
+        $variant = ProductVariant::factory()->create([
             'product_id' => $product->id,
             'purchasable' => 'in_stock',
             'stock' => $stock,
         ]);
+
+        if ($inBundle) {
+            $inBundle->collection->products()->attach($product->id);
+        }
+
+        return $variant;
     }
 
     /** @test */
@@ -68,8 +74,8 @@ class BundleBuilderComponentTest extends TestCase
         $bundle = $this->makeBundle();
         $fox = $this->makeVariant();
 
-        // This is exactly the event a BundlePickControl tile dispatches —
-        // see App\Http\Livewire\Sytatsu\Components\Bundle\BundlePickControl::emitPick().
+        // This is exactly the event AddToCart dispatches when adding to a
+        // bundle — see App\Http\Livewire\Sytatsu\Components\AddToCart::addToBundle().
         Livewire::test(BundleBuilder::class, ['bundle' => $bundle])
             ->dispatch('bundle-item-picked', variantId: $fox->id, quantity: 2)
             ->assertSet('selection', [$fox->id => 2])
@@ -121,31 +127,127 @@ class BundleBuilderComponentTest extends TestCase
     }
 
     /** @test */
-    public function pick_control_stops_incrementing_at_available_stock_and_emits_the_pick_event()
+    public function add_to_cart_becomes_add_to_bundle_for_a_bundle_eligible_product_and_caps_at_stock()
     {
-        $fox = $this->makeVariant(stock: 2);
+        $bundle = $this->makeBundle();
+        $fox = $this->makeVariant(stock: 2, inBundle: $bundle);
 
-        Livewire::test(BundlePickControl::class, ['product' => $fox->product])
-            ->assertSet('available', 2)
-            ->call('increment')
-            ->assertSet('quantity', 1)
+        Livewire::test(AddToCart::class, ['purchasable' => $fox])
+            ->assertSet('activeBundle.id', $bundle->id)
+            ->assertSet('bundleAvailable', 2)
+            ->call('addToBundle')
+            ->assertSet('bundleQuantity', 1)
             ->assertDispatched('bundle-item-picked', variantId: $fox->id, quantity: 1)
-            ->call('increment')
-            ->assertSet('quantity', 2)
-            ->call('increment')
-            ->assertSet('quantity', 2, 'must not exceed available stock');
+            ->call('addToBundle')
+            ->assertSet('bundleQuantity', 2)
+            ->call('addToBundle')
+            ->assertSet('bundleQuantity', 2, 'must not exceed available stock');
+
+        $this->assertSame([$fox->id => 2], app(BundleService::class)->getSessionSelection($bundle));
     }
 
     /** @test */
-    public function pick_control_stays_in_sync_when_the_builder_broadcasts_a_new_selection()
+    public function removing_from_the_add_to_cart_toggle_clears_the_session_selection()
+    {
+        $bundle = $this->makeBundle();
+        $fox = $this->makeVariant(inBundle: $bundle);
+
+        Livewire::test(AddToCart::class, ['purchasable' => $fox])
+            ->call('addToBundle')
+            ->call('addToBundle')
+            ->assertSet('bundleQuantity', 2)
+            ->call('removeFromBundle')
+            ->assertSet('bundleQuantity', 0);
+
+        $this->assertSame([], app(BundleService::class)->getSessionSelection($bundle));
+    }
+
+    /** @test */
+    public function add_to_cart_stays_in_sync_when_the_tray_broadcasts_a_new_selection()
+    {
+        $bundle = $this->makeBundle();
+        $fox = $this->makeVariant(inBundle: $bundle);
+
+        Livewire::test(AddToCart::class, ['purchasable' => $fox])
+            ->assertSet('bundleQuantity', 0)
+            ->dispatch('bundle-selection-updated', selection: [$fox->id => 3])
+            ->assertSet('bundleQuantity', 3)
+            ->dispatch('bundle-selection-updated', selection: [])
+            ->assertSet('bundleQuantity', 0);
+    }
+
+    /** @test */
+    public function a_bundle_locked_product_cannot_be_added_to_the_cart_normally_even_if_the_action_is_called_directly()
+    {
+        $bundle = $this->makeBundle();
+        $fox = $this->makeVariant(inBundle: $bundle);
+
+        // The button for this is gone from the Blade, but the server
+        // action itself must also refuse — defence in depth against a
+        // stale client still firing the old "addToCart" call.
+        Livewire::test(AddToCart::class, ['purchasable' => $fox])
+            ->call('addToCart');
+
+        $this->assertCount(0, app(CartService::class)->mapCartLines());
+    }
+
+    /** @test */
+    public function a_product_outside_any_bundle_keeps_the_normal_add_to_cart_behaviour()
     {
         $fox = $this->makeVariant();
+        $fox->prices()->create([
+            'currency_id' => \Lunar\Models\Currency::getDefault()->id,
+            'customer_group_id' => null,
+            'min_quantity' => 1,
+            'price' => 495,
+        ]);
 
-        Livewire::test(BundlePickControl::class, ['product' => $fox->product])
-            ->assertSet('quantity', 0)
-            ->dispatch('bundle-selection-updated', selection: [$fox->id => 3])
-            ->assertSet('quantity', 3)
-            ->dispatch('bundle-selection-updated', selection: [])
-            ->assertSet('quantity', 0);
+        Livewire::test(AddToCart::class, ['purchasable' => $fox])
+            ->assertSet('activeBundle', null)
+            ->call('addToCart');
+
+        $this->assertCount(1, app(CartService::class)->mapCartLines());
+    }
+
+    /** @test */
+    public function the_collection_page_always_shows_the_tray_and_an_add_to_bundle_button_never_a_plain_add_to_cart_one()
+    {
+        $bundle = $this->makeBundle();
+        $fox = $this->makeVariant(inBundle: $bundle);
+        $fox->product->urls()->create([
+            'slug' => 'fox',
+            'default' => true,
+            'language_id' => \Lunar\Models\Language::getDefault()->id,
+        ]);
+
+        \Livewire\Livewire::test(\App\Http\Livewire\Sytatsu\Pages\Webstore\CollectionPage::class, ['collection' => $bundle->collection])
+            // The tray's own empty-selection copy — present with no toggle
+            // needed to reveal it, and no "Start building" button exists.
+            ->assertSee('Pick products below to start your bundle.')
+            ->assertDontSee('Start building')
+            ->assertDontSee('Add to shopping cart')
+            ->assertSee('Add to bundle');
+    }
+
+    /** @test */
+    public function the_products_own_detail_page_also_shows_the_tray_and_the_add_to_bundle_button()
+    {
+        $bundle = $this->makeBundle();
+        $bundle->collection->urls()->create([
+            'slug' => 'mini-friends',
+            'default' => true,
+            'language_id' => \Lunar\Models\Language::getDefault()->id,
+        ]);
+        $fox = $this->makeVariant(inBundle: $bundle);
+        $fox->product->urls()->create([
+            'slug' => 'fox',
+            'default' => true,
+            'language_id' => \Lunar\Models\Language::getDefault()->id,
+        ]);
+
+        \Livewire\Livewire::test(\App\Http\Livewire\Sytatsu\Pages\Webstore\ProductPage::class, ['product' => $fox->product])
+            ->assertSee('Pick products below to start your bundle.')
+            ->assertDontSee('Add to shopping cart')
+            ->assertSee('Add to bundle');
     }
 }
