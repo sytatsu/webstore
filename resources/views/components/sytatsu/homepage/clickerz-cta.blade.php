@@ -18,18 +18,19 @@
              and pulling the image away from its label. --}}
         <div class="flex items-center gap-4 sm:gap-4">
             {{-- The photo, at the start of the row rather than between the
-                 label and the button — `-my-6 -ml-6 lg:-ml-12` cancel this
-                 row's own padding on three sides so it bleeds flush to the
-                 card's top/left/bottom edges with no margin/padding of its
-                 own, clipped to the card's rounded corners by its
-                 `overflow-hidden`. The clip-path angles the inner (right)
-                 edge only — the outer edges are already the card's own
-                 boundary. Hidden on mobile, where the row already stacks
-                 label-above-button; a third stacked element pushed the
-                 button down further than this banner's "thin" purpose
-                 intends — same call made for the bundle CTA's own image
-                 in collection-cards.blade.php. --}}
-            <div class="hidden sm:block relative shrink-0 self-stretch -my-6 -ml-6 lg:-ml-12 w-24 lg:w-28">
+                 label and the button. A fixed width/height box — not
+                 `self-stretch`, which made the rendered size follow the
+                 row's own (variable) content height — so the crop stays
+                 the same landscape rectangle everywhere; `object-cover`
+                 fills that exact box, cropping the source image as needed
+                 rather than letterboxing it. `-ml-6 lg:-ml-12` cancels the
+                 row's own horizontal padding so it still bleeds flush to
+                 the card's left edge. Hidden on mobile, where the row
+                 already stacks label-above-button; a third stacked
+                 element pushed the button down further than this
+                 banner's "thin" purpose intends — same call made for the
+                 bundle CTA's own image in collection-cards.blade.php. --}}
+            <div class="hidden sm:block relative shrink-0 -ml-6 lg:-ml-12 w-28 h-16 lg:w-40 lg:h-20">
                 <img src="{{ Vite::asset('resources/images/banners/p1020972-clickerz-keycaps.jpg') }}" alt="{{ __('Clickerz Bar') }}" class="relative z-10 w-full h-full object-cover" style="clip-path: polygon(0% 0%, 88% 0%, 100% 100%, 0% 100%);">
             </div>
 

@@ -303,14 +303,16 @@ with each other — the session is what makes the picture consistent
   thumbnail fallback used by `collections.blade.php`) sits at the start
   of that row, grouped with the icon/label as one flex item so
   `justify-between` still only splits the row into "that cluster" and
-  the button rather than spreading three top-level items evenly. It's
-  flush with the card's own top/left/bottom edges — `self-stretch` +
-  `-my-6 -ml-6 lg:-ml-12` cancel the row's own padding on three sides so
-  the image has no margin/padding of its own, clipped to the card's
-  rounded corners by the card's `overflow-hidden`, with an angled
-  clip-path on the inner (right) edge only (ticket-stub style; the outer
-  edges are already the card's own boundary) — hidden below `sm` where
-  the row already stacks label-above-button, so a third stacked element
+  the button rather than spreading three top-level items evenly. It's a
+  fixed-size landscape box (`w-28 h-16 lg:w-40 lg:h-20`, not
+  `self-stretch`, which made the rendered size follow the row's own
+  variable content height) with `object-cover` filling it — same crop
+  shape everywhere regardless of label length or breakpoint — flush
+  with the card's left edge via `-ml-6 lg:-ml-12` cancelling the row's
+  own horizontal padding, clipped to the card's rounded corner there by
+  the card's `overflow-hidden`, with an angled clip-path on the inner
+  (right) edge only (ticket-stub style) — hidden below `sm` where the
+  row already stacks label-above-button, so a third stacked element
   would only crowd it. A Blade comment on this partial must never spell
   out a literal `@directive(...)`-looking token (even just to describe
   one in prose) — Blade's compiler matches those inside `{{-- --}}`
