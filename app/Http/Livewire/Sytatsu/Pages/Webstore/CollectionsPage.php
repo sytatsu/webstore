@@ -24,12 +24,22 @@ class CollectionsPage extends SytatsuBasePage
 
         $this->setDescription($translatedDescription ? \Illuminate\Support\Str::limit(strip_tags($translatedDescription), 160) : null);
 
-        $collections = Collection::query()
+        // whereIn('slug', $handles) only filters, it doesn't honor the
+        // array's order — re-sort by $handles ourselves so the order
+        // chosen on CollectionsPageSettingsPage is actually reflected
+        // here instead of whatever order the query happened to return.
+        $collectionsBySlug = Collection::query()
             ->whereHas('urls', function ($query) use ($handles) {
                 $query->whereIn('slug', $handles);
             })
             ->with(['defaultUrl', 'thumbnail'])
-            ->get();
+            ->get()
+            ->keyBy(fn ($collection) => $collection->defaultUrl?->slug);
+
+        $collections = \Illuminate\Support\Collection::make($handles)
+            ->map(fn ($slug) => $collectionsBySlug->get($slug))
+            ->filter()
+            ->values();
 
         $this->setViewAttributes([
             'collections' => $collections,

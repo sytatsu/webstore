@@ -7,7 +7,10 @@ use App\Filament\Extensions\OrderItemsTableExtension;
 use App\Filament\Extensions\OrderShippingInfolistExtension;
 use App\Filament\Pages\BarBuilderDefaultArrangementPage;
 use App\Filament\Pages\BarBuilderSettingsPage;
+use App\Filament\Pages\CollectionsPageSettingsPage;
+use App\Filament\Pages\HomeFeaturedCollectionsSettingsPage;
 use App\Filament\Pages\HomepageHeroSettingsPage;
+use App\Filament\Pages\NavigationSettingsPage;
 use App\Modifiers\DeliveryOptionShippingModifier;
 use App\Modifiers\PickupShippingModifier;
 use App\Scopes\PublishedProductScope;
@@ -95,6 +98,9 @@ class AppServiceProvider extends ServiceProvider
                 BarBuilderDefaultArrangementPage::class,
                 BarBuilderSettingsPage::class,
                 HomepageHeroSettingsPage::class,
+                HomeFeaturedCollectionsSettingsPage::class,
+                NavigationSettingsPage::class,
+                CollectionsPageSettingsPage::class,
             ])
             ->navigationGroups([
                 NavigationGroup::make('Ticket Tracker')->collapsible(),

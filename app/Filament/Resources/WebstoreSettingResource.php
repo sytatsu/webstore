@@ -3,6 +3,12 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Clusters\WebstoreSettings;
+use App\Filament\Pages\BarBuilderDefaultArrangementPage;
+use App\Filament\Pages\BarBuilderSettingsPage;
+use App\Filament\Pages\CollectionsPageSettingsPage;
+use App\Filament\Pages\HomeFeaturedCollectionsSettingsPage;
+use App\Filament\Pages\HomepageHeroSettingsPage;
+use App\Filament\Pages\NavigationSettingsPage;
 use App\Filament\Resources\DeliveryOptionResource\Pages\ManageDeliveryOptions;
 use App\Filament\Resources\WebstoreSettingResource\Pages;
 use App\Models\WebstoreSetting;
@@ -12,12 +18,8 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\TagsInput;
+use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
-use Lunar\Admin\Support\Forms\Components\TranslatedText;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Repeater;
-use Lunar\Models\Collection;
 
 class WebstoreSettingResource extends Resource
 {
@@ -28,6 +30,24 @@ class WebstoreSettingResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
 
     protected static ?string $navigationLabel = 'General Settings';
+
+    /**
+     * Keys with a dedicated admin page — proper typed fields, reordering
+     * where order matters — rather than the generic JSON editor below.
+     * Edited there only, so this resource can't save a shape the
+     * dedicated page doesn't expect.
+     */
+    public const DEDICATED_PAGE_KEYS = [
+        NavigationSettingsPage::GROUPS_KEY => NavigationSettingsPage::class,
+        NavigationSettingsPage::FDM_PRINTING_KEY => NavigationSettingsPage::class,
+        HomeFeaturedCollectionsSettingsPage::SETTING_KEY => HomeFeaturedCollectionsSettingsPage::class,
+        CollectionsPageSettingsPage::TITLE_KEY => CollectionsPageSettingsPage::class,
+        CollectionsPageSettingsPage::DESCRIPTION_KEY => CollectionsPageSettingsPage::class,
+        CollectionsPageSettingsPage::COLLECTIONS_KEY => CollectionsPageSettingsPage::class,
+        HomepageHeroSettingsPage::SETTING_KEY => HomepageHeroSettingsPage::class,
+        BarBuilderSettingsPage::SETTING_KEY => BarBuilderSettingsPage::class,
+        BarBuilderDefaultArrangementPage::SETTING_KEY => BarBuilderDefaultArrangementPage::class,
+    ];
 
     public static function form(Form $form): Form
     {
@@ -40,11 +60,10 @@ class WebstoreSettingResource extends Resource
                             ->unique(ignoreRecord: true)
                             ->disabled(fn ($record) => $record !== null),
 
-                        TagsInput::make('value')
-                            ->label('Value(s)')
-                            ->helperText('Add one or more values for this setting (e.g. collection group handles).')
-                            ->visible(fn ($get) => in_array($get('key'), ['navigation_collection_groups']))
-                            ->required(),
+                        Forms\Components\Placeholder::make('dedicated_page_notice')
+                            ->label('')
+                            ->content(fn ($get) => "This setting is managed on its own admin page (\"" . class_basename(static::DEDICATED_PAGE_KEYS[$get('key')] ?? '') . "\") to keep its data in the shape that page expects — edit it there instead.")
+                            ->visible(fn ($get) => array_key_exists($get('key'), static::DEDICATED_PAGE_KEYS)),
 
                         TextInput::make('value')
                             ->label('Value')
@@ -53,35 +72,16 @@ class WebstoreSettingResource extends Resource
                             ->visible(fn ($get) => $get('key') === ManageDeliveryOptions::FREE_SHIPPING_THRESHOLD_KEY)
                             ->required(),
 
-                        TranslatedText::make('value')
-                            ->label('Value')
-                            ->visible(fn ($get) => false) // No longer using translated text for home titles
-                            ->required(),
-
-                        Repeater::make('value')
-                            ->label('Collections')
-                            ->schema([
-                                Select::make('collection_id')
-                                    ->label('Collection')
-                                    ->options(function () {
-                                        return Collection::all()->mapWithKeys(function ($collection) {
-                                            $name = $collection->translateAttribute('name') ?? "Collection #{$collection->id}";
-                                            return [$collection->id => (string) $name];
-                                        });
-                                    })
-                                    ->required()
-                                    ->searchable()
-                                    ->preload(),
-                            ])
-                            ->afterStateHydrated(function (Repeater $component, $state) {
-                                if (is_array($state) && !empty($state) && !isset($state[0]['collection_id'])) {
-                                    $component->state(collect($state)->map(fn($id) => ['collection_id' => $id])->toArray());
-                                }
-                            })
-                            ->dehydrateStateUsing(function ($state) {
-                                return collect($state)->pluck('collection_id')->toArray();
-                            })
-                            ->visible(fn ($get) => in_array($get('key'), ['collections_page_collections', 'home_featured_collections']))
+                        Textarea::make('value')
+                            ->label('Value (JSON)')
+                            ->helperText('Raw JSON for this setting — a plain value ("true", "some text"), a list (["a", "b"]), or an object ({"a": "b"}).')
+                            ->rows(4)
+                            ->formatStateUsing(fn ($state) => is_string($state) ? $state : json_encode($state, JSON_PRETTY_PRINT))
+                            ->dehydrateStateUsing(fn ($state) => json_decode($state, true) ?? $state)
+                            ->rule('json')
+                            ->visible(fn ($get) => $get('key')
+                                && ! array_key_exists($get('key'), static::DEDICATED_PAGE_KEYS)
+                                && $get('key') !== ManageDeliveryOptions::FREE_SHIPPING_THRESHOLD_KEY)
                             ->required(),
                     ])
             ]);
