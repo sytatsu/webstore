@@ -384,4 +384,28 @@ class BundleBuilderComponentTest extends TestCase
             ->assertDontSee('Add to shopping cart')
             ->assertSee('Add to bundle');
     }
+
+    /** @test */
+    public function the_products_own_detail_page_has_a_button_back_to_the_bundles_collection()
+    {
+        $bundle = $this->makeBundle();
+        $bundle->collection->urls()->create([
+            'slug' => 'mini-friends',
+            'default' => true,
+            'language_id' => \Lunar\Models\Language::getDefault()->id,
+        ]);
+        $fox = $this->makeVariant(inBundle: $bundle);
+        $fox->product->urls()->create([
+            'slug' => 'fox',
+            'default' => true,
+            'language_id' => \Lunar\Models\Language::getDefault()->id,
+        ]);
+
+        // The tray mounted on this page only shows what's already picked —
+        // getting back to the rest of the collection's own pickable
+        // products needs this, not just the tray.
+        \Livewire\Livewire::test(\App\Http\Livewire\Sytatsu\Pages\Webstore\ProductPage::class, ['product' => $fox->product])
+            ->assertSee(__('Back to :name', ['name' => $bundle->getTranslatedName()]))
+            ->assertSeeHtml(\App\Services\WebstoreHelperService::getCollectionRoute($bundle->collection));
+    }
 }

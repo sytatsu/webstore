@@ -99,6 +99,20 @@
         <livewire:sytatsu.components.product.carousel :product="$product" :carouselType="\App\Enums\CarouselTypeEnum::EXPANDED" :images="$product->images" />
 
         <div class="xl:col-span-2 flex flex-col text-sm gap-4">
+            @if($activeBundle ?? null)
+                {{-- The tray above is always mounted here too, but it only
+                     shows what's already picked — getting back to the
+                     full grid of other pickable products means going back
+                     to the bundle's own collection page, and that wasn't
+                     obvious or easy from a single product's detail page. --}}
+                <div>
+                    <x-ui.button.outline.primary href="{{ \App\Services\WebstoreHelperService::getCollectionRoute($activeBundle->collection) }}" class="inline-flex items-center gap-2 !py-2 !px-4 text-xs">
+                        <i class="fa fa-arrow-left"></i>
+                        {{ __('Back to :name', ['name' => $activeBundle->getTranslatedName() ?: $activeBundle->collection->translateAttribute('name')]) }}
+                    </x-ui.button.outline.primary>
+                </div>
+            @endif
+
             <div class="divide-y divide-gray-200 dark:divide-gray-500">
                 <div class="pb-4 flex flex-col-reverse md:flex-row justify-between items-start md:items-center">
                     <h2 class="text-2xl font-bold text-black dark:text-white avenir-bold uppercase">
