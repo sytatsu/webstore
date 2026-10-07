@@ -303,18 +303,19 @@ with each other — the session is what makes the picture consistent
   thumbnail fallback used by `collections.blade.php`) sits at the start
   of that row, grouped with the icon/label as one flex item so
   `justify-between` still only splits the row into "that cluster" and
-  the button rather than spreading three top-level items evenly. It's a
-  fixed-size landscape box (`w-28 h-16 lg:w-40 lg:h-20`, not
-  `self-stretch`, which made the rendered size follow the row's own
-  variable content height) with `object-cover` filling it — same crop
-  shape everywhere regardless of label length or breakpoint — flush
-  with the card's left edge via `-ml-6 lg:-ml-12` cancelling the row's
-  own horizontal padding, clipped to the card's rounded corner there by
-  the card's `overflow-hidden`, with an angled clip-path on the inner
-  (right) edge only (ticket-stub style) — hidden below `sm` where the
-  row already stacks label-above-button, so a third stacked element
-  would only crowd it. A Blade comment on this partial must never spell
-  out a literal `@directive(...)`-looking token (even just to describe
+  the button rather than spreading three top-level items evenly. Fixed
+  width (`w-28 lg:w-40`, so the crop's horizontal framing stays the
+  same everywhere) but `self-stretch` + `-my-6 -ml-6 lg:-ml-12` for
+  height/left, so it bleeds flush to the card's top/left/bottom edges
+  with no padding/margin of its own rather than sitting inset within
+  the row's own padding — `object-cover` fills that box, cropping the
+  source image as needed rather than letterboxing it, clipped to the
+  card's rounded corners by the card's own `overflow-hidden`, with an
+  angled clip-path on the inner (right) edge only (ticket-stub style) —
+  hidden below `sm` where the row already stacks label-above-button, so
+  a third stacked element would only crowd it. A Blade comment on this
+  partial must never spell out a literal `@directive(...)`-looking
+  token (even just to describe
   one in prose) — Blade's compiler matches those inside `{{-- --}}`
   comments too, which silently corrupts everything compiled after it;
   confirmed the hard way while building this.

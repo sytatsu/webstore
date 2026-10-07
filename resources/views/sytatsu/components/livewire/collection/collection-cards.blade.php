@@ -22,22 +22,23 @@
                         @if($bundleCollectionImageUrl)
                             {{-- The collection's own image, at the start of the
                                  row rather than between the label and the
-                                 button. A fixed width/height box — not
-                                 `self-stretch`, which made the rendered size
-                                 follow the row's own (variable) content
-                                 height — so the crop stays the same
-                                 landscape rectangle everywhere regardless of
-                                 label length or breakpoint; `object-cover`
-                                 fills that exact box, cropping the source
-                                 image as needed rather than letterboxing it.
-                                 `-ml-6 lg:-ml-12` cancels the row's own
-                                 horizontal padding so it still bleeds flush
-                                 to the card's left edge. Hidden on mobile,
+                                 button. Fixed width (`w-28 lg:w-40`, so the
+                                 crop's horizontal framing stays the same
+                                 everywhere) but `self-stretch` + `-my-6` for
+                                 height, so it bleeds flush to the card's
+                                 top/bottom edges with no padding/margin of
+                                 its own instead of sitting inset within the
+                                 row's own vertical padding; `-ml-6 lg:-ml-12`
+                                 does the same on the left. `object-cover`
+                                 fills that box, cropping the source image as
+                                 needed rather than letterboxing it. Clipped
+                                 to the card's rounded corners by the card's
+                                 own `overflow-hidden`. Hidden on mobile,
                                  where the row already stacks
                                  label-above-button; a third stacked element
                                  pushed the button down further than this
                                  banner's "thin" purpose intends. --}}
-                            <div class="hidden sm:block relative shrink-0 -ml-6 lg:-ml-12 w-28 h-16 lg:w-40 lg:h-20">
+                            <div class="hidden sm:block relative shrink-0 self-stretch -my-6 -ml-6 lg:-ml-12 w-28 lg:w-40">
                                 <img src="{{ $bundleCollectionImageUrl }}" alt="{{ $collection->getName() }}" class="relative z-10 w-full h-full object-cover" style="clip-path: polygon(0% 0%, 88% 0%, 100% 100%, 0% 100%);">
                             </div>
                         @endif
