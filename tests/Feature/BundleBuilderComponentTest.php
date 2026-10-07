@@ -89,6 +89,26 @@ class BundleBuilderComponentTest extends TestCase
     }
 
     /** @test */
+    public function clearing_the_bundle_empties_the_tray_and_the_session_selection()
+    {
+        $bundle = $this->makeBundle();
+        $fox = $this->makeVariant();
+        $owl = $this->makeVariant();
+
+        Livewire::test(BundleBuilder::class, ['bundle' => $bundle])
+            ->dispatch('bundle-item-picked', variantId: $fox->id, quantity: 2)
+            ->dispatch('bundle-item-picked', variantId: $owl->id, quantity: 1)
+            ->assertSee(__('Clear bundle'))
+            ->call('clearSelection')
+            ->assertSet('selection', [])
+            ->assertDispatched('bundle-selection-updated', selection: [])
+            ->assertDontSee(__('Clear bundle'));
+
+        $this->assertSame([], app(BundleService::class)->getSessionSelection($bundle));
+        $this->assertCount(0, app(CartService::class)->mapCartLines());
+    }
+
+    /** @test */
     public function a_stock_clamp_still_counts_as_added_so_the_tray_does_not_resubmit()
     {
         $bundle = $this->makeBundle();

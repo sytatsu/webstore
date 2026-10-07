@@ -65,7 +65,7 @@
               nothing, it has to actually change. --}}
          x-on:bundle-item-added.window="pulsing = false; $nextTick(() => { pulsing = true; setTimeout(() => pulsing = false, 700); })"
     >
-        <x-ui.spinner-overlay wire:loading.flex wire:target="addToCart, removeItem" />
+        <x-ui.spinner-overlay wire:loading.flex wire:target="addToCart, removeItem, clearSelection" />
 
         <div class="flex items-center justify-between gap-2 mb-2">
             <p class="text-xs avenir-bold uppercase tracking-widest text-primary">
@@ -164,6 +164,13 @@
                                 'more' => $this->nextTier->min_quantity - $this->totalQuantity,
                                 'price' => $this->formatPrice($this->nextTier->price->value),
                             ]) }}
+                        @endif
+
+                        @if($this->totalQuantity > 0)
+                            &middot;
+                            <button type="button" wire:click="clearSelection" class="text-primary font-semibold hover:underline">
+                                {{ __('Clear bundle') }}
+                            </button>
                         @endif
                     </div>
                 </div>

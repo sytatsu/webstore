@@ -92,6 +92,23 @@ class BundleBuilder extends Component
         $this->updateSelection($variantId, 0);
     }
 
+    /**
+     * Empties the whole pick in one go (session state included, so every
+     * tile on the page agrees), instead of removing each item one by one.
+     * An edit of a cart line stays in edit mode: that line isn't touched
+     * until "Save changes", so the visitor can pick a fresh set for it.
+     */
+    public function clearSelection(): void
+    {
+        $this->bundleService->setSessionSelection($this->bundle, []);
+        $this->selection = [];
+
+        $this->bundleErrors = [];
+        $this->added = false;
+        $this->addedWasEdit = false;
+        $this->dispatch('bundle-selection-updated', selection: $this->selection);
+    }
+
     public function getTotalQuantityProperty(): int
     {
         return array_sum($this->selection);
