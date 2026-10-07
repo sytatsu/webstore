@@ -29,7 +29,23 @@
     @endpush
 @endif
 
-<div class="{{ $maxWidth ?? 'max-w-[85rem]' }} w-full mx-auto">
+<div class="{{ $maxWidth ?? 'max-w-[85rem]' }} w-full mx-auto flex flex-col gap-8">
+    @if($bundle ?? null)
+        {{-- Spans the full container width — both the filter/sort sidebar
+             and the product grid below it — rather than being scoped to
+             just the grid column, since it applies to this whole page,
+             not only the products currently in view. Sticky to the top,
+             under the site header (see bundle-builder.blade.php); this is
+             the only way to review/complete/edit the picks, and it's
+             always visible, not behind a toggle — see
+             docs/bundles/README.md. --}}
+        <livewire:sytatsu.components.bundle.bundle-builder
+            :bundle="$bundle"
+            :edit-line-id="$bundleEditLineId ?? null"
+            :wire:key="'bundle-builder-'.$bundle->id"
+        />
+    @endif
+
     <div class="flex flex-col @if($showFilters ?? false) md:grid md:grid-cols-6 xl:grid-cols-4 @endif gap-8">
 
         <!-- Filter Section -->
@@ -53,23 +69,6 @@
                 <livewire:sytatsu.components.collection.collection-cards :collections="$collections" :max-width="$maxWidth ?? 'max-w-[85rem]'" :grid-columns="$gridColumns" :wire:key="'collection-cards-'.count($collections)" />
             @elseif(isset($collection) && isset($products))
                 <div class="flex flex-col gap-8">
-                    @if($bundle ?? null)
-                        {{-- Additive: the collection grid below is completely
-                             unchanged — AddToCart on each eligible tile is
-                             what swaps to "Add to bundle" (see
-                             App\Http\Livewire\Sytatsu\Components\AddToCart),
-                             not a separate overlay. This tray is the only
-                             way to review/complete/edit the picks, and it's
-                             always visible (sticky to the top, under the
-                             site header), not behind a toggle — see
-                             docs/bundles/README.md. --}}
-                        <livewire:sytatsu.components.bundle.bundle-builder
-                            :bundle="$bundle"
-                            :edit-line-id="$bundleEditLineId ?? null"
-                            :wire:key="'bundle-builder-'.$bundle->id"
-                        />
-                    @endif
-
                     @if($products->isNotEmpty())
                         <div class="rounded-2xl shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 py-8 px-6 lg:p-12">
                             <div class="divide-y divide-gray-200 dark:divide-gray-500">
