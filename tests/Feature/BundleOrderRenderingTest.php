@@ -114,9 +114,13 @@ class BundleOrderRenderingTest extends TestCase
 
         $html = view('sytatsu.webstore.order-success', ['order' => $order])->render();
 
+        // e() — not the raw Faker name — since Blade's {{ }} HTML-escapes it on
+        // output; Faker occasionally generates a name with an apostrophe (e.g.
+        // "Lawrence D'Amore"), which renders as "D&#039;Amore" and made this
+        // assertion flakily fail against the raw string.
         $this->assertStringContainsString('Mini-friends bundle', $html);
-        $this->assertStringContainsString($line->meta['bundle']['items'][0]['name'], $html);
-        $this->assertStringContainsString($line->meta['bundle']['items'][1]['name'], $html);
+        $this->assertStringContainsString(e($line->meta['bundle']['items'][0]['name']), $html);
+        $this->assertStringContainsString(e($line->meta['bundle']['items'][1]['name']), $html);
         $this->assertStringContainsString((string) $line->meta['bundle']['items'][0]['quantity'], $html);
     }
 

@@ -30,11 +30,11 @@
 
 <div style="margin-top: 4px; margin-bottom: 4px; padding: 10px 12px; background-color: #f8fafc; border-radius: 8px;">
     <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">
-        <strong style="color: #1e293b;">Text:</strong> &ldquo;{{ $barBuilder['text'] ?? '' }}&rdquo;
+        <strong style="color: #1e293b;">{{ __('Text:') }}</strong> &ldquo;{{ $barBuilder['text'] ?? '' }}&rdquo;
         &nbsp;&middot;&nbsp;
-        <strong style="color: #1e293b;">Base colour:</strong> {{ $barBuilder['base_colour']['name'] ?? '—' }}
+        <strong style="color: #1e293b;">{{ __('Base colour:') }}</strong> {{ $barBuilder['base_colour']['name'] ?? '—' }}
         &nbsp;&middot;&nbsp;
-        <strong style="color: #1e293b;">Ref:</strong> {{ $barBuilder['reference'] ?? '—' }}
+        <strong style="color: #1e293b;">{{ __('Ref:') }}</strong> {{ $barBuilder['reference'] ?? '—' }}
     </div>
 
     <table style="border-collapse: separate; border-spacing: 4px 0;">

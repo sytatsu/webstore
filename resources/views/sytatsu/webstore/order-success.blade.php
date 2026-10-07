@@ -42,7 +42,7 @@
                                                 @if($line->purchasable && method_exists($line->purchasable, 'getThumbnail') && $line->purchasable->getThumbnail())
                                                     <img src="{{ $line->purchasable->getThumbnail()->getUrl('small') }}" alt="{{ $line->description }}" class="object-cover w-full h-full">
                                                 @else
-                                                    <span class="text-xs text-gray-400">No image</span>
+                                                    <span class="text-xs text-gray-400">{{ __('No image') }}</span>
                                                 @endif
                                             </div>
                                         @endunless
