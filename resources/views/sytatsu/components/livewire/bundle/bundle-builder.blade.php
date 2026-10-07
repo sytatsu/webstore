@@ -12,9 +12,14 @@
      read from the element's own bounding box rather than a separate
      sentinel: wrapping this in one more plain ancestor div to host that
      state broke native `position: sticky` outright (confirmed by testing
-     it), so the state lives on this element itself instead. --}}
+     it), so the state lives on this element itself instead.
+
+     No horizontal padding here — the page layout (sytatsu-layout.blade.php)
+     already pads its whole $slot, same as the filter/grid row below this
+     one; adding more here on top of that made this narrower than that
+     row instead of matching it. --}}
 <div
-    class="sticky z-40 px-4 pt-4"
+    class="sticky z-40 pt-4"
     x-data="{ top: 0, stuck: false }"
     x-init="
         const header = document.getElementById('site-header');
@@ -32,7 +37,11 @@
     "
     :style="`top: ${top}px`"
 >
-    <div class="mx-auto rounded-2xl shadow-lg border-2 border-primary/40 bg-gradient-to-br from-primary/10 via-white to-white dark:from-primary/20 dark:via-slate-800 dark:to-slate-800 p-4 transition-[max-width] duration-300"
+    {{-- A solid, fully opaque fill — a gradient through a translucent
+         primary tint used to sit here, which let the page's own
+         background bleed through at the tinted edge instead of reading
+         as one consistently-coloured card. --}}
+    <div class="mx-auto rounded-2xl shadow-lg border-2 border-primary/40 bg-orange-50 dark:bg-slate-800 p-4 transition-[max-width] duration-300"
          :class="stuck ? 'max-w-[85rem]' : 'max-w-[95rem]'"
          x-data="{ infoOpen: false }"
     >
@@ -115,9 +124,19 @@
                 </div>
 
                 {{-- Action --}}
-                <div class="flex items-center gap-2 shrink-0">
+                <div class="flex items-center gap-3 shrink-0">
                     @if($editingLineId)
                         <span class="text-xs text-gray-500 dark:text-gray-400">{{ __('Editing bundle in cart') }}</span>
+                    @endif
+
+                    {{-- The whole bundle's cost — quantity x the matched
+                         tier price — not just the per-item price above,
+                         which shows the picker how much they're actually
+                         about to pay before adding it to cart. --}}
+                    @if($this->currentTier)
+                        <p class="text-lg avenir-bold text-black dark:text-white whitespace-nowrap">
+                            {{ $this->formatPrice($this->currentTier->price->value * $this->totalQuantity) }}
+                        </p>
                     @endif
 
                     <button type="button"

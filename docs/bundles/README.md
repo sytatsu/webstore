@@ -167,6 +167,30 @@ with each other — the session is what makes the picture consistent
   the last grid row — which is also why the `pb-28` bottom-padding
   compensation on the page wrapper is gone; a `sticky` element occupies
   its own space in the normal flow, so nothing needs to make room for it.
+- The tray is wider than the page's own content (`max-w-[95rem]`) while
+  sitting in its normal flow position, easing down to the page's own
+  width (`max-w-[85rem]`) once scrolling has actually pinned it under the
+  header — tracked via the tray's own `getBoundingClientRect()` vs the
+  dynamic header-height offset, not a separate sentinel element (wrapping
+  it in one more plain ancestor div to hold that state broke native
+  `position: sticky` outright). It has **no horizontal padding of its
+  own** — the page layout (`sytatsu-layout.blade.php`) already pads its
+  whole `$slot`, same as the filter/grid row below it; adding more on top
+  of that made the tray narrower than that row instead of matching it.
+  Its fill is a solid, fully opaque colour (`bg-orange-50` /
+  `dark:bg-slate-800`), not a translucent gradient — a gradient through a
+  primary-tinted alpha stop used to sit here, which let the page's own
+  background bleed through at that edge instead of reading as one
+  consistently-coloured card.
+- The tray shows the **total** cost of what's picked so far (tier price
+  × quantity), not just the per-item price — rendered next to the
+  "Add bundle to cart" button, computed inline from `$this->currentTier`
+  and `$this->totalQuantity` rather than a new computed property, since
+  both were already public.
+- The collection's own name is the page's `<h1>`, above everything
+  (including the tray) — it used to sit squeezed directly above the
+  product grid instead, which started competing with the grid for
+  attention once the tray's own name label landed right above *that*.
 - Each eligible tile's own price (`ProductTile::getPriceRangeString()`) is
   hidden once the product has an active bundle — same
   `BundleService::findActiveBundleForProduct()` check `AddToCart` already

@@ -30,6 +30,14 @@
 @endif
 
 <div class="{{ $maxWidth ?? 'max-w-[85rem]' }} w-full mx-auto flex flex-col gap-8">
+    {{-- The page's own title, not squeezed in above the product grid
+         (where it used to sit, competing for attention with the grid
+         directly below it — and, once a bundle applies, with the
+         tray's own name label too). --}}
+    <h1 class="text-2xl md:text-3xl avenir-bold text-black dark:text-white uppercase">
+        {{ $collection->translateAttribute('name') }}
+    </h1>
+
     @if($bundle ?? null)
         {{-- Spans the full container width — both the filter/sort sidebar
              and the product grid below it — rather than being scoped to
@@ -71,18 +79,10 @@
                 <div class="flex flex-col gap-8">
                     @if($products->isNotEmpty())
                         <div class="rounded-2xl shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 py-8 px-6 lg:p-12">
-                            <div class="divide-y divide-gray-200 dark:divide-gray-500">
-                                <div class="flex flex-row justify-between items-center pb-8">
-                                    <span class="text-2xl avenir-bold text-black dark:text-white">
-                                        {{ $collection->translateAttribute('name') }}
-                                    </span>
-                                </div>
-
-                                <div class="pt-8 grid {{ $gridColumns }} gap-x-4 gap-y-6 md:gap-6 lg:gap-8 xl:gap-12">
-                                    @foreach($products as $product)
-                                        <livewire:sytatsu.components.product.product-tile :product="$product" :wire:key="'product-'.$product->id.'-'.md5($product->updated_at)" />
-                                    @endforeach
-                                </div>
+                            <div class="grid {{ $gridColumns }} gap-x-4 gap-y-6 md:gap-6 lg:gap-8 xl:gap-12">
+                                @foreach($products as $product)
+                                    <livewire:sytatsu.components.product.product-tile :product="$product" :wire:key="'product-'.$product->id.'-'.md5($product->updated_at)" />
+                                @endforeach
                             </div>
                         </div>
                     @else
