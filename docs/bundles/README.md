@@ -299,6 +299,21 @@ with each other — the session is what makes the picture consistent
   any one of a bundle's products from that far away (no tray mounted on
   this page), so a grid of tiles that can't really be bought would be
   misleading; a link back to the bundle's own collection page instead.
+  The collection's own image (the same `collection_image` attribute /
+  thumbnail fallback used by `collections.blade.php`) sits in the middle
+  of that row with an angled, ticket-stub clip-path and a soft glow —
+  hidden below `sm` where the row already stacks label-above-button, so
+  a third element would only crowd it. A Blade comment on this partial
+  must never spell out a literal `@directive(...)`-looking token (even
+  just to describe one in prose) — Blade's compiler matches those inside
+  `{{-- --}}` comments too, which silently corrupts everything compiled
+  after it; confirmed the hard way while building this.
+- The shared page header (`x-sytatsu.page-header`, breadcrumb + title in
+  its own card) started on the product collection page and now also
+  covers the collections listing, product detail, custom print,
+  maintenance and contact pages — see the component itself for the
+  exact markup. Keep any future "page header" request going to that one
+  component instead of growing another bespoke title block.
 
 ### Why not the old `feature/bundles` branch
 

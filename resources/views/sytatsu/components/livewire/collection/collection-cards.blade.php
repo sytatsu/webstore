@@ -10,15 +10,43 @@
                  same visual language as the homepage hero
                  (mini-friends-hero.blade.php) but condensed — this is a
                  listing among others, not the page's main hero. --}}
+            {{-- Two inline PHP statements, kept in the same one-line
+                 parenthesized style as the active-bundle lookup just
+                 above — writing a literal "at-php" with parens inside
+                 a Blade comment (even just to describe the convention)
+                 made the compiler pick it up as a real directive and
+                 garble everything after it, so this note is phrased
+                 without that literal token on purpose. --}}
+            @php($bundleCollectionImage = $collection->collection->attribute_data->get('collection_image')?->getValue())
+            @php($bundleCollectionImageUrl = $bundleCollectionImage ? asset('storage/' . $bundleCollectionImage) : $collection->collection->thumbnail?->getUrl('medium'))
             <div class="rounded-2xl shadow-md dark:shadow-slate-700 bg-linear-to-br from-primary to-primary-dark dark:from-slate-900 dark:to-black overflow-hidden">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-6 py-6 lg:px-12">
-                    <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-3 sm:gap-4">
                         <span class="text-3xl" aria-hidden="true">🎁</span>
                         <div>
                             <p class="text-xs font-bold uppercase tracking-wide text-white/80">{{ __('Bundle deal') }}</p>
                             <p class="text-xl avenir-bold text-white uppercase">{{ $collection->getName() }}</p>
                         </div>
                     </div>
+
+                    @if($bundleCollectionImageUrl)
+                        {{-- The collection's own image, worked into the middle
+                             of this thin CTA row rather than left out
+                             entirely — angled on both sides (ticket-stub
+                             style) so it reads as a deliberate accent
+                             rather than a stray product photo bleeding
+                             into the gradient. Hidden on mobile, where
+                             the row already stacks label-above-button;
+                             a third stacked element pushed the button
+                             down further than this banner's "thin"
+                             purpose intends — same call made for the
+                             image on mini-friends-hero.blade.php there. --}}
+                        <div class="hidden sm:block relative shrink-0 w-24 h-16 lg:w-28 lg:h-20">
+                            <div class="absolute inset-0 bg-white/25 blur-xl rounded-full"></div>
+                            <img src="{{ $bundleCollectionImageUrl }}" alt="{{ $collection->getName() }}" class="relative z-10 w-full h-full object-cover rounded-sm" style="clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%); filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.35));">
+                        </div>
+                    @endif
+
                     <a href="{{ \App\Services\WebstoreHelperService::getCollectionRoute($collection->collection) }}" class="shrink-0 text-center px-6 py-2.5 bg-white dark:bg-primary-dark text-primary dark:text-white avenir-bold hover:bg-gray-100 dark:hover:bg-primary font-bold rounded-xl transition-colors shadow-lg text-sm">
                         {{ __('Create your bundle') }}
                     </a>
