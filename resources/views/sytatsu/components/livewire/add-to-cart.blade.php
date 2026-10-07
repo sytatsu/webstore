@@ -15,13 +15,13 @@
                     {{ __('Add to bundle') }}
                 </x-ui.button.default.primary>
             @else
-                <div class="flex rounded-xl overflow-hidden bg-gray-50 dark:bg-slate-900">
+                <div class="flex flex-1 rounded-xl overflow-hidden bg-gray-50 dark:bg-slate-900">
                     <button type="button" class="size-11.5 m-0 inline-flex justify-center items-center gap-x-2 text-sm font-semibold border border-transparent text-black dark:text-white bg-transparent hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
                             wire:loading.attr="disabled" wire:click.prevent="removeFromBundleOne()">
                         <i class="fa fa-minus"></i>
                     </button>
 
-                    <span class="flex-grow sm:w-12 px-1 py-2 text-sm text-center text-black dark:text-white flex items-center justify-center">
+                    <span class="flex-grow px-1 py-2 text-sm text-center text-black dark:text-white flex items-center justify-center">
                         {{ $this->bundleQuantity }}
                     </span>
 

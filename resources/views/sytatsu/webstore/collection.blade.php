@@ -29,7 +29,7 @@
     @endpush
 @endif
 
-<div class="{{ $maxWidth ?? 'max-w-[85rem]' }} w-full mx-auto {{ ($bundle ?? null) ? 'pb-28' : '' }}">
+<div class="{{ $maxWidth ?? 'max-w-[85rem]' }} w-full mx-auto">
     <div class="flex flex-col @if($showFilters ?? false) md:grid md:grid-cols-6 xl:grid-cols-4 @endif gap-8">
 
         <!-- Filter Section -->
@@ -60,8 +60,9 @@
                              App\Http\Livewire\Sytatsu\Components\AddToCart),
                              not a separate overlay. This tray is the only
                              way to review/complete/edit the picks, and it's
-                             always visible (fixed to the bottom), not
-                             behind a toggle — see docs/bundles/README.md. --}}
+                             always visible (sticky to the top, under the
+                             site header), not behind a toggle — see
+                             docs/bundles/README.md. --}}
                         <livewire:sytatsu.components.bundle.bundle-builder
                             :bundle="$bundle"
                             :edit-line-id="$bundleEditLineId ?? null"

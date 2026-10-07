@@ -155,13 +155,30 @@ with each other — the session is what makes the picture consistent
   active bundle for whatever product it's showing and renders the same
   `BundleBuilder` tray there too, so picking from a product's own page
   still shows the running total.
-- The tray (`bundle-builder.blade.php`) is `fixed bottom-0 inset-x-0`, not
-  `sticky` — `sticky` only keeps an element on screen while its own
-  scrolling container is taller than the viewport and still has room to
-  stick within; `fixed` is what actually guarantees "always on screen"
-  regardless of where you've scrolled on the page. The page content gets a
-  `pb-28` bottom-padding bump (only when a bundle applies) so the fixed
-  tray doesn't cover the last grid row.
+- The tray (`bundle-builder.blade.php`) renders as the **first** thing in
+  the page content — above the grid on the collection page, above the
+  gallery/options card on a product's own page — and is `sticky` with a
+  `top` offset kept in sync with `#site-header`'s *current* height via a
+  small `ResizeObserver` (`navigation.blade.php`'s header height changes
+  as it shrinks on scroll, so a hardcoded pixel offset would drift). This
+  replaced an earlier `fixed bottom-0 inset-x-0` version: that guaranteed
+  "always on screen" regardless of scroll position too, but the user
+  wanted it docked under the header at the top instead, not floating over
+  the last grid row — which is also why the `pb-28` bottom-padding
+  compensation on the page wrapper is gone; a `sticky` element occupies
+  its own space in the normal flow, so nothing needs to make room for it.
+- Each eligible tile's own price (`ProductTile::getPriceRangeString()`) is
+  hidden once the product has an active bundle — same
+  `BundleService::findActiveBundleForProduct()` check `AddToCart` already
+  uses, resolved independently by `ProductTile::mount()`. The product's own
+  price is meaningless once the bundle is the only way to buy it; what the
+  customer actually pays is the tier price shown in the tray.
+- The tray has a "How does this work?" button (plain Alpine `x-data`
+  modal, matching `components/cookie-policy-popup.blade.php`'s pattern —
+  no Livewire round-trip needed) that lists `$bundle->tiers()` with their
+  prices. This can never drift from what checkout actually charges because
+  it reads the same `Price` rows `BundleService::syncPurchasable()` keeps
+  in sync, not a separate copy.
 
 ### Why not the old `feature/bundles` branch
 
@@ -223,7 +240,7 @@ feature, so a future rewrite doesn't reintroduce them:
 
 ## Tests
 
-33 tests, `tests/Feature/Bundle{Pricing,Eligibility,Cart,Admin,AdminHttp,BuilderComponent,OrderRendering}Test.php`:
+35 tests, `tests/Feature/Bundle{Pricing,Eligibility,Cart,Admin,AdminHttp,BuilderComponent,OrderRendering}Test.php`:
 
 - **Pricing** — tier resolution at/between thresholds, re-saving tiers
   replaces rather than duplicates `Price` rows.

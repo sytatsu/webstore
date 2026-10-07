@@ -8,9 +8,11 @@
                     {{ $this->product->translateAttribute('name') }}
                 </h3>
 
-                <p class=" text-black dark:text-white avenir-bold uppercase">
-                    {{ $this->getPriceRangeString() }}
-                </p>
+                @unless ($this->activeBundle)
+                    <p class=" text-black dark:text-white avenir-bold uppercase">
+                        {{ $this->getPriceRangeString() }}
+                    </p>
+                @endunless
             </div>
         </a>
     </div>

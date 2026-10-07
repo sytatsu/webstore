@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Http\Livewire\Sytatsu\Components\AddToCart;
 use App\Http\Livewire\Sytatsu\Components\Bundle\BundleBuilder;
+use App\Http\Livewire\Sytatsu\Components\Product\ProductTile;
 use App\Models\Bundle;
 use App\Services\BundleService;
 use App\Services\CartService;
@@ -274,6 +275,37 @@ class BundleBuilderComponentTest extends TestCase
         $response->assertSeeHtml('>2<');
 
         $this->assertSame([$fox->id => 2], app(BundleService::class)->getSessionSelection($bundle));
+    }
+
+    /** @test */
+    public function a_bundle_eligible_tiles_own_price_is_hidden_since_the_bundle_decides_what_it_costs()
+    {
+        $bundle = $this->makeBundle();
+        $fox = $this->makeVariant(inBundle: $bundle);
+        $fox->prices()->create([
+            'currency_id' => \Lunar\Models\Currency::getDefault()->id,
+            'customer_group_id' => null,
+            'min_quantity' => 1,
+            'price' => 495,
+        ]);
+
+        Livewire::test(ProductTile::class, ['product' => $fox->product])
+            ->assertDontSee('4.95');
+    }
+
+    /** @test */
+    public function a_tile_outside_any_bundle_still_shows_its_own_price()
+    {
+        $fox = $this->makeVariant();
+        $fox->prices()->create([
+            'currency_id' => \Lunar\Models\Currency::getDefault()->id,
+            'customer_group_id' => null,
+            'min_quantity' => 1,
+            'price' => 495,
+        ]);
+
+        Livewire::test(ProductTile::class, ['product' => $fox->product])
+            ->assertSee('4.95');
     }
 
     /** @test */

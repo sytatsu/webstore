@@ -1,11 +1,38 @@
-{{-- Pinned to the bottom of the viewport, not just the page flow — this
-     is the only place a bundle can be reviewed/completed/edited, so it
-     must always be on screen, not just "while scrolled to the right
-     spot" (which `sticky` alone wouldn't guarantee here, since it's not
-     the last element in a container that fills the viewport height). --}}
-<div class="fixed bottom-0 inset-x-0 z-50 px-4 pb-4 pointer-events-none">
-    <div class="max-w-[85rem] mx-auto pointer-events-auto rounded-2xl shadow-lg border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-800 p-4">
+{{-- Always on screen, pinned under the site header rather than fixed to
+     the bottom of the viewport — this is the only place a bundle can be
+     reviewed/completed/edited, so it must stay visible while scrolling.
+     `sticky` needs an explicit `top` matching the header's *current*
+     height (it changes as the header shrinks on scroll — see
+     navigation.blade.php's `scrolled` state), so a ResizeObserver on
+     #site-header keeps this in sync instead of a hardcoded pixel value. --}}
+<div
+    class="sticky z-40 px-4 pt-4"
+    x-data="{ top: 0 }"
+    x-init="
+        const header = document.getElementById('site-header');
+        const update = () => { top = header ? header.offsetHeight : 0 };
+        update();
+        if (header && window.ResizeObserver) {
+            new ResizeObserver(update).observe(header);
+        } else {
+            window.addEventListener('resize', update);
+        }
+    "
+    :style="`top: ${top}px`"
+>
+    <div class="max-w-[85rem] mx-auto rounded-2xl shadow-lg border-2 border-primary/40 bg-gradient-to-br from-primary/10 via-white to-white dark:from-primary/20 dark:via-slate-800 dark:to-slate-800 p-4" x-data="{ infoOpen: false }">
         <x-ui.spinner-overlay wire:loading.flex wire:target="addToCart, removeItem" />
+
+        <div class="flex items-center justify-between gap-2 mb-2">
+            <p class="text-xs avenir-bold uppercase tracking-widest text-primary">
+                🎁 {{ $bundle->getTranslatedName() ?: __('Build your bundle') }}
+            </p>
+
+            <button type="button" @click="infoOpen = true" class="shrink-0 inline-flex items-center gap-x-1 text-xs font-semibold text-primary hover:underline">
+                <i class="fa fa-circle-info"></i>
+                <span>{{ __('How does this work?') }}</span>
+            </button>
+        </div>
 
         @if($added)
             <div class="flex items-center justify-center py-2">
@@ -32,12 +59,12 @@
                     @else
                         <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
                             @foreach($this->selectedItems as $item)
-                                <div class="group relative size-10 rounded-md flex-shrink-0 border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-900"
+                                <div class="group relative size-14 rounded-md flex-shrink-0 border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900"
                                      title="{{ $item['name'] }}"
                                      wire:key="bundle-selected-{{ $item['variant_id'] }}"
                                 >
                                     <img src="{{ $item['thumbnail'] ?? \App\Services\WebstoreHelperService::productPlaceholderImage() }}"
-                                         alt="{{ $item['name'] }}" class="w-full h-full object-cover rounded-md">
+                                         alt="{{ $item['name'] }}" class="w-full h-full object-contain p-1 rounded-md">
 
                                     <span class="absolute -top-1.5 -right-1.5 bg-primary text-white text-[9px] font-bold size-4 rounded-full flex items-center justify-center avenir-bold leading-none">
                                         {{ $item['quantity'] }}
@@ -96,5 +123,52 @@
                 </ul>
             @endif
         @endif
+
+        {{-- "How does this work?" explainer — the tiers themselves come
+             straight from the bundle's own Price rows, so this can never
+             drift out of sync with what checkout actually charges. --}}
+        <div x-show="infoOpen"
+             x-transition:enter-start="opacity-0 scale-90"
+             x-transition:enter="transition duration-200 transform ease"
+             x-transition:leave="transition duration-200 transform ease"
+             x-transition:leave-end="opacity-0 scale-90"
+             class="fixed inset-0 z-80 flex items-center justify-center overflow-y-auto bg-slate-900/40 backdrop-blur-sm p-4"
+             style="display: none;"
+             role="dialog" tabindex="-1" @keydown.escape.window="infoOpen = false"
+        >
+            <div @click.outside="infoOpen = false" class="relative w-full max-w-md rounded-2xl shadow-lg bg-white dark:bg-slate-800 p-6">
+                <button type="button" @click="infoOpen = false" class="absolute top-3 end-3 size-8 inline-flex justify-center items-center rounded-full text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-slate-700">
+                    <span class="sr-only">{{ __('Close') }}</span>
+                    <i class="fa fa-xmark"></i>
+                </button>
+
+                <h3 class="text-lg avenir-bold uppercase text-black dark:text-white mb-2">
+                    {{ $bundle->getTranslatedName() ?: __('Build your bundle') }}
+                </h3>
+
+                <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                    {{ __('Mix and match any of the products below into one bundle — the more you pick, the less each one costs. Every item in your bundle is charged at the price for the tier your total quantity reaches.') }}
+                </p>
+
+                <ul class="divide-y divide-gray-200 dark:divide-slate-600 rounded-lg border border-gray-200 dark:border-slate-600 overflow-hidden">
+                    @foreach($bundle->tiers() as $tier)
+                        <li class="flex items-center justify-between px-4 py-2 text-sm">
+                            <span class="text-gray-700 dark:text-gray-300">
+                                {{ $tier->min_quantity <= 1
+                                    ? __('1 item')
+                                    : __(':count+ items', ['count' => $tier->min_quantity]) }}
+                            </span>
+                            <span class="avenir-bold text-black dark:text-white">
+                                {{ $this->formatPrice($tier->price->value) }} {{ __('each') }}
+                            </span>
+                        </li>
+                    @endforeach
+                </ul>
+
+                <button type="button" @click="infoOpen = false" class="w-full mt-4 py-2.5 rounded-lg text-sm font-semibold text-white bg-primary hover:opacity-90 transition-opacity">
+                    {{ __('Got it') }}
+                </button>
+            </div>
+        </div>
     </div>
 </div>

@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Sytatsu\Components\Product;
 
+use App\Models\Bundle;
+use App\Services\BundleService;
 use App\Services\WebstoreHelperService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -13,9 +15,14 @@ class ProductTile extends Component
 {
     public Product $product;
 
-    public function mount(Product $product): void
+    public ?Bundle $activeBundle = null;
+
+    public function mount(Product $product, BundleService $bundleService): void
     {
         $this->product = $product;
+        // Its own price is meaningless here — the bundle, not this product,
+        // decides what it costs. See AddToCart::mount() for the same check.
+        $this->activeBundle = $bundleService->findActiveBundleForProduct($product);
     }
 
     public function getPriceRangeString(): string
