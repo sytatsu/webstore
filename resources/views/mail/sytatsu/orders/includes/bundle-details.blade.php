@@ -1,10 +1,10 @@
 @props(['bundle'])
 
+{{-- No heading here for the bundle's own name — the row this sits under
+     (order-table.blade.php) already shows it as the line item's own
+     description, so repeating it here was just noise above the actual
+     answer to "which products are inside it". --}}
 <div style="margin-top: 4px; margin-bottom: 4px; padding: 10px 12px; background-color: #f8fafc; border-radius: 8px;">
-    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">
-        <strong style="color: #1e293b;">{{ $bundle['name'] ?? __('Bundle') }}</strong>
-    </div>
-
     <table style="width: 100%; border-collapse: collapse;">
         @foreach($bundle['items'] ?? [] as $item)
             <tr>

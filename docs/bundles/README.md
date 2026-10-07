@@ -363,13 +363,22 @@ feature, so a future rewrite doesn't reintroduce them:
   item behind and fails its own validation. Replace the whole array with
   one `->set('mountedActionsData.0.tiers', [...])` (or
   `mountedTableActionsData.0.tiers` for the edit table action) instead.
-- **OrderRendering** — actually renders (not just reads) the three
+- **OrderRendering** — actually renders (not just reads) the four
   Blade/mail surfaces that carry bundle data: the order confirmation
-  email's `order-table` partial, the admin `bundle-preview` modal, and the
-  cart's `CartItems` Livewire component with a real bundle line in
-  session. These exist because this feature's bugs kept showing up only
-  on execution, not on review — the `draft`-status product crash and the
+  email's `order-table` partial, the `order-success.blade.php` checkout
+  success page, the admin `bundle-preview` modal, and the cart's
+  `CartItems` Livewire component with a real bundle line in session.
+  These exist because this feature's bugs kept showing up only on
+  execution, not on review — the `draft`-status product crash and the
   Repeater UUID gotcha above were both missed by reading the code first.
+  `order-success.blade.php` in particular has its own hand-rolled line
+  loop (it predates this feature and isn't built from `order-table`'s
+  partial), so it was missed entirely on the first pass — same class of
+  bug as `search-box.blade.php`'s own separate price-display code path
+  above: any surface that renders an order/cart line without going
+  through `order-table.blade.php` or `items.blade.php` needs its own
+  `meta['bundle']` branch, and is easy to miss since nothing fails to
+  compile when it's skipped.
 
 Run with `php artisan test --filter=Bundle`. Needs a real MySQL
 connection (`DB_HOST`/`DB_PORT` env overrides work fine if the app's

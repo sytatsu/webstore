@@ -28,34 +28,65 @@
                 <div class="space-y-4">
                     @foreach($order->lines as $line)
                         @if($line->purchasable_type !== \Lunar\DataTypes\ShippingOption::class)
-                            <div class="flex justify-between items-center">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-16 h-16 bg-gray-100 dark:bg-slate-700 flex-shrink-0 flex items-center justify-center overflow-hidden rounded">
-                                        @if($line->purchasable && method_exists($line->purchasable, 'getThumbnail') && $line->purchasable->getThumbnail())
-                                            <img src="{{ $line->purchasable->getThumbnail()->getUrl('small') }}" alt="{{ $line->description }}" class="object-cover w-full h-full">
-                                        @else
-                                            <span class="text-xs text-gray-400">No image</span>
-                                        @endif
-                                    </div>
-                                    <div>
-                                        <p class="font-bold text-black dark:text-white leading-tight text-left">
-                                            @if($line->purchasable && $line->purchasable->product)
-                                                <a href="{{ route('sytatsu.webstore.product', ['product' => $line->purchasable->product->defaultUrl->slug]) }}" class="hover:underline text-primary">
-                                                    {{ $line->description }}
-                                                </a>
-                                            @else
-                                                {{ $line->description }}
+                            @php($bundle = $line->meta['bundle'] ?? null)
+                            <div>
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center gap-4">
+                                        {{-- A bundle line's own purchasable is the hidden pricing
+                                             variant, which has no thumbnail of its own — the
+                                             picked-items strip below already carries the
+                                             imagery, so this box is skipped entirely rather
+                                             than showing an empty "No image" placeholder. --}}
+                                        @unless($bundle)
+                                            <div class="w-16 h-16 bg-gray-100 dark:bg-slate-700 flex-shrink-0 flex items-center justify-center overflow-hidden rounded">
+                                                @if($line->purchasable && method_exists($line->purchasable, 'getThumbnail') && $line->purchasable->getThumbnail())
+                                                    <img src="{{ $line->purchasable->getThumbnail()->getUrl('small') }}" alt="{{ $line->description }}" class="object-cover w-full h-full">
+                                                @else
+                                                    <span class="text-xs text-gray-400">No image</span>
+                                                @endif
+                                            </div>
+                                        @endunless
+                                        <div>
+                                            <p class="font-bold text-black dark:text-white leading-tight text-left">
+                                                @if(!$bundle && $line->purchasable && $line->purchasable->product)
+                                                    <a href="{{ route('sytatsu.webstore.product', ['product' => $line->purchasable->product->defaultUrl->slug]) }}" class="hover:underline text-primary">
+                                                        {{ $line->description }}
+                                                    </a>
+                                                @else
+                                                    {{ $bundle['name'] ?? $line->description }}
+                                                @endif
+                                            </p>
+                                            @if($line->option)
+                                                <p class="text-sm text-slate-600 dark:text-gray-400 italic text-left">{{ $line->option }}</p>
                                             @endif
-                                        </p>
-                                        @if($line->option)
-                                            <p class="text-sm text-slate-600 dark:text-gray-400 italic text-left">{{ $line->option }}</p>
-                                        @endif
-                                        <p class="text-sm text-slate-600 dark:text-gray-400 text-left">{{ __('Quantity') }}: {{ $line->quantity }}</p>
+                                            <p class="text-sm text-slate-600 dark:text-gray-400 text-left">{{ __('Quantity') }}: {{ $line->quantity }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="font-bold text-black dark:text-white">{{ $line->sub_total->formatted }}</p>
                                     </div>
                                 </div>
-                                <div class="text-right">
-                                    <p class="font-bold text-black dark:text-white">{{ $line->sub_total->formatted }}</p>
-                                </div>
+
+                                {{-- Which products the bundle actually contains — the same
+                                     information the cart's own bundle line shows
+                                     (cart/components/items.blade.php), minus the Edit link,
+                                     since this page is a read-only receipt. --}}
+                                @if($bundle)
+                                    <div class="flex flex-wrap items-center gap-1 mt-3 ml-20">
+                                        @foreach($bundle['items'] ?? [] as $item)
+                                            <div class="relative size-9 flex-shrink-0 rounded-md border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-900"
+                                                 title="{{ $item['name'] ?? '' }}"
+                                            >
+                                                <img class="object-contain w-full h-full p-0.5 rounded-md"
+                                                     src="{{ $item['thumbnail'] ?? \App\Services\WebstoreHelperService::productPlaceholderImage() }}"
+                                                     alt="{{ $item['name'] ?? '' }}">
+                                                <span class="absolute -top-1.5 -right-1.5 bg-primary text-white text-[9px] font-bold size-4 rounded-full flex items-center justify-center avenir-bold leading-none">
+                                                    {{ $item['quantity'] ?? 1 }}
+                                                </span>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endif
                             </div>
                         @endif
                     @endforeach

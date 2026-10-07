@@ -102,6 +102,25 @@ class BundleOrderRenderingTest extends TestCase
     }
 
     /** @test */
+    public function the_checkout_success_page_renders_the_bundle_line_with_its_picked_items()
+    {
+        // This page has its own hand-rolled line loop (not the
+        // order-table.blade.php partial the email and admin preview
+        // share), so a bundle branch was missed here entirely until this
+        // was actually looked at — same class of bug as the search-box
+        // dropdown's own separate price-display code path.
+        $line = $this->makeBundleOrderLine();
+        $order = $line->order()->with('lines')->first();
+
+        $html = view('sytatsu.webstore.order-success', ['order' => $order])->render();
+
+        $this->assertStringContainsString('Mini-friends bundle', $html);
+        $this->assertStringContainsString($line->meta['bundle']['items'][0]['name'], $html);
+        $this->assertStringContainsString($line->meta['bundle']['items'][1]['name'], $html);
+        $this->assertStringContainsString((string) $line->meta['bundle']['items'][0]['quantity'], $html);
+    }
+
+    /** @test */
     public function the_cart_page_renders_a_bundle_line_with_its_thumbnail_strip_and_edit_link()
     {
         $collection = Collection::factory()->create();
