@@ -314,6 +314,15 @@ with each other — the session is what makes the picture consistent
   maintenance and contact pages — see the component itself for the
   exact markup. Keep any future "page header" request going to that one
   component instead of growing another bespoke title block.
+- The Clickerz Bar Builder gets the same thin one-row CTA treatment on
+  the homepage (`x-sytatsu.homepage.clickerz-cta`), even though it isn't
+  a collection and so never passes through `collection-cards.blade.php`
+  — it's its own component with the identical markup, shown in
+  `welcome.blade.php` whenever `BarBuilderSettingsPage::isEnabled()`,
+  except when the homepage hero is already the Clickerz hero (stacking
+  two Clickerz promos back-to-back would be redundant in a way the
+  bundle hero + bundle CTA pairing isn't, since those sit much further
+  apart on the page).
 
 ### Why not the old `feature/bundles` branch
 

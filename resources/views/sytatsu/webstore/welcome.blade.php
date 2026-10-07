@@ -7,6 +7,10 @@
         <x-sytatsu.homepage.main-hero />
     @endif
 
+    @if(\App\Filament\Pages\BarBuilderSettingsPage::isEnabled() && \App\Filament\Pages\HomepageHeroSettingsPage::current() !== 'clickerz')
+        <x-sytatsu.homepage.clickerz-cta />
+    @endif
+
     <div id="products" class="flex flex-col @if($showFilters ?? false) md:grid md:grid-cols-4 @endif gap-8">
         <!-- Filter Section -->
         @if($showFilters ?? false)
