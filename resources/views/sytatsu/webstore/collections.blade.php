@@ -1,13 +1,11 @@
-<div class="{{ $maxWidth ?? 'max-w-[85rem]' }} w-full mx-auto">
-    <div class="rounded-2xl shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 py-8 px-6 lg:p-12">
-        <div class="divide-y divide-gray-200 dark:divide-gray-500">
-            <div class="group flex flex-row justify-between items-center pb-8">
-                <h1 class="text-2xl avenir-bold text-black dark:text-white uppercase">
-                    {{ __('All Collections') }}
-                </h1>
-            </div>
+<div class="{{ $maxWidth ?? 'max-w-[85rem]' }} w-full mx-auto flex flex-col gap-8">
+    <x-sytatsu.page-header
+        :breadcrumb-items="[['name' => __('Homepage'), 'item' => route('sytatsu.webstore.welcome')], ['name' => __('All Collections'), 'item' => url()->current()]]"
+        :title="__('All Collections')"
+    />
 
-            <div class="pt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-6 md:gap-6 lg:gap-8 xl:gap-12">
+    <div class="rounded-2xl shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 py-8 px-6 lg:p-12">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-6 md:gap-6 lg:gap-8 xl:gap-12">
                 @forelse($collections as $collection)
                     <a class="group flex flex-col gap-2 md:gap-4 h-full" href="{{ \App\Services\WebstoreHelperService::getCollectionRoute($collection) }}">
                         <div class="relative overflow-hidden rounded-2xl bg-gray-100 dark:bg-slate-700 shadow-lg dark:shadow-slate-700 aspect-square">
@@ -45,7 +43,6 @@
                         </p>
                     </div>
                 @endforelse
-            </div>
         </div>
     </div>
 </div>

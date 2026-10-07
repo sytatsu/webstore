@@ -1,8 +1,11 @@
 <div class="mx-auto xl:min-w-[80rem] max-w-[30rem] md:max-w-[85rem] w-full flex flex-col gap-8">
+    <x-sytatsu.page-header
+        :breadcrumb-items="[['name' => __('Homepage'), 'item' => route('sytatsu.webstore.welcome')], ['name' => __('Contact'), 'item' => url()->current()]]"
+        :title="__('Get in touch with us')"
+    />
+
     <div class="flex flex-col md:grid md:grid-cols-3 gap-8 md:gap-12">
         <div class="md:col-span-2 rounded-2xl shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 p-8 md:p-12 self-start w-full">
-            <x-ui.page-header tag="h1" title="{{ __('Get in touch with us') }}" />
-
             <div class="space-y-4 mb-8">
                 <p class="text-gray-600 dark:text-neutral-400">
                     {{ __('Have a question about our products, need a custom 3D print, or is your printer in need of some professional care? We\'re here to help!') }}

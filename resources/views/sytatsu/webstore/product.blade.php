@@ -85,6 +85,8 @@
     @include('sytatsu.webstore.partials.clickerz-bar-builder', ['product' => $product])
 @else
 <div class="mx-auto xl:min-w-[80rem] max-w-[30rem] md:max-w-[85rem] w-full flex flex-col gap-8">
+    <x-sytatsu.page-header :breadcrumb-items="$breadcrumbItems ?? []" :title="$product->translateAttribute('name')" />
+
     @if($activeBundle ?? null)
         {{-- Mounted here too (not just on the collection page) so this
              product's own detail page also always shows the tray — see

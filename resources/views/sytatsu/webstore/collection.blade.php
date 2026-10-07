@@ -38,6 +38,9 @@
          than sitting bare on the page background. The breadcrumb reuses
          $breadcrumbItems, already built above for the JSON-LD schema
          but never otherwise rendered for a visitor to actually see.
+         Shared with the collections listing, custom print, maintenance
+         and contact pages via x-sytatsu.page-header so they all render
+         the same header (see docs/bundles/README.md).
 
          gap-8 here, same as every other section-to-section gap on this
          page — a tighter gap was tried here (shrinking this to gap-4 and
@@ -46,24 +49,7 @@
          page-wide instead of just the one that actually had a problem.
          The real surplus was inside the tray itself — see
          bundle-builder.blade.php's own top-padding note. --}}
-    <div class="rounded-2xl shadow-md dark:shadow-slate-700 bg-white dark:bg-slate-800 py-6 px-6 lg:px-12">
-        @isset($breadcrumbItems)
-            <nav aria-label="{{ __('Breadcrumb') }}" class="mb-2 font-mono text-[10px] tracking-[.16em] uppercase text-gray-400 dark:text-neutral-500">
-                @foreach($breadcrumbItems as $crumb)
-                    @if(!$loop->first) <span class="px-1">/</span> @endif
-                    @if($loop->last)
-                        <span class="text-gray-600 dark:text-neutral-300">{{ $crumb['name'] }}</span>
-                    @else
-                        <a href="{{ $crumb['item'] }}" class="hover:underline hover:text-primary">{{ $crumb['name'] }}</a>
-                    @endif
-                @endforeach
-            </nav>
-        @endisset
-
-        <h1 class="text-2xl md:text-3xl avenir-bold text-black dark:text-white uppercase">
-            {{ $collection->translateAttribute('name') }}
-        </h1>
-    </div>
+    <x-sytatsu.page-header :breadcrumb-items="$breadcrumbItems ?? []" :title="$collection->translateAttribute('name')" />
 
     @if($bundle ?? null)
         {{-- Spans the full container width — both the filter/sort sidebar

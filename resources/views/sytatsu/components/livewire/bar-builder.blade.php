@@ -7,9 +7,32 @@
 >
     <div class="flex flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_408px] lg:items-start gap-6 p-6 md:p-8">
 
-        {{-- ── stage: its own section, sticky alongside the panel on large screens only ── --}}
-        <section class="rounded-2xl overflow-hidden ring-1 ring-black/10 z-20 lg:sticky lg:top-4 lg:self-start"
-                 style="background: radial-gradient(120% 90% at 50% 8%, #32363D 0%, #1B1D21 62%, #141619 100%);">
+        {{-- ── stage: its own section, sticky alongside the panel on large screens only ──
+             `lg:top-4` used to be a flat 1rem, which put this well above
+             the sticky site header's actual height (#site-header, itself
+             `sticky top-0`) once scrolled — the header (higher z-index)
+             then painted over the top of this section instead of sitting
+             above it, hiding part of the stage. Same fix as the bundle
+             tray (bundle-builder.blade.php): track the header's real
+             height via a ResizeObserver (it also changes on scroll — see
+             navigation.blade.php's `scrolled` state) and stick this
+             exactly flush under it instead of at a hardcoded offset. --}}
+        <section
+            class="rounded-2xl overflow-hidden ring-1 ring-black/10 z-20 lg:sticky lg:self-start"
+            x-data="{ top: 16 }"
+            x-init="
+                const header = document.getElementById('site-header');
+                const update = () => { top = header ? header.offsetHeight : 16 };
+                update();
+                if (header && window.ResizeObserver) {
+                    new ResizeObserver(update).observe(header);
+                } else {
+                    window.addEventListener('resize', update);
+                }
+                window.addEventListener('scroll', update, { passive: true });
+            "
+            :style="`top: ${top}px; background: radial-gradient(120% 90% at 50% 8%, #32363D 0%, #1B1D21 62%, #141619 100%);`"
+        >
             <div class="px-5 pt-4 flex items-center justify-between">
                 <span class="font-mono text-[10px] tracking-[.16em] uppercase text-white/40">{{ __('Live preview') }}</span>
                 <span class="font-mono text-[11px] text-white/40" x-text="hasSelection ? '{{ __('Click a cap to edit it') }}' : '{{ __('No cap selected') }}'"></span>
