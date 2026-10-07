@@ -1,4 +1,8 @@
-<div class="group flex flex-col gap-2 md:gap-4">
+{{-- `group` ties the picture, name/price and the add-to-(bundle/cart)
+     button below it together as one unit — hovering any of them
+     highlights the whole card (background + button ring), rather than
+     leaving the button looking unrelated to the image above it. --}}
+<div class="group flex flex-col gap-2 md:gap-4 p-3 -m-3 rounded-2xl transition-all duration-200 hover:bg-gray-50 hover:shadow-lg dark:hover:bg-slate-700/60 dark:hover:shadow-slate-900/40">
     <div class="relative" wire:key="product-carousel-{{ $this->product->id }}">
         <livewire:sytatsu.components.product.carousel :product="$this->product" :images="$this->product->images" :wire:key="'carousel-'.$this->product->id" />
 
@@ -59,7 +63,7 @@
 {{--    </div>--}}
 
     {{-- @TODO; Should be converted to a livewire component --}}
-    <div class="flex mt-auto">
+    <div class="flex mt-auto rounded-xl ring-primary/40 ring-0 group-hover:ring-2 transition-[box-shadow] duration-200">
         @if ($this->product->variants->count() >= 2)
             <x-ui.button.outline.primary class="w-full" href="{{ \App\Services\WebstoreHelperService::getProductRoute($this->product) }}">
                 {{ $this->product->variants->count() }} {{ __('variants') }}

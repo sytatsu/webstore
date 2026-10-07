@@ -71,13 +71,19 @@
                         <div class="flex items-center gap-2 mt-1 mb-1">
                             <div class="flex flex-wrap items-center gap-1">
                                 @foreach($bundle['items'] ?? [] as $item)
-                                    <div class="relative size-8 rounded-md overflow-hidden border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-900"
+                                    {{-- No overflow-hidden here — the quantity badge below is
+                                         deliberately positioned outside this box's own bounds
+                                         (-top-1/-right-1), so clipping overflow cuts it off.
+                                         rounded-md lives on the image itself instead, and
+                                         object-contain avoids cropping non-square thumbnails
+                                         (see bundle-builder.blade.php's own thumbnails). --}}
+                                    <div class="relative size-9 flex-shrink-0 rounded-md border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-900"
                                          title="{{ $item['name'] ?? '' }}"
                                     >
-                                        <img class="object-cover w-full h-full"
+                                        <img class="object-contain w-full h-full p-0.5 rounded-md"
                                              src="{{ $item['thumbnail'] ?? \App\Services\WebstoreHelperService::productPlaceholderImage() }}"
                                              alt="{{ $item['name'] ?? '' }}">
-                                        <span class="absolute -top-1 -right-1 bg-primary text-white text-[9px] font-bold size-4 rounded-full flex items-center justify-center avenir-bold leading-none">
+                                        <span class="absolute -top-1.5 -right-1.5 bg-primary text-white text-[9px] font-bold size-4 rounded-full flex items-center justify-center avenir-bold leading-none">
                                             {{ $item['quantity'] ?? 1 }}
                                         </span>
                                     </div>

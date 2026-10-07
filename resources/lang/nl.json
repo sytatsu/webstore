@@ -256,5 +256,32 @@
 
     "Error": "Foutmelding",
     "The page you're looking for doesn't exist or is temporarily unavailable.": "De pagina die u zoekt bestaat niet of is tijdelijk niet beschikbaar.",
-    "Back to home": "Terug naar home"
+    "Back to home": "Terug naar home",
+
+    "Add to bundle": "Toevoegen aan bundel",
+    "Add bundle to cart": "Bundel toevoegen aan winkelwagen",
+    "Build your bundle": "Stel uw bundel samen",
+    "Bundle added to cart!": "Bundel toegevoegd aan winkelwagen!",
+    "Bundle updated!": "Bundel bijgewerkt!",
+    "Editing bundle in cart": "Bundel in winkelwagen wordt bewerkt",
+    "Save changes": "Wijzigingen opslaan",
+    "How does this work?": "Hoe werkt dit?",
+    "Mix and match any of the products below into one bundle — the more you pick, the less each one costs. Every item in your bundle is charged at the price for the tier your total quantity reaches.": "Combineer vrij uit de producten hieronder tot één bundel — hoe meer u kiest, hoe goedkoper elk stuk wordt. Alle artikelen in uw bundel worden geprijsd volgens de staffel die uw totale aantal bereikt.",
+    "Pick products below to start your bundle.": "Kies hieronder producten om uw bundel te starten.",
+    "Pick at least one item for your bundle.": "Kies minstens één artikel voor uw bundel.",
+    "Only available as part of the :name.": "Alleen beschikbaar als onderdeel van :name.",
+    "A bundle can contain at most :max items.": "Een bundel kan maximaal :max artikelen bevatten.",
+    "Only :available of :product left — the quantity has been adjusted.": "Nog maar :available van :product beschikbaar — de hoeveelheid is aangepast.",
+    ":product is out of stock.": ":product is niet op voorraad.",
+    "1 item": "1 artikel",
+    ":count+ items": ":count+ artikelen",
+    ":price each": ":price per stuk",
+    "each": "per stuk",
+    "picked": "gekozen",
+    "pick :more more to unlock :price each": "kies nog :more meer om :price per stuk te ontgrendelen",
+
+    "Edit": "Bewerken",
+    "Processing": "Verwerken",
+    "Brand": "Merk",
+    "Designer": "Ontwerper"
 }
