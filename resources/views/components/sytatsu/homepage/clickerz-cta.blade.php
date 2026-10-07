@@ -31,12 +31,9 @@
     </div>
 
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-6 py-6 lg:px-12">
-        <div class="flex items-center gap-3 sm:gap-4 sm:ml-28">
-            <span class="text-3xl" aria-hidden="true">🎮</span>
-            <div>
-                <p class="text-xs font-bold uppercase tracking-wide text-white/80">{{ __('Custom build') }}</p>
-                <p class="text-xl avenir-bold text-white uppercase">{{ __('Clickerz Bar') }}</p>
-            </div>
+        <div class="sm:ml-28">
+            <p class="text-xs font-bold uppercase tracking-wide text-white/80">{{ __('Custom build') }}</p>
+            <p class="text-xl avenir-bold text-white uppercase">{{ __('Clickerz Bar') }}</p>
         </div>
 
         <a href="{{ route('sytatsu.webstore.clickerz-bar-builder') }}" class="shrink-0 text-center px-6 py-2.5 bg-white dark:bg-primary-dark text-primary dark:text-white avenir-bold hover:bg-gray-100 dark:hover:bg-primary font-bold rounded-xl transition-colors shadow-lg text-sm">
