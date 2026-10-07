@@ -154,6 +154,21 @@ class BundleBuilderComponentTest extends TestCase
     }
 
     /** @test */
+    public function a_bundle_eligible_product_with_no_stock_left_shows_sold_out_instead_of_a_clickable_add_button()
+    {
+        $bundle = $this->makeBundle();
+        $fox = $this->makeVariant(stock: 0, inBundle: $bundle);
+
+        $html = Livewire::test(AddToCart::class, ['purchasable' => $fox])
+            ->assertSet('bundleAvailable', 0)
+            ->assertSet('bundleQuantity', 0)
+            ->html();
+
+        $this->assertStringContainsString('Sold out', $html);
+        $this->assertStringNotContainsString('Add to bundle', $html);
+    }
+
+    /** @test */
     public function removing_from_the_bundle_does_not_trigger_the_trays_added_pulse()
     {
         $bundle = $this->makeBundle();

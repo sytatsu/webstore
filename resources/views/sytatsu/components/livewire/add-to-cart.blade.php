@@ -1,8 +1,34 @@
-<div class="flex flex-col space-y-6 w-full relative">
+<div class="flex flex-col space-y-6 w-full {{ $this->coverTile ? '' : 'relative' }}">
     @if($this->activeBundle)
         {{-- This product is locked into a bundle — the bundle builder is the
              only way to acquire it, so the normal add-to-cart flow below is
              replaced entirely, not just supplemented. --}}
+        @if($this->coverTile)
+            {{-- `absolute inset-0` with no `relative` on this component's own
+                 root (dropped above, only when `coverTile`) escapes all the
+                 way up to product-tile.blade.php's root instead — the
+                 nearest ancestor that *is* positioned — so this covers the
+                 whole card (image, title, button) rather than just this
+                 component's own small footprint. A per-button spinner
+                 already shows on whichever control is active; this is the
+                 same loading state, just also dimming/blocking the rest of
+                 the tile so a spam-click anywhere on it (product-tile.blade.php
+                 forwards those) reads as "busy", not "did that work?". --}}
+            {{-- `h-[calc(100%+1.5rem)]` instead of a plain `inset-0`/`bottom-0`
+                 — measured via getBoundingClientRect() on both this overlay
+                 and product-tile.blade.php's root while loading: the
+                 overlay's containing block (this tile's `relative` root)
+                 consistently came out exactly 1.5rem (24px) shorter than
+                 the tile's own rendered height, same top/left/width, gap
+                 entirely at the bottom. Growing explicitly from `top-0`
+                 compensates for that measured shortfall directly rather
+                 than trusting `inset-0`'s own bottom edge. --}}
+            <div wire:loading wire:target="addToBundle,removeFromBundleOne"
+                 class="absolute top-0 left-0 right-0 h-[calc(100%+1.5rem)] z-30 flex items-center justify-center rounded-2xl bg-white/70 dark:bg-slate-900/70 backdrop-blur-[1px]"
+            >
+                <i class="fa fa-spinner fa-spin text-2xl text-primary"></i>
+            </div>
+        @endif
         @if (!$this->minimalistic)
             <p class="text-xs text-gray-500 dark:text-gray-400">
                 {{ __('Only available as part of the :name.', ['name' => $this->activeBundle->getTranslatedName()]) }}
@@ -15,7 +41,18 @@
                  the *whole* tile clickable to add one, by forwarding a click to
                  whichever of these two is actually showing, rather than
                  duplicating the addToBundle() call outside this component. --}}
-            @if ($this->bundleQuantity <= 0)
+            @if ($this->bundleQuantity <= 0 && $this->bundleAvailable <= 0)
+                {{-- Same "Sold out" state the non-bundle flow below already
+                     has for `availableStock <= 0` — this branch was missing
+                     here entirely, so a bundle-locked product with no stock
+                     left just showed a perfectly normal, clickable "Add to
+                     bundle" button (addToBundle() itself already no-ops
+                     server-side via the `bundleQuantity >= bundleAvailable`
+                     guard, but nothing in the UI ever said why). --}}
+                <x-ui.button.default.secondary class="w-full" disabled>
+                    {{ __('Sold out') }}
+                </x-ui.button.default.secondary>
+            @elseif ($this->bundleQuantity <= 0)
                 {{-- A plain `wire:loading.attr="disabled"` (same as the
                      standalone add-to-cart button below) stops a second
                      *request* from doing anything once the button is

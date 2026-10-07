@@ -19,7 +19,12 @@
      empirically: `$refs.bundleAddTrigger` came back undefined even
      though the element exists and is a plain DOM descendant). A plain
      DOM query isn't affected by that Alpine-scope boundary. --}}
-<div class="group flex flex-col gap-2 md:gap-4 p-3 -m-3 rounded-2xl transition-all duration-200 hover:bg-gray-50 hover:shadow-lg dark:hover:bg-slate-700/60 dark:hover:shadow-slate-900/40 @if($this->activeBundle) cursor-pointer @endif"
+{{-- `relative` here is what lets add-to-cart.blade.php's full-tile
+     loading overlay (shown while addToBundle()/removeFromBundleOne()
+     is in flight) anchor to the *whole tile* instead of just its own
+     small corner of it — see the `coverTile` prop passed below and the
+     note on that overlay for why it has to work this way. --}}
+<div class="group relative flex flex-col gap-2 md:gap-4 p-3 -m-3 rounded-2xl transition-all duration-200 hover:bg-gray-50 hover:shadow-lg dark:hover:bg-slate-700/60 dark:hover:shadow-slate-900/40 @if($this->activeBundle) cursor-pointer @endif"
      @if($this->activeBundle)
          x-data="{}"
          @click="if (!$event.target.closest('a, button, input')) { $el.querySelector('[x-ref=bundleAddTrigger]')?.click() }"
@@ -94,6 +99,7 @@
             <livewire:sytatsu.components.add-to-cart
                 :minimalistic="true"
                 :purchasable="$this->product->variant"
+                :cover-tile="true"
                 :wire:key="$this->product->variant->id"
             />
         @endif

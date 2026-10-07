@@ -31,6 +31,17 @@ class AddToCart extends Component
     public bool $minimalistic = false;
 
     /**
+     * Whether the bundle-add loading overlay should visually cover the
+     * *entire* surrounding tile rather than just this component's own
+     * small footprint — true only when rendered from product-tile.blade.php,
+     * which gives its root the `relative` positioning this overlay escapes
+     * to (see that file's own comment). Left false on product.blade.php's
+     * detail page, where there's no equivalent "tile" to cover and the
+     * original button-only loading state already fits the layout.
+     */
+    public bool $coverTile = false;
+
+    /**
      * The quantity to add to cart.
      *
      * @var int
