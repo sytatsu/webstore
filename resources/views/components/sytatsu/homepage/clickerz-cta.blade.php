@@ -27,7 +27,14 @@
          height × `w-28`, regardless of the photo's own dimensions or
          the label's content. --}}
     <div class="hidden sm:block absolute inset-y-0 left-0 w-28">
-        <img src="{{ Vite::asset('resources/images/banners/p1020972-clickerz-keycaps.jpg') }}" alt="{{ __('Clickerz Bar') }}" class="absolute inset-0 w-full h-full object-cover" style="clip-path: polygon(0% 0%, 88% 0%, 100% 100%, 0% 100%);">
+        {{-- Same glow-behind-the-cut treatment as the desktop hero image
+             (mini-friends-hero.blade.php): a soft blurred glow sits behind
+             the image, only visible through the sliver the clip-path cuts
+             away at the top-right, plus a `drop-shadow` (not `box-shadow`,
+             which ignores clip-path) on the image itself so the angled
+             seam reads as an actual edge. --}}
+        <div class="absolute inset-y-0 left-0 w-full bg-white/40 dark:bg-white/10 blur-2xl"></div>
+        <img src="{{ Vite::asset('resources/images/banners/p1020972-clickerz-keycaps.jpg') }}" alt="{{ __('Clickerz Bar') }}" class="absolute inset-0 w-full h-full object-cover" style="clip-path: polygon(0% 0%, 88% 0%, 100% 100%, 0% 100%); filter: drop-shadow(6px 0 14px rgba(0, 0, 0, 0.35));">
     </div>
 
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-6 py-6 lg:px-12">
