@@ -16,23 +16,43 @@
                  whichever of these two is actually showing, rather than
                  duplicating the addToBundle() call outside this component. --}}
             @if ($this->bundleQuantity <= 0)
+                {{-- A plain `wire:loading.attr="disabled"` (same as the
+                     standalone add-to-cart button below) stops a second
+                     *request* from doing anything once the button is
+                     actually disabled, but gives no feedback in the gap
+                     before that — rapid clicks there (or the whole-tile
+                     click forwarding in product-tile.blade.php hammering
+                     this same button) read as nothing happening, which is
+                     exactly when someone clicks again. A visible spinner,
+                     targeted so it only shows for *this* button's own
+                     request, makes "it's working" obvious immediately. --}}
                 <x-ui.button.default.primary class="w-full" type="button" x-ref="bundleAddTrigger" wire:click.prevent="addToBundle()" wire:loading.attr="disabled">
-                    {{ __('Add to bundle') }}
+                    <span wire:loading.remove wire:target="addToBundle">{{ __('Add to bundle') }}</span>
+                    <div wire:loading wire:target="addToBundle" class="flex items-center justify-center flex-nowrap">
+                        <x-ui.loader />
+                        <span>{{ __('Adding') }}</span>
+                    </div>
                 </x-ui.button.default.primary>
             @else
                 <div class="flex flex-1 rounded-xl overflow-hidden bg-gray-50 dark:bg-slate-900">
                     <button type="button" class="size-11.5 m-0 inline-flex justify-center items-center gap-x-2 text-sm font-semibold border border-transparent text-black dark:text-white bg-transparent hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
                             wire:loading.attr="disabled" wire:click.prevent="removeFromBundleOne()">
-                        <i class="fa fa-minus"></i>
+                        <i class="fa fa-minus" wire:loading.remove wire:target="removeFromBundleOne"></i>
+                        <i class="fa fa-spinner fa-spin" wire:loading wire:target="removeFromBundleOne"></i>
                     </button>
 
                     <span class="flex-grow px-1 py-2 text-sm text-center text-black dark:text-white flex items-center justify-center">
                         {{ $this->bundleQuantity }}
                     </span>
 
+                    {{-- Same spinner swap as the "Add to bundle" button above
+                         — this "+" is the other state `bundleAddTrigger` can
+                         be in, and the whole-tile click forwarding hits
+                         whichever one is showing. --}}
                     <button type="button" class="size-11.5 m-0 inline-flex justify-center items-center gap-x-2 text-sm font-semibold border border-transparent text-black dark:text-white bg-transparent hover:bg-gray-100 dark:bg-slate-900 hover:dark:bg-slate-800 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
                             x-ref="bundleAddTrigger" wire:loading.attr="disabled" wire:click.prevent="addToBundle()" @disabled($this->bundleQuantity >= $this->bundleAvailable)>
-                        <i class="fa fa-plus"></i>
+                        <i class="fa fa-plus" wire:loading.remove wire:target="addToBundle"></i>
+                        <i class="fa fa-spinner fa-spin" wire:loading wire:target="addToBundle"></i>
                     </button>
                 </div>
 

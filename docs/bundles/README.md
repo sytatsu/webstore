@@ -275,6 +275,17 @@ with each other — the session is what makes the picture consistent
   `ProductTile::$activeBundle` is set) so clicking the image adds to the
   bundle instead of navigating away — the title link is untouched either
   way, and is the only thing that still goes to the detail page.
+- Both states `bundleAddTrigger` can be — the initial "Add to bundle"
+  button and the stepper's "+"/"-" — swap their label/icon for a spinner
+  (`wire:loading`/`wire:loading.remove` targeted at the specific action)
+  while their own request is in flight, on top of the existing
+  `wire:loading.attr="disabled"`. The disabled attribute alone stops a
+  second *request* from doing anything once it actually lands, but gives
+  no feedback in the gap before that — exactly when a customer spam-clicks
+  a tile (whether directly or via the whole-tile forwarding above) because
+  nothing visibly happened yet. One fix here covers both: the forwarded
+  click always lands on whichever real button is showing, so its own
+  loading state is what the customer sees regardless of where they clicked.
 - The tray has a "How does this work?" button (plain Alpine `x-data`
   modal, matching `components/cookie-policy-popup.blade.php`'s pattern —
   no Livewire round-trip needed) that lists `$bundle->tiers()` with their
