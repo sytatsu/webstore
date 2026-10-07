@@ -101,9 +101,19 @@
                              its own thumbnail and needs the room. --}}
                         <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pt-2 pb-1">
                             @foreach($this->selectedItems as $item)
+                                {{-- The tooltip bubble below is `position: fixed`, positioned
+                                     from this element's own getBoundingClientRect() on hover,
+                                     rather than a normal `absolute` tooltip — this row is
+                                     `overflow-x-auto`, which (see the padding note above)
+                                     forces its own overflow-y to clip anything poking outside
+                                     its box too. `fixed` escapes that clipping entirely since
+                                     its containing block is the viewport, not this row. --}}
                                 <div class="group relative size-14 rounded-md flex-shrink-0 border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900"
                                      title="{{ $item['name'] }}"
                                      wire:key="bundle-selected-{{ $item['variant_id'] }}"
+                                     x-data="{ tipShown: false, tipX: 0, tipY: 0 }"
+                                     @mouseenter="tipShown = true; const r = $el.getBoundingClientRect(); tipX = r.left + r.width / 2; tipY = r.top"
+                                     @mouseleave="tipShown = false"
                                 >
                                     <img src="{{ $item['thumbnail'] ?? \App\Services\WebstoreHelperService::productPlaceholderImage() }}"
                                          alt="{{ $item['name'] }}" class="w-full h-full object-contain p-1 rounded-md">
@@ -111,6 +121,12 @@
                                     <span class="absolute -top-1.5 -right-1.5 bg-primary text-white text-[9px] font-bold size-4 rounded-full flex items-center justify-center avenir-bold leading-none">
                                         {{ $item['quantity'] }}
                                     </span>
+
+                                    <div x-show="tipShown" x-cloak
+                                         class="fixed z-[100] -translate-x-1/2 -translate-y-full px-2 py-1 rounded-md bg-slate-900 text-white text-[11px] whitespace-nowrap shadow-lg pointer-events-none"
+                                         :style="`left: ${tipX}px; top: ${tipY - 6}px`"
+                                         style="display: none;"
+                                    >{{ $item['name'] }}</div>
 
                                     <button type="button"
                                             wire:click="removeItem({{ $item['variant_id'] }})"

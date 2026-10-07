@@ -79,6 +79,9 @@
                                          (see bundle-builder.blade.php's own thumbnails). --}}
                                     <div class="relative size-9 flex-shrink-0 rounded-md border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-900"
                                          title="{{ $item['name'] ?? '' }}"
+                                         x-data="{ tipShown: false, tipX: 0, tipY: 0 }"
+                                         @mouseenter="tipShown = true; const r = $el.getBoundingClientRect(); tipX = r.left + r.width / 2; tipY = r.top"
+                                         @mouseleave="tipShown = false"
                                     >
                                         <img class="object-contain w-full h-full p-0.5 rounded-md"
                                              src="{{ $item['thumbnail'] ?? \App\Services\WebstoreHelperService::productPlaceholderImage() }}"
@@ -86,6 +89,15 @@
                                         <span class="absolute -top-1.5 -right-1.5 bg-primary text-white text-[9px] font-bold size-4 rounded-full flex items-center justify-center avenir-bold leading-none">
                                             {{ $item['quantity'] ?? 1 }}
                                         </span>
+                                        {{-- `position: fixed`, not `absolute` — same reasoning as
+                                             bundle-builder.blade.php's own tooltip: positioned from
+                                             this element's own bounding box on hover so it's never
+                                             at risk of being clipped by an ancestor's overflow. --}}
+                                        <div x-show="tipShown" x-cloak
+                                             class="fixed z-[100] -translate-x-1/2 -translate-y-full px-2 py-1 rounded-md bg-slate-900 text-white text-[11px] whitespace-nowrap shadow-lg pointer-events-none"
+                                             :style="`left: ${tipX}px; top: ${tipY - 6}px`"
+                                             style="display: none;"
+                                        >{{ $item['name'] ?? '' }}</div>
                                     </div>
                                 @endforeach
                             </div>

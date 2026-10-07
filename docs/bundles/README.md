@@ -234,6 +234,23 @@ with each other — the session is what makes the picture consistent
 - A sticky filter/sort sidebar (desktop only, docking below the tray
   when one applies, below just the header otherwise) was tried and
   reverted at the user's request — not a bug, just not wanted here.
+- Every picked-item thumbnail (tray, cart, checkout success page) has a
+  hover tooltip showing the product's name, on top of the `title`
+  attribute each already had. It's a small `x-data` block
+  (`tipShown`/`tipX`/`tipY`, set from the thumbnail's own
+  `getBoundingClientRect()` on `@mouseenter`) rendering a
+  `position: fixed` bubble, not a normal `absolute` one — the tray's
+  row is `overflow-x-auto` (see the `pt-2` note above), which clips
+  anything `absolute` that pokes outside it, and `fixed` escapes that
+  clipping entirely since its containing block is the viewport, not
+  the row. Used uniformly in all three places even though only the
+  tray's row actually has the clipping problem, so the same small block
+  doesn't need two different implementations. Each copy also carries a
+  static `style="display: none;"` alongside `x-show`/`x-cloak` — without
+  it the tooltip is briefly (or, if Alpine fails to attach at all, as
+  happened testing this in a bare non-Livewire page, permanently)
+  visible by default, same convention as the tray's own "How does this
+  work?" modal.
 - Each eligible tile's own price (`ProductTile::getPriceRangeString()`) is
   hidden once the product has an active bundle — same
   `BundleService::findActiveBundleForProduct()` check `AddToCart` already
