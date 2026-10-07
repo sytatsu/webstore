@@ -300,19 +300,22 @@ with each other — the session is what makes the picture consistent
   this page), so a grid of tiles that can't really be bought would be
   misleading; a link back to the bundle's own collection page instead.
   The collection's own image (the same `collection_image` attribute /
-  thumbnail fallback used by `collections.blade.php`) sits in the middle
-  of that row, flush with the card's own top/bottom edges — `self-stretch`
-  + `-my-6` cancel the row's own vertical padding so the image has no
-  margin/padding of its own, clipped to the card's rounded corners by the
-  card's `overflow-hidden`, with an angled clip-path on the inner edge
-  only (ticket-stub style; the outer edge is already the card's own
-  boundary) — hidden below `sm` where the row already stacks
-  label-above-button, so a third element would only crowd it. A Blade
-  comment on this partial must never spell out a literal
-  `@directive(...)`-looking token (even just to describe one in prose) —
-  Blade's compiler matches those inside `{{-- --}}` comments too, which
-  silently corrupts everything compiled after it; confirmed the hard way
-  while building this.
+  thumbnail fallback used by `collections.blade.php`) sits at the start
+  of that row, grouped with the icon/label as one flex item so
+  `justify-between` still only splits the row into "that cluster" and
+  the button rather than spreading three top-level items evenly. It's
+  flush with the card's own top/left/bottom edges — `self-stretch` +
+  `-my-6 -ml-6 lg:-ml-12` cancel the row's own padding on three sides so
+  the image has no margin/padding of its own, clipped to the card's
+  rounded corners by the card's `overflow-hidden`, with an angled
+  clip-path on the inner (right) edge only (ticket-stub style; the outer
+  edges are already the card's own boundary) — hidden below `sm` where
+  the row already stacks label-above-button, so a third stacked element
+  would only crowd it. A Blade comment on this partial must never spell
+  out a literal `@directive(...)`-looking token (even just to describe
+  one in prose) — Blade's compiler matches those inside `{{-- --}}`
+  comments too, which silently corrupts everything compiled after it;
+  confirmed the hard way while building this.
 - The shared page header (`x-sytatsu.page-header`, breadcrumb + title in
   its own card) started on the product collection page and now also
   covers the collections listing, product detail, custom print,
