@@ -10,38 +10,32 @@
      Welcome.php's getHomepageElementsAttribute() for that check. No
      own bottom margin — it sits inside welcome.blade.php's `gap-8`
      list alongside the collection rows, same as every sibling there. --}}
-<div class="rounded-2xl shadow-md dark:shadow-slate-700 bg-linear-to-br from-primary to-primary-dark dark:from-slate-900 dark:to-black overflow-hidden">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-6 py-6 lg:px-12">
-        {{-- Image + label grouped as one flex item so `justify-between`
-             still only splits the row into "this cluster" and the
-             button, instead of spreading three top-level items evenly
-             and pulling the image away from its label. --}}
-        <div class="flex items-center gap-4 sm:gap-4">
-            {{-- The photo, at the start of the row rather than between the
-                 label and the button. Fixed width (`w-28 lg:w-40`, so the
-                 crop's horizontal framing stays the same everywhere) but
-                 `self-stretch` + `-my-6` for height, so it bleeds flush to
-                 the card's top/bottom edges with no padding/margin of its
-                 own instead of sitting inset within the row's own
-                 vertical padding; `-ml-6 lg:-ml-12` does the same on the
-                 left. `object-cover` fills that box, cropping the source
-                 image as needed rather than letterboxing it. Clipped to
-                 the card's rounded corners by the card's own
-                 `overflow-hidden`. Hidden on mobile, where the row
-                 already stacks label-above-button; a third stacked
-                 element pushed the button down further than this
-                 banner's "thin" purpose intends — same call made for the
-                 bundle CTA's own image in collection-cards.blade.php. --}}
-            <div class="hidden sm:block relative shrink-0 self-stretch -my-6 -ml-6 lg:-ml-12 w-28 lg:w-40">
-                <img src="{{ Vite::asset('resources/images/banners/p1020972-clickerz-keycaps.jpg') }}" alt="{{ __('Clickerz Bar') }}" class="relative z-10 w-full h-full object-cover" style="clip-path: polygon(0% 0%, 88% 0%, 100% 100%, 0% 100%);">
-            </div>
+<div class="relative rounded-2xl shadow-md dark:shadow-slate-700 bg-linear-to-br from-primary to-primary-dark dark:from-slate-900 dark:to-black overflow-hidden">
+    {{-- The photo, flush to the card's own top/left/bottom edges with no
+         padding/margin of its own. `absolute inset-y-0 left-0` against
+         the card (not `self-stretch` on a flex sibling) is deliberate:
+         with no explicit height, a flex item's `self-stretch` cross-size
+         is resolved from the *hypothetical* (un-stretched) size of every
+         item in the line first — and an `<img>` with `h-full` but no
+         definite parent height falls back to its own native aspect ratio
+         at the given width for that pass. This photo and the bundle
+         CTA's own (collection-cards.blade.php) have different native
+         aspect ratios, so that approach rendered each CTA at a different
+         height — confirmed via getBoundingClientRect() on both before
+         this fix. Taking the image out of flex flow entirely removes
+         that dependency: its box is always exactly the card's own
+         height × `w-28`, regardless of the photo's own dimensions or
+         the label's content. --}}
+    <div class="hidden sm:block absolute inset-y-0 left-0 w-28">
+        <img src="{{ Vite::asset('resources/images/banners/p1020972-clickerz-keycaps.jpg') }}" alt="{{ __('Clickerz Bar') }}" class="absolute inset-0 w-full h-full object-cover" style="clip-path: polygon(0% 0%, 88% 0%, 100% 100%, 0% 100%);">
+    </div>
 
-            <div class="flex items-center gap-3 sm:gap-4">
-                <span class="text-3xl" aria-hidden="true">🎮</span>
-                <div>
-                    <p class="text-xs font-bold uppercase tracking-wide text-white/80">{{ __('Custom build') }}</p>
-                    <p class="text-xl avenir-bold text-white uppercase">{{ __('Clickerz Bar') }}</p>
-                </div>
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-6 py-6 lg:px-12">
+        <div class="flex items-center gap-3 sm:gap-4 sm:ml-28">
+            <span class="text-3xl" aria-hidden="true">🎮</span>
+            <div>
+                <p class="text-xs font-bold uppercase tracking-wide text-white/80">{{ __('Custom build') }}</p>
+                <p class="text-xl avenir-bold text-white uppercase">{{ __('Clickerz Bar') }}</p>
             </div>
         </div>
 

@@ -300,22 +300,28 @@ with each other — the session is what makes the picture consistent
   this page), so a grid of tiles that can't really be bought would be
   misleading; a link back to the bundle's own collection page instead.
   The collection's own image (the same `collection_image` attribute /
-  thumbnail fallback used by `collections.blade.php`) sits at the start
-  of that row, grouped with the icon/label as one flex item so
-  `justify-between` still only splits the row into "that cluster" and
-  the button rather than spreading three top-level items evenly. Fixed
-  width (`w-28 lg:w-40`, so the crop's horizontal framing stays the
-  same everywhere) but `self-stretch` + `-my-6 -ml-6 lg:-ml-12` for
-  height/left, so it bleeds flush to the card's top/left/bottom edges
-  with no padding/margin of its own rather than sitting inset within
-  the row's own padding — `object-cover` fills that box, cropping the
-  source image as needed rather than letterboxing it, clipped to the
-  card's rounded corners by the card's own `overflow-hidden`, with an
-  angled clip-path on the inner (right) edge only (ticket-stub style) —
-  hidden below `sm` where the row already stacks label-above-button, so
-  a third stacked element would only crowd it. A Blade comment on this
-  partial must never spell out a literal `@directive(...)`-looking
-  token (even just to describe
+  thumbnail fallback used by `collections.blade.php`) sits flush to the
+  card's own top/left/bottom edges with no padding/margin of its own —
+  `absolute inset-y-0 left-0 w-28` against the card itself (the card
+  gained `relative`; the row keeps its normal padding and is no longer
+  involved in sizing the image at all), not a flex sibling using
+  `self-stretch`. That distinction matters: a flex item's `self-stretch`
+  cross-size is resolved from the *hypothetical* (un-stretched) size of
+  every item in the line first, and an `<img>` with `h-full` but no
+  definite parent height falls back to its own native aspect ratio at
+  the given width for that pass — so the bundle CTA and the Clickerz CTA
+  (whose source photos have different native aspect ratios) rendered at
+  two different heights under that approach, confirmed via
+  `getBoundingClientRect()` on both. Taking the image out of flex flow
+  entirely removes that dependency: its box is always exactly the
+  card's own height × `w-28`, regardless of the photo's own dimensions
+  or the label's content length, with `object-cover` filling it and an
+  angled clip-path on the inner (right) edge only (ticket-stub style).
+  The icon/label block gets `sm:ml-28` to clear the image instead of
+  sharing a flex item with it. Hidden below `sm`, where the row already
+  stacks label-above-button, so a fourth element would only crowd it. A
+  Blade comment on this partial must never spell out a literal
+  `@directive(...)`-looking token (even just to describe
   one in prose) — Blade's compiler matches those inside `{{-- --}}`
   comments too, which silently corrupts everything compiled after it;
   confirmed the hard way while building this.
