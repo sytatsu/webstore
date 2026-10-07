@@ -56,12 +56,11 @@
             ['name' => __('Homepage'), 'item' => route('sytatsu.webstore.welcome')],
         ];
 
-        $primaryCollection = $product->collections->first();
+        // Prefer a sub-collection, so the trail shows its parent as well.
+        $primaryCollection = $product->collections->first(fn ($collection) => $collection->parent_id)
+            ?? $product->collections->first();
         if ($primaryCollection) {
-            $breadcrumbItems[] = [
-                'name' => $primaryCollection->translateAttribute('name'),
-                'item' => \App\Services\WebstoreHelperService::getCollectionRoute($primaryCollection),
-            ];
+            array_push($breadcrumbItems, ...\App\Services\WebstoreHelperService::getCollectionBreadcrumbItems($primaryCollection));
         }
 
         $breadcrumbItems[] = ['name' => $product->translateAttribute('name'), 'item' => url()->current()];
@@ -115,26 +114,11 @@
                 </div>
             @endif
 
-            <div class="divide-y divide-gray-200 dark:divide-gray-500">
-                <div class="pb-4 flex flex-col-reverse md:flex-row justify-between items-start md:items-center">
-                    <h2 class="text-2xl font-bold text-black dark:text-white avenir-bold uppercase">
-                        {{ $product->translateAttribute('name') }}
-                    </h2>
-                    <div class="flex-nowrap text-black dark:text-white mb-2 md:mb-0">
-                        @foreach($product->collections as $collection)
-                            @if ($collection->parent)
-                                <a href="{{ \App\Services\WebstoreHelperService::getCollectionRoute($collection->parent) }}" class="hover:underline text-nowrap">{{ $collection->parent->translateAttribute('name') }}</a><span><i class="px-1 fa fa-caret-right"></i></span>
-                                <a href="{{ \App\Services\WebstoreHelperService::getCollectionRoute($collection->parent, ['subCollections' => [$collection->id]]) }}" class="hover:underline text-nowrap">{{ $collection->translateAttribute('name') }}</a>
-                            @else
-                                <a href="{{ \App\Services\WebstoreHelperService::getCollectionRoute($collection) }}" class="hover:underline text-nowrap">{{ $collection->translateAttribute('name') }}</a>
-                            @endif
-                        @endforeach
-                    </div>
-                </div>
-
-                <div class="pt-4 font-light text-black text-base dark:text-white [&>p]:mb-4 last:[&>p]:mb-0">
-                    {!! __($product->translateAttribute('description')) !!}
-                </div>
+            {{-- No title or collection links of its own here: the page
+                 header above already shows both (the breadcrumb includes
+                 the parent collection for a sub-collection). --}}
+            <div class="font-light text-black text-base dark:text-white [&>p]:mb-4 last:[&>p]:mb-0">
+                {!! __($product->translateAttribute('description')) !!}
             </div>
 
             <div class="pb-4">

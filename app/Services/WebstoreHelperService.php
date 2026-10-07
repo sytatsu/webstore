@@ -75,6 +75,33 @@ class WebstoreHelperService
         );
     }
 
+    /**
+     * Breadcrumb items (name + item URL) for a collection, preceded by its
+     * parent when it is a sub-collection. A sub-collection links to its
+     * parent's page with the subCollections filter applied, the same way
+     * the product page already linked them, rather than to its own page.
+     */
+    public static function getCollectionBreadcrumbItems(Collection $collection): array
+    {
+        if (!$collection->parent) {
+            return [[
+                'name' => $collection->translateAttribute('name'),
+                'item' => self::getCollectionRoute($collection),
+            ]];
+        }
+
+        return [
+            [
+                'name' => $collection->parent->translateAttribute('name'),
+                'item' => self::getCollectionRoute($collection->parent),
+            ],
+            [
+                'name' => $collection->translateAttribute('name'),
+                'item' => self::getCollectionRoute($collection->parent, ['subCollections' => [$collection->id]]),
+            ],
+        ];
+    }
+
     private static function getRoute(Model $model, string $routeName, string $parameterKey, array $parameters = []): string
     {
         $defaultUrl = $model->defaultUrl;

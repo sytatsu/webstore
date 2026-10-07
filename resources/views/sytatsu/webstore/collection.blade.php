@@ -5,14 +5,8 @@
                 ['name' => __('Homepage'), 'item' => route('sytatsu.webstore.welcome')],
             ];
 
-            if ($collection->parent) {
-                $breadcrumbItems[] = [
-                    'name' => $collection->parent->translateAttribute('name'),
-                    'item' => \App\Services\WebstoreHelperService::getCollectionRoute($collection->parent),
-                ];
-            }
-
-            $breadcrumbItems[] = ['name' => $collection->translateAttribute('name'), 'item' => url()->current()];
+            array_push($breadcrumbItems, ...\App\Services\WebstoreHelperService::getCollectionBreadcrumbItems($collection));
+            $breadcrumbItems[array_key_last($breadcrumbItems)]['item'] = url()->current();
 
             $breadcrumbSchema = [
                 '@' . 'context' => 'https://schema.org',
