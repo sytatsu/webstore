@@ -101,14 +101,16 @@
                             {{ __('Pick products below to start your bundle.') }}
                         </p>
                     @else
-                        {{-- pt-2 (not py-1) — overflow-x-auto forces the
-                             paired overflow-y to compute as auto too (per
-                             spec, you can't mix auto on one axis with
-                             visible on the other), so this row clips
-                             anything that pokes outside it; the quantity
-                             badge below deliberately sits -top-1.5 above
-                             its own thumbnail and needs the room. --}}
-                        <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pt-2 pb-1">
+                        {{-- flex-wrap, not overflow-x-auto — a horizontally
+                             scrolling strip hid picks beyond the first
+                             handful off to the side; wrapping onto more
+                             rows instead means everything picked is always
+                             visible at once, same as the cart's own bundle
+                             line (items.blade.php). pt-2 is still kept (not
+                             py-1): the quantity badge sits -top-1.5 above
+                             its own thumbnail, and needs that room on the
+                             *first* row regardless of wrapping. --}}
+                        <div class="flex flex-wrap items-center gap-2 pt-2 pb-1">
                             @foreach($this->selectedItems as $item)
                                 {{-- The tooltip bubble below is `position: fixed`, positioned
                                      from this element's own getBoundingClientRect() on hover,

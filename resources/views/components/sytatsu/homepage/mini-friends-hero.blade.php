@@ -25,14 +25,18 @@
                     <h1 class="text-2xl sm:text-3xl md:text-5xl font-bold text-white mb-4 md:mb-6 avenir-bold tracking-tight">
                         {{ __('Build your own :name bundle.', ['name' => $collectionName]) }}
                     </h1>
+                    {{-- The price-break mechanic itself ("...and pay less
+                         per item the more you pick") was dropped here — a
+                         given feature of how bundles work, not the actual
+                         selling point of this hero. --}}
                     <p class="text-base md:text-xl text-white/90 mb-0 font-medium">
-                        {{ __('Mix and match any mini figure into one bundle and pay less per item the more you pick.') }}
+                        {{ __('Mix and match any mini figure into one bundle.') }}
                     </p>
                 </div>
 
                 <div class="flex flex-wrap justify-start gap-4">
                     <a href="{{ $collectionRoute }}" class="px-6 py-2.5 md:px-8 md:py-3 bg-white dark:bg-primary-dark text-primary dark:text-white avenir-bold hover:bg-gray-100 dark:hover:bg-primary font-bold rounded-xl transition-colors shadow-lg text-sm md:text-base">
-                        {{ __('Shop the bundle') }}
+                        {{ __('Create your bundle') }}
                     </a>
                 </div>
             </div>
