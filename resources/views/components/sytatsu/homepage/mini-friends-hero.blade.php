@@ -47,20 +47,26 @@
             </div>
 
             <!-- Hero Image Container (Spacer for relative positioning, desktop) -->
-            <div class="relative hidden md:block md:w-1/3 lg:w-2/5">
+            <div class="relative hidden md:block md:w-[42%] lg:w-[40%]">
             </div>
         </div>
 
-        {{-- Desktop: the banner photo bleeding off the edge, same placement
-             main-hero.blade.php and clickerz-hero.blade.php both use for
-             their own feature image — a dense, edge-to-edge photo of the
-             mini figures themselves, so object-cover never risks cropping
-             into empty space or a single subject. --}}
-        <div class="hidden md:block absolute top-1/2 md:-right-12 lg:-right-16 -translate-y-1/2 z-30 w-[320px] lg:w-[420px] aspect-square animate-fade-in-right" style="animation-delay: 200ms;">
-            <div class="absolute inset-0 bg-white/60 dark:bg-white/20 rounded-full blur-3xl scale-110"></div>
+        {{-- Desktop: the banner photo fills the card's full height — `inset-y-0`,
+             not a fixed-size square floating mid-card like the first version,
+             so there's no gap above or below it — and bleeds flush to the
+             card's own right edge. The left edge is cut on an angle rather
+             than left as a plain vertical line: a `clip-path` polygon for the
+             cut itself, plus a `drop-shadow` (not `box-shadow`, which ignores
+             clip-path and would still draw a rectangular shadow) so the angled
+             seam actually reads as an edge, not a flat pasted-on rectangle.
+             The soft glow sitting behind/left of it shows through that angled
+             cut instead of just peeking out around a square's corners. --}}
+        <div class="hidden md:block absolute inset-y-0 right-0 z-30 w-[42%] lg:w-[40%] animate-fade-in-right" style="animation-delay: 200ms;">
+            <div class="absolute inset-y-0 left-0 w-2/3 bg-white/50 dark:bg-white/15 blur-3xl"></div>
             <img src="{{ Vite::asset('resources/images/banners/P1020940_square.jpg') }}"
                  alt="{{ $collectionName }}"
-                 class="relative z-10 w-full h-full object-cover rounded-2xl shadow-2xl"
+                 class="relative z-10 w-full h-full object-cover"
+                 style="clip-path: polygon(14% 0%, 100% 0%, 100% 100%, 0% 100%); filter: drop-shadow(-12px 0 24px rgba(0, 0, 0, 0.35));"
             >
         </div>
 
