@@ -36,7 +36,7 @@
                     </div>
                 </a>
             @else
-                <div class="flex flex-col aspect-square bg-gray-100 dark:bg-slate-700">
+                <div class="relative flex flex-col aspect-square bg-gray-100 dark:bg-slate-700">
                     <div class="hs-carousel-body absolute top-0 bottom-0 start-0 flex flex-nowrap transition-transform duration-700 min-w-full overflow-hidden opacity-0 hs-carousel-initialized:opacity-100">
                         @forelse($this->images as $image)
                             <div class="hs-carousel-slide overflow-hidden">
@@ -53,6 +53,21 @@
                                 </div>
                             </div>
                         @endforelse
+                    </div>
+
+                    {{-- Hover feedback that clicking here adds to the bundle
+                         rather than navigating — `group-hover`, not its own
+                         hover state, since the whole tile (not just this
+                         image) is the click target (product-tile.blade.php's
+                         outer `.group`). `pointer-events-none` so this never
+                         intercepts the click it's just announcing, and no
+                         z-index so the prev/next buttons below (later
+                         siblings, same stacking context) keep painting on
+                         top of it for multi-image products. --}}
+                    <div class="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none rounded-2xl">
+                        <span class="flex items-center justify-center size-12 rounded-full bg-white text-primary shadow-lg scale-75 group-hover:scale-100 transition-transform duration-200">
+                            <i class="fa fa-plus text-lg"></i>
+                        </span>
                     </div>
                 </div>
             @endif
