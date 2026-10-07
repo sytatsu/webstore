@@ -223,7 +223,7 @@ feature, so a future rewrite doesn't reintroduce them:
 
 ## Tests
 
-32 tests, `tests/Feature/Bundle{Pricing,Eligibility,Cart,Admin,AdminHttp,BuilderComponent,OrderRendering}Test.php`:
+33 tests, `tests/Feature/Bundle{Pricing,Eligibility,Cart,Admin,AdminHttp,BuilderComponent,OrderRendering}Test.php`:
 
 - **Pricing** — tier resolution at/between thresholds, re-saving tiers
   replaces rather than duplicates `Price` rows.
@@ -248,6 +248,20 @@ feature, so a future rewrite doesn't reintroduce them:
   - the collection page and a product's own detail page both render the
     always-on tray and an "Add to bundle" button, never "Add to shopping
     cart" or a "Start building" toggle.
+  - the full edit-link composition, end to end, through a real HTTP
+    request rather than `Livewire::test()` alone: a cart line's "Edit" link
+    (`?edit_bundle_line=`) makes `BundleBuilder::mount()` write the line's
+    selection into the session, and on that *same* request every eligible
+    product tile's own `AddToCart::mount()` must read it back and start
+    its stepper at the right quantity — relying on `BundleBuilder`
+    rendering (and thus mounting) before the product grid in
+    `collection.blade.php`. This is the one seam nothing else exercises
+    (each half had its own test, never both together), and it genuinely
+    failed once while writing this test: a `Livewire::test()` call alone
+    doesn't carry a real query string into `request()->integer(...)`
+    inside `render()`, so the first version of this test silently asserted
+    against an unseeded page. Fixed by driving it through `$this->get()`
+    against the real route instead.
   - the one real bug this caught: a stock-clamped selection still counts
     as `added` (the cart line *was* created, just smaller than asked), so
     `BundleBuilder` must key off the `added` flag

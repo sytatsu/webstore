@@ -230,6 +230,53 @@ class BundleBuilderComponentTest extends TestCase
     }
 
     /** @test */
+    public function editing_an_existing_line_from_the_collection_page_seeds_that_products_add_to_cart_stepper()
+    {
+        // This is the one thing nothing else exercises: BundleBuilder::mount()
+        // writes the edited line's selection into the session, and on the
+        // very same request every eligible tile's own AddToCart::mount()
+        // reads that session to seed its stepper — all within one page
+        // render, relying on BundleBuilder being rendered (and thus mounted)
+        // before the product grid in collection.blade.php.
+        $bundle = $this->makeBundle();
+        $bundle->collection->urls()->create([
+            'slug' => 'mini-friends',
+            'default' => true,
+            'language_id' => \Lunar\Models\Language::getDefault()->id,
+        ]);
+        $fox = $this->makeVariant(inBundle: $bundle);
+        $fox->product->urls()->create([
+            'slug' => 'fox',
+            'default' => true,
+            'language_id' => \Lunar\Models\Language::getDefault()->id,
+        ]);
+
+        app(BundleService::class)->addToCart($bundle, [$fox->id => 2]);
+        $lineId = app(CartService::class)->mapCartLines()[0]['id'];
+
+        // BundleBuilder::mount() clears the session once a line is added to
+        // cart, so without the edit link this product's tile would start
+        // back at "Add to bundle" — proving the seed below really comes from
+        // the edit flow, not a leftover session value.
+        $this->assertSame([], app(BundleService::class)->getSessionSelection($bundle));
+
+        // A real HTTP request (not Livewire::test's own request mocking) so
+        // CollectionPage::render()'s request()->integer('edit_bundle_line')
+        // reads the actual query string, exactly like the "Edit" link from
+        // the cart produces in production.
+        $response = $this->get('/collections/mini-friends?edit_bundle_line=' . $lineId);
+
+        // Collection-grid tiles render AddToCart in minimalistic mode, which
+        // drops the "Remove" text link (but not the +/- stepper) — so the
+        // seeded quantity is what proves this, not that link.
+        $response->assertOk();
+        $response->assertDontSee('Add to bundle');
+        $response->assertSeeHtml('>2<');
+
+        $this->assertSame([$fox->id => 2], app(BundleService::class)->getSessionSelection($bundle));
+    }
+
+    /** @test */
     public function the_products_own_detail_page_also_shows_the_tray_and_the_add_to_bundle_button()
     {
         $bundle = $this->makeBundle();
