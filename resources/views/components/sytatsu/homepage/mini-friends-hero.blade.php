@@ -64,13 +64,20 @@
              clip-path and would still draw a rectangular shadow) so the angled
              seam actually reads as an edge, not a flat pasted-on rectangle.
              The soft glow sitting behind/left of it shows through that angled
-             cut instead of just peeking out around a square's corners. --}}
+             cut instead of just peeking out around a square's corners — it
+             only actually peeks through right at the glow rectangle's own
+             left edge (where the clip-path cuts the image away), so a heavy
+             `blur-3xl` there was diffusing it to the point of being
+             essentially invisible against both backgrounds; `blur-2xl` with
+             higher opacity keeps enough intensity right at that edge to
+             actually read as a glow. The drop-shadow's opacity/blur got the
+             same bump for the same reason. --}}
         <div class="hidden md:block absolute inset-y-0 right-0 z-30 w-[42%] lg:w-[40%] animate-fade-in-right" style="animation-delay: 200ms;">
-            <div class="absolute inset-y-0 left-0 w-2/3 bg-white/50 dark:bg-white/15 blur-3xl"></div>
+            <div class="absolute inset-y-0 left-0 w-2/3 bg-white/80 dark:bg-white/30 blur-2xl"></div>
             <img src="{{ Vite::asset('resources/images/banners/P1020940_square.jpg') }}"
                  alt="{{ $collectionName }}"
                  class="relative z-10 w-full h-full object-cover"
-                 style="clip-path: polygon(14% 0%, 100% 0%, 100% 100%, 0% 100%); filter: drop-shadow(-12px 0 24px rgba(0, 0, 0, 0.35));"
+                 style="clip-path: polygon(14% 0%, 100% 0%, 100% 100%, 0% 100%); filter: drop-shadow(-10px 0 18px rgba(0, 0, 0, 0.5));"
             >
         </div>
 
