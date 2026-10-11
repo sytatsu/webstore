@@ -49,11 +49,10 @@
         {{-- Spans the full container width — both the filter/sort sidebar
              and the product grid below it — rather than being scoped to
              just the grid column, since it applies to this whole page,
-             not only the products currently in view. Sticky to the top,
-             under the site header (see bundle-builder.blade.php); this is
-             the only way to review/complete/edit the picks, and it's
-             always visible, not behind a toggle — see
-             docs/bundles/README.md. --}}
+             not only the products currently in view. Fixed to the bottom
+             of the viewport (see bundle-builder.blade.php); this is the
+             only way to review/complete/edit the picks, and it's always
+             visible, not behind a toggle — see docs/bundles/README.md. --}}
         <livewire:sytatsu.components.bundle.bundle-builder
             :bundle="$bundle"
             :edit-line-id="$bundleEditLineId ?? null"

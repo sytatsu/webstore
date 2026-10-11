@@ -95,6 +95,19 @@
             </div>
         </div>
 
+        {{-- Reserves space for the fixed-bottom bundle tray (see
+             bundle-builder.blade.php), sized to its live height via a
+             ResizeObserver it owns — empty and 0-height on every page
+             without a bundle tray. Lives here, right before the footer,
+             rather than next to the tray's own mount point further up the
+             page: the tray is `position: fixed`, so it visually sits at
+             the bottom of the viewport regardless of where it's mounted
+             in the DOM — reserving its height at its mount point instead
+             left a tray-sized hole at the *top* of the page, with nothing
+             protecting the footer (the thing actually at risk of sitting
+             underneath it) at the bottom. --}}
+        <div id="bundle-tray-spacer" aria-hidden="true"></div>
+
         @include('sytatsu.components.footer')
 
         <x-cookie-policy-popup />

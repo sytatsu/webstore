@@ -12,11 +12,12 @@
              the sticky site header's actual height (#site-header, itself
              `sticky top-0`) once scrolled — the header (higher z-index)
              then painted over the top of this section instead of sitting
-             above it, hiding part of the stage. Same fix as the bundle
-             tray (bundle-builder.blade.php): track the header's real
-             height via a ResizeObserver (it also changes on scroll — see
-             navigation.blade.php's `scrolled` state) and stick this
-             under it instead of at a hardcoded offset. The extra +16 is
+             above it, hiding part of the stage. Fix: track the header's
+             real height via a ResizeObserver (it also changes on scroll —
+             see navigation.blade.php's `scrolled` state) and stick this
+             under it instead of at a hardcoded offset. (The bundle tray,
+             bundle-builder.blade.php, used this same approach until it
+             moved to a fixed bottom bar instead.) The extra +16 is
              breathing room once actually pinned — `top` only takes
              effect while stuck, so it adds nothing in normal flow;
              without it the stage sat flush against the header's bottom

@@ -157,27 +157,46 @@ with each other — the session is what makes the picture consistent
   still shows the running total.
 - The tray (`bundle-builder.blade.php`) renders as the **first** thing in
   the page content — above the grid on the collection page, above the
-  gallery/options card on a product's own page — and is `sticky` with a
-  `top` offset kept in sync with `#site-header`'s *current* height via a
-  small `ResizeObserver` (`navigation.blade.php`'s header height changes
-  as it shrinks on scroll, so a hardcoded pixel offset would drift). This
-  replaced an earlier `fixed bottom-0 inset-x-0` version: that guaranteed
-  "always on screen" regardless of scroll position too, but the user
-  wanted it docked under the header at the top instead, not floating over
-  the last grid row — which is also why the `pb-28` bottom-padding
-  compensation on the page wrapper is gone; a `sticky` element occupies
-  its own space in the normal flow, so nothing needs to make room for it.
-- The tray is wider than the page's own content (`max-w-[95rem]`) while
-  sitting in its normal flow position, easing down to the page's own
-  width (`max-w-[85rem]`) once scrolling has actually pinned it under the
-  header — tracked via the tray's own `getBoundingClientRect()` vs the
-  dynamic header-height offset, not a separate sentinel element (wrapping
-  it in one more plain ancestor div to hold that state broke native
-  `position: sticky` outright). It has **no horizontal padding of its
-  own** — the page layout (`sytatsu-layout.blade.php`) already pads its
-  whole `$slot`, same as the filter/grid row below it; adding more on top
-  of that made the tray narrower than that row instead of matching it.
-  Its fill is a solid, fully opaque colour (`bg-orange-50` /
+  gallery/options card on a product's own page — and is `fixed` to the
+  bottom of the viewport (`inset-x-0 bottom-0`), always on screen
+  regardless of scroll position. It went through two earlier positioning
+  schemes before this: a first `fixed bottom-0 inset-x-0` version, reverted
+  to `sticky` under the header because a *static* `pb-28` bottom-padding
+  compensation on the page wrapper didn't track the tray's own (variable)
+  height, so it still sometimes floated over the last grid row; then a
+  `sticky`-with-`top`-synced-to-`#site-header` version (tracked via a
+  `ResizeObserver`, since the header's height changes as it shrinks on
+  scroll — `navigation.blade.php`'s `scrolled` state). The current version
+  goes back to `fixed bottom-0`, but fixes the original problem instead of
+  avoiding it: `#bundle-tray-spacer`, an empty `<div>` in the *layout*
+  (`sytatsu-layout.blade.php`, right before `@include('sytatsu.components.footer')`),
+  is kept at the tray's real rendered height via a `ResizeObserver` the
+  tray owns on itself, so page content always stops exactly above it no
+  matter how tall it gets — more picks wrapping onto another row, an
+  error list appearing, mobile's smaller type, the collapse toggle below.
+  That spacer first shipped as a plain sibling `<div>` *inside*
+  `bundle-builder.blade.php` instead — which reserved the right amount of
+  space, but in the wrong place: the tray itself mounts near the *top* of
+  the page (right after the title), so a spacer sitting next to it left a
+  tray-sized hole up there instead of protecting the thing actually at
+  risk of sitting underneath the fixed tray, the footer at the *bottom*.
+  `position: fixed` doesn't care where in the DOM it's mounted for where
+  it visually renders, so there's no reason the spacer has to live next
+  to it — it only has to live wherever space actually needs reserving.
+  The header-tracking `ResizeObserver`, the `stuck` state and the
+  width-easing below are all gone with the `sticky` version that used
+  them.
+- The tray used to ease from wider than the page's own content
+  (`max-w-[95rem]`) down to the page's own width (`max-w-[85rem]`) once
+  scrolling pinned it under the header; fixed to the bottom, it's just a
+  flat `max-w-[85rem]` always. It also used to take **no horizontal
+  padding of its own**, relying on the page layout's (`sytatsu-layout.blade.php`)
+  padding on its whole `$slot` — `position: fixed` escapes that ancestor
+  padding entirely (unlike `sticky`, still a normal-flow box, which
+  inherited it for free), so the tray now pads itself (`sm:px-4` on the
+  fixed bar, collapsing to full width edge-to-edge below the `sm:`
+  breakpoint — see the mobile-compactness note below). Its fill is a
+  solid, fully opaque colour (`bg-orange-50` /
   `dark:bg-slate-800`), not a translucent gradient — a gradient through a
   primary-tinted alpha stop used to sit here, which let the page's own
   background bleed through at that edge instead of reading as one
@@ -216,14 +235,32 @@ with each other — the session is what makes the picture consistent
   stacking on top of that `gap-8` (see the next point) — fixing that
   instead left every section-to-section gap on the page, including the
   one above the tray, matching.
-- The tray's top padding (`pt-4`) is conditional on its own `stuck`
-  state (`:class="stuck ? 'pt-4' : ''"`), not a flat class. It exists to
-  keep the tray from touching the site header once scrolling has pinned
-  the two together — it has no reason to also apply while the tray is
-  resting in its normal position right below the title card, where the
-  page's own `gap-8` already provides the right amount of space. Left
-  flat, it stacked on top of that `gap-8`, making the gap above the
-  tray bigger than every other section-to-section gap on the page.
+- On mobile the tray is edge-to-edge and square-cornered — no side/bottom
+  border or rounded corners, since it's flush with the viewport edges —
+  with tighter padding, smaller picked-item thumbnails (`size-11` vs
+  `size-14`) and smaller type, plus `env(safe-area-inset-bottom)` added on
+  top of its own padding for devices with a home-indicator. From `sm:` up
+  it floats clear of the edges again with its usual margin, rounded
+  corners, border and shadow.
+- On mobile the tray is also collapsible — a chevron button next to "How
+  does this work?" (`collapsed` in the tray's own Alpine state, `sm:hidden`
+  since there's nothing to collapse once it's not competing with a small
+  viewport any more) toggles between the full picked-items/actions block
+  and a one-line summary (count, total price, a compact "Add to cart").
+  Both the full block and the summary use `:class` bindings that resolve
+  per breakpoint (e.g. `collapsed ? 'hidden sm:flex' : 'flex'`), not
+  `x-show` — `x-show` writes a `display` *inline style*, which an `sm:`
+  class can never win against regardless of viewport, so it can't be made
+  to ignore `collapsed` on larger screens the way plain class toggling
+  can. Starts expanded (`collapsed: false`): collapsing by default risked
+  hiding the "Pick products below to start your bundle" prompt — a
+  mobile visitor's main orientation cue — before they'd had any chance to
+  see it once. The "added to cart" confirmation and the one-shot
+  `bundle-item-added` pulse (above) both ignore `collapsed` entirely — the
+  confirmation always renders in full since showing it *is* the point,
+  and the pulse plays on the whole card (header included), which is what
+  makes it the one piece of "something was just added" feedback a visitor
+  with the tray collapsed still gets.
 - The tray's picked-items row needs `pt-2`, not `py-1`: `overflow-x-auto`
   (for horizontal scrolling when there are more picks than fit) forces
   the paired `overflow-y` to compute as `auto` too — you can't mix
