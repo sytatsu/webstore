@@ -57,7 +57,7 @@ class CollectionPage extends SytatsuBasePage
         $this->minPrice = $filters['minPrice'] ?? null;
         $this->maxPrice = $filters['maxPrice'] ?? null;
         $this->inStock = $filters['inStock'] ?? false;
-        $this->sort = $filters['sort'] ?? $this->collection->translateAttribute('default_sort');
+        $this->sort = ($filters['sort'] ?? null) ?: $this->defaultSort();
 
         $this->resetPage();
         $this->syncFilters();
@@ -88,10 +88,21 @@ class CollectionPage extends SytatsuBasePage
         $this->setImage($collection->getThumbnailImage());
 
         if (!$this->sort) {
-            $this->sort = $this->collection->translateAttribute('default_sort');
+            $this->sort = $this->defaultSort();
         }
 
         $this->syncFilters();
+    }
+
+    /**
+     * Collections created before the default_sort attribute existed have no
+     * value stored (null or ""), so fall back to the attribute's own default
+     * — otherwise ProductRepository sorts alphabetically while the dropdown
+     * shows its first option, "Newest to Oldest".
+     */
+    protected function defaultSort(): string
+    {
+        return $this->collection->translateAttribute('default_sort') ?: 'newest';
     }
 
     public function getProducts(): LengthAwarePaginator
@@ -114,7 +125,7 @@ class CollectionPage extends SytatsuBasePage
         $this->minPrice = null;
         $this->maxPrice = null;
         $this->inStock = false;
-        $this->sort = $this->collection->translateAttribute('default_sort');
+        $this->sort = $this->defaultSort();
 
         $this->resetPage();
         $this->syncFilters();
