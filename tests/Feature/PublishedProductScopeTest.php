@@ -83,22 +83,40 @@ class PublishedProductScopeTest extends TestCase
     }
 
     /** @test */
-    public function scope_is_not_applied_for_livewire_requests()
+    public function scope_is_applied_for_livewire_requests_from_the_storefront()
     {
-        // Simulate a Livewire request
-        $this->get('/livewire/update');
+        // e.g. applying a filter on a collection page: the update hits
+        // /livewire/update but originates from a storefront page.
+        $this->bindLivewireRequestFrom('en/collections/shirts');
 
-        // Create a published product
-        Product::factory()->create([
-            'status' => 'published',
-        ]);
+        Product::factory()->create(['status' => 'published']);
+        Product::factory()->create(['status' => 'draft']);
 
-        // Create a draft product
-        Product::factory()->create([
-            'status' => 'draft',
-        ]);
+        $this->assertEquals(1, Product::count());
+    }
+
+    /** @test */
+    public function scope_is_not_applied_for_livewire_requests_from_the_admin_panel()
+    {
+        $this->bindLivewireRequestFrom('lunar/products');
+
+        Product::factory()->create(['status' => 'published']);
+        Product::factory()->create(['status' => 'draft']);
 
         $this->assertEquals(2, Product::count());
+    }
+
+    private function bindLivewireRequestFrom(string $path): void
+    {
+        $request = \Illuminate\Http\Request::create('/livewire/update', 'POST', [
+            'components' => [[
+                'snapshot' => json_encode(['memo' => ['path' => $path]]),
+            ]],
+        ]);
+        $request->headers->set('X-Livewire', 'true');
+
+        $this->app->instance('request', $request);
+        \Illuminate\Support\Facades\Request::clearResolvedInstance('request');
     }
 
     /** @test */
