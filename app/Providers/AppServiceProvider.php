@@ -7,6 +7,7 @@ use App\Filament\Extensions\OrderItemsTableExtension;
 use App\Filament\Extensions\OrderShippingInfolistExtension;
 use App\Filament\Pages\BarBuilderDefaultArrangementPage;
 use App\Filament\Pages\BarBuilderSettingsPage;
+use App\Filament\Pages\BulkInventoryPage;
 use App\Filament\Pages\CollectionsPageSettingsPage;
 use App\Filament\Pages\HomeFeaturedCollectionsSettingsPage;
 use App\Filament\Pages\HomepageHeroSettingsPage;
@@ -97,6 +98,7 @@ class AppServiceProvider extends ServiceProvider
                 TicketSwimlanePage::class,
                 BarBuilderDefaultArrangementPage::class,
                 BarBuilderSettingsPage::class,
+                BulkInventoryPage::class,
                 HomepageHeroSettingsPage::class,
                 HomeFeaturedCollectionsSettingsPage::class,
                 NavigationSettingsPage::class,
