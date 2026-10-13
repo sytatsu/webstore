@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Sytatsu\Components\Product;
 use App\Models\Bundle;
 use App\Services\BundleService;
 use App\Services\WebstoreHelperService;
+use App\Support\PrintOnDemand;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -40,6 +41,15 @@ class ProductTile extends Component
     public function getSubCollectionProperty(): ?Collection
     {
         return $this->product->collections->first(fn (Collection $collection) => $collection->parent_id !== null);
+    }
+
+    /**
+     * Whether ordering (any variant of) this product right now means it gets
+     * printed on demand rather than shipped from stock.
+     */
+    public function getIsPrintOnDemandProperty(): bool
+    {
+        return $this->product->variants->contains(fn ($variant) => PrintOnDemand::isOutOfStock($variant));
     }
 
     public function getPriceRangeString(): string

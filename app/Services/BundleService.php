@@ -147,6 +147,7 @@ readonly class BundleService
             ->whereHas('variants', fn ($q) => $q->where(function ($q) {
                 $q->where('purchasable', 'always')
                     ->orWhere('purchasable', 'backorder')
+                    ->orWhere('purchasable', \App\Support\PrintOnDemand::PURCHASABILITY)
                     ->orWhere(fn ($q) => $q->where('purchasable', 'in_stock')->where('stock', '>', 0));
             }))
             ->with(['variants.prices', 'thumbnail'])

@@ -3,12 +3,13 @@
         $variant = $this->variant ?? null;
         $price = $variant?->basePrices->first()?->price;
 
-        // 'purchasable' is either 'in_stock' (respects $variant->stock) or 'always'
-        // (unlimited/backorder-style) — see App\Observers\ProductVariantObserver
-        // and App\Services\CartService for the same two values in use elsewhere.
+        // 'purchasable' is 'in_stock' (respects $variant->stock), 'always'
+        // (unlimited/backorder-style) or 'in_stock_or_print_on_demand' (made to
+        // order once stock runs out, see App\Support\PrintOnDemand).
         $availabilityFor = fn (?\Lunar\Models\ProductVariant $variant): string => match (true) {
             ! $variant => 'https://schema.org/OutOfStock',
             $variant->purchasable === 'in_stock' && $variant->stock <= 0 => 'https://schema.org/OutOfStock',
+            \App\Support\PrintOnDemand::isOutOfStock($variant) => 'https://schema.org/MadeToOrder',
             default => 'https://schema.org/InStock',
         };
 

@@ -60,6 +60,17 @@
                                                 <p class="text-sm text-slate-600 dark:text-gray-400 italic text-left">{{ $line->option }}</p>
                                             @endif
                                             <p class="text-sm text-slate-600 dark:text-gray-400 text-left">{{ __('Quantity') }}: {{ $line->quantity }}</p>
+                                            @php($printOnDemandQuantity = (int) ($line->meta[\App\Support\PrintOnDemand::META_KEY] ?? 0))
+                                            @if($printOnDemandQuantity > 0)
+                                                <p class="mt-1 inline-flex items-center gap-1.5 font-mono text-[10px] tracking-[.16em] uppercase text-primary">
+                                                    <i class="fa fa-print"></i>
+                                                    @if($printOnDemandQuantity >= $line->quantity)
+                                                        {{ __('Print on demand') }}
+                                                    @else
+                                                        {{ __(':count of :quantity printed on demand', ['count' => $printOnDemandQuantity, 'quantity' => $line->quantity]) }}
+                                                    @endif
+                                                </p>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="text-right">
@@ -99,6 +110,12 @@
                         @endif
                     @endforeach
                 </div>
+
+                @if($order->lines->contains(fn ($line) => ($line->meta[\App\Support\PrintOnDemand::META_KEY] ?? 0) > 0))
+                    <p class="mt-4 text-xs text-slate-600 dark:text-gray-400 text-left">
+                        {{ __('Items marked "print on demand" are printed especially for your order, so your order may take a little longer to ship.') }}
+                    </p>
+                @endif
 
                 <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-500 space-y-2">
                     <div class="flex justify-between text-slate-600 dark:text-gray-400">

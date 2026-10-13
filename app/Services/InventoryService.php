@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Support\PrintOnDemand;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
@@ -20,6 +21,7 @@ class InventoryService
     public const PURCHASABILITY_OPTIONS = [
         'in_stock' => 'Only when in stock',
         'in_stock_or_on_backorder' => 'In stock or on backorder',
+        PrintOnDemand::PURCHASABILITY => 'In stock or print on demand',
         'always' => 'Always',
     ];
 

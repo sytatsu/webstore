@@ -43,6 +43,17 @@
                         <span>{{ $line['sub_total'] }}</span>
                     </div>
 
+                    @if(($line['print_on_demand_quantity'] ?? 0) > 0)
+                        <p class="mt-1 inline-flex items-center gap-1.5 font-mono text-[10px] tracking-[.16em] uppercase text-primary">
+                            <i class="fa fa-print"></i>
+                            @if($line['print_on_demand_quantity'] >= $line['quantity'])
+                                {{ __('Print on demand') }}
+                            @else
+                                {{ __(':count of :quantity printed on demand', ['count' => $line['print_on_demand_quantity'], 'quantity' => $line['quantity']]) }}
+                            @endif
+                        </p>
+                    @endif
+
                     @if($barBuilder)
                         <div class="flex mr-auto">
                             <div class="mt-1 mb-1 p-0.5 flex flex-wrap items-center gap-1 rounded-md mr-auto"

@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Sytatsu\Components;
 use App\Models\Bundle;
 use App\Services\BundleService;
 use App\Services\CartService;
+use App\Support\PrintOnDemand;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -91,6 +92,24 @@ class AddToCart extends Component
     public function getAvailableStockProperty(): int
     {
         return $this->cartService->getAvailableStockProperty($this->purchasable);
+    }
+
+    public function getIsPrintOnDemandProperty(): bool
+    {
+        return PrintOnDemand::applies($this->purchasable);
+    }
+
+    /**
+     * How many of the quantity being added won't come from stock — stock
+     * already claimed by this cart's own line counts as gone.
+     */
+    public function getPrintOnDemandQuantityProperty(): int
+    {
+        if (! $this->isPrintOnDemand) {
+            return 0;
+        }
+
+        return max(0, $this->quantity - max(0, $this->availableStock));
     }
 
     public function updatedQuantity($quantity): int

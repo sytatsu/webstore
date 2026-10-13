@@ -40,6 +40,13 @@
                     </p>
                 @endunless
             </div>
+
+            @if ($this->isPrintOnDemand)
+                <span class="inline-flex items-center gap-1.5 font-mono text-[10px] tracking-[.16em] uppercase text-primary">
+                    <i class="fa fa-print"></i>
+                    {{ __('Print on demand') }}
+                </span>
+            @endif
         </a>
     </div>
 

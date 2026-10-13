@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Filament\Extensions\OrderHeaderActionsExtension;
 use App\Filament\Extensions\OrderItemsTableExtension;
 use App\Filament\Extensions\OrderShippingInfolistExtension;
+use App\Filament\Extensions\VariantInventoryFormExtension;
 use App\Filament\Pages\BarBuilderDefaultArrangementPage;
 use App\Filament\Pages\BarBuilderSettingsPage;
 use App\Filament\Pages\BulkInventoryPage;
@@ -19,6 +20,7 @@ use App\Support\LocaleAwareUrlGenerator;
 use Illuminate\Support\ServiceProvider;
 use Lunar\Admin\Filament\Resources\OrderResource\Pages\Components\OrderItemsTable;
 use Lunar\Admin\Filament\Resources\OrderResource\Pages\ManageOrder;
+use Lunar\Admin\Filament\Resources\ProductVariantResource\Pages\ManageVariantInventory;
 use Lunar\Admin\Support\Facades\LunarPanel;
 use Sytatsu\PageVisits\Filament\Resources\PageVisitResource;
 use Sytatsu\PageVisits\Filament\Resources\VisitorResource;
@@ -115,6 +117,9 @@ class AppServiceProvider extends ServiceProvider
             ManageOrder::class => [
                 OrderHeaderActionsExtension::class,
                 OrderShippingInfolistExtension::class,
+            ],
+            ManageVariantInventory::class => [
+                VariantInventoryFormExtension::class,
             ],
         ]);
         LunarPanel::register();

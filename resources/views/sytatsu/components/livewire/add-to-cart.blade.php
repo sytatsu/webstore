@@ -90,6 +90,15 @@
                         <span class="block mt-2 font-mono text-[10px] tracking-[.16em] uppercase text-primary">{{ $this->availableStock }} {{ __('Available') }}</span>
                     @endif
                 @endif
+
+                @if($this->isPrintOnDemand)
+                    @if ($this->availableStock > 0)
+                        <span class="block mt-2 font-mono text-[10px] tracking-[.16em] uppercase text-primary">{{ $this->availableStock }} {{ __('Available') }}</span>
+                        <span class="block mt-1 font-mono text-[10px] tracking-[.16em] uppercase text-gray-400">{{ __('More printed on demand') }}</span>
+                    @else
+                        <span class="block mt-2 font-mono text-[10px] tracking-[.16em] uppercase text-primary">{{ __('Print on demand') }}</span>
+                    @endif
+                @endif
             </div>
         @endif
 
@@ -130,6 +139,19 @@
                     </div>
                 </x-ui.button.default.primary>
             </div>
+
+            @if (!$this->minimalistic && $this->printOnDemandQuantity > 0)
+                <p class="flex items-start gap-2 text-xs text-gray-500 dark:text-gray-400">
+                    <i class="fa fa-print mt-0.5 text-primary"></i>
+                    <span>
+                        @if ($this->printOnDemandQuantity >= $this->quantity)
+                            {{ __('Printed on demand for your order, so it may take a little longer to ship.') }}
+                        @else
+                            {{ __(':count of :quantity will be printed on demand, so your order may take a little longer to ship.', ['count' => $this->printOnDemandQuantity, 'quantity' => $this->quantity]) }}
+                        @endif
+                    </span>
+                </p>
+            @endif
 
             <x-ui.field-error field="quantity" />
         @endif

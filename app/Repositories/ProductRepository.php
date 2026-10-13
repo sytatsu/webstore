@@ -71,7 +71,7 @@ class ProductRepository
                 }
 
                 if (!empty($filters['inStock'])) {
-                    $q->where('purchasable', 'in_stock')->where('stock', '>', 0);
+                    $q->whereIn('purchasable', ['in_stock', \App\Support\PrintOnDemand::PURCHASABILITY])->where('stock', '>', 0);
                 }
             });
         }
@@ -151,7 +151,7 @@ class ProductRepository
     public function applyOrdering(Builder $query): Builder
     {
         return $query->addSelect([
-            'in_stock_order' => \Lunar\Models\ProductVariant::selectRaw("MIN(CASE WHEN purchasable = 'in_stock' AND stock > 0 THEN 0 ELSE 1 END)")
+            'in_stock_order' => \Lunar\Models\ProductVariant::selectRaw("MIN(CASE WHEN (purchasable = 'in_stock' AND stock > 0) OR purchasable = ? THEN 0 ELSE 1 END)", [\App\Support\PrintOnDemand::PURCHASABILITY])
                 ->whereColumn('product_id', 'lunar_products.id')
                 ->limit(1)
         ])

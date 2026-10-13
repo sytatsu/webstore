@@ -26,6 +26,7 @@
                             ? route('sytatsu.webstore.product', ['product' => $orderLine->purchasable->product->defaultUrl->slug])
                             : null);
                     $description = $bundle ? ($bundle['name'] ?? $orderLine->description) : $orderLine->description;
+                    $printOnDemandQuantity = (int) ($orderLine->meta[\App\Support\PrintOnDemand::META_KEY] ?? 0);
                 @endphp
                 <tr style="border-bottom: 1px solid #f1f5f9;">
                     <td style="padding: 12px 8px; vertical-align: middle;">
@@ -44,6 +45,15 @@
                                     </div>
                                     @if($orderLine->option)
                                         <div style="font-size: 12px; color: #64748b; font-style: italic;">{{ $orderLine->option }}</div>
+                                    @endif
+                                    @if($printOnDemandQuantity > 0)
+                                        <div style="margin-top: 2px; font-size: 12px; font-weight: bold; color: #E14C04;">
+                                            @if($printOnDemandQuantity >= $orderLine->quantity)
+                                                {{ __('Print on demand') }}
+                                            @else
+                                                {{ __(':count of :quantity printed on demand', ['count' => $printOnDemandQuantity, 'quantity' => $orderLine->quantity]) }}
+                                            @endif
+                                        </div>
                                     @endif
                                 </td>
                             </tr>
@@ -70,6 +80,12 @@
         @endforeach
     </tbody>
 </table>
+
+@if($order->lines->contains(fn ($orderLine) => ($orderLine->meta[\App\Support\PrintOnDemand::META_KEY] ?? 0) > 0))
+    <p style="margin: -12px 0 24px 0; font-size: 12px; color: #64748b;">
+        {{ __('Items marked "print on demand" are printed especially for your order, so your order may take a little longer to ship.') }}
+    </p>
+@endif
 
 <div style="margin-left: auto; width: 100%; max-width: 240px; border-top: 1px solid #e2e8f0; padding-top: 12px;">
     <table style="width: 100%; border-collapse: collapse;">

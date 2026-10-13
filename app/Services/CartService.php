@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Models\WebstoreSetting;
 use App\Repositories\TaxRepository;
+use App\Support\PrintOnDemand;
 use Illuminate\Support\Collection;
 use Lunar\Base\Purchasable;
 use Lunar\DataTypes\ShippingOption;
@@ -102,6 +103,7 @@ readonly class CartService
                     'product' => $product,
                     'identifier' => $line->purchasable->getIdentifier(),
                     'quantity' => $line->quantity,
+                    'print_on_demand_quantity' => PrintOnDemand::quantity($line->purchasable, $line->quantity),
                     'description' => $description,
                     'thumbnail' => $line->purchasable->getThumbnail()?->getUrl(),
                     'option' => $line->purchasable->getOption(),

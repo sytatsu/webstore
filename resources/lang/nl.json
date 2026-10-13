@@ -292,5 +292,11 @@
     "Mix and match any mini figure into one bundle.": "Combineer vrij uw favoriete mini-figuren tot één bundel.",
     "Create your bundle": "Maak je bundle",
     "Back to :name": "Terug naar :name",
-    "Clear bundle": "Bundel leegmaken"
+    "Clear bundle": "Bundel leegmaken",
+    "Print on demand": "Print on demand",
+    "More printed on demand": "Meer wordt op bestelling geprint",
+    "Printed on demand for your order, so it may take a little longer to ship.": "Wordt speciaal voor jouw bestelling geprint, waardoor de verzending iets langer kan duren.",
+    ":count of :quantity will be printed on demand, so your order may take a little longer to ship.": ":count van de :quantity worden speciaal voor jouw bestelling geprint, waardoor de verzending iets langer kan duren.",
+    ":count of :quantity printed on demand": ":count van :quantity op bestelling geprint",
+    "Items marked \"print on demand\" are printed especially for your order, so your order may take a little longer to ship.": "Artikelen gemarkeerd met \"print on demand\" worden speciaal voor jouw bestelling geprint, waardoor de verzending iets langer kan duren."
 }
