@@ -6,12 +6,19 @@ use App\Support\PrintOnDemand;
 use Closure;
 use Lunar\Models\CartLine;
 use Lunar\Models\Contracts\Order as OrderContract;
+use Lunar\Models\ProductVariant;
 
 class DecreaseStock
 {
     public function handle(OrderContract $order, Closure $next)
     {
         $order->cart->calculate()->lines->each(function (CartLine $line) use ($order) {
+            if ($bundle = $line->meta['bundle'] ?? null) {
+                $this->decreaseBundleStock($bundle);
+
+                return;
+            }
+
             if ($line->purchasable->purchasable === 'in_stock') {
                 $line->purchasable->decrement('stock', $line->quantity);
             }
@@ -22,6 +29,35 @@ class DecreaseStock
         });
 
         return $next($order);
+    }
+
+    /**
+     * A bundle line's own purchasable is the hidden pricing variant, which
+     * carries no inventory — the stock that actually leaves the shelf is
+     * that of the picked products recorded in its meta.
+     */
+    private function decreaseBundleStock(array $bundle): void
+    {
+        foreach ($bundle['items'] ?? [] as $item) {
+            $variant = ProductVariant::find($item['product_variant_id'] ?? null);
+            $quantity = (int) ($item['quantity'] ?? 0);
+
+            if (! $variant || $quantity < 1) {
+                continue;
+            }
+
+            if ($variant->purchasable === 'in_stock') {
+                $variant->decrement('stock', $quantity);
+            }
+
+            if (PrintOnDemand::applies($variant)) {
+                $fromStock = $quantity - PrintOnDemand::quantity($variant, $quantity);
+
+                if ($fromStock > 0) {
+                    $variant->decrement('stock', $fromStock);
+                }
+            }
+        }
     }
 
     /**

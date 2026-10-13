@@ -3,13 +3,16 @@
 namespace Tests\Feature;
 
 use App\Models\Bundle;
+use App\Pipelines\Lunar\Order\Creation\DecreaseStock;
 use App\Services\BundleService;
+use App\Support\PrintOnDemand;
 use App\Services\CartService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Lunar\Models\Channel;
 use Lunar\Models\Collection;
 use Lunar\Models\Currency;
 use Lunar\Models\CustomerGroup;
+use Lunar\Models\Order;
 use Lunar\Models\Product;
 use Lunar\Models\ProductType;
 use Lunar\Models\ProductVariant;
@@ -150,5 +153,26 @@ class BundleCartTest extends TestCase
         $selection = app(BundleService::class)->selectionForCartLine($lineId, $bundle);
 
         $this->assertSame([$fox->id => 3], $selection);
+    }
+
+    /** @test */
+    public function placing_an_order_decreases_the_stock_of_every_product_in_the_bundle()
+    {
+        $bundle = $this->makeBundle();
+        $fox = $this->makeProduct(stock: 10);
+        $owl = $this->makeProduct(stock: 1);
+        $owl->update(['purchasable' => PrintOnDemand::PURCHASABILITY]);
+
+        app(BundleService::class)->addToCart($bundle, [
+            $fox->id => 3,
+            $owl->id => 2,
+        ]);
+        $cart = app(CartService::class)->getCurrentCart();
+        $order = Order::factory()->create(['cart_id' => $cart->id]);
+
+        (new DecreaseStock)->handle($order->fresh(), fn ($order) => $order);
+
+        $this->assertSame(7, $fox->fresh()->stock);
+        $this->assertSame(0, $owl->fresh()->stock);
     }
 }
