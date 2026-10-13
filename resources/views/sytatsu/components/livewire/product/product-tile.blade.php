@@ -26,7 +26,20 @@
      @endif
 >
     <div class="relative" wire:key="product-carousel-{{ $this->product->id }}">
-        <livewire:sytatsu.components.product.carousel :product="$this->product" :images="$this->product->images" :link-to-product="!$this->activeBundle" :wire:key="'carousel-'.$this->product->id" />
+        <div class="relative">
+            <livewire:sytatsu.components.product.carousel :product="$this->product" :images="$this->product->images" :link-to-product="!$this->activeBundle" :wire:key="'carousel-'.$this->product->id" />
+
+            {{-- Hangs a little over the image's top-left corner. Outside the
+                 carousel's own overflow-hidden box so it isn't clipped, and
+                 pointer-events-none so clicks still reach the image link or
+                 the tile's add-to-bundle forwarding underneath. --}}
+            @if ($this->isPrintOnDemand)
+                <span class="absolute -top-2 -left-2 z-10 pointer-events-none inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary text-white shadow-md font-mono text-[10px] tracking-[.16em] uppercase">
+                    <i class="fa fa-print"></i>
+                    {{ __('Print on demand') }}
+                </span>
+            @endif
+        </div>
 
         <a class="md:mt-4 flex flex-col gap-2" href="{{ \App\Services\WebstoreHelperService::getProductRoute($this->product) }}">
             <div class="[&>*]:hover:underline">
@@ -41,12 +54,6 @@
                 @endunless
             </div>
 
-            @if ($this->isPrintOnDemand)
-                <span class="inline-flex items-center gap-1.5 font-mono text-[10px] tracking-[.16em] uppercase text-primary">
-                    <i class="fa fa-print"></i>
-                    {{ __('Print on demand') }}
-                </span>
-            @endif
         </a>
     </div>
 
