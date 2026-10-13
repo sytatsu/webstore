@@ -1,7 +1,20 @@
 <div class="sm:relative"
      x-data="{
-         cartOpen: @entangle('cartOpen')
-     }">
+         cartOpen: @entangle('cartOpen'),
+         headerBottom: 0,
+         measureHeader() {
+             const header = document.getElementById('site-header');
+             this.headerBottom = header ? Math.max(0, header.getBoundingClientRect().bottom) : 0;
+         }
+     }"
+     x-init="
+         measureHeader();
+         const header = document.getElementById('site-header');
+         if (header) new ResizeObserver(() => measureHeader()).observe(header);
+         $watch('cartOpen', value => value && measureHeader());
+     "
+     x-on:scroll.window.passive="cartOpen && measureHeader()"
+     x-on:resize.window="measureHeader()">
 
     <button class="relative grid w-16 h-16 transition hover:opacity-75 m-auto disabled:opacity-50 disabled:pointer-events-none"
             x-on:click="cartOpen = !cartOpen"
@@ -19,7 +32,8 @@
         </div>
     </button>
 
-    <div class="absolute inset-x-0 top-auto z-50 w-screen max-w-sm px-6 py-8 mx-auto mt-8 bg-white dark:bg-slate-800 border-none shadow-md dark:shadow-slate-700 sm:left-auto rounded-none max-h-[calc(100vh-6rem)] overflow-y-auto"
+    <div class="absolute inset-x-0 top-full sm:top-auto z-50 w-screen max-w-sm px-6 py-8 mx-auto mt-0 sm:mt-8 bg-white dark:bg-slate-800 border-none shadow-md dark:shadow-slate-700 sm:left-auto rounded-none max-h-[calc(100dvh-var(--header-bottom,6rem))] sm:max-h-[calc(100dvh-10rem)] overflow-y-auto"
+         x-bind:style="{ '--header-bottom': headerBottom ? headerBottom + 'px' : null }"
          x-show="cartOpen"
          x-on:click.away="cartOpen = false"
          x-transition
