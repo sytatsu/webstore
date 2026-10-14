@@ -109,7 +109,10 @@ class ProductRepository
 
         $query->select('lunar_products.*')
             ->join('lunar_collection_product', 'lunar_products.id', '=', 'lunar_collection_product.product_id')
-            ->whereIn('lunar_collection_product.collection_id', $collectionIds);
+            ->whereIn('lunar_collection_product.collection_id', $collectionIds)
+            // Only used for the homepage's "newest products" rows, where a
+            // tile without a picture looks broken, so skip imageless products.
+            ->whereHas('images');
 
         $this->applyOrdering($query)
             ->orderBy('lunar_products.created_at', 'desc');
