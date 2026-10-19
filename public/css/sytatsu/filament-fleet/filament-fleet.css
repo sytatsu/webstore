@@ -15,9 +15,16 @@
     --fleet-credits: #fcd34d;
     --fleet-ore: #7dd3fc;
     --fleet-charts: #c4b5fd;
+    --fleet-good: #4ade80;
+    --fleet-danger: #f87171;
+    /* Hangar bar: economy types, then warships by class (validated dark categorical steps). */
     --fleet-miner: #3987e5;
     --fleet-freighter: #d95926;
     --fleet-scout: #199e70;
+    --fleet-light: #c98500;
+    --fleet-medium: #d55181;
+    --fleet-heavy: #008300;
+    --fleet-support: #9085e9;
 
     display: flex;
     flex-direction: column;
@@ -49,6 +56,8 @@
 .fleet-credits { color: var(--fleet-credits); }
 .fleet-ore { color: var(--fleet-ore); }
 .fleet-charts { color: var(--fleet-charts); }
+.fleet-good { color: var(--fleet-good); }
+.fleet-danger { color: var(--fleet-danger); }
 
 /* Layout */
 .fleet-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); }
@@ -128,6 +137,10 @@
 .fleet-fill-miner { background: var(--fleet-miner); }
 .fleet-fill-freighter { background: var(--fleet-freighter); }
 .fleet-fill-scout { background: var(--fleet-scout); }
+.fleet-fill-light { background: var(--fleet-light); }
+.fleet-fill-medium { background: var(--fleet-medium); }
+.fleet-fill-heavy { background: var(--fleet-heavy); }
+.fleet-fill-support { background: var(--fleet-support); }
 .fleet-legend { display: flex; flex-wrap: wrap; gap: .4rem 1.25rem; font-size: .8rem; color: var(--fleet-muted); }
 .fleet-legend span { display: inline-flex; align-items: center; gap: .4rem; }
 .fleet-legend-note { margin-left: auto; }
@@ -150,3 +163,41 @@
 .fleet-specs { display: flex; gap: 1rem; flex-wrap: wrap; }
 .fleet-link { flex-direction: row; align-items: center; gap: .9rem; transition: border-color .15s; }
 .fleet-link:hover { border-color: var(--fleet-accent); }
+
+/* Sections and card footers */
+.fleet-section { display: flex; flex-direction: column; gap: .75rem; }
+.fleet-card-footer { margin-top: auto; padding-top: .25rem; }
+.fleet-pad { padding: 1rem 1.1rem; }
+.fleet-table td.fleet-wrap { white-space: normal; min-width: 10rem; }
+.fleet-table td.fleet-badge-cell { min-width: 6.5rem; }
+.fleet-table td.fleet-badge-cell .fi-badge { width: max-content; }
+
+/* Ship classes: a text label next to the colour, never colour alone */
+.fleet-class { display: inline-block; padding: 0 .4rem; margin-right: .25rem; border-radius: 999px; font-size: .7rem; font-weight: 600; border: 1px solid currentColor; }
+.fleet-class-economy { color: var(--fleet-muted); }
+.fleet-class-light { color: #f0b429; }
+.fleet-class-medium { color: #ec8db0; }
+.fleet-class-heavy { color: #4ade80; }
+.fleet-class-support { color: #b4abf5; }
+
+/* Battle replay */
+.fleet-replay { padding: 1rem; }
+.fleet-replay-bar { display: flex; align-items: center; justify-content: space-between; gap: .75rem; flex-wrap: wrap; }
+.fleet-replay-sides { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+.fleet-replay-unit { display: grid; grid-template-columns: auto minmax(8rem, 1fr) minmax(5rem, 8rem) 6.5rem; align-items: center; gap: .6rem; padding: .35rem .5rem; border-radius: .4rem; transition: background .2s; }
+.fleet-replay-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fleet-replay-num { text-align: right; font-size: .75rem; color: var(--fleet-muted); }
+.fleet-replay-hull .fleet-progress-bar { background: var(--fleet-good); transition: width .35s; }
+.fleet-replay-actor { background: rgb(var(--primary-500, 225 76 4) / .15); }
+.fleet-replay-target { background: rgba(248, 113, 113, .15); }
+.fleet-replay-down { opacity: .45; }
+.fleet-replay-down .fleet-replay-name { text-decoration: line-through; }
+.fleet-replay-result { font-weight: 700; font-size: 1rem; }
+.fleet-replay-feed { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .25rem; min-height: 9rem; }
+.fleet-replay-feed li { display: flex; gap: .6rem; color: var(--fleet-muted); }
+.fleet-replay-feed li.fleet-replay-latest { color: var(--fleet-text); }
+
+@media (max-width: 640px) {
+    .fleet-replay-unit { grid-template-columns: auto 1fr; }
+    .fleet-replay-hull, .fleet-replay-num { grid-column: 2; text-align: left; }
+}

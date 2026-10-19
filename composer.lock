@@ -10865,12 +10865,12 @@
             "dist": {
                 "type": "path",
                 "url": "./packages/filament-fleet",
-                "reference": "0b1c155f66668ae8486498d2e232693c5c30c49a"
+                "reference": "48e0c11bdc87cbfe5d9b3ab8f824c4088fbfcc5a"
             },
             "require": {
                 "filament/filament": "^3.2",
                 "laravel/framework": "^11.0|^12.0",
-                "php": "^8.2"
+                "php": "^8.3"
             },
             "require-dev": {
                 "orchestra/testbench": "^9.0|^10.0",
