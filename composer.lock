@@ -10865,7 +10865,7 @@
             "dist": {
                 "type": "path",
                 "url": "./packages/filament-fleet",
-                "reference": "48e0c11bdc87cbfe5d9b3ab8f824c4088fbfcc5a"
+                "reference": "4549441cbda25b6fbdc9613a02b55d8ba7ba465d"
             },
             "require": {
                 "filament/filament": "^3.2",
