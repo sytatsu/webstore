@@ -11053,8 +11053,8 @@
             "version": "dev-main",
             "dist": {
                 "type": "path",
-                "url": "./packages/sytatsu/filament-fleet",
-                "reference": "4549441cbda25b6fbdc9613a02b55d8ba7ba465d"
+                "url": "./packages/sytatsu/filamentphp-fleet",
+                "reference": "e6ab46fffc8a5b2a6a36a8e804bf134d3e73a06a"
             },
             "require": {
                 "filament/filament": "^3.2",
