@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7fcdcf73e5832adad8ab5c8489aaa914",
+    "content-hash": "78533e3ae740c0964c899006d9752677",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -10860,12 +10860,72 @@
             "time": "2026-06-08T20:24:16+00:00"
         },
         {
+            "name": "sytatsu/filament-fleet",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./packages/filament-fleet",
+                "reference": "0b1c155f66668ae8486498d2e232693c5c30c49a"
+            },
+            "require": {
+                "filament/filament": "^3.2",
+                "laravel/framework": "^11.0|^12.0",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^9.0|^10.0",
+                "phpunit/phpunit": "^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Sytatsu\\Fleet\\FleetServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Sytatsu\\Fleet\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Sytatsu\\Fleet\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sytatsu",
+                    "email": "info@sytatsu.com"
+                }
+            ],
+            "description": "Sytatsu Fleet: a small idle space game that lives inside a Filament panel.",
+            "keywords": [
+                "filament",
+                "game",
+                "idle",
+                "laravel"
+            ],
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "sytatsu/filamentphp-issue-tracker",
             "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/sytatsu/filamentphp-issue-tracker",
-                "reference": "3ea7e3386f6bc0181bd386d08f6017a1f4f214b0"
+                "reference": "0c24690a08c7fb15ced104484508af8afb3f5b7b"
             },
             "require": {
                 "filament/filament": "^3.0",
@@ -14689,6 +14749,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "sytatsu/filament-fleet": 20,
         "sytatsu/filamentphp-issue-tracker": 20,
         "sytatsu/filamentphp-page-visits": 20
     },
