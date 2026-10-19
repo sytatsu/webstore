@@ -8,10 +8,6 @@
         {
             "type": "path",
             "url":  "./packages/sytatsu/*"
-        },
-        {
-            "type": "path",
-            "url":  "./packages/filament-fleet"
         }
     ],
     "require": {
