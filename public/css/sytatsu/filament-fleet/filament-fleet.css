@@ -213,3 +213,106 @@
 .fleet-badge-row { display: flex; flex-wrap: wrap; gap: .4rem; }
 .fleet-badge-row .fleet-badge-icon { width: 1.9rem; height: 1.9rem; }
 .fleet-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Hangar: individual ships */
+.fleet-shipgroup > summary { cursor: pointer; list-style: none; }
+.fleet-shipgroup > summary::-webkit-details-marker { display: none; }
+.fleet-shipgroup[open] > summary { padding-bottom: .5rem; border-bottom: 1px solid var(--fleet-border); }
+.fleet-shiplist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.fleet-shiprow { display: grid; grid-template-columns: minmax(10rem, 1fr) auto auto; align-items: center; gap: .75rem; padding: .5rem 0; border-top: 1px solid var(--fleet-border); }
+.fleet-shiprow:first-child { border-top: 0; }
+.fleet-shiprow-main { display: flex; flex-direction: column; min-width: 0; }
+.fleet-shiprow-name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fleet-shiprow-meta { font-size: .8rem; overflow: hidden; text-overflow: ellipsis; }
+.fleet-shiprow-status { display: inline-flex; align-items: center; }
+.fleet-shiprow .fleet-actions { justify-content: flex-end; }
+
+@media (max-width: 640px) {
+    .fleet-shiprow { grid-template-columns: 1fr auto; }
+    .fleet-shiprow .fleet-actions { grid-column: 1 / -1; justify-content: flex-start; flex-wrap: wrap; }
+}
+
+/* Production queues */
+.fleet-queue { display: flex; flex-direction: column; gap: .4rem; }
+.fleet-queue-row { display: grid; grid-template-columns: minmax(8rem, 1fr) minmax(7rem, 12rem) auto; align-items: center; gap: .75rem; padding: .45rem .6rem; border-radius: .5rem; background: rgba(0, 0, 0, .25); }
+.fleet-queue-active { box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--fleet-accent) 55%, transparent); }
+.fleet-queue-main { display: flex; flex-direction: column; min-width: 0; }
+.fleet-queue-name { font-weight: 600; }
+.fleet-queue-meta { font-size: .75rem; }
+
+@media (max-width: 640px) {
+    .fleet-queue-row { grid-template-columns: 1fr auto; }
+    .fleet-queue-timer { grid-column: 1 / -1; grid-row: 2; justify-content: flex-start; }
+}
+
+/* Research */
+.fleet-research { align-items: start; }
+.fleet-projects { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .9rem; }
+.fleet-project { display: flex; flex-direction: column; gap: .35rem; padding-top: .75rem; border-top: 1px solid var(--fleet-border); }
+.fleet-project p { font-size: .8rem; margin: 0; }
+
+/* Squadrons */
+.fleet-squadron { align-self: start; }
+.fleet-squadron-ships { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .35rem; }
+.fleet-squadron-ships li { display: flex; align-items: center; gap: .6rem; }
+.fleet-squadron-ship { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.fleet-squadron-ship .fleet-muted { font-size: .75rem; overflow: hidden; text-overflow: ellipsis; }
+.fleet-squadron-actions { justify-content: flex-start; flex-wrap: wrap; }
+
+/* Squadron quick-select */
+.fleet-picker { display: flex; flex-wrap: wrap; gap: .5rem; }
+.fleet-pick { display: flex; align-items: center; gap: .6rem; padding: .4rem .6rem; border: 1px solid var(--fleet-border); border-radius: .6rem; background: rgba(0, 0, 0, .3); }
+.fleet-pick-active { border-color: var(--fleet-accent); background: color-mix(in oklab, var(--fleet-accent) 12%, transparent); }
+.fleet-pick-button { display: flex; flex-direction: column; align-items: flex-start; text-align: left; background: none; border: 0; padding: 0; color: inherit; cursor: pointer; }
+.fleet-pick-button:focus-visible { outline: 2px solid var(--fleet-accent); outline-offset: 2px; border-radius: .25rem; }
+.fleet-pick-name { font-weight: 600; }
+.fleet-pick-meta { font-size: .75rem; }
+.fleet-pick-timer { min-width: 4rem; }
+.fleet-sector-note { font-size: .75rem; }
+
+@media (max-width: 640px) {
+    .fleet-pick { flex: 1 1 100%; justify-content: space-between; }
+}
+
+/* Modules */
+.fleet-slot { display: inline-block; padding: 0 .45rem; border-radius: .3rem; font-size: .7rem; font-weight: 600; letter-spacing: .03em; border: 1px solid currentColor; }
+.fleet-slot-weapon { color: #f0a35e; }
+.fleet-slot-defense { color: #7dd3fc; }
+.fleet-slot-utility { color: #c4b5fd; }
+.fleet-modulecard p { margin: 0; font-size: .85rem; }
+.fleet-fit { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .2rem; }
+.fleet-fit-empty { color: var(--fleet-dim); font-style: italic; }
+.fleet-templates { display: flex; flex-direction: column; gap: .5rem; }
+.fleet-template { display: grid; grid-template-columns: minmax(8rem, 1fr) auto; align-items: center; gap: .75rem; padding: .5rem 0; border-top: 1px solid var(--fleet-border); }
+.fleet-template:first-child { border-top: 0; }
+@media (max-width: 640px) {
+    .fleet-template { grid-template-columns: 1fr; }
+}
+
+/* Mission legs */
+.fleet-mission { grid-template-columns: auto minmax(8rem, 1fr) auto minmax(10rem, 16rem); }
+.fleet-mission-end { display: flex; align-items: center; gap: .5rem; }
+.fleet-mission-end .fleet-timer { flex: 1; }
+.fleet-phase-outbound { color: var(--fleet-ore); }
+.fleet-phase-on_site { color: var(--fleet-credits); }
+.fleet-phase-returning { color: var(--fleet-good); }
+@media (max-width: 640px) {
+    .fleet-mission { grid-template-columns: auto 1fr; }
+    .fleet-mission-end { grid-column: 2; }
+}
+
+/* Captains */
+.fleet-captain-slot { display: flex; flex-direction: column; gap: .35rem; padding: .6rem .7rem; border-radius: .5rem; background: rgba(0, 0, 0, .25); }
+.fleet-captain { display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem; }
+.fleet-captain-name { font-weight: 700; }
+.fleet-traits { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .15rem; font-size: .8rem; }
+.fleet-trait-off { color: var(--fleet-dim); }
+.fleet-rarity { font-size: .7rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.fleet-rarity-common { color: var(--fleet-muted); }
+.fleet-rarity-rare { color: #7dd3fc; }
+.fleet-rarity-elite { color: var(--fleet-credits); }
+.fleet-offer-taken { opacity: .55; }
+.fleet-replay-meta { display: block; font-size: .7rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Disabled actions read as disabled on the dark console. */
+.fleet .fi-btn.fi-disabled, .fleet .fi-icon-btn.fi-disabled { opacity: .4; cursor: not-allowed; }
