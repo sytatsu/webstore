@@ -2,6 +2,12 @@
 
 namespace Tests\Feature;
 
+use Lunar\Models\Brand;
+use Lunar\FieldTypes\Toggle;
+use Lunar\Models\TaxClass;
+use Lunar\Models\ProductVariant;
+use Lunar\FieldTypes\Text;
+use Lunar\Models\Price;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Lunar\Models\Language;
 use Lunar\Models\Product;
@@ -41,16 +47,16 @@ class ProductDesignerBrandTest extends TestCase
     #[Test]
     public function brand_label_changes_to_designer_when_brand_is_designer_is_true()
     {
-        $brand = \Lunar\Models\Brand::factory()->create([
+        $brand = Brand::factory()->create([
             'name' => 'Gucci',
             'attribute_data' => collect([
-                'brand_is_designer' => new \Lunar\FieldTypes\Toggle(true),
+                'brand_is_designer' => new Toggle(true),
             ]),
         ]);
 
-        $taxClass = \Lunar\Models\TaxClass::factory()->create();
+        $taxClass = TaxClass::factory()->create();
 
-        $variant = \Lunar\Models\ProductVariant::factory()->create([
+        $variant = ProductVariant::factory()->create([
             'sku' => 'TEST-SKU-1',
             'tax_class_id' => $taxClass->id,
             'unit_quantity' => 1,
@@ -60,13 +66,13 @@ class ProductDesignerBrandTest extends TestCase
         $product->update([
             'brand_id' => $brand->id,
             'attribute_data' => collect([
-                'name' => new \Lunar\FieldTypes\Text('Test Product'),
-                'description' => new \Lunar\FieldTypes\Text('Test Description'),
+                'name' => new Text('Test Product'),
+                'description' => new Text('Test Description'),
             ]),
         ]);
 
-        \Lunar\Models\Price::factory()->create([
-            'priceable_type' => \Lunar\Models\ProductVariant::class,
+        Price::factory()->create([
+            'priceable_type' => ProductVariant::class,
             'priceable_id' => $variant->id,
             'currency_id' => Currency::first()->id,
             'min_quantity' => 1,
@@ -85,16 +91,16 @@ class ProductDesignerBrandTest extends TestCase
     #[Test]
     public function brand_label_remains_brand_when_brand_is_designer_is_false()
     {
-        $brand = \Lunar\Models\Brand::factory()->create([
+        $brand = Brand::factory()->create([
             'name' => 'Nike',
             'attribute_data' => collect([
-                'brand_is_designer' => new \Lunar\FieldTypes\Toggle(false),
+                'brand_is_designer' => new Toggle(false),
             ]),
         ]);
 
-        $taxClass = \Lunar\Models\TaxClass::factory()->create();
+        $taxClass = TaxClass::factory()->create();
 
-        $variant = \Lunar\Models\ProductVariant::factory()->create([
+        $variant = ProductVariant::factory()->create([
             'sku' => 'TEST-SKU-2',
             'tax_class_id' => $taxClass->id,
             'unit_quantity' => 1,
@@ -104,13 +110,13 @@ class ProductDesignerBrandTest extends TestCase
         $product->update([
             'brand_id' => $brand->id,
             'attribute_data' => collect([
-                'name' => new \Lunar\FieldTypes\Text('Test Product'),
-                'description' => new \Lunar\FieldTypes\Text('Test Description'),
+                'name' => new Text('Test Product'),
+                'description' => new Text('Test Description'),
             ]),
         ]);
 
-        \Lunar\Models\Price::factory()->create([
-            'priceable_type' => \Lunar\Models\ProductVariant::class,
+        Price::factory()->create([
+            'priceable_type' => ProductVariant::class,
             'priceable_id' => $variant->id,
             'currency_id' => Currency::first()->id,
             'min_quantity' => 1,
@@ -129,9 +135,9 @@ class ProductDesignerBrandTest extends TestCase
     #[Test]
     public function brand_label_is_brand_when_brand_is_designer_is_missing()
     {
-        $taxClass = \Lunar\Models\TaxClass::factory()->create();
+        $taxClass = TaxClass::factory()->create();
 
-        $variant = \Lunar\Models\ProductVariant::factory()->create([
+        $variant = ProductVariant::factory()->create([
             'sku' => 'TEST-SKU-3',
             'tax_class_id' => $taxClass->id,
             'unit_quantity' => 1,
@@ -140,14 +146,14 @@ class ProductDesignerBrandTest extends TestCase
         $product = $variant->product;
         $product->update([
             'attribute_data' => collect([
-                'name' => new \Lunar\FieldTypes\Text('Test Product'),
-                'description' => new \Lunar\FieldTypes\Text('Test Description'),
-                'brand' => new \Lunar\FieldTypes\Text('Adidas'),
+                'name' => new Text('Test Product'),
+                'description' => new Text('Test Description'),
+                'brand' => new Text('Adidas'),
             ]),
         ]);
 
-        \Lunar\Models\Price::factory()->create([
-            'priceable_type' => \Lunar\Models\ProductVariant::class,
+        Price::factory()->create([
+            'priceable_type' => ProductVariant::class,
             'priceable_id' => $variant->id,
             'currency_id' => Currency::first()->id,
             'min_quantity' => 1,

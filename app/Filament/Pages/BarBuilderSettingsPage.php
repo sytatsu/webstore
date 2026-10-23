@@ -2,11 +2,11 @@
 
 namespace App\Filament\Pages;
 
+use Filament\Schemas\Schema;
 use App\Filament\Clusters\BarBuilder;
 use App\Models\WebstoreSetting;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Concerns\InteractsWithFormActions;
 use Filament\Pages\Page;
@@ -19,13 +19,13 @@ class BarBuilderSettingsPage extends Page
 
     protected static ?string $cluster = BarBuilder::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-power';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-power';
 
     protected static ?string $navigationLabel = 'Settings';
 
     protected static ?string $title = 'Bar Builder Settings';
 
-    protected static string $view = 'filament.pages.bar-builder-settings';
+    protected string $view = 'filament.pages.bar-builder-settings';
 
     /**
      * @var array<string, mixed>|null
@@ -39,10 +39,10 @@ class BarBuilderSettingsPage extends Page
         ]);
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Toggle::make('enabled')
                     ->label('Bar Builder enabled')
                     ->helperText('When disabled, the /clickerz/builder page 404s, the builder no longer appears on the Clickerz Bar product page, and its navigation link and homepage promo are hidden. Existing cart items and past orders are unaffected.')

@@ -23,7 +23,7 @@ class BasePage extends Component
     /**
      * Livewire function
      *
-     * @return \Closure|\Illuminate\Contracts\Support\Htmlable|\Illuminate\Contracts\View\View|string
+     * @return Closure|Htmlable|View|string
      */
     public function render(): View|Htmlable|Closure|string
     {

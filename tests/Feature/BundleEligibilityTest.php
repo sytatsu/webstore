@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Lunar\Models\CollectionGroup;
 use App\Models\Bundle;
 use App\Services\BundleService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -49,7 +50,7 @@ class BundleEligibilityTest extends TestCase
         // nested-set scope) — parent/child collections must share it, and
         // parent_id has to be set via a separate save() after creation, not
         // inline in the factory array (matches SeedMiniFriendsCollectionCommand).
-        $group = \Lunar\Models\CollectionGroup::factory()->create();
+        $group = CollectionGroup::factory()->create();
         $miniFriends = Collection::factory()->create(['collection_group_id' => $group->id]);
         $safari = Collection::factory()->create(['collection_group_id' => $group->id]);
         $safari->parent_id = $miniFriends->id;
@@ -100,7 +101,7 @@ class BundleEligibilityTest extends TestCase
     /** @test */
     public function sub_collection_page_surfaces_the_bundle_configured_on_its_parent()
     {
-        $group = \Lunar\Models\CollectionGroup::factory()->create();
+        $group = CollectionGroup::factory()->create();
         $miniFriends = Collection::factory()->create(['collection_group_id' => $group->id]);
         $safari = Collection::factory()->create(['collection_group_id' => $group->id]);
         $safari->parent_id = $miniFriends->id;

@@ -3,6 +3,7 @@
 
 namespace App\Observers;
 
+use App\Mail\Sytatsu\Orders\Confirmation;
 use App\Mail\Sytatsu\Orders;
 use Illuminate\Support\Facades\Mail;
 use Lunar\Models\Contracts\Order as OrderContract;
@@ -16,7 +17,7 @@ class OrderObserver extends LunarOrderObserver
         parent::updating($order);
 
         if ($order->getOriginal('status') != $order->status && $order->status === 'payment-received') {
-            Mail::send(new Orders\Confirmation(order: $order));
+            Mail::send(new Confirmation(order: $order));
         }
     }
 }

@@ -2,12 +2,18 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\NotificationBannerResource\Pages\ManageNotificationBanners;
 use App\Filament\Clusters\WebstoreSettings;
 use App\Filament\Resources\NotificationBannerResource\Pages;
 use App\Filament\Resources\NotificationBannerResource\RelationManagers;
 use App\Models\NotificationBanner;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -25,13 +31,13 @@ class NotificationBannerResource extends Resource
 
     protected static ?string $model = NotificationBanner::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-megaphone';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-megaphone';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Section::make('General')
+        return $schema
+            ->components([
+                Section::make('General')
                     ->schema([
                         TextInput::make('name')
                             ->placeholder('e.g. Summer Sale Banner')
@@ -47,7 +53,7 @@ class NotificationBannerResource extends Resource
                             ->default(false),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Banner Content')
+                Section::make('Banner Content')
                     ->schema([
                         TranslatedText::make('banner_text')
                             ->label('Banner Text')
@@ -94,13 +100,13 @@ class NotificationBannerResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -108,7 +114,7 @@ class NotificationBannerResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageNotificationBanners::route('/'),
+            'index' => ManageNotificationBanners::route('/'),
         ];
     }
 }

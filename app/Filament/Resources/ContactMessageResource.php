@@ -2,15 +2,24 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Filters\TernaryFilter;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Actions\ViewAction;
+use Filament\Actions\Action;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\BulkAction;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\ContactMessageResource\Pages\ManageContactMessages;
 use App\Filament\Resources\ContactMessageResource\Pages;
 use App\Models\ContactMessage;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -18,7 +27,7 @@ class ContactMessageResource extends Resource
 {
     protected static ?string $model = ContactMessage::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-envelope';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-envelope';
 
     protected static ?string $navigationLabel = 'Contact messages';
 
@@ -38,10 +47,10 @@ class ContactMessageResource extends Resource
         return false;
     }
 
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
+        return $schema
+            ->components([
                 TextEntry::make('name'),
                 TextEntry::make('email')->copyable(),
                 TextEntry::make('phone')->placeholder('-'),
@@ -64,49 +73,49 @@ class ContactMessageResource extends Resource
         return $table
             ->defaultSort('created_at', 'desc')
             ->columns([
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->label('Received')
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email')
+                TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('service_type')
+                TextColumn::make('service_type')
                     ->label('Form')
                     ->badge()
                     ->formatStateUsing(fn (string $state): string => self::SERVICE_TYPES[$state] ?? $state),
-                Tables\Columns\TextColumn::make('details')
+                TextColumn::make('details')
                     ->label('Message')
                     ->limit(60)
                     ->searchable(),
-                Tables\Columns\IconColumn::make('is_spam')
+                IconColumn::make('is_spam')
                     ->label('Spam')
                     ->boolean()
                     ->trueColor('danger')
                     ->falseColor('success')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('spam_reason')
+                TextColumn::make('spam_reason')
                     ->label('Reason')
                     ->placeholder('-')
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('ip_address')
+                TextColumn::make('ip_address')
                     ->label('IP')
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\TernaryFilter::make('is_spam')
+                TernaryFilter::make('is_spam')
                     ->label('Spam')
                     ->trueLabel('Only spam')
                     ->falseLabel('Only real messages')
                     ->placeholder('All')
                     ->default(false),
-                Tables\Filters\SelectFilter::make('service_type')
+                SelectFilter::make('service_type')
                     ->label('Form')
                     ->options(self::SERVICE_TYPES),
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
+            ->recordActions([
+                ViewAction::make(),
                 Action::make('markSpam')
                     ->label('Mark as spam')
                     ->icon('heroicon-m-no-symbol')
@@ -119,10 +128,10 @@ class ContactMessageResource extends Resource
                     ->color('success')
                     ->visible(fn (ContactMessage $record): bool => $record->is_spam)
                     ->action(fn (ContactMessage $record) => $record->update(['is_spam' => false, 'spam_reason' => null])),
-                Tables\Actions\DeleteAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            ->toolbarActions([
+                BulkActionGroup::make([
                     BulkAction::make('markSpam')
                         ->label('Mark as spam')
                         ->icon('heroicon-m-no-symbol')
@@ -135,7 +144,7 @@ class ContactMessageResource extends Resource
                         ->color('success')
                         ->deselectRecordsAfterCompletion()
                         ->action(fn (Collection $records) => $records->each->update(['is_spam' => false, 'spam_reason' => null])),
-                    Tables\Actions\DeleteBulkAction::make(),
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -143,7 +152,7 @@ class ContactMessageResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageContactMessages::route('/'),
+            'index' => ManageContactMessages::route('/'),
         ];
     }
 }

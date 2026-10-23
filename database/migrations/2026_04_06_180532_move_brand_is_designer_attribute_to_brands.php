@@ -1,5 +1,6 @@
 <?php
 
+use Lunar\FieldTypes\Toggle;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Lunar\Models\Attribute;
@@ -45,7 +46,7 @@ return new class extends Migration
                 'name' => ['en' => 'Brand is Designer'],
                 'handle' => 'brand_is_designer',
                 'section' => 'main',
-                'type' => \Lunar\FieldTypes\Toggle::class,
+                'type' => Toggle::class,
                 'required' => false,
                 'default_value' => null,
                 'configuration' => [],
@@ -59,7 +60,7 @@ return new class extends Migration
             $productsWithDesignerBrand = Product::where('attribute_data->brand_is_designer->value', true)
                 ->whereNotNull('brand_id')
                 ->get();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // If the column doesn't exist or doesn't support JSON query, handle it gracefully
             $productsWithDesignerBrand = collect();
         }
@@ -75,7 +76,7 @@ return new class extends Migration
                 // Based on how Lunar works, we might need to set it properly.
                 // For a Toggle, it usually looks like {"value": true} in the JSON
 
-                $attributeData['brand_is_designer'] = new \Lunar\FieldTypes\Toggle(true);
+                $attributeData['brand_is_designer'] = new Toggle(true);
 
                 $brand->update([
                     'attribute_data' => $attributeData,

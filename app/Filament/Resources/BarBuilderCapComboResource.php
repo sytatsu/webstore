@@ -2,12 +2,18 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\BarBuilderCapComboResource\Pages\ManageBarBuilderCapCombos;
 use App\Filament\Clusters\BarBuilder;
 use App\Filament\Resources\BarBuilderCapComboResource\Pages;
 use App\Filament\Resources\Concerns\HasTranslatableName;
 use App\Models\BarBuilderCapCombo;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -24,17 +30,17 @@ class BarBuilderCapComboResource extends Resource
 
     protected static ?string $model = BarBuilderCapCombo::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-squares-plus';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-squares-plus';
 
     protected static ?string $navigationLabel = 'Cap Colour Combinations';
 
     protected static ?string $modelLabel = 'cap colour combination';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Section::make('Cap colour combination')
+        return $schema
+            ->components([
+                Section::make('Cap colour combination')
                     ->description('A manufacturable cap + letter colour pairing customers can pick for each cap.')
                     ->schema([
                         static::nameFormFieldset('e.g. Ember', 'e.g. Gloed'),
@@ -64,13 +70,13 @@ class BarBuilderCapComboResource extends Resource
                 static::nameTableColumn(),
                 ToggleColumn::make('enabled'),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -78,7 +84,7 @@ class BarBuilderCapComboResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageBarBuilderCapCombos::route('/'),
+            'index' => ManageBarBuilderCapCombos::route('/'),
         ];
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use Lunar\Models\Collection;
+use Lunar\FieldTypes\Text;
 use App\Repositories\ProductRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Lunar\Models\Currency;
@@ -36,7 +38,7 @@ class CollectionFilterTest extends TestCase
     /** @test */
     public function collection_filters_component_renders_without_errors()
     {
-        $collection = \Lunar\Models\Collection::factory()->create();
+        $collection = Collection::factory()->create();
 
         Livewire::test(CollectionFilters::class, [
             'collection' => $collection,
@@ -47,7 +49,7 @@ class CollectionFilterTest extends TestCase
     /** @test */
     public function collection_filters_can_toggle_expansion_state()
     {
-        $collection = \Lunar\Models\Collection::factory()->create();
+        $collection = Collection::factory()->create();
 
         Livewire::test(CollectionFilters::class, [
             'collection' => $collection,
@@ -97,7 +99,7 @@ class CollectionFilterTest extends TestCase
         // Mock a collection join for the test
         // Actually, getFilteredProducts joins collection_product.
         // We need to create a collection and attach the product.
-        $collection = \Lunar\Models\Collection::factory()->create();
+        $collection = Collection::factory()->create();
         $collection->products()->attach($product);
 
         // Filter: price 10-50, in stock only.
@@ -131,22 +133,22 @@ class CollectionFilterTest extends TestCase
     /** @test */
     public function products_are_sorted_correctly()
     {
-        $collection = \Lunar\Models\Collection::factory()->create();
+        $collection = Collection::factory()->create();
 
         $productA = Product::factory()->create([
-            'attribute_data' => ['name' => new \Lunar\FieldTypes\Text('Apple')],
+            'attribute_data' => ['name' => new Text('Apple')],
             'created_at' => now()->subDays(2),
         ]);
         ProductVariant::factory()->create(['product_id' => $productA->id, 'purchasable' => 'in_stock', 'stock' => 10]);
 
         $productB = Product::factory()->create([
-            'attribute_data' => ['name' => new \Lunar\FieldTypes\Text('Banana')],
+            'attribute_data' => ['name' => new Text('Banana')],
             'created_at' => now()->subDays(1),
         ]);
         ProductVariant::factory()->create(['product_id' => $productB->id, 'purchasable' => 'in_stock', 'stock' => 10]);
 
         $productC = Product::factory()->create([
-            'attribute_data' => ['name' => new \Lunar\FieldTypes\Text('Cherry')],
+            'attribute_data' => ['name' => new Text('Cherry')],
             'created_at' => now(),
         ]);
         ProductVariant::factory()->create(['product_id' => $productC->id, 'purchasable' => 'in_stock', 'stock' => 10]);

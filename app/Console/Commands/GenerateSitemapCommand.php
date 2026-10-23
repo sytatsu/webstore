@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use DOMDocument;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use Lunar\Models\Collection;
@@ -110,7 +111,7 @@ class GenerateSitemapCommand extends Command
 
     protected function writeSitemap(\Illuminate\Support\Collection $entries, string $filename): void
     {
-        $document = new \DOMDocument('1.0', 'UTF-8');
+        $document = new DOMDocument('1.0', 'UTF-8');
         $document->formatOutput = true;
 
         $urlset = $document->createElement('urlset');

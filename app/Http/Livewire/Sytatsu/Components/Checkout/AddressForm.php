@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Sytatsu\Components\Checkout;
 
+use Illuminate\Validation\ValidationException;
 use App\Enums\AddressTypeEnum;
 use App\Services\CartService;
 use App\Services\CheckoutService;
@@ -70,7 +71,7 @@ class AddressForm extends Component
     {
         try {
             $this->validate($this->rules());
-        } catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (ValidationException $e) {
             $this->dispatch('address-save-failed');
             throw $e;
         }

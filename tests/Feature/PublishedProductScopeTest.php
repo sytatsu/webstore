@@ -2,6 +2,13 @@
 
 namespace Tests\Feature;
 
+use Lunar\Models\Currency;
+use Illuminate\Http\Request;
+use Lunar\Models\ProductVariant;
+use Lunar\Models\Price;
+use App\Services\CartService;
+use Lunar\Models\Cart;
+use Lunar\Facades\CartSession;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Services\CollectionService;
 use Lunar\Models\Collection;
@@ -22,7 +29,7 @@ class PublishedProductScopeTest extends TestCase
             'default' => true,
         ]);
 
-        \Lunar\Models\Currency::factory()->create([
+        Currency::factory()->create([
             'default' => true,
             'decimal_places' => 2,
         ]);
@@ -108,7 +115,7 @@ class PublishedProductScopeTest extends TestCase
 
     private function bindLivewireRequestFrom(string $path): void
     {
-        $request = \Illuminate\Http\Request::create('/livewire/update', 'POST', [
+        $request = Request::create('/livewire/update', 'POST', [
             'components' => [[
                 'snapshot' => json_encode(['memo' => ['path' => $path]]),
             ]],
@@ -126,15 +133,15 @@ class PublishedProductScopeTest extends TestCase
             'status' => 'published',
         ]);
 
-        $variant = \Lunar\Models\ProductVariant::factory()->create([
+        $variant = ProductVariant::factory()->create([
             'product_id' => $product->id,
         ]);
 
-        \Lunar\Models\Price::factory()->create([
-            'priceable_type' => \Lunar\Models\ProductVariant::class,
+        Price::factory()->create([
+            'priceable_type' => ProductVariant::class,
             'priceable_id' => $variant->id,
             'price' => 100,
-            'currency_id' => \Lunar\Models\Currency::first()->id,
+            'currency_id' => Currency::first()->id,
         ]);
 
         // Now make the product a draft
@@ -146,19 +153,19 @@ class PublishedProductScopeTest extends TestCase
         $this->assertNull($variant->product); // This confirms the scope is working
 
         // We want to test that CartService handles this null product gracefully
-        $service = app(\App\Services\CartService::class);
+        $service = app(CartService::class);
 
-        $currency = \Lunar\Models\Currency::first();
-        $cart = \Lunar\Models\Cart::factory()->create([
+        $currency = Currency::first();
+        $cart = Cart::factory()->create([
             'currency_id' => $currency->id,
         ]);
         $cart->lines()->create([
-            'purchasable_type' => \Lunar\Models\ProductVariant::class,
+            'purchasable_type' => ProductVariant::class,
             'purchasable_id' => $variant->id,
             'quantity' => 1,
         ]);
 
-        \Lunar\Facades\CartSession::shouldReceive('current')->andReturn($cart);
+        CartSession::shouldReceive('current')->andReturn($cart);
 
         // Instead of calling mapCartLines which triggers calculation,
         // let's manually test the logic we added to mapCartLines

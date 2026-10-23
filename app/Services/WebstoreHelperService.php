@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use InvalidArgumentException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection as IlluminateCollection;
 use Lunar\Models\Collection;
@@ -107,7 +108,7 @@ class WebstoreHelperService
         $defaultUrl = $model->defaultUrl;
         if (!$defaultUrl?->slug) {
             $modelType = class_basename($model);
-            throw new \InvalidArgumentException("{$modelType} must have a default URL with slug");
+            throw new InvalidArgumentException("{$modelType} must have a default URL with slug");
         }
 
         return route($routeName, $parameters + [$parameterKey => $defaultUrl->slug]);

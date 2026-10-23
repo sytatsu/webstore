@@ -27,3 +27,6 @@ yarn-error.log
 .phpstorm.meta.php
 _ide_helper.php
 _ide_helper_models.php
+
+# Plugin packages are separate git repos, cloned in by scripts/deploy.sh
+/packages/sytatsu/*/

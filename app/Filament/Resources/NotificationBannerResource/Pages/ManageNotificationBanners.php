@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\NotificationBannerResource\Pages;
 
+use Filament\Actions\CreateAction;
 use App\Filament\Resources\NotificationBannerResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ManageRecords;
@@ -13,7 +14,7 @@ class ManageNotificationBanners extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

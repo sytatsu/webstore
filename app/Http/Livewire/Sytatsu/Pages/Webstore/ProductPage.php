@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Sytatsu\Pages\Webstore;
 
+use Illuminate\Support\Collection;
 use App\Services\BundleService;
 use App\Services\StorefrontService;
 use App\Services\WebstoreHelperService;
@@ -80,9 +81,9 @@ class ProductPage extends SytatsuBasePage
     /**
      * Computed propert to get available product options with values.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
-    public function getProductOptionsProperty(): \Illuminate\Support\Collection
+    public function getProductOptionsProperty(): Collection
     {
         return $this->storefrontService->getProductOptionsWithValues($this->product);
     }

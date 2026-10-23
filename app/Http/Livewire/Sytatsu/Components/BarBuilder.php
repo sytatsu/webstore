@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Sytatsu\Components;
 
+use Illuminate\Support\Collection;
 use App\Filament\Pages\BarBuilderDefaultArrangementPage;
 use App\Models\BarBuilderBaseColor;
 use App\Models\BarBuilderCapCombo;
@@ -178,7 +179,7 @@ class BarBuilder extends Component
     /**
      * One entry per selectable cap count, backed by a real product variant + price.
      */
-    private function capsCatalog(): \Illuminate\Support\Collection
+    private function capsCatalog(): Collection
     {
         return $this->product->variants
             ->map(function ($variant) {

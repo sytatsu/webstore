@@ -2,6 +2,16 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\Placeholder;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Illuminate\Support\Collection;
+use Filament\Notifications\Notification;
+use App\Filament\Resources\WebstoreSettingResource\Pages\ManageWebstoreSettings;
 use App\Filament\Clusters\WebstoreSettings;
 use App\Filament\Pages\BarBuilderDefaultArrangementPage;
 use App\Filament\Pages\BarBuilderSettingsPage;
@@ -13,7 +23,6 @@ use App\Filament\Resources\DeliveryOptionResource\Pages\ManageDeliveryOptions;
 use App\Filament\Resources\WebstoreSettingResource\Pages;
 use App\Models\WebstoreSetting;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -27,7 +36,7 @@ class WebstoreSettingResource extends Resource
 
     protected static ?string $model = WebstoreSetting::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-cog-6-tooth';
 
     protected static ?string $navigationLabel = 'General Settings';
 
@@ -49,18 +58,18 @@ class WebstoreSettingResource extends Resource
         BarBuilderDefaultArrangementPage::SETTING_KEY => BarBuilderDefaultArrangementPage::class,
     ];
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Section::make('Setting')
+        return $schema
+            ->components([
+                Section::make('Setting')
                     ->schema([
                         TextInput::make('key')
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->disabled(fn ($record) => $record !== null),
 
-                        Forms\Components\Placeholder::make('dedicated_page_notice')
+                        Placeholder::make('dedicated_page_notice')
                             ->label('')
                             ->content(fn ($get) => "This setting is managed on its own admin page (\"" . class_basename(static::DEDICATED_PAGE_KEYS[$get('key')] ?? '') . "\") to keep its data in the shape that page expects — edit it there instead.")
                             ->visible(fn ($get) => array_key_exists($get('key'), static::DEDICATED_PAGE_KEYS)),
@@ -134,18 +143,18 @@ class WebstoreSettingResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make()
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make()
                     ->hidden(fn ($record) => WebstoreSetting::isProtected($record->key)),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()
-                        ->before(function (Tables\Actions\DeleteBulkAction $action, \Illuminate\Support\Collection $records) {
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make()
+                        ->before(function (DeleteBulkAction $action, Collection $records) {
                             $protectedRecords = $records->filter(fn ($record) => WebstoreSetting::isProtected($record->key));
                             if ($protectedRecords->count()) {
-                                \Filament\Notifications\Notification::make()
+                                Notification::make()
                                     ->title('Failed to delete some settings')
                                     ->body('One or more of the selected settings are protected and cannot be deleted.')
                                     ->danger()
@@ -160,7 +169,7 @@ class WebstoreSettingResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageWebstoreSettings::route('/'),
+            'index' => ManageWebstoreSettings::route('/'),
         ];
     }
 }

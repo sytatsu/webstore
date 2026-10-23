@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Sytatsu\Components\Bundle;
 
+use Illuminate\Support\Collection;
+use Lunar\Models\Currency;
 use App\Models\Bundle;
 use App\Services\BundleService;
 use App\Services\CartService;
@@ -124,7 +126,7 @@ class BundleBuilder extends Component
         return $this->bundle->nextTier($this->totalQuantity);
     }
 
-    public function getSelectedItemsProperty(): \Illuminate\Support\Collection
+    public function getSelectedItemsProperty(): Collection
     {
         if (empty($this->selection)) {
             return collect();
@@ -154,7 +156,7 @@ class BundleBuilder extends Component
     public function formatPrice(int $minorUnits): string
     {
         $cart = $this->cartService->getCurrentCart();
-        $currency = $cart->currency ?? \Lunar\Models\Currency::getDefault();
+        $currency = $cart->currency ?? Currency::getDefault();
 
         return (new PriceDataType($minorUnits, $currency, 1))->formatted();
     }

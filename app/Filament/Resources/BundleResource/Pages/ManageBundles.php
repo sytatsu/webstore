@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\BundleResource\Pages;
 
+use Filament\Actions\CreateAction;
 use App\Filament\Resources\BundleResource;
 use App\Models\Bundle;
 use App\Services\BundleService;
@@ -16,7 +17,7 @@ class ManageBundles extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()
+            CreateAction::make()
                 ->using(function (array $data): Model {
                     $tiers = $data['tiers'] ?? [];
                     unset($data['tiers']);

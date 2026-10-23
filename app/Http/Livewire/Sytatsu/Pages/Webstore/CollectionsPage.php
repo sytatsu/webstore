@@ -2,6 +2,10 @@
 
 namespace App\Http\Livewire\Sytatsu\Pages\Webstore;
 
+use Illuminate\Contracts\View\View;
+use Illuminate\Contracts\Support\Htmlable;
+use Closure;
+use Illuminate\Support\Str;
 use App\Http\Livewire\Sytatsu\SytatsuBasePage;
 use App\Models\WebstoreSetting;
 use Lunar\Models\Collection;
@@ -16,13 +20,13 @@ class CollectionsPage extends SytatsuBasePage
         $this->setTitle($this->translateValue($title) ?? __('Collections'));
     }
 
-    public function render(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\Support\Htmlable|\Closure|string
+    public function render(): View|Htmlable|Closure|string
     {
         $handles = WebstoreSetting::getByKey('collections_page_collections', []);
         $description = WebstoreSetting::getByKey('collections_page_description');
         $translatedDescription = $this->translateValue($description);
 
-        $this->setDescription($translatedDescription ? \Illuminate\Support\Str::limit(strip_tags($translatedDescription), 160) : null);
+        $this->setDescription($translatedDescription ? Str::limit(strip_tags($translatedDescription), 160) : null);
 
         // whereIn('slug', $handles) only filters, it doesn't honor the
         // array's order — re-sort by $handles ourselves so the order

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use Lunar\Models\ProductVariant;
+use App\Support\PrintOnDemand;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
@@ -59,7 +61,7 @@ class ProductRepository
                     // Note: We use a subquery or different join if we needed to avoid groupBy here,
                     // but whereHas already handles it correctly without affecting the main query's SELECT list.
                     $q->join('lunar_prices', 'lunar_product_variants.id', '=', 'lunar_prices.priceable_id')
-                        ->where('lunar_prices.priceable_type', \Lunar\Models\ProductVariant::class);
+                        ->where('lunar_prices.priceable_type', ProductVariant::class);
 
                     if (!empty($filters['minPrice'])) {
                         $q->where('lunar_prices.price', '>=', $filters['minPrice'] * 100);
@@ -71,7 +73,7 @@ class ProductRepository
                 }
 
                 if (!empty($filters['inStock'])) {
-                    $q->whereIn('purchasable', ['in_stock', \App\Support\PrintOnDemand::PURCHASABILITY])->where('stock', '>', 0);
+                    $q->whereIn('purchasable', ['in_stock', PrintOnDemand::PURCHASABILITY])->where('stock', '>', 0);
                 }
             });
         }
@@ -154,7 +156,7 @@ class ProductRepository
     public function applyOrdering(Builder $query): Builder
     {
         return $query->addSelect([
-            'in_stock_order' => \Lunar\Models\ProductVariant::selectRaw("MIN(CASE WHEN (purchasable = 'in_stock' AND stock > 0) OR purchasable = ? THEN 0 ELSE 1 END)", [\App\Support\PrintOnDemand::PURCHASABILITY])
+            'in_stock_order' => ProductVariant::selectRaw("MIN(CASE WHEN (purchasable = 'in_stock' AND stock > 0) OR purchasable = ? THEN 0 ELSE 1 END)", [PrintOnDemand::PURCHASABILITY])
                 ->whereColumn('product_id', 'lunar_products.id')
                 ->limit(1)
         ])

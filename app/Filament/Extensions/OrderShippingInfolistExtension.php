@@ -2,8 +2,8 @@
 
 namespace App\Filament\Extensions;
 
+use Filament\Schemas\Components\Section;
 use App\Enums\ShippingCarrierEnum;
-use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Lunar\Admin\Support\Extending\BaseExtension;
 use Lunar\Models\Order;

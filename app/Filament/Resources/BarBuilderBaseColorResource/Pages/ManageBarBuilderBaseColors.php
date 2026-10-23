@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\BarBuilderBaseColorResource\Pages;
 
+use Filament\Actions\CreateAction;
 use App\Filament\Resources\BarBuilderBaseColorResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ManageRecords;
@@ -13,7 +14,7 @@ class ManageBarBuilderBaseColors extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

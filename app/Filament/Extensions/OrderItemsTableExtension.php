@@ -2,9 +2,9 @@
 
 namespace App\Filament\Extensions;
 
+use Filament\Actions\Action;
 use App\Models\BarBuilderIcon;
 use App\Support\PrintOnDemand;
-use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Lunar\Admin\Support\Extending\BaseExtension;
@@ -14,7 +14,7 @@ class OrderItemsTableExtension extends BaseExtension
 {
     public function extendTable(Table $table): Table
     {
-        return $table->actions([
+        return $table->recordActions([
             Action::make('barBuilderPreview')
                 ->label(__('Preview'))
                 ->icon('heroicon-o-eye')

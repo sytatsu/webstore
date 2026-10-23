@@ -2,6 +2,10 @@
 
 namespace App\Filament\Actions\Orders;
 
+use Filament\Schemas\Components\Group;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use App\Enums\ShippingCarrierEnum;
 use Filament\Forms;
 use Lunar\Admin\Support\Actions\Orders\UpdateStatusAction;
@@ -15,41 +19,41 @@ class UpdateOrderStatusAction extends UpdateStatusAction
             static::getStatusSelectInput(),
             static::getCarrierInput(),
             static::getTrackingNumberInput(),
-            Forms\Components\Group::make([
+            Group::make([
                 static::getMailersCheckboxInput(),
-                Forms\Components\Group::make([
+                Group::make([
                     static::getAdditionalContentInput(),
                     static::getEmailAddressesInput(),
                     static::getAdditionalEmailInput(),
-                ])->hidden(function (Forms\Get $get) {
+                ])->hidden(function (Get $get) {
                     return ! count($get('mailers')) ||
                         ! count(static::getMailers($get('status')));
                 }),
-            ])->hidden(function (Forms\Get $get) {
+            ])->hidden(function (Get $get) {
                 return ! count(static::getMailers($get('status')));
             }),
         ];
     }
 
-    protected static function getCarrierInput(): Forms\Components\Select
+    protected static function getCarrierInput(): Select
     {
-        return Forms\Components\Select::make('carrier')
+        return Select::make('carrier')
             ->label('Carrier')
             ->options(collect(ShippingCarrierEnum::cases())->mapWithKeys(
                 fn (ShippingCarrierEnum $carrier) => [$carrier->value => $carrier->label()]
             ))
             ->default(fn (?Order $record) => $record?->carrier)
-            ->required(fn (Forms\Get $get) => $get('status') === 'dispatched')
-            ->visible(fn (Forms\Get $get) => $get('status') === 'dispatched');
+            ->required(fn (Get $get) => $get('status') === 'dispatched')
+            ->visible(fn (Get $get) => $get('status') === 'dispatched');
     }
 
-    protected static function getTrackingNumberInput(): Forms\Components\TextInput
+    protected static function getTrackingNumberInput(): TextInput
     {
-        return Forms\Components\TextInput::make('tracking_number')
+        return TextInput::make('tracking_number')
             ->label('Track & Trace number')
             ->default(fn (?Order $record) => $record?->tracking_number)
-            ->required(fn (Forms\Get $get) => $get('status') === 'dispatched')
-            ->visible(fn (Forms\Get $get) => $get('status') === 'dispatched');
+            ->required(fn (Get $get) => $get('status') === 'dispatched')
+            ->visible(fn (Get $get) => $get('status') === 'dispatched');
     }
 
     protected function updateStatus(Order $record, array $data)

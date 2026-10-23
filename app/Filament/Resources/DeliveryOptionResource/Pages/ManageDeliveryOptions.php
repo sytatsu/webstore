@@ -2,6 +2,9 @@
 
 namespace App\Filament\Resources\DeliveryOptionResource\Pages;
 
+use Filament\Actions\Action;
+use Filament\Forms\Components\TextInput;
+use Filament\Actions\CreateAction;
 use App\Filament\Resources\DeliveryOptionResource;
 use App\Models\WebstoreSetting;
 use Filament\Actions;
@@ -18,12 +21,12 @@ class ManageDeliveryOptions extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\Action::make('freeShippingThreshold')
+            Action::make('freeShippingThreshold')
                 ->label('Free shipping threshold')
                 ->icon('heroicon-o-currency-euro')
                 ->color('gray')
-                ->form([
-                    Forms\Components\TextInput::make('threshold')
+                ->schema([
+                    TextInput::make('threshold')
                         ->label('Free shipping threshold (in cents)')
                         ->helperText('Once a cart\'s total passes this amount, delivery options marked "Free shipping option" are shown instead of the paid options.')
                         ->numeric()
@@ -41,7 +44,7 @@ class ManageDeliveryOptions extends ManageRecords
                         ->success()
                         ->send();
                 }),
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

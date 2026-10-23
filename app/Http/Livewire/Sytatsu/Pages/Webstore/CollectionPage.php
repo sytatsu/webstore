@@ -2,6 +2,9 @@
 
 namespace App\Http\Livewire\Sytatsu\Pages\Webstore;
 
+use Illuminate\Contracts\View\View;
+use Illuminate\Contracts\Support\Htmlable;
+use Closure;
 use App\Http\Livewire\Sytatsu\SytatsuBasePage;
 use App\Models\Bundle;
 use App\Services\BundleService;
@@ -138,7 +141,7 @@ class CollectionPage extends SytatsuBasePage
         return 'vendor.pagination.sytatsu';
     }
 
-    public function render(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\Support\Htmlable|\Closure|string
+    public function render(): View|Htmlable|Closure|string
     {
         $showFilterCategories = $this->collection->translateAttribute('filter_categories');
         $showFilterPrice = $this->collection->translateAttribute('filter_price');

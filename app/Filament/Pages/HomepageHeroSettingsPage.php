@@ -2,12 +2,12 @@
 
 namespace App\Filament\Pages;
 
+use Filament\Schemas\Schema;
 use App\Filament\Clusters\WebstoreSettings;
 use App\Models\Bundle;
 use App\Models\WebstoreSetting;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Concerns\InteractsWithFormActions;
 use Filament\Pages\Page;
@@ -22,13 +22,13 @@ class HomepageHeroSettingsPage extends Page
 
     protected static ?string $cluster = WebstoreSettings::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-photo';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-photo';
 
     protected static ?string $navigationLabel = 'Homepage Hero';
 
     protected static ?string $title = 'Homepage Hero';
 
-    protected static string $view = 'filament.pages.homepage-hero-settings';
+    protected string $view = 'filament.pages.homepage-hero-settings';
 
     /**
      * @var array<string, mixed>|null
@@ -42,10 +42,10 @@ class HomepageHeroSettingsPage extends Page
         ]);
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Select::make('hero')
                     ->label('Homepage hero')
                     ->options([

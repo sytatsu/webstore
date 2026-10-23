@@ -2,12 +2,12 @@
 
 namespace App\Filament\Pages;
 
+use Filament\Schemas\Schema;
 use App\Filament\Clusters\WebstoreSettings;
 use App\Models\WebstoreSetting;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Concerns\InteractsWithFormActions;
 use Filament\Pages\Page;
@@ -42,13 +42,13 @@ class NavigationSettingsPage extends Page
 
     protected static ?string $cluster = WebstoreSettings::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-bars-3';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-bars-3';
 
     protected static ?string $navigationLabel = 'Navigation';
 
     protected static ?string $title = 'Navigation';
 
-    protected static string $view = 'filament.pages.navigation-settings';
+    protected string $view = 'filament.pages.navigation-settings';
 
     /**
      * @var array<string, mixed>|null
@@ -83,10 +83,10 @@ class NavigationSettingsPage extends Page
         return collect($stored)->filter(fn ($type) => array_key_exists($type, self::TOP_LEVEL_TYPES))->values();
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Repeater::make('top_level_order')
                     ->label('Nav bar — top-level order')
                     ->helperText('What shows in the main nav bar and in what order. The Clickerz Bar link only actually appears while the Bar Builder is enabled (Bar Builder → Settings); the FDM Printing dropdown only appears once it has at least one collection below. Remove an entry here to hide it regardless.')

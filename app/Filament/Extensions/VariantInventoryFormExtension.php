@@ -2,9 +2,9 @@
 
 namespace App\Filament\Extensions;
 
+use Filament\Schemas\Schema;
 use App\Services\InventoryService;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Form;
 use Lunar\Admin\Support\Extending\EditPageExtension;
 
 /**
@@ -15,14 +15,14 @@ use Lunar\Admin\Support\Extending\EditPageExtension;
  */
 class VariantInventoryFormExtension extends EditPageExtension
 {
-    public function extendForm(Form $form): Form
+    public function extendForm(Schema $schema): Schema
     {
-        foreach ($form->getFlatComponents(withHidden: true) as $component) {
+        foreach ($schema->getFlatComponents(withHidden: true) as $component) {
             if ($component instanceof Select && $component->getName() === 'purchasable') {
                 $component->options(InventoryService::PURCHASABILITY_OPTIONS);
             }
         }
 
-        return $form;
+        return $schema;
     }
 }

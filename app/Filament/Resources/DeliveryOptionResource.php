@@ -2,12 +2,26 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Toggle;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\DeliveryOptionResource\Pages\ManageDeliveryOptions;
 use App\Enums\ShippingCarrierEnum;
 use App\Filament\Clusters\ShippingOptions;
 use App\Filament\Resources\DeliveryOptionResource\Pages;
 use App\Models\DeliveryOption;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -19,50 +33,50 @@ class DeliveryOptionResource extends Resource
 
     protected static ?string $cluster = ShippingOptions::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-truck';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-truck';
 
     protected static ?string $navigationLabel = 'Delivery Options';
 
     protected static ?string $modelLabel = 'delivery option';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Section::make('Delivery Option')
+        return $schema
+            ->components([
+                Section::make('Delivery Option')
                     ->description('A carrier delivery tier customers can choose at checkout.')
                     ->schema([
-                        Forms\Components\Select::make('carrier')
+                        Select::make('carrier')
                             ->label('Carrier')
                             ->options(collect(ShippingCarrierEnum::cases())->mapWithKeys(
                                 fn (ShippingCarrierEnum $carrier) => [$carrier->value => $carrier->label()]
                             ))
                             ->required(),
-                        Forms\Components\TextInput::make('name')
+                        TextInput::make('name')
                             ->label('Name')
                             ->required(),
-                        Forms\Components\Textarea::make('description')
+                        Textarea::make('description')
                             ->label('Description')
                             ->rows(2)
                             ->columnSpanFull(),
-                        Forms\Components\TextInput::make('identifier')
+                        TextInput::make('identifier')
                             ->label('Identifier')
                             ->helperText('Used internally to identify this option. Cannot be changed after creation.')
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->disabled(fn (?DeliveryOption $record) => $record !== null)
                             ->dehydrated(),
-                        Forms\Components\TextInput::make('price')
+                        TextInput::make('price')
                             ->label('Price (in cents)')
                             ->helperText('0 = free.')
                             ->numeric()
                             ->default(0)
                             ->required(),
-                        Forms\Components\Toggle::make('free_shipping')
+                        Toggle::make('free_shipping')
                             ->label('Free shipping option')
                             ->helperText("When enabled, this option is shown to customers instead of this carrier's paid options once their cart total passes the free shipping threshold (configurable from the overview page).")
                             ->default(false),
-                        Forms\Components\Toggle::make('enabled')
+                        Toggle::make('enabled')
                             ->label('Available to customers')
                             ->default(true),
                     ])->columns(2),
@@ -75,30 +89,30 @@ class DeliveryOptionResource extends Resource
             ->reorderable('sort_order')
             ->defaultSort(fn (Builder $query) => $query->orderBy('carrier')->orderBy('sort_order'))
             ->columns([
-                Tables\Columns\TextColumn::make('carrier')
+                TextColumn::make('carrier')
                     ->badge()
                     ->formatStateUsing(fn (ShippingCarrierEnum $state) => $state->label()),
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('price')
+                TextColumn::make('name'),
+                TextColumn::make('price')
                     ->money('EUR', divideBy: 100),
-                Tables\Columns\IconColumn::make('free_shipping')
+                IconColumn::make('free_shipping')
                     ->label('Free shipping')
                     ->boolean(),
-                Tables\Columns\ToggleColumn::make('enabled'),
+                ToggleColumn::make('enabled'),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('carrier')
+                SelectFilter::make('carrier')
                     ->options(collect(ShippingCarrierEnum::cases())->mapWithKeys(
                         fn (ShippingCarrierEnum $carrier) => [$carrier->value => $carrier->label()]
                     )),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -106,7 +120,7 @@ class DeliveryOptionResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageDeliveryOptions::route('/'),
+            'index' => ManageDeliveryOptions::route('/'),
         ];
     }
 }

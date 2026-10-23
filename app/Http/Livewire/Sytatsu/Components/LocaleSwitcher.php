@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Sytatsu\Components;
 
+use Throwable;
 use App\Support\LocaleAwareUrlGenerator;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -51,7 +52,7 @@ class LocaleSwitcher extends Component
 
         try {
             $route = app('router')->getRoutes()->match(Request::create($path, 'GET'));
-        } catch (\Throwable) {
+        } catch (Throwable) {
             return null;
         }
 

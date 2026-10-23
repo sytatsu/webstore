@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Support\PrintOnDemand;
+use Lunar\FieldTypes\Text;
 use App\Models\Bundle;
 use Illuminate\Support\Collection;
 use Lunar\Models\Channel;
@@ -147,7 +149,7 @@ readonly class BundleService
             ->whereHas('variants', fn ($q) => $q->where(function ($q) {
                 $q->where('purchasable', 'always')
                     ->orWhere('purchasable', 'backorder')
-                    ->orWhere('purchasable', \App\Support\PrintOnDemand::PURCHASABILITY)
+                    ->orWhere('purchasable', PrintOnDemand::PURCHASABILITY)
                     ->orWhere(fn ($q) => $q->where('purchasable', 'in_stock')->where('stock', '>', 0));
             }))
             ->with(['variants.prices', 'thumbnail'])
@@ -379,7 +381,7 @@ readonly class BundleService
             // collection and carries no URL.
             'status' => 'published',
             'attribute_data' => collect([
-                'name' => new \Lunar\FieldTypes\Text('Bundle: ' . ($bundle->getTranslatedName() ?: $bundle->collection?->translateAttribute('name'))),
+                'name' => new Text('Bundle: ' . ($bundle->getTranslatedName() ?: $bundle->collection?->translateAttribute('name'))),
             ]),
         ]);
 

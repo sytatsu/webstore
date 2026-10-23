@@ -1,5 +1,7 @@
 <?php
 
+use Lunar\Models\Collection;
+use Lunar\FieldTypes\TranslatedText;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,12 +16,12 @@ return new class extends Migration
         // Renaming data is usually better in seeders, but since user asked for "migseeder ration"
         // and specifically "collection printed should be renamed from main", I will put the rename logic here too.
 
-        $mainCollection = \Lunar\Models\Collection::all()->filter(function($c) {
+        $mainCollection = Collection::all()->filter(function($c) {
             return strtolower((string)$c->translate('name')) === 'main';
         })->first();
 
         if ($mainCollection) {
-            $mainCollection->attribute_data['name'] = new \Lunar\FieldTypes\TranslatedText([
+            $mainCollection->attribute_data['name'] = new TranslatedText([
                 'en' => 'Printed',
                 'nl' => 'Geprint',
             ]);
@@ -36,12 +38,12 @@ return new class extends Migration
      */
     public function down(): void
     {
-        $printedCollection = \Lunar\Models\Collection::all()->filter(function($c) {
+        $printedCollection = Collection::all()->filter(function($c) {
             return strtolower((string)$c->translate('name')) === 'printed';
         })->first();
 
         if ($printedCollection) {
-            $printedCollection->attribute_data['name'] = new \Lunar\FieldTypes\TranslatedText([
+            $printedCollection->attribute_data['name'] = new TranslatedText([
                 'en' => 'Main',
             ]);
             $printedCollection->save();

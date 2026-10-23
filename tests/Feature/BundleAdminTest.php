@@ -2,6 +2,9 @@
 
 namespace Tests\Feature;
 
+use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Forms\Concerns\InteractsWithForms;
 use App\Filament\Extensions\OrderItemsTableExtension;
 use App\Filament\Resources\BundleResource\Pages\ManageBundles;
 use App\Models\Bundle;
@@ -48,8 +51,9 @@ class BundleAdminTest extends TestCase
     public function order_items_extension_keeps_the_bar_builder_preview_action_alongside_the_new_bundle_one()
     {
         $livewire = new class extends Component implements HasTable {
-            use \Filament\Tables\Concerns\InteractsWithTable;
-            use \Filament\Forms\Concerns\InteractsWithForms;
+            use InteractsWithActions;
+            use InteractsWithTable;
+            use InteractsWithForms;
 
             public function table(Table $table): Table
             {
@@ -114,10 +118,10 @@ class BundleAdminTest extends TestCase
         // one ->set() call avoids that.
         Livewire::test(ManageBundles::class)
             ->mountAction('create')
-            ->set('mountedActionsData.0.collection_id', $collection->id)
-            ->set('mountedActionsData.0.name.en', 'Test bundle')
-            ->set('mountedActionsData.0.enabled', true)
-            ->set('mountedActionsData.0.tiers', [
+            ->set('mountedActions.0.data.collection_id', $collection->id)
+            ->set('mountedActions.0.data.name.en', 'Test bundle')
+            ->set('mountedActions.0.data.enabled', true)
+            ->set('mountedActions.0.data.tiers', [
                 ['min_quantity' => 1, 'price' => 1.50],
                 ['min_quantity' => 4, 'price' => 1.25],
             ])
@@ -143,10 +147,10 @@ class BundleAdminTest extends TestCase
 
         Livewire::test(ManageBundles::class)
             ->mountAction('create')
-            ->set('mountedActionsData.0.collection_id', $collection->id)
-            ->set('mountedActionsData.0.name.en', 'Test bundle')
-            ->set('mountedActionsData.0.enabled', true)
-            ->set('mountedActionsData.0.tiers', [
+            ->set('mountedActions.0.data.collection_id', $collection->id)
+            ->set('mountedActions.0.data.name.en', 'Test bundle')
+            ->set('mountedActions.0.data.enabled', true)
+            ->set('mountedActions.0.data.tiers', [
                 // No min_quantity = 1 row — the required base price.
                 ['min_quantity' => 4, 'price' => 1.25],
             ])
@@ -176,16 +180,16 @@ class BundleAdminTest extends TestCase
         $test = Livewire::test(ManageBundles::class)
             ->mountTableAction('edit', $bundle);
 
-        $hydratedTiers = $test->instance()->mountedTableActionsData[0]['tiers'] ?? [];
+        $hydratedTiers = $test->instance()->mountedActions[0]['data']['tiers'] ?? [];
         $this->assertCount(1, $hydratedTiers, 'editing must hydrate the existing tier(s), not start blank');
         $this->assertSame(1.5, array_values($hydratedTiers)[0]['price']);
 
-        $test->set('mountedTableActionsData.0.tiers', [
+        $test->set('mountedActions.0.data.tiers', [
                 ['min_quantity' => 1, 'price' => 1.50],
                 ['min_quantity' => 4, 'price' => 1.25],
             ])
-            ->callMountedTableAction()
-            ->assertHasNoTableActionErrors();
+            ->callMountedAction()
+            ->assertHasNoActionErrors();
 
         $bundle->refresh();
 

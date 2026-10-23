@@ -2,6 +2,11 @@
 
 namespace App\Http\Livewire\Sytatsu\Pages\Webstore;
 
+use Illuminate\Contracts\View\View;
+use Illuminate\Contracts\Support\Htmlable;
+use Closure;
+use App\Filament\Pages\BarBuilderSettingsPage;
+use App\Filament\Pages\HomepageHeroSettingsPage;
 use App\Filament\Pages\HomeFeaturedCollectionsSettingsPage;
 use App\Models\WebstoreSetting;
 use App\DTOs\ProductCollectionDTO;
@@ -80,7 +85,7 @@ class Welcome extends SytatsuBasePage
         return $values[$locale] ?? $values[config('app.fallback_locale', 'en')] ?? collect($values)->first();
     }
 
-    public function render(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\Support\Htmlable|\Closure|string
+    public function render(): View|Htmlable|Closure|string
     {
         $this->setViewAttributes([
             'homepageElements' => $this->getHomepageElementsAttribute(),
@@ -124,8 +129,8 @@ class Welcome extends SytatsuBasePage
         // being the Clickerz hero (two Clickerz promos stacked directly
         // on top of each other would be redundant) — live in one place
         // next to the rest of the list-building logic.
-        $clickerzAllowed = \App\Filament\Pages\BarBuilderSettingsPage::isEnabled()
-            && \App\Filament\Pages\HomepageHeroSettingsPage::current() !== 'clickerz';
+        $clickerzAllowed = BarBuilderSettingsPage::isEnabled()
+            && HomepageHeroSettingsPage::current() !== 'clickerz';
 
         return collect($this->elements)
             ->map(function (array $element) use ($dtosByCollectionId, $clickerzAllowed) {

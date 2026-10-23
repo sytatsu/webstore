@@ -2,12 +2,24 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Forms\Components\Placeholder;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Actions\Action;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\BarBuilderIconResource\Pages\ManageBarBuilderIcons;
+use DOMDocument;
+use DOMXPath;
 use App\Filament\Clusters\BarBuilder;
 use App\Filament\Resources\BarBuilderIconResource\Pages;
 use App\Filament\Resources\Concerns\HasTranslatableName;
 use App\Models\BarBuilderIcon;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -28,17 +40,17 @@ class BarBuilderIconResource extends Resource
 
     protected static ?string $model = BarBuilderIcon::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-sparkles';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-sparkles';
 
     protected static ?string $navigationLabel = 'Icons';
 
     protected static ?string $modelLabel = 'icon';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Section::make('Icon')
+        return $schema
+            ->components([
+                Section::make('Icon')
                     ->description('An SVG glyph customers can engrave on a cap instead of a letter.')
                     ->schema([
                         FileUpload::make('svg_upload')
@@ -48,7 +60,7 @@ class BarBuilderIconResource extends Resource
                             ->maxSize(512)
                             ->dehydrated(false)
                             ->live()
-                            ->afterStateUpdated(function ($state, Forms\Set $set) {
+                            ->afterStateUpdated(function ($state, Set $set) {
                                 if (! $state instanceof TemporaryUploadedFile) {
                                     return;
                                 }
@@ -82,9 +94,9 @@ class BarBuilderIconResource extends Resource
                                 $component->state(is_array($state) ? implode("\n", $state) : $state);
                             })
                             ->dehydrateStateUsing(fn ($state) => array_values(array_filter(array_map('trim', explode("\n", (string) $state))))),
-                        Forms\Components\Placeholder::make('svg_preview')
+                        Placeholder::make('svg_preview')
                             ->label('Preview')
-                            ->content(fn (Forms\Get $get) => view('filament.bar-builder.icon-preview', [
+                            ->content(fn (Get $get) => view('filament.bar-builder.icon-preview', [
                                 'paths' => array_values(array_filter(array_map('trim', explode("\n", (string) $get('svg_paths'))))),
                                 'cx' => (float) ($get('cx') ?: 50),
                                 'cy' => (float) ($get('cy') ?: 50),
@@ -124,8 +136,8 @@ class BarBuilderIconResource extends Resource
                 static::nameTableColumn(),
                 ToggleColumn::make('enabled'),
             ])
-            ->actions([
-                Tables\Actions\Action::make('download')
+            ->recordActions([
+                Action::make('download')
                     ->label('Download')
                     ->icon('heroicon-o-arrow-down-tray')
                     ->color('gray')
@@ -134,12 +146,12 @@ class BarBuilderIconResource extends Resource
                         Str::slug($record->translate('name')).'.svg',
                         ['Content-Type' => 'image/svg+xml']
                     )),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -147,7 +159,7 @@ class BarBuilderIconResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageBarBuilderIcons::route('/'),
+            'index' => ManageBarBuilderIcons::route('/'),
         ];
     }
 
@@ -156,7 +168,7 @@ class BarBuilderIconResource extends Resource
      */
     private static function parseUploadedSvg(string $contents): ?array
     {
-        $dom = new \DOMDocument();
+        $dom = new DOMDocument();
         libxml_use_internal_errors(true);
         $loaded = $dom->loadXML($contents, LIBXML_NONET);
         libxml_clear_errors();
@@ -165,7 +177,7 @@ class BarBuilderIconResource extends Resource
             return null;
         }
 
-        $xpath = new \DOMXPath($dom);
+        $xpath = new DOMXPath($dom);
         $paths = [];
 
         foreach ($xpath->query('//*[local-name()="path"]') as $node) {

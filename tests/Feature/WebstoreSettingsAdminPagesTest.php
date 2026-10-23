@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use Lunar\FieldTypes\Text;
+use App\Filament\Pages\BarBuilderSettingsPage;
 use App\Filament\Pages\HomeFeaturedCollectionsSettingsPage;
 use App\Filament\Pages\NavigationSettingsPage;
 use App\Http\Livewire\Sytatsu\Components\Navigation;
@@ -62,6 +64,7 @@ class WebstoreSettingsAdminPagesTest extends TestCase
             collect($component->get('data.elements'))
                 ->where('type', HomeFeaturedCollectionsSettingsPage::TYPE_COLLECTION)
                 ->pluck('collection_id')
+                ->map(fn ($id) => (int) $id) // Filament 4 Selects keep their state as strings
                 ->values()
                 ->all()
         );
@@ -123,12 +126,12 @@ class WebstoreSettingsAdminPagesTest extends TestCase
 
         Collection::factory()->create([
             'collection_group_id' => $groupPrinted->id,
-            'attribute_data' => collect(['name' => new \Lunar\FieldTypes\Text('Printed Collection')]),
+            'attribute_data' => collect(['name' => new Text('Printed Collection')]),
         ]);
 
         Collection::factory()->create([
             'collection_group_id' => $groupFdm->id,
-            'attribute_data' => collect(['name' => new \Lunar\FieldTypes\Text('FDM Collection')]),
+            'attribute_data' => collect(['name' => new Text('FDM Collection')]),
         ]);
 
         WebstoreSetting::setByKey(NavigationSettingsPage::GROUPS_KEY, ['printed', 'fdm-printing']);
@@ -159,7 +162,7 @@ class WebstoreSettingsAdminPagesTest extends TestCase
         $group = CollectionGroup::factory()->create(['handle' => 'printed', 'name' => 'Printed']);
         Collection::factory()->create([
             'collection_group_id' => $group->id,
-            'attribute_data' => collect(['name' => new \Lunar\FieldTypes\Text('Printed Collection')]),
+            'attribute_data' => collect(['name' => new Text('Printed Collection')]),
         ]);
         WebstoreSetting::setByKey(NavigationSettingsPage::GROUPS_KEY, ['printed']);
 
@@ -185,7 +188,7 @@ class WebstoreSettingsAdminPagesTest extends TestCase
      */
     public function test_removing_clickerz_from_the_top_level_order_hides_it_even_though_bar_builder_is_enabled()
     {
-        $this->assertTrue(\App\Filament\Pages\BarBuilderSettingsPage::isEnabled());
+        $this->assertTrue(BarBuilderSettingsPage::isEnabled());
 
         WebstoreSetting::setByKey(NavigationSettingsPage::TOP_LEVEL_ORDER_KEY, ['collections', 'services']);
 

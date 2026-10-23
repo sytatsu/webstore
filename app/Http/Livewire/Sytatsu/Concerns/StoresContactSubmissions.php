@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Sytatsu\Concerns;
 
+use App\Mail\Sytatsu\Contact\Confirmation;
 use App\Mail\Sytatsu\Contact;
 use App\Models\ContactMessage;
 use App\Support\ContactSpamDetector;
@@ -40,7 +41,7 @@ trait StoresContactSubmissions
                 'reason' => $submission->spam_reason,
             ]);
         } else {
-            Mail::to($data['email'])->send(new Contact\Confirmation(data: $data));
+            Mail::to($data['email'])->send(new Confirmation(data: $data));
         }
 
         $this->hasBeenSend = true;

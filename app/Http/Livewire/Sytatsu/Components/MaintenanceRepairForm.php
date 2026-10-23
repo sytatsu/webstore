@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Sytatsu\Components;
 
+use Exception;
 use App\Http\Livewire\Sytatsu\Concerns\StoresContactSubmissions;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -36,7 +37,7 @@ class MaintenanceRepairForm extends Component
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function send(): void
     {

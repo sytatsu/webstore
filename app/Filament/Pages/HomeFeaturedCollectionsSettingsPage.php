@@ -2,12 +2,12 @@
 
 namespace App\Filament\Pages;
 
+use Filament\Schemas\Schema;
 use App\Filament\Clusters\WebstoreSettings;
 use App\Models\WebstoreSetting;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Concerns\InteractsWithFormActions;
 use Filament\Pages\Page;
@@ -32,13 +32,13 @@ class HomeFeaturedCollectionsSettingsPage extends Page
 
     protected static ?string $cluster = WebstoreSettings::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-home';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-home';
 
     protected static ?string $navigationLabel = 'Homepage Elements';
 
     protected static ?string $title = 'Homepage Elements';
 
-    protected static string $view = 'filament.pages.home-featured-collections-settings';
+    protected string $view = 'filament.pages.home-featured-collections-settings';
 
     /**
      * @var array<string, mixed>|null
@@ -95,10 +95,10 @@ class HomeFeaturedCollectionsSettingsPage extends Page
             ->values();
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Repeater::make('elements')
                     ->label('Homepage elements (in order)')
                     ->helperText('A bundle collection renders as a thin call-to-action here instead of its product grid.')

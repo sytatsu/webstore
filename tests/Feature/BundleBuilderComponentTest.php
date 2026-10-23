@@ -2,6 +2,12 @@
 
 namespace Tests\Feature;
 
+use Lunar\Models\Language;
+use App\Http\Livewire\Sytatsu\Pages\Webstore\CollectionPage;
+use App\Services\WebstoreHelperService;
+use App\Http\Livewire\Sytatsu\Pages\Webstore\ProductPage;
+use App\DTOs\ProductCollectionDTO;
+use App\Http\Livewire\Sytatsu\Components\Collection\CollectionCards;
 use App\Http\Livewire\Sytatsu\Components\AddToCart;
 use App\Http\Livewire\Sytatsu\Components\Bundle\BundleBuilder;
 use App\Http\Livewire\Sytatsu\Components\Product\ProductTile;
@@ -255,7 +261,7 @@ class BundleBuilderComponentTest extends TestCase
     {
         $fox = $this->makeVariant();
         $fox->prices()->create([
-            'currency_id' => \Lunar\Models\Currency::getDefault()->id,
+            'currency_id' => Currency::getDefault()->id,
             'customer_group_id' => null,
             'min_quantity' => 1,
             'price' => 495,
@@ -276,10 +282,10 @@ class BundleBuilderComponentTest extends TestCase
         $fox->product->urls()->create([
             'slug' => 'fox',
             'default' => true,
-            'language_id' => \Lunar\Models\Language::getDefault()->id,
+            'language_id' => Language::getDefault()->id,
         ]);
 
-        \Livewire\Livewire::test(\App\Http\Livewire\Sytatsu\Pages\Webstore\CollectionPage::class, ['collection' => $bundle->collection])
+        Livewire::test(CollectionPage::class, ['collection' => $bundle->collection])
             // The tray's own empty-selection copy — present with no toggle
             // needed to reveal it, and no "Start building" button exists.
             ->assertSee('Pick products below to start your bundle.')
@@ -301,13 +307,13 @@ class BundleBuilderComponentTest extends TestCase
         $bundle->collection->urls()->create([
             'slug' => 'mini-friends',
             'default' => true,
-            'language_id' => \Lunar\Models\Language::getDefault()->id,
+            'language_id' => Language::getDefault()->id,
         ]);
         $fox = $this->makeVariant(inBundle: $bundle);
         $fox->product->urls()->create([
             'slug' => 'fox',
             'default' => true,
-            'language_id' => \Lunar\Models\Language::getDefault()->id,
+            'language_id' => Language::getDefault()->id,
         ]);
 
         app(BundleService::class)->addToCart($bundle, [$fox->id => 2]);
@@ -341,7 +347,7 @@ class BundleBuilderComponentTest extends TestCase
         $bundle = $this->makeBundle();
         $fox = $this->makeVariant(inBundle: $bundle);
         $fox->prices()->create([
-            'currency_id' => \Lunar\Models\Currency::getDefault()->id,
+            'currency_id' => Currency::getDefault()->id,
             'customer_group_id' => null,
             'min_quantity' => 1,
             'price' => 495,
@@ -356,7 +362,7 @@ class BundleBuilderComponentTest extends TestCase
     {
         $fox = $this->makeVariant();
         $fox->prices()->create([
-            'currency_id' => \Lunar\Models\Currency::getDefault()->id,
+            'currency_id' => Currency::getDefault()->id,
             'customer_group_id' => null,
             'min_quantity' => 1,
             'price' => 495,
@@ -393,7 +399,7 @@ class BundleBuilderComponentTest extends TestCase
 
         $this->assertStringNotContainsString('bundleAddTrigger', $html);
         $this->assertStringContainsString(
-            \App\Services\WebstoreHelperService::getProductRoute($fox->product),
+            WebstoreHelperService::getProductRoute($fox->product),
             $html
         );
     }
@@ -405,16 +411,16 @@ class BundleBuilderComponentTest extends TestCase
         $bundle->collection->urls()->create([
             'slug' => 'mini-friends',
             'default' => true,
-            'language_id' => \Lunar\Models\Language::getDefault()->id,
+            'language_id' => Language::getDefault()->id,
         ]);
         $fox = $this->makeVariant(inBundle: $bundle);
         $fox->product->urls()->create([
             'slug' => 'fox',
             'default' => true,
-            'language_id' => \Lunar\Models\Language::getDefault()->id,
+            'language_id' => Language::getDefault()->id,
         ]);
 
-        \Livewire\Livewire::test(\App\Http\Livewire\Sytatsu\Pages\Webstore\ProductPage::class, ['product' => $fox->product])
+        Livewire::test(ProductPage::class, ['product' => $fox->product])
             ->assertSee('Pick products below to start your bundle.')
             ->assertDontSee('Add to shopping cart')
             ->assertSee('Add to bundle');
@@ -427,21 +433,21 @@ class BundleBuilderComponentTest extends TestCase
         $bundle->collection->urls()->create([
             'slug' => 'mini-friends',
             'default' => true,
-            'language_id' => \Lunar\Models\Language::getDefault()->id,
+            'language_id' => Language::getDefault()->id,
         ]);
         $fox = $this->makeVariant(inBundle: $bundle);
         $fox->product->urls()->create([
             'slug' => 'fox',
             'default' => true,
-            'language_id' => \Lunar\Models\Language::getDefault()->id,
+            'language_id' => Language::getDefault()->id,
         ]);
 
         // The tray mounted on this page only shows what's already picked —
         // getting back to the rest of the collection's own pickable
         // products needs this, not just the tray.
-        \Livewire\Livewire::test(\App\Http\Livewire\Sytatsu\Pages\Webstore\ProductPage::class, ['product' => $fox->product])
+        Livewire::test(ProductPage::class, ['product' => $fox->product])
             ->assertSee(__('Back to :name', ['name' => $bundle->getTranslatedName()]))
-            ->assertSeeHtml(\App\Services\WebstoreHelperService::getCollectionRoute($bundle->collection));
+            ->assertSeeHtml(WebstoreHelperService::getCollectionRoute($bundle->collection));
     }
 
     /** @test */
@@ -450,12 +456,12 @@ class BundleBuilderComponentTest extends TestCase
         $bundle = $this->makeBundle();
         $fox = $this->makeVariant(inBundle: $bundle);
 
-        $dto = new \App\DTOs\ProductCollectionDTO($bundle->collection, collect([$fox->product]));
+        $dto = new ProductCollectionDTO($bundle->collection, collect([$fox->product]));
 
-        \Livewire\Livewire::test(\App\Http\Livewire\Sytatsu\Components\Collection\CollectionCards::class, ['collections' => $dto])
+        Livewire::test(CollectionCards::class, ['collections' => $dto])
             ->assertSee(__('Bundle deal'))
             ->assertSee(__('Create your bundle'))
-            ->assertSeeHtml(\App\Services\WebstoreHelperService::getCollectionRoute($bundle->collection))
+            ->assertSeeHtml(WebstoreHelperService::getCollectionRoute($bundle->collection))
             // The product tile itself (its own "add to bundle" button) must
             // not render here — there's no bundle tray on this page to add
             // to, only a link onward to the collection's own page.
@@ -470,9 +476,9 @@ class BundleBuilderComponentTest extends TestCase
         ProductVariant::factory()->create(['product_id' => $product->id, 'purchasable' => 'in_stock', 'stock' => 10]);
         $collection->products()->attach($product->id);
 
-        $dto = new \App\DTOs\ProductCollectionDTO($collection, collect([$product]));
+        $dto = new ProductCollectionDTO($collection, collect([$product]));
 
-        \Livewire\Livewire::test(\App\Http\Livewire\Sytatsu\Components\Collection\CollectionCards::class, ['collections' => $dto])
+        Livewire::test(CollectionCards::class, ['collections' => $dto])
             ->assertDontSee(__('Bundle deal'))
             ->assertDontSee(__('Create your bundle'));
     }

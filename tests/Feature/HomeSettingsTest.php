@@ -2,6 +2,9 @@
 
 namespace Tests\Feature;
 
+use Lunar\FieldTypes\Text;
+use Mockery;
+use App\DTOs\ProductCollectionDTO;
 use App\Models\WebstoreSetting;
 use App\Models\NotificationBanner;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -44,7 +47,7 @@ class HomeSettingsTest extends TestCase
         $collection = Collection::factory()->create([
             'collection_group_id' => $group->id,
             'attribute_data' => collect([
-                'name' => new \Lunar\FieldTypes\Text('Featured Collection'),
+                'name' => new Text('Featured Collection'),
             ]),
         ]);
 
@@ -160,14 +163,14 @@ class HomeSettingsTest extends TestCase
         $collection = Collection::factory()->create([
             'collection_group_id' => $group->id,
             'attribute_data' => collect([
-                'name' => new \Lunar\FieldTypes\Text('Original Name'),
+                'name' => new Text('Original Name'),
             ]),
         ]);
 
         WebstoreSetting::setByKey('home_featured_collections', [$collection->id]);
 
         // Mock the translateAttribute method to return an array
-        $mockCollection = \Mockery::mock($collection)->makePartial();
+        $mockCollection = Mockery::mock($collection)->makePartial();
         $mockCollection->shouldReceive('translateAttribute')
             ->with('name')
             ->andReturn(['en' => 'Mock Name EN', 'nl' => 'Mock Name NL']);
@@ -176,7 +179,7 @@ class HomeSettingsTest extends TestCase
         // we might need to mock the service or repository, but let's see if we can just test the DTO directly first
         // to verify our fix in DTO.
 
-        $dto = new \App\DTOs\ProductCollectionDTO($mockCollection, collect());
+        $dto = new ProductCollectionDTO($mockCollection, collect());
         $this->assertEquals('Mock Name EN', $dto->getName());
 
         app()->setLocale('nl');

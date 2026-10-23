@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,7 +14,7 @@ use LunarUser;
 
 /**
  * @property mixed                $id
- * @property \Carbon\Carbon|mixed $disabled_at
+ * @property Carbon|mixed $disabled_at
  * @property mixed|string         $disabled_reason
  */
 class User extends Authenticatable

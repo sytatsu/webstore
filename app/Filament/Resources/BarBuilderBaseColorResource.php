@@ -2,12 +2,18 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\BarBuilderBaseColorResource\Pages\ManageBarBuilderBaseColors;
 use App\Filament\Clusters\BarBuilder;
 use App\Filament\Resources\BarBuilderBaseColorResource\Pages;
 use App\Filament\Resources\Concerns\HasTranslatableName;
 use App\Models\BarBuilderBaseColor;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -25,17 +31,17 @@ class BarBuilderBaseColorResource extends Resource
 
     protected static ?string $model = BarBuilderBaseColor::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-swatch';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-swatch';
 
     protected static ?string $navigationLabel = 'Base Colours';
 
     protected static ?string $modelLabel = 'base colour';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Section::make('Base colour')
+        return $schema
+            ->components([
+                Section::make('Base colour')
                     ->description('The colour options for the bar itself (the base the caps sit in).')
                     ->schema([
                         static::nameFormFieldset('e.g. Jet', 'e.g. Gitzwart'),
@@ -61,13 +67,13 @@ class BarBuilderBaseColorResource extends Resource
                     ->fontFamily('mono'),
                 ToggleColumn::make('enabled'),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -75,7 +81,7 @@ class BarBuilderBaseColorResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageBarBuilderBaseColors::route('/'),
+            'index' => ManageBarBuilderBaseColors::route('/'),
         ];
     }
 }

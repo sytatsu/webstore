@@ -2,6 +2,8 @@
 
 namespace App\Filament\Pages;
 
+use Filament\Actions\BulkAction;
+use Closure;
 use App\Services\InventoryService;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Radio;
@@ -10,7 +12,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
-use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\TextInputColumn;
@@ -32,7 +33,7 @@ class BulkInventoryPage extends BasePage implements HasForms, HasTable
 
     protected static ?string $permission = 'catalog:manage-products';
 
-    protected static ?string $navigationIcon = 'heroicon-o-archive-box';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-archive-box';
 
     protected static ?string $navigationLabel = 'Inventory';
 
@@ -42,7 +43,7 @@ class BulkInventoryPage extends BasePage implements HasForms, HasTable
 
     protected static ?int $navigationSort = 2;
 
-    protected static string $view = 'filament.pages.bulk-inventory';
+    protected string $view = 'filament.pages.bulk-inventory';
 
     public static function getNavigationGroup(): ?string
     {
@@ -108,7 +109,7 @@ class BulkInventoryPage extends BasePage implements HasForms, HasTable
                     ),
             ])
             ->defaultSort('sku')
-            ->bulkActions([
+            ->toolbarActions([
                 $this->adjustBulkAction('stock'),
                 $this->adjustBulkAction('backorder'),
                 BulkAction::make('setPurchasability')
@@ -140,7 +141,7 @@ class BulkInventoryPage extends BasePage implements HasForms, HasTable
             Action::make('updateByBrand')
                 ->label('Update by brand')
                 ->icon('heroicon-o-tag')
-                ->form([
+                ->schema([
                     Select::make('brands')
                         ->label('Brand(s)')
                         ->multiple()
@@ -196,7 +197,7 @@ class BulkInventoryPage extends BasePage implements HasForms, HasTable
             ->deselectRecordsAfterCompletion();
     }
 
-    protected function adjustFormSchema(?\Closure $visible = null): array
+    protected function adjustFormSchema(?Closure $visible = null): array
     {
         $visible ??= fn () => true;
 

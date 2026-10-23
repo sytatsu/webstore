@@ -90,7 +90,7 @@ readonly class CartService
         }
 
         return $cart->lines
-            ->filter(fn (CartLine $line) => $line->purchasable_type !== \Lunar\DataTypes\ShippingOption::class)
+            ->filter(fn (CartLine $line) => $line->purchasable_type !== ShippingOption::class)
             ->map(function (CartLine $line) {
                 // If the product is not published (or missing due to scope), it might be null.
                 // We should handle this gracefully to avoid "translateAttribute() on null"
@@ -119,7 +119,7 @@ readonly class CartService
     {
         return array_sum(
             $this->getCurrentCart()->lines
-                ->filter(fn (CartLine $line) => $line->purchasable_type !== \Lunar\DataTypes\ShippingOption::class)
+                ->filter(fn (CartLine $line) => $line->purchasable_type !== ShippingOption::class)
                 ->map(fn (CartLine $line) => $line->quantity)
                 ->toArray()
         );

@@ -2,6 +2,9 @@
 
 namespace Tests\Feature;
 
+use Lunar\FieldTypes\Text;
+use App\Http\Livewire\Sytatsu\Components\Navigation;
+use App\Filament\Resources\WebstoreSettingResource\Pages\ManageWebstoreSettings;
 use App\Models\WebstoreSetting;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
@@ -44,30 +47,30 @@ class WebstoreSettingsTest extends TestCase
 
         $collectionPrinted = Collection::factory()->create([
             'collection_group_id' => $groupPrinted->id,
-            'attribute_data' => collect(['name' => new \Lunar\FieldTypes\Text('Printed Collection')]),
+            'attribute_data' => collect(['name' => new Text('Printed Collection')]),
         ]);
 
         $collectionOther = Collection::factory()->create([
             'collection_group_id' => $groupOther->id,
-            'attribute_data' => collect(['name' => new \Lunar\FieldTypes\Text('Other Collection')]),
+            'attribute_data' => collect(['name' => new Text('Other Collection')]),
         ]);
 
         // Default setting (should show "printed" only)
-        Livewire::test(\App\Http\Livewire\Sytatsu\Components\Navigation::class)
+        Livewire::test(Navigation::class)
             ->assertSee('Printed Collection')
             ->assertDontSee('Other Collection');
 
         // Configure to show "other" instead
         WebstoreSetting::setByKey('navigation_collection_groups', ['other']);
 
-        Livewire::test(\App\Http\Livewire\Sytatsu\Components\Navigation::class)
+        Livewire::test(Navigation::class)
             ->assertSee('Other Collection')
             ->assertDontSee('Printed Collection');
 
         // Configure to show both
         WebstoreSetting::setByKey('navigation_collection_groups', ['printed', 'other']);
 
-        Livewire::test(\App\Http\Livewire\Sytatsu\Components\Navigation::class)
+        Livewire::test(Navigation::class)
             ->assertSee('Printed Collection')
             ->assertSee('Other Collection')
             ->assertDontSee('Printed</span>', false)
@@ -80,26 +83,26 @@ class WebstoreSettingsTest extends TestCase
         $group = CollectionGroup::factory()->create(['handle' => 'fdm', 'name' => 'FDM']);
         $collectionPolymaker = Collection::factory()->create([
             'collection_group_id' => $group->id,
-            'attribute_data' => collect(['name' => new \Lunar\FieldTypes\Text('Polymaker Collection')]),
+            'attribute_data' => collect(['name' => new Text('Polymaker Collection')]),
         ]);
         $collectionPolymaker->urls()->create([
             'slug' => 'polymaker',
             'default' => true,
-            'language_id' => \Lunar\Models\Language::whereDefault(true)->first()->id,
+            'language_id' => Language::whereDefault(true)->first()->id,
         ]);
 
         $collectionEsun = Collection::factory()->create([
             'collection_group_id' => $group->id,
-            'attribute_data' => collect(['name' => new \Lunar\FieldTypes\Text('eSun Collection')]),
+            'attribute_data' => collect(['name' => new Text('eSun Collection')]),
         ]);
         $collectionEsun->urls()->create([
             'slug' => 'esun',
             'default' => true,
-            'language_id' => \Lunar\Models\Language::whereDefault(true)->first()->id,
+            'language_id' => Language::whereDefault(true)->first()->id,
         ]);
 
         // Default should show "Polymaker Collection" if it exists (slugs default to ['polymaker'])
-        Livewire::test(\App\Http\Livewire\Sytatsu\Components\Navigation::class)
+        Livewire::test(Navigation::class)
             ->assertSee('FDM Printing')
             ->assertSee('Polymaker Collection')
             ->assertDontSee('eSun Collection');
@@ -107,7 +110,7 @@ class WebstoreSettingsTest extends TestCase
         // Configure to show both
         WebstoreSetting::setByKey('navigation_fdm_printing_handles', ['polymaker', 'esun']);
 
-        Livewire::test(\App\Http\Livewire\Sytatsu\Components\Navigation::class)
+        Livewire::test(Navigation::class)
             ->assertSee('FDM Printing')
             ->assertSee('Polymaker Collection')
             ->assertSee('eSun Collection');
@@ -115,7 +118,7 @@ class WebstoreSettingsTest extends TestCase
         // Configure to show none (empty array)
         WebstoreSetting::setByKey('navigation_fdm_printing_handles', []);
 
-        Livewire::test(\App\Http\Livewire\Sytatsu\Components\Navigation::class)
+        Livewire::test(Navigation::class)
             ->assertDontSee('FDM Printing');
     }
 
@@ -161,7 +164,7 @@ class WebstoreSettingsTest extends TestCase
         );
 
         // Test the Filament resource table
-        Livewire::test(\App\Filament\Resources\WebstoreSettingResource\Pages\ManageWebstoreSettings::class)
+        Livewire::test(ManageWebstoreSettings::class)
             ->assertSuccessful();
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\Concerns;
 
-use Filament\Forms\Components\Fieldset;
+use Filament\Schemas\Components\Fieldset;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;

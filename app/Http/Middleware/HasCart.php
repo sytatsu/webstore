@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use App;
 use App\Services\CartService;
 use Closure;
@@ -11,8 +13,8 @@ use Redirect;
 class HasCart
 {
     /**
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function handle(Request $request, Closure $next): mixed
     {

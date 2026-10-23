@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Sytatsu\Components;
 
+use Lunar\Models\Cart;
 use App\Enums\CheckoutStepEnum;
 use App\Services\CartService;
 use App\Services\CheckoutService;
@@ -14,7 +15,7 @@ use Lunar\Models\CartAddress;
 use Lunar\Stripe\Facades\Stripe as StripeFacade;
 
 /**
- * @property \Lunar\Models\Cart $cart
+ * @property Cart $cart
  */
 class CheckoutForm extends Component
 {
@@ -57,7 +58,7 @@ class CheckoutForm extends Component
         return $this->checkoutService->getAddressValidationRules('shipping');
     }
 
-    public function getCartProperty(): \Lunar\Models\Cart
+    public function getCartProperty(): Cart
     {
         return $this->cartService->getCurrentCart();
     }

@@ -18,7 +18,7 @@ class Carousel extends Component
 
     public Product|ProductVariant $product;
 
-    /** @var \Illuminate\Support\Collection<Media> $images */
+    /** @var Collection<Media> $images */
     public Collection $images;
 
     // The COMPACT carousel (collection grid tiles) normally links its own
@@ -29,8 +29,8 @@ class Carousel extends Component
     public bool $linkToProduct = true;
 
     /**
-     * @param \Lunar\Models\Product|\Lunar\Models\ProductVariant $product
-     * @param \Illuminate\Support\Collection                     $images
+     * @param Product|ProductVariant $product
+     * @param Collection $images
      * @param CarouselTypeEnum|null                              $carouselType
      *
      * @return void

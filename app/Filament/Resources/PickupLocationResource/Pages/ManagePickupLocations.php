@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\PickupLocationResource\Pages;
 
+use Filament\Actions\CreateAction;
 use App\Filament\Resources\PickupLocationResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ManageRecords;
@@ -13,7 +14,7 @@ class ManagePickupLocations extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

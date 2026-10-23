@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Observers\OrderObserver;
+use App\Observers\ProductVariantObserver;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use App\Filament\Extensions\OrderHeaderActionsExtension;
 use App\Filament\Extensions\OrderItemsTableExtension;
 use App\Filament\Extensions\OrderShippingInfolistExtension;
@@ -139,8 +142,8 @@ class AppServiceProvider extends ServiceProvider
         $shippingModifiers->add(DeliveryOptionShippingModifier::class);
         $shippingModifiers->add(PickupShippingModifier::class);
 
-        Order::observe(\App\Observers\OrderObserver::class);
-        ProductVariant::observe(\App\Observers\ProductVariantObserver::class);
+        Order::observe(OrderObserver::class);
+        ProductVariant::observe(ProductVariantObserver::class);
 
         Product::addGlobalScope(new PublishedProductScope);
 
@@ -213,7 +216,7 @@ class AppServiceProvider extends ServiceProvider
         $redirectUrl = route($routeName, [$parameterKey => $defaultSlug]);
         $queryString = request()->getQueryString();
 
-        throw new \Illuminate\Http\Exceptions\HttpResponseException(
+        throw new HttpResponseException(
             redirect($queryString ? "{$redirectUrl}?{$queryString}" : $redirectUrl, 301)
         );
     }

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use Filament\Schemas\Schema;
 use App\Filament\Clusters\BarBuilder;
 use App\Models\BarBuilderBaseColor;
 use App\Models\BarBuilderCapCombo;
@@ -11,7 +12,6 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Concerns\InteractsWithFormActions;
 use Filament\Pages\Page;
@@ -24,13 +24,13 @@ class BarBuilderDefaultArrangementPage extends Page
 
     protected static ?string $cluster = BarBuilder::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-adjustments-horizontal';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-adjustments-horizontal';
 
     protected static ?string $navigationLabel = 'Default Arrangement';
 
     protected static ?string $title = 'Default Arrangement';
 
-    protected static string $view = 'filament.pages.bar-builder-default-arrangement';
+    protected string $view = 'filament.pages.bar-builder-default-arrangement';
 
     /**
      * @var array<string, mixed>|null
@@ -48,10 +48,10 @@ class BarBuilderDefaultArrangementPage extends Page
         ]);
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 TextInput::make('word')
                     ->label('Default word')
                     ->helperText('The text the builder opens with. Use a space for any position that should start with an icon instead of a letter.')
