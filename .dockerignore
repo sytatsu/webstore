@@ -41,3 +41,6 @@ _ide_helper_models.php
 
 docker-compose.yml
 docker-compose.prod.yml
+
+# Host-side deploy scripts, not needed inside the image
+scripts
