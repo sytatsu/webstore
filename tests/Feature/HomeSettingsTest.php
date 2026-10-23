@@ -22,10 +22,7 @@ class HomeSettingsTest extends TestCase
     {
         parent::setUp();
 
-        Language::factory()->create([
-            'code' => 'en',
-            'default' => true,
-        ]);
+        $this->useEnglishAsDefaultLanguage();
 
         Currency::factory()->create([
             'code' => 'EUR',

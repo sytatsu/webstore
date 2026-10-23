@@ -21,7 +21,7 @@ class FixCollectionsPageSettingsCommandTest extends TestCase
     {
         parent::setUp();
 
-        $language = Language::factory()->create(['code' => 'en', 'default' => true]);
+        $language = $this->useEnglishAsDefaultLanguage();
 
         $this->pokeballs = Collection::factory()->create();
         $this->pokeballs->urls()->create(['slug' => 'pokeballs', 'default' => true, 'language_id' => $language->id]);

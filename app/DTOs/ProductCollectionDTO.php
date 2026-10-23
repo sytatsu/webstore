@@ -34,6 +34,13 @@ class ProductCollectionDTO implements Wireable
 
     public function getName(): string
     {
-        return $this->collection->translateAttribute('name');
+        $name = $this->collection->translateAttribute('name');
+
+        // Some attribute data comes back as a raw ['en' => ..., 'nl' => ...] map.
+        if (is_array($name)) {
+            $name = $name[app()->getLocale()] ?? reset($name);
+        }
+
+        return (string) ($name ?? '');
     }
 }

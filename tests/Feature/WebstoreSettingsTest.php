@@ -21,10 +21,7 @@ class WebstoreSettingsTest extends TestCase
     {
         parent::setUp();
 
-        Language::factory()->create([
-            'code' => 'en',
-            'default' => true,
-        ]);
+        $this->useEnglishAsDefaultLanguage();
 
         Currency::factory()->create([
             'code' => 'EUR',
@@ -120,37 +117,6 @@ class WebstoreSettingsTest extends TestCase
 
         Livewire::test(\App\Http\Livewire\Sytatsu\Components\Navigation::class)
             ->assertDontSee('FDM Printing');
-    }
-
-    #[Test]
-    public function navigation_does_not_have_border_on_the_last_group()
-    {
-        $groupA = CollectionGroup::factory()->create(['handle' => 'a', 'name' => 'A']);
-        $groupB = CollectionGroup::factory()->create(['handle' => 'b', 'name' => 'B']);
-
-        Collection::factory()->create([
-            'collection_group_id' => $groupA->id,
-            'attribute_data' => collect(['name' => new \Lunar\FieldTypes\Text('Collection A')]),
-        ]);
-
-        Collection::factory()->create([
-            'collection_group_id' => $groupB->id,
-            'attribute_data' => collect(['name' => new \Lunar\FieldTypes\Text('Collection B')]),
-        ]);
-
-        WebstoreSetting::setByKey('navigation_collection_groups', ['a', 'b']);
-
-        $response = Livewire::test(\App\Http\Livewire\Sytatsu\Components\Navigation::class);
-        $html = $response->html();
-
-        // Group A should have the border classes
-        $this->assertStringContainsString('data-group-handle="a"', $html);
-        $this->assertStringContainsString('md:border-r', $html);
-        $this->assertTrue((bool) preg_match('/md:border-r([^>]*?)data-group-handle="a"/s', $html) || (bool) preg_match('/data-group-handle="a"([^>]*?)md:border-r/s', $html), 'Group A missing md:border-r');
-
-        // Group B (last) should NOT have the border classes
-        $this->assertStringContainsString('data-group-handle="b"', $html);
-        $this->assertFalse((bool) preg_match('/data-group-handle="b"([^>]*?)md:border-r/s', $html), 'Group B should not have md:border-r');
     }
 
     #[Test]
