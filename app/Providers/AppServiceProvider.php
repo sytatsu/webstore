@@ -87,6 +87,8 @@ class AppServiceProvider extends ServiceProvider
             // Replace Lunar's default branding (login screen, navigation and favicon) with our own.
             // Closures defer Vite::asset() until render time, when the build manifest is available.
             ->brandName('Sytatsu')
+            // Compiles the Tailwind classes used by our own and the plugins' views (see the file).
+            ->viteTheme('resources/css/filament/lunar/theme.css')
             ->brandLogo(fn () => Vite::asset('resources/images/brands/no_background_text_only.webp'))
             ->darkModeBrandLogo(fn () => Vite::asset('resources/images/brands/no_background_text_only.webp'))
             ->brandLogoHeight('3rem')

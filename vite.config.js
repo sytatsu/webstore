@@ -14,6 +14,7 @@ export default defineConfig({
             input: [
                 'resources/scss/sytatsu.scss',
                 'resources/js/sytatsu.js',
+                'resources/css/filament/lunar/theme.css',
             ],
             refresh: true,
         }),

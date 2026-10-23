@@ -1,0 +1,22 @@
+/*
+ * Admin panel (/lunar) theme. Filament 4 only ships the CSS for its own
+ * components, so the Tailwind utility classes used in our own views and in
+ * the plugin packages have to be compiled here.
+ */
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@source '../../../../app/Filament/**/*';
+@source '../../../../resources/views/filament/**/*';
+
+/*
+ * Plugin packages: their Blade views and the classes they set from PHP.
+ * Listed one by one on purpose: the package folders are git-ignored, and
+ * Tailwind skips ignored files when expanding a wildcard, but still scans
+ * a path that is named explicitly.
+ */
+@source '../../../../packages/sytatsu/filamentphp-issue-tracker/resources/views';
+@source '../../../../packages/sytatsu/filamentphp-issue-tracker/src';
+@source '../../../../packages/sytatsu/filamentphp-fleet/resources/views';
+@source '../../../../packages/sytatsu/filamentphp-fleet/src';
+@source '../../../../packages/sytatsu/filamentphp-page-visits/resources/views';
+@source '../../../../packages/sytatsu/filamentphp-page-visits/src';

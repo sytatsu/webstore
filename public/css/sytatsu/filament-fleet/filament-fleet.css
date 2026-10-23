@@ -11,7 +11,8 @@
     --fleet-text: #e4e4e7;
     --fleet-muted: #a1a1aa;
     --fleet-dim: #71717a;
-    --fleet-accent: rgb(var(--primary-500, 225 76 4));
+    /* Filament 4 defines --primary-* as complete colours (oklch), not RGB channels. */
+    --fleet-accent: var(--primary-500, rgb(225 76 4));
     --fleet-credits: #fcd34d;
     --fleet-ore: #7dd3fc;
     --fleet-charts: #c4b5fd;
@@ -157,7 +158,7 @@
 /* Sectors */
 .fleet-sectors { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); }
 .fleet-sector { display: flex; flex-direction: column; gap: .4rem; padding: .75rem; border: 1px solid var(--fleet-border); border-radius: .6rem; background: rgba(0, 0, 0, .3); }
-.fleet-sector-current { border-color: var(--fleet-accent); background: rgb(var(--primary-500, 225 76 4) / .1); }
+.fleet-sector-current { border-color: var(--fleet-accent); background: color-mix(in oklab, var(--fleet-accent) 10%, transparent); }
 .fleet-sector-locked .fleet-heading { color: var(--fleet-muted); }
 
 /* Shipyard and links */
@@ -189,7 +190,7 @@
 .fleet-replay-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .fleet-replay-num { text-align: right; font-size: .75rem; color: var(--fleet-muted); }
 .fleet-replay-hull .fleet-progress-bar { background: var(--fleet-good); transition: width .35s; }
-.fleet-replay-actor { background: rgb(var(--primary-500, 225 76 4) / .15); }
+.fleet-replay-actor { background: color-mix(in oklab, var(--fleet-accent) 15%, transparent); }
 .fleet-replay-target { background: rgba(248, 113, 113, .15); }
 .fleet-replay-down { opacity: .45; }
 .fleet-replay-down .fleet-replay-name { text-decoration: line-through; }

@@ -34,6 +34,9 @@ COPY --from=vendor /var/www/html/composer.lock /tmp/vendor-built.lock
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
+# The admin panel theme (resources/css/filament/lunar/theme.css) imports
+# Filament's theme CSS from vendor/, which .dockerignore leaves out of this stage.
+COPY --from=vendor /var/www/html/vendor/filament ./vendor/filament
 RUN npx vite build
 
 ########################################
@@ -81,6 +84,12 @@ COPY --chown=www:www --from=assets /app/public/build ./public/build
 # directory is self-contained when copied into the separate nginx image below.
 RUN cp -r /var/www/html/resources/images /var/www/html/public/images \
  && cp -r /var/www/html/resources/files /var/www/html/public/files \
+ # composer install above runs with --no-scripts, so Filament's assets would
+ # otherwise be whatever copy is committed in public/. Publishing them here
+ # keeps the plugin packages' CSS/JS in step with the pulled package code.
+ && php artisan filament:assets \
+ # artisan ran as root: give anything it created back to the app user.
+ && chown -R www:www storage bootstrap/cache public \
  && chmod -R ug+rwx storage bootstrap/cache
 
 ########################################

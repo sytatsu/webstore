@@ -31,6 +31,11 @@
     "file": "assets/fa-v4compatibility-0ce9033c.woff2",
     "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2"
   },
+  "resources/css/filament/lunar/theme.css": {
+    "file": "assets/theme-70b8730c.css",
+    "isEntry": true,
+    "src": "resources/css/filament/lunar/theme.css"
+  },
   "resources/fonts/AvenirNextLTPro-Bold.otf": {
     "file": "assets/AvenirNextLTPro-Bold-1b35300a.otf",
     "src": "resources/fonts/AvenirNextLTPro-Bold.otf"
@@ -165,7 +170,7 @@
     "src": "resources/js/sytatsu.js"
   },
   "resources/scss/sytatsu.scss": {
-    "file": "assets/sytatsu-3c234a99.css",
+    "file": "assets/sytatsu-a28c7c2d.css",
     "isEntry": true,
     "src": "resources/scss/sytatsu.scss"
   }
