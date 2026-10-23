@@ -2,16 +2,16 @@
 
 namespace App\Http\Livewire\Sytatsu\Components;
 
-use App\Mail\Sytatsu\Contact;
+use App\Http\Livewire\Sytatsu\Concerns\StoresContactSubmissions;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 class ContactForm extends Component
 {
+    use StoresContactSubmissions;
 
     // --------------- [FORM VARIABLES & FUNCTIONS] --------------- //
     #[Validate('required', as: 'name')]
@@ -35,12 +35,7 @@ class ContactForm extends Component
 
         $validatedArray['service_type'] = 'contact';
 
-        Mail::to($this->email)
-            ->send(mailable: new Contact\Confirmation(
-                data: $validatedArray
-            ));
-
-        $this->hasBeenSend = true;
+        $this->storeAndSend($validatedArray);
     }
 
     // --------------- [COMPONENT VARIABLES & FUNCTIONS] --------------- //

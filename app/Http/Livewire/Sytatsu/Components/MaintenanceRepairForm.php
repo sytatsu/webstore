@@ -2,16 +2,17 @@
 
 namespace App\Http\Livewire\Sytatsu\Components;
 
-use App\Mail\Sytatsu\Contact;
+use App\Http\Livewire\Sytatsu\Concerns\StoresContactSubmissions;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 class MaintenanceRepairForm extends Component
 {
+    use StoresContactSubmissions;
+
     #[Validate('required', as: 'name')]
     public string $name = '';
 
@@ -43,12 +44,7 @@ class MaintenanceRepairForm extends Component
 
         $validatedArray['priority'] = 'normal';
 
-        Mail::to($this->email)
-            ->send(mailable: new Contact\Confirmation(
-                data: $validatedArray
-            ));
-
-        $this->hasBeenSend = true;
+        $this->storeAndSend($validatedArray);
     }
 
     public function render(): View|Factory|Application
