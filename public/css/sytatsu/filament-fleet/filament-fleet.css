@@ -316,3 +316,5 @@
 
 /* Disabled actions read as disabled on the dark console. */
 .fleet .fi-btn.fi-disabled, .fleet .fi-icon-btn.fi-disabled { opacity: .4; cursor: not-allowed; }
+.fleet-fill-command-ship { background: #e8a33d; }
+.fleet-dim { color: var(--fleet-dim); }
