@@ -32,6 +32,7 @@ use Sytatsu\FilamentIssueTracker\Filament\Resources\TicketResource;
 use Sytatsu\FilamentIssueTracker\Filament\Pages\TicketCollectionsPage;
 use Sytatsu\FilamentIssueTracker\Filament\Pages\TicketSwimlanePage;
 use Sytatsu\Fleet\FleetPlugin;
+use Sytatsu\Flagship\FlagshipPlugin;
 use Filament\Navigation\NavigationGroup;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
@@ -116,6 +117,7 @@ class AppServiceProvider extends ServiceProvider
                 NavigationGroup::make('Ticket Tracker')->collapsible(),
             ])
             ->plugin(FleetPlugin::make())
+            ->plugin(FlagshipPlugin::make())
         );
         LunarPanel::extensions([
             OrderItemsTable::class => [

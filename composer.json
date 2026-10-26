@@ -21,9 +21,10 @@
         "lunarphp/lunar": "^1.5",
         "lunarphp/stripe": "^1.5",
         "symfony/yaml": "^7.1",
-        "sytatsu/filamentphp-page-visits": "@dev",
+        "sytatsu/filament-fleet": "@dev",
+        "sytatsu/filamentphp-idle-flagship": "@dev",
         "sytatsu/filamentphp-issue-tracker": "@dev",
-        "sytatsu/filament-fleet": "@dev"
+        "sytatsu/filamentphp-page-visits": "@dev"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.16",

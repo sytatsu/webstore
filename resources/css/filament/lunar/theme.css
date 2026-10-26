@@ -18,5 +18,7 @@
 @source '../../../../packages/sytatsu/filamentphp-issue-tracker/src';
 @source '../../../../packages/sytatsu/filamentphp-fleet/resources/views';
 @source '../../../../packages/sytatsu/filamentphp-fleet/src';
+@source '../../../../packages/sytatsu/filamentphp-idle-flagship/resources/views';
+@source '../../../../packages/sytatsu/filamentphp-idle-flagship/src';
 @source '../../../../packages/sytatsu/filamentphp-page-visits/resources/views';
 @source '../../../../packages/sytatsu/filamentphp-page-visits/src';
