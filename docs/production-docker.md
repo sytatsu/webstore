@@ -100,6 +100,20 @@ Backs up the database to `~/sytatsu-backups` (override with `BACKUP_DIR`),
 records the deployed commits for a rollback, runs `scripts/deploy.sh`, then
 checks the installed Lunar/Filament versions and that no migrations are pending.
 
+### One-time update: install Flagship RPG, remove Fleet
+
+```
+git pull --ff-only
+scripts/install-flagship-rpg.sh
+```
+
+Checks that the server can read the `filamentphp-flagship-rpg` repo, backs up
+the database without the Fleet tables, deletes `packages/sytatsu/filamentphp-fleet`,
+then runs `scripts/deploy.sh` (clones Flagship RPG and migrates). The migration
+`drop_fleet_game_tables` drops every `fleet_` table and Fleet's rows in the
+migrations table, so nothing of Fleet stays on the server. Afterwards it checks
+that Fleet is gone, the `rpg_` tables exist and `/flagship-rpg/login` responds.
+
 ## Project name
 
 `docker-compose.prod.yml` pins `name: sytatsu-prod` so it never shares a

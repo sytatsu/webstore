@@ -42,7 +42,6 @@ main() {
     # composer.json loads them from ./packages/sytatsu/* (a path repository),
     # so they must be present before the image is built.
     local packages=(
-        "filamentphp-fleet git@github.com:sytatsu/filamentphp-fleet.git"
         "filamentphp-flagship-rpg git@github.com:sytatsu/filamentphp-flagship-rpg.git"
         "filamentphp-issue-tracker git@github.com:sytatsu/filamentphp-issue-tracker.git"
         "filamentphp-page-visits git@github.com:sytatsu/filamentphp-page-visits.git"

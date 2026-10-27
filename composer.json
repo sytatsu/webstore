@@ -21,7 +21,6 @@
         "lunarphp/lunar": "^1.5",
         "lunarphp/stripe": "^1.5",
         "symfony/yaml": "^7.1",
-        "sytatsu/filament-fleet": "@dev",
         "sytatsu/filamentphp-flagship-rpg": "@dev",
         "sytatsu/filamentphp-issue-tracker": "@dev",
         "sytatsu/filamentphp-page-visits": "@dev"
