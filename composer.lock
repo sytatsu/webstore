@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c6383637a35da320ca6d31ae3361e2a4",
+    "content-hash": "695ab708d62d8770c8a7ddadf1bea0ce",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -10249,7 +10249,7 @@
             "dist": {
                 "type": "path",
                 "url": "./packages/sytatsu/filamentphp-fleet",
-                "reference": "1bce9cc04bda1f419624ad32ffc8ff70a382f0e7"
+                "reference": "1293e31e0cf17b883541c3484c98bddcb41bc8f5"
             },
             "require": {
                 "filament/filament": "^4.0",
@@ -10304,12 +10304,73 @@
             }
         },
         {
+            "name": "sytatsu/filamentphp-flagship-rpg",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./packages/sytatsu/filamentphp-flagship-rpg",
+                "reference": "989d5577f9a383d7c4d2ffadd78d64d94f6992a9"
+            },
+            "require": {
+                "filament/filament": "^4.0",
+                "laravel/framework": "^12.0|^13.0",
+                "php": "^8.3"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^10.0|^11.0",
+                "phpunit/phpunit": "^11.0|^12.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Sytatsu\\FlagshipRpg\\FlagshipRpgServiceProvider",
+                        "Sytatsu\\FlagshipRpg\\FlagshipRpgPanelProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Sytatsu\\FlagshipRpg\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Sytatsu\\FlagshipRpg\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sytatsu",
+                    "email": "info@sytatsu.com"
+                }
+            ],
+            "description": "Flagship RPG: a Shakes & Fidget-style space RPG in its own Filament panel.",
+            "keywords": [
+                "filament",
+                "game",
+                "laravel",
+                "rpg"
+            ],
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "sytatsu/filamentphp-issue-tracker",
             "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/sytatsu/filamentphp-issue-tracker",
-                "reference": "912685020a9b44f5c345a1f0b7801cc8c597c0d2"
+                "reference": "91069d5fba6979552c72bec0a3bb3751d582fd27"
             },
             "require": {
                 "filament/filament": "^4.0",
@@ -13697,6 +13758,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "sytatsu/filament-fleet": 20,
+        "sytatsu/filamentphp-flagship-rpg": 20,
         "sytatsu/filamentphp-issue-tracker": 20,
         "sytatsu/filamentphp-page-visits": 20
     },
