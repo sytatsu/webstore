@@ -20,3 +20,13 @@
 @source '../../../../packages/sytatsu/filamentphp-fleet/src';
 @source '../../../../packages/sytatsu/filamentphp-page-visits/resources/views';
 @source '../../../../packages/sytatsu/filamentphp-page-visits/src';
+
+/*
+ * Lunar 1.5 ships its own pre-built copy of Filament's CSS (lunar-panel.css),
+ * compiled against an older date picker that put the days straight into the
+ * calendar grid. Filament 4.15 wraps them in week rows, so that 7-column
+ * rule squeezes each whole week into one cell. Stack the weeks again.
+ */
+.fi-fo-date-time-picker .fi-fo-date-time-picker-calendar {
+    grid-template-columns: minmax(0, 1fr);
+}

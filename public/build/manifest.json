@@ -32,7 +32,7 @@
     "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2"
   },
   "resources/css/filament/lunar/theme.css": {
-    "file": "assets/theme-70b8730c.css",
+    "file": "assets/theme-bd974886.css",
     "isEntry": true,
     "src": "resources/css/filament/lunar/theme.css"
   },
